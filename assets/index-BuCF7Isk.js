@@ -21342,6 +21342,7 @@ function App() {
   const [installPrompt, setInstallPrompt] = reactExports.useState(null);
   const [showGlobalSearch, setShowGlobalSearch] = reactExports.useState(false);
   const [isMobile, setIsMobile] = reactExports.useState(() => window.innerWidth < 1024);
+  const [isKeyboardOpen, setIsKeyboardOpen] = reactExports.useState(false);
   const { toasts, addToast } = useToast();
   reactExports.useEffect(() => {
     document.documentElement.style.setProperty("--nav-h", `${NAV_H}px`);
@@ -21349,6 +21350,33 @@ function App() {
     window.addEventListener("resize", onResize);
     return () => window.removeEventListener("resize", onResize);
   }, []);
+  reactExports.useEffect(() => {
+    if (!isMobile) {
+      setIsKeyboardOpen(false);
+      return;
+    }
+    const vv = window.visualViewport;
+    const updateKeyboardState = () => {
+      const viewportHeight = vv?.height || window.innerHeight;
+      const delta = window.innerHeight - viewportHeight;
+      const tag = (document.activeElement?.tagName || "").toLowerCase();
+      const focusedInput = tag === "input" || tag === "textarea" || tag === "select";
+      setIsKeyboardOpen(delta > 120 && focusedInput);
+    };
+    const onFocusIn = () => setTimeout(updateKeyboardState, 40);
+    const onFocusOut = () => setTimeout(updateKeyboardState, 120);
+    vv?.addEventListener("resize", updateKeyboardState);
+    window.addEventListener("resize", updateKeyboardState);
+    window.addEventListener("focusin", onFocusIn);
+    window.addEventListener("focusout", onFocusOut);
+    updateKeyboardState();
+    return () => {
+      vv?.removeEventListener("resize", updateKeyboardState);
+      window.removeEventListener("resize", updateKeyboardState);
+      window.removeEventListener("focusin", onFocusIn);
+      window.removeEventListener("focusout", onFocusOut);
+    };
+  }, [isMobile]);
   useKeyboardShortcuts([
     ["ctrl+k", () => setShowGlobalSearch(true)],
     ["ctrl+/", () => setShowGlobalSearch(true)],
@@ -22120,6 +22148,7 @@ Provide a detailed analysis of this content.`;
           ] }),
           /* @__PURE__ */ jsxRuntimeExports.jsx("button", { onClick: () => setBootError(null), className: "ml-auto opacity-60 hover:opacity-100", children: /* @__PURE__ */ jsxRuntimeExports.jsx(X, { size: 16 }) })
         ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "design-top-glass", "aria-hidden": "true" }),
         /* @__PURE__ */ jsxRuntimeExports.jsxs("header", { className: "design-header shrink-0 relative", children: [
           /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center justify-center gap-2", children: [
             /* @__PURE__ */ jsxRuntimeExports.jsx("img", { src: MARIAM_IMG, alt: "", className: "w-9 h-9 rounded-xl object-cover" }),
@@ -22260,7 +22289,7 @@ Provide a detailed analysis of this content.`;
             )
           ] })
         ] }),
-        /* @__PURE__ */ jsxRuntimeExports.jsx("nav", { className: "design-nav", children: /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "design-nav-inner", children: NAV_ITEMS2.map(({ icon: Icon, label, v, dis }) => /* @__PURE__ */ jsxRuntimeExports.jsxs(
+        /* @__PURE__ */ jsxRuntimeExports.jsx("nav", { className: `design-nav ${isMobile && isKeyboardOpen ? "keyboard-open-hidden" : ""}`, children: /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "design-nav-inner", children: NAV_ITEMS2.map(({ icon: Icon, label, v, dis }) => /* @__PURE__ */ jsxRuntimeExports.jsxs(
           "button",
           {
             disabled: dis,
