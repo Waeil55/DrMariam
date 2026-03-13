@@ -17288,6 +17288,71 @@ const streamTextAsTyping = async (fullText, onChunk, speedMs = 12) => {
   }
   return rendered;
 };
+const renderMdInline = (text) => {
+  if (!text) return [];
+  const parts = [];
+  const re = /\*\*\*(.+?)\*\*\*|\*\*(.+?)\*\*|\*(.+?)\*|`([^`]+)`/g;
+  let last = 0, k = 0, m;
+  while ((m = re.exec(text)) !== null) {
+    if (m.index > last) parts.push(text.slice(last, m.index));
+    if (m[1]) parts.push(/* @__PURE__ */ jsxRuntimeExports.jsx("b", { children: /* @__PURE__ */ jsxRuntimeExports.jsx("i", { children: m[1] }) }, k++));
+    else if (m[2]) parts.push(/* @__PURE__ */ jsxRuntimeExports.jsx("b", { children: m[2] }, k++));
+    else if (m[3]) parts.push(/* @__PURE__ */ jsxRuntimeExports.jsx("i", { children: m[3] }, k++));
+    else if (m[4]) parts.push(/* @__PURE__ */ jsxRuntimeExports.jsx("code", { style: { background: "rgba(0,0,0,0.1)", padding: "1px 5px", borderRadius: 4, fontFamily: "monospace", fontSize: "0.88em" }, children: m[4] }, k++));
+    last = m.index + m[0].length;
+  }
+  if (last < text.length) parts.push(text.slice(last));
+  return parts.length ? parts : [text];
+};
+const renderMarkdown = (text) => {
+  if (!text) return null;
+  const lines = text.split("\n");
+  const out = [];
+  let listItems = [];
+  const flushList = () => {
+    if (!listItems.length) return;
+    out.push(/* @__PURE__ */ jsxRuntimeExports.jsx("ul", { style: { paddingLeft: 18, margin: "4px 0", listStyle: "disc" }, children: listItems.splice(0) }, `ul${out.length}`));
+  };
+  lines.forEach((line, idx) => {
+    const h3 = line.match(/^### (.+)$/);
+    if (h3) {
+      flushList();
+      out.push(/* @__PURE__ */ jsxRuntimeExports.jsx("p", { style: { fontWeight: 800, margin: "10px 0 2px" }, children: renderMdInline(h3[1]) }, idx));
+      return;
+    }
+    const h2 = line.match(/^## (.+)$/);
+    if (h2) {
+      flushList();
+      out.push(/* @__PURE__ */ jsxRuntimeExports.jsx("p", { style: { fontWeight: 800, fontSize: "1.05em", margin: "10px 0 3px" }, children: renderMdInline(h2[1]) }, idx));
+      return;
+    }
+    const h1 = line.match(/^# (.+)$/);
+    if (h1) {
+      flushList();
+      out.push(/* @__PURE__ */ jsxRuntimeExports.jsx("p", { style: { fontWeight: 900, fontSize: "1.1em", margin: "12px 0 4px" }, children: renderMdInline(h1[1]) }, idx));
+      return;
+    }
+    const li = line.match(/^\s*[-*•+] (.+)$/) || line.match(/^\s*\d+\.\s+(.+)$/);
+    if (li) {
+      listItems.push(/* @__PURE__ */ jsxRuntimeExports.jsx("li", { style: { marginBottom: 2, lineHeight: 1.5 }, children: renderMdInline(li[1]) }, idx));
+      return;
+    }
+    if (/^---+$/.test(line.trim())) {
+      flushList();
+      out.push(/* @__PURE__ */ jsxRuntimeExports.jsx("hr", { style: { border: "none", borderTop: "1px solid rgba(0,0,0,0.15)", margin: "8px 0" } }, idx));
+      return;
+    }
+    if (!line.trim()) {
+      flushList();
+      if (out.length) out.push(/* @__PURE__ */ jsxRuntimeExports.jsx("div", { style: { height: 6 } }, idx));
+      return;
+    }
+    flushList();
+    out.push(/* @__PURE__ */ jsxRuntimeExports.jsx("div", { style: { lineHeight: 1.6 }, children: renderMdInline(line) }, idx));
+  });
+  flushList();
+  return /* @__PURE__ */ jsxRuntimeExports.jsx(jsxRuntimeExports.Fragment, { children: out });
+};
 const callAIStreaming = async (prompt, onChunk, settings = {}, maxTokens = 4e3) => {
   const { provider = "anthropic", apiKey = "", model = "" } = settings;
   if (provider !== "anthropic") {
@@ -19056,8 +19121,10 @@ function ChatPanel({ activeDoc, settings, currentPage }) {
   const [listening, setListening] = reactExports.useState(false);
   const endRef = reactExports.useRef(null);
   const recogRef = reactExports.useRef(null);
+  const scrollContainerRef = reactExports.useRef(null);
   reactExports.useEffect(() => {
-    endRef.current?.scrollIntoView({ behavior: "smooth" });
+    const el = scrollContainerRef.current;
+    if (el) el.scrollTop = el.scrollHeight;
   }, [msgs, loading]);
   const toggleVoice = () => {
     if (listening) {
@@ -19144,11 +19211,11 @@ Answer clearly and precisely.`;
       },
       m
     )) }),
-    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex-1 min-h-0 overflow-y-auto custom-scrollbar p-4 space-y-3 min-h-0", children: [
+    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex-1 min-h-0 overflow-y-auto custom-scrollbar p-4 space-y-3", ref: scrollContainerRef, children: [
       msgs.map((m, i) => /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: `flex gap-2.5 ${m.role === "user" ? "flex-row-reverse" : ""}`, children: [
         /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: `w-8 h-8 rounded-xl flex items-center justify-center shrink-0 ${m.role === "user" ? "bg-[var(--accent)]" : "overflow-hidden glass"}`, children: m.role === "user" ? /* @__PURE__ */ jsxRuntimeExports.jsx(CircleUserRound, { size: 16, className: "text-white" }) : /* @__PURE__ */ jsxRuntimeExports.jsx("img", { src: MARIAM_IMG, className: "w-full h-full object-cover", alt: "AI" }) }),
-        /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: `px-3.5 py-2.5 text-xs leading-relaxed max-w-[84%] whitespace-pre-wrap rounded-2xl
-              ${m.role === "user" ? "bg-[var(--accent)] text-white rounded-tr-sm" : "glass rounded-tl-sm"}`, children: m.content || /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "opacity-30", children: "▊" }) })
+        /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: `px-3.5 py-2.5 text-xs leading-relaxed max-w-[84%] rounded-2xl
+              ${m.role === "user" ? "bg-[var(--accent)] text-white rounded-tr-sm" : "glass rounded-tl-sm"}`, children: m.content ? renderMarkdown(m.content) : /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "opacity-30", children: "▊" }) })
       ] }, i)),
       /* @__PURE__ */ jsxRuntimeExports.jsx("div", { ref: endRef })
     ] }),
@@ -19297,14 +19364,18 @@ function AiTutorPanel({ settings, context, onClose, width, onDragStart, alwaysOp
   const [msgs, setMsgs] = reactExports.useState([{ role: "assistant", content: "Hi! I'm your AI Tutor 🎓\nAsk me anything about this question, the diagnosis, the explanation, or related concepts. I'm here to help you learn!" }]);
   const [input, setInput] = reactExports.useState("");
   const [loading, setLoading] = reactExports.useState(false);
+  const [showQuicks, setShowQuicks] = reactExports.useState(true);
   const endRef = reactExports.useRef(null);
+  const scrollContainerRef = reactExports.useRef(null);
   reactExports.useEffect(() => {
-    endRef.current?.scrollIntoView({ behavior: "smooth" });
+    const el = scrollContainerRef.current;
+    if (el) el.scrollTop = el.scrollHeight;
   }, [msgs, loading]);
   const send = async (override) => {
     const msg = override || input;
     if (!msg.trim() || loading) return;
     setInput("");
+    setShowQuicks(false);
     const newMsgs = [...msgs, { role: "user", content: msg }, { role: "assistant", content: "" }];
     setMsgs(newMsgs);
     setLoading(true);
@@ -19359,11 +19430,11 @@ CRITICAL MEDICINE RULE: Whenever you discuss any medication or drug, ALWAYS star
         ]
       }
     ),
-    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex-1 min-h-0 overflow-y-auto custom-scrollbar p-3 space-y-3", children: [
+    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex-1 min-h-0 overflow-y-auto custom-scrollbar p-3 space-y-3", ref: scrollContainerRef, children: [
       msgs.map((m, i) => /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: `flex gap-2 ${m.role === "user" ? "flex-row-reverse" : ""}`, children: [
         /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: `w-8 h-8 rounded-xl flex items-center justify-center shrink-0 text-xs font-black ${m.role === "user" ? "bg-[var(--accent)] text-white" : "bg-gradient-to-br from-[var(--accent)] to-[var(--accent2,var(--accent))] text-white"}`, children: m.role === "user" ? "You" : "AI" }),
-        /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: `px-3 py-2.5 text-sm leading-relaxed rounded-2xl max-w-[85%] whitespace-pre-wrap
-              ${m.role === "user" ? "bg-[var(--accent)] text-white rounded-tr-sm" : "glass border border-[color:var(--border2,var(--border))] rounded-tl-sm"}`, children: m.content || /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "opacity-30 animate-pulse", children: "▊" }) })
+        /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: `px-3 py-2.5 text-sm leading-relaxed rounded-2xl max-w-[85%]
+              ${m.role === "user" ? "bg-[var(--accent)] text-white rounded-tr-sm" : "glass border border-[color:var(--border2,var(--border))] rounded-tl-sm"}`, children: m.content ? renderMarkdown(m.content) : /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "opacity-30 animate-pulse", children: "▊" }) })
       ] }, i)),
       loading && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex gap-2", children: [
         /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "w-8 h-8 rounded-xl bg-gradient-to-br from-[var(--accent)] to-[var(--accent2,var(--accent))] text-white flex items-center justify-center text-xs font-black shrink-0", children: "AI" }),
@@ -19371,7 +19442,7 @@ CRITICAL MEDICINE RULE: Whenever you discuss any medication or drug, ALWAYS star
       ] }),
       /* @__PURE__ */ jsxRuntimeExports.jsx("div", { ref: endRef })
     ] }),
-    /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "px-3 py-2 flex gap-1.5 flex-wrap shrink-0 border-t border-[color:var(--border2,var(--border))]", children: QUICK.map((q) => /* @__PURE__ */ jsxRuntimeExports.jsx(
+    showQuicks && /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "px-3 py-2 flex gap-1.5 flex-wrap shrink-0 border-t border-[color:var(--border2,var(--border))]", children: QUICK.map((q) => /* @__PURE__ */ jsxRuntimeExports.jsx(
       "button",
       {
         onClick: () => send(q),
@@ -20457,7 +20528,7 @@ function ChatView({ settings, sessions, setSessions }) {
   const [input, setInput] = reactExports.useState("");
   const [loading, setLoading] = reactExports.useState(false);
   const [listening, setListening] = reactExports.useState(false);
-  const [sidebarOpen, setSidebarOpen] = reactExports.useState(true);
+  const [sidebarOpen, setSidebarOpen] = reactExports.useState(() => window.innerWidth >= 1024);
   const [sessSearch, setSessSearch] = reactExports.useState("");
   const [pinnedIds, setPinnedIds] = reactExports.useState([]);
   const [contextMenu, setContextMenu] = reactExports.useState(null);
@@ -20467,11 +20538,14 @@ function ChatView({ settings, sessions, setSessions }) {
   const [newProjectName, setNewProjectName] = reactExports.useState("");
   const [sidebarTab, setSidebarTab] = reactExports.useState("chats");
   const [inputRows, setInputRows] = reactExports.useState(1);
+  const [hasStarted, setHasStarted] = reactExports.useState(false);
   const endRef = reactExports.useRef(null);
   const recogRef = reactExports.useRef(null);
   const inputRef = reactExports.useRef(null);
+  const scrollContainerRef = reactExports.useRef(null);
   reactExports.useEffect(() => {
-    endRef.current?.scrollIntoView({ behavior: "smooth" });
+    const el = scrollContainerRef.current;
+    if (el) el.scrollTop = el.scrollHeight;
   }, [msgs, loading]);
   const STARTERS = [
     { icon: "🧬", text: "Explain a complex topic" },
@@ -20507,6 +20581,7 @@ function ChatView({ settings, sessions, setSessions }) {
   const newSession = () => {
     setSelSess(null);
     setMsgs([]);
+    setHasStarted(false);
     inputRef.current?.focus();
   };
   const saveSession = reactExports.useCallback((ms, id) => {
@@ -20523,6 +20598,8 @@ function ChatView({ settings, sessions, setSessions }) {
   const loadSession = (sess) => {
     setSelSess(sess.id);
     setMsgs(sess.messages || []);
+    setHasStarted(true);
+    if (window.innerWidth < 1024) setSidebarOpen(false);
   };
   const deleteSession = (id) => {
     setSessions((p) => p.filter((s) => s.id !== id));
@@ -20552,6 +20629,7 @@ function ChatView({ settings, sessions, setSessions }) {
     if (!msg.trim() || loading) return;
     setInput("");
     setInputRows(1);
+    setHasStarted(true);
     const sessId = selSess || Date.now().toString();
     if (!selSess) setSelSess(sessId);
     const newMsgs = [...msgs, { role: "user", content: msg, timestamp: Date.now() }, { role: "assistant", content: "", timestamp: Date.now() }];
@@ -20641,20 +20719,6 @@ MARIAM:`;
       ]
     }
   );
-  const formatMsg = (text) => {
-    return text.split("\n").map((line, i) => {
-      if (line.startsWith("## ")) return /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { className: "text-base font-black mt-3 mb-1", children: line.slice(3) }, i);
-      if (line.startsWith("# ")) return /* @__PURE__ */ jsxRuntimeExports.jsx("h2", { className: "text-lg font-black mt-4 mb-1", children: line.slice(2) }, i);
-      if (line.startsWith("- ") || line.startsWith("• ")) return /* @__PURE__ */ jsxRuntimeExports.jsx("li", { className: "ml-4 list-disc text-sm leading-relaxed", children: formatInline(line.slice(2)) }, i);
-      if (/^\d+\. /.test(line)) return /* @__PURE__ */ jsxRuntimeExports.jsx("li", { className: "ml-4 list-decimal text-sm leading-relaxed", children: formatInline(line.replace(/^\d+\. /, "")) }, i);
-      if (line === "" && i > 0) return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "h-2" }, i);
-      return /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-sm leading-relaxed", children: formatInline(line) }, i);
-    });
-  };
-  const formatInline = (text) => {
-    const parts = text.split(/(\*\*[^*]+\*\*)/g);
-    return parts.map((p, i) => p.startsWith("**") && p.endsWith("**") ? /* @__PURE__ */ jsxRuntimeExports.jsx("strong", { className: "font-black", children: p.slice(2, -2) }, i) : p);
-  };
   const curSessData = sessions.find((s) => s.id === selSess);
   return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex h-full min-h-0 overflow-hidden bg-[var(--bg)]", onClick: () => contextMenu && setContextMenu(null), children: [
     contextMenu && /* @__PURE__ */ jsxRuntimeExports.jsxs(
@@ -20905,7 +20969,7 @@ MARIAM:`;
           )
         ] })
       ] }),
-      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "flex-1 min-h-0 overflow-y-auto custom-scrollbar", children: msgs.length === 0 ? /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex flex-col items-center justify-center min-h-full p-6 gap-8", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "flex-1 min-h-0 overflow-y-auto custom-scrollbar", ref: scrollContainerRef, children: !hasStarted ? /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex flex-col items-center justify-center min-h-full p-6 gap-8", children: [
         /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "text-center space-y-3", children: [
           /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "relative inline-block", children: [
             /* @__PURE__ */ jsxRuntimeExports.jsx("img", { src: MARIAM_IMG, className: "w-24 h-24 rounded-3xl object-cover shadow-2xl border-4 border-[color:var(--border2,var(--border))]", alt: "MARIAM AI" }),
@@ -20938,11 +21002,8 @@ MARIAM:`;
         msgs.map((m, i) => /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: `flex gap-4 ${m.role === "user" ? "flex-row-reverse" : ""} group`, children: [
           /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: `w-9 h-9 rounded-xl flex items-center justify-center shrink-0 mt-1 ${m.role === "user" ? "bg-[var(--accent)]" : "overflow-hidden border border-[color:var(--border2,var(--border))]"}`, children: m.role === "user" ? /* @__PURE__ */ jsxRuntimeExports.jsx(CircleUserRound, { size: 20, className: "text-white" }) : /* @__PURE__ */ jsxRuntimeExports.jsx("img", { src: MARIAM_IMG, className: "w-full h-full object-cover", alt: "AI" }) }),
           /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: `flex-1 max-w-[85%] flex flex-col gap-1.5 ${m.role === "user" ? "items-end" : ""}`, children: [
-            /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: `px-4 py-3 rounded-2xl text-sm leading-relaxed
-                      ${m.role === "user" ? "bg-[var(--accent)] text-white rounded-tr-sm max-w-[80%]" : "rounded-tl-sm"}`, children: [
-              m.role === "assistant" ? /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "prose-custom space-y-1", children: formatMsg(m.content || "") }) : /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "whitespace-pre-wrap", children: m.content }),
-              !m.content && m.role === "assistant" && /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "opacity-30 animate-pulse", children: "▊" })
-            ] }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: `px-4 py-3 rounded-2xl text-sm leading-relaxed
+                      ${m.role === "user" ? "bg-[var(--accent)] text-white rounded-tr-sm max-w-[80%]" : "rounded-tl-sm"}`, children: m.role === "assistant" ? /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "prose-custom", children: m.content ? renderMarkdown(m.content) : /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "opacity-30 animate-pulse", children: "▊" }) }) : /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "whitespace-pre-wrap", children: m.content }) }),
             /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "flex items-center gap-2 px-1", children: /* @__PURE__ */ jsxRuntimeExports.jsxs(
               "button",
               {
@@ -21359,12 +21420,17 @@ function App() {
     const updateKeyboardState = () => {
       const viewportHeight = vv?.height || window.innerHeight;
       const delta = window.innerHeight - viewportHeight;
-      const tag = (document.activeElement?.tagName || "").toLowerCase();
-      const focusedInput = tag === "input" || tag === "textarea" || tag === "select";
-      setIsKeyboardOpen(delta > 120 && focusedInput);
+      const el = document.activeElement;
+      const tag = (el?.tagName || "").toLowerCase();
+      const isEditable = tag === "input" || tag === "textarea" || tag === "select" || el?.isContentEditable || el?.getAttribute?.("contenteditable") === "true";
+      setIsKeyboardOpen(delta > 100 && isEditable);
     };
-    const onFocusIn = () => setTimeout(updateKeyboardState, 40);
-    const onFocusOut = () => setTimeout(updateKeyboardState, 120);
+    const onFocusIn = () => {
+      setTimeout(updateKeyboardState, 100);
+      setTimeout(updateKeyboardState, 350);
+      setTimeout(updateKeyboardState, 600);
+    };
+    const onFocusOut = () => setTimeout(updateKeyboardState, 200);
     vv?.addEventListener("resize", updateKeyboardState);
     window.addEventListener("resize", updateKeyboardState);
     window.addEventListener("focusin", onFocusIn);
