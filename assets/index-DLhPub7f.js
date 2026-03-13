@@ -18399,7 +18399,7 @@ function LibraryMergedView({ docs, uploading, onUpload, onOpen, onDelete, flashc
   return /* @__PURE__ */ jsxRuntimeExports.jsxs(
     "div",
     {
-      className: "flex-1 min-h-0 overflow-y-auto custom-scrollbar scroll-content app-view",
+      className: "library-view flex-1 min-h-0 overflow-y-auto custom-scrollbar scroll-content app-view",
       style: { touchAction: "pan-y", WebkitOverflowScrolling: "touch" },
       onDragOver: (e) => {
         e.preventDefault();
@@ -18506,7 +18506,7 @@ function LibraryMergedView({ docs, uploading, onUpload, onOpen, onDelete, flashc
             /* @__PURE__ */ jsxRuntimeExports.jsx(FileUp, { size: 40, className: "mx-auto mb-3 opacity-50", style: { color: "var(--accent)" } }),
             /* @__PURE__ */ jsxRuntimeExports.jsx("p", { style: { color: "var(--text-muted, var(--text3))" }, children: search ? "No results" : "Drop or browse files" }),
             !search && /* @__PURE__ */ jsxRuntimeExports.jsx("button", { className: "design-btn design-btn-feature", style: { marginTop: 16 }, children: "Browse Files" })
-          ] }) : viewMode === "grid" ? /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "grid grid-cols-2 md:grid-cols-3 gap-3", children: filtered.map((doc) => /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { onClick: () => onOpen(doc.id), className: "design-card cursor-pointer", children: [
+          ] }) : viewMode === "grid" ? /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3", children: filtered.map((doc) => /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { onClick: () => onOpen(doc.id), className: "design-card cursor-pointer", children: [
             /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "w-10 h-10 rounded-xl flex items-center justify-center text-white text-sm font-black mb-2", style: { background: "linear-gradient(135deg,var(--accent),var(--accent2,var(--accent)))" }, children: doc.name.slice(0, 2).toUpperCase() }),
             /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "font-bold text-sm truncate", children: doc.name }),
             /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { className: "text-label text-xs", children: [
