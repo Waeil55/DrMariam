@@ -1,5 +1,4 @@
-
-export const diseasesFlashcards = [{
+const diseasesFlashcards = [{
   id: "builtin_diseases",
   title: "Medical Sciences Flashcards",
   icon: "Layers",
@@ -815,7 +814,7 @@ export const diseasesFlashcards = [{
 }];
 
 
-export const diseasesExams = [{
+const diseasesExams = [{
   id: "builtin_exam_diseases",
   title: "Medical Sciences Exam",
   icon: "CheckSquare",
@@ -2299,4 +2298,6 @@ export const diseasesExams = [{
   }
 ]
 }];
-export const diseasesCases = [];
+const diseasesCases = [];
+
+export { diseasesCases, diseasesExams, diseasesFlashcards };

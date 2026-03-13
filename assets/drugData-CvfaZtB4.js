@@ -1,5 +1,4 @@
-
-export const drugFlashcards = [{
+const drugFlashcards = [{
   id: "builtin_drug",
   title: "Drug Counseling Flashcards",
   icon: "Layers",
@@ -1186,7 +1185,7 @@ export const drugFlashcards = [{
 ]
 }];
 
-export const drugExams = [{
+const drugExams = [{
   id: "builtin_exam_drug",
   title: "Drug Counseling Exam",
   icon: "CheckSquare",
@@ -3353,4 +3352,6 @@ export const drugExams = [{
 ]
 }];
 
-export const drugCases = [];
+const drugCases = [];
+
+export { drugCases, drugExams, drugFlashcards };

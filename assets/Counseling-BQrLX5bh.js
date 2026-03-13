@@ -1,5 +1,4 @@
-
-export const counselingFlashcards = [{
+const counselingFlashcards = [{
   id: "builtin_counseling",
   title: "Counseling Flashcards",
   icon: "Layers",
@@ -1809,7 +1808,7 @@ export const counselingFlashcards = [{
 ]
 }];
 
-export const counselingExams = [{
+const counselingExams = [{
   id: "builtin_exam_counseling",
   title: "Counseling Exam",
   icon: "CheckSquare",
@@ -5120,7 +5119,6 @@ export const counselingExams = [{
 ]
 }];
 
-export const counselingCases = [];
+const counselingCases = [];
 
-
-
+export { counselingCases, counselingExams, counselingFlashcards };
