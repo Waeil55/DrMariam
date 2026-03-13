@@ -22108,8 +22108,8 @@ Provide a detailed analysis of this content.`;
           ] }),
           /* @__PURE__ */ jsxRuntimeExports.jsx("button", { onClick: () => setShowGlobalSearch(true), className: "absolute right-4 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full flex items-center justify-center", style: { background: "rgba(255,255,255,0.15)" }, children: /* @__PURE__ */ jsxRuntimeExports.jsx(Search, { size: 18 }) })
         ] }),
-        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex flex-1 min-h-0 overflow-hidden", children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsxs("main", { className: "flex-1 flex flex-col min-h-0 overflow-hidden overflow-y-auto relative", style: { paddingBottom: 120 }, children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "design-body flex flex-1 min-h-0 overflow-hidden", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("main", { className: "design-main flex-1 flex flex-col min-h-0 overflow-hidden overflow-y-auto relative", style: { paddingBottom: 120 }, children: [
             uploading && /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "absolute top-0 left-0 right-0 h-1.5 bg-[var(--border)] z-50", children: /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "h-full bg-gradient-to-r from-[var(--accent)] to-[var(--accent2,var(--accent))] transition-all duration-300 animate-pulse", style: { width: `${uploadPct}%` } }) }),
             /* @__PURE__ */ jsxRuntimeExports.jsx(ViewWrapper, { active: view === "library", children: /* @__PURE__ */ jsxRuntimeExports.jsx(
               LibraryMergedView,
