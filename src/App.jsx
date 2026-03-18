@@ -3302,31 +3302,31 @@ function FlashcardsView({ flashcards, setFlashcards, settings, addToast, docs, s
                 Show Answer
               </button>
             )}
-            {/* ── Auto Drug Detail Panel ── */}
-            {(() => {
+            {/* ── Auto Drug Detail Panel (only when answer is shown) ── */}
+            {flipped && (() => {
               const qName = (card.q || '').trim().toLowerCase();
               const detail = drugDetailLookup[qName];
               if (!detail) return null;
               return (
-                <div className="glass rounded-2xl border border-[var(--accent)]/20 p-5 space-y-3 animate-fade-in">
-                  <div className="flex items-center gap-2 mb-1">
-                    <Info size={16} className="text-[var(--accent)]" />
-                    <span className="text-xs font-black uppercase tracking-widest text-[var(--accent)]">Quick Reference</span>
+                <div className="glass rounded-2xl border border-[var(--accent)]/20 px-4 py-3 animate-fade-in">
+                  <div className="flex items-center gap-2 mb-2">
+                    <Pill size={14} className="text-[var(--accent)]" />
+                    <span className="text-[11px] font-black uppercase tracking-widest text-[var(--accent)]">Quick Reference</span>
                   </div>
-                  <div className="grid grid-cols-2 gap-x-4 gap-y-2 text-sm">
-                    <div><span className="opacity-50 text-xs font-bold">Generic Name</span><p className="font-semibold">{detail.generic}</p></div>
-                    <div><span className="opacity-50 text-xs font-bold">Brand Name</span><p className="font-semibold text-[var(--accent)]">{detail.brand || 'N/A'}</p></div>
-                    <div><span className="opacity-50 text-xs font-bold">Drug Class</span><p className="font-semibold">{detail.drugClass || 'N/A'}</p></div>
-                    <div><span className="opacity-50 text-xs font-bold">Indication</span><p className="font-semibold">{detail.indication || 'N/A'}</p></div>
+                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-x-3 gap-y-1 text-xs">
+                    <div><span className="opacity-40 font-bold">Generic</span><p className="font-semibold truncate">{detail.generic}</p></div>
+                    <div><span className="opacity-40 font-bold">Brand</span><p className="font-semibold text-[var(--accent)] truncate">{detail.brand || 'N/A'}</p></div>
+                    <div><span className="opacity-40 font-bold">Class</span><p className="font-semibold truncate">{detail.drugClass || 'N/A'}</p></div>
+                    <div><span className="opacity-40 font-bold">Indication</span><p className="font-semibold truncate">{detail.indication || 'N/A'}</p></div>
                   </div>
                   {detail.counselingPoints.length > 0 && (
-                    <div className="border-t border-[color:var(--border2,var(--border))] pt-3">
-                      <span className="opacity-50 text-xs font-bold flex items-center gap-1.5 mb-2"><Clipboard size={12} /> Key Counseling Points</span>
-                      <ul className="space-y-1.5">
+                    <div className="border-t border-[color:var(--border2,var(--border))] mt-2 pt-2">
+                      <span className="opacity-40 text-[11px] font-bold flex items-center gap-1 mb-1"><Clipboard size={10} /> Key Counseling Points</span>
+                      <ul className="space-y-0.5">
                         {detail.counselingPoints.map((pt, i) => (
-                          <li key={i} className="text-sm flex items-start gap-2">
-                            <span className="mt-1 w-1.5 h-1.5 rounded-full bg-[var(--accent)] shrink-0" />
-                            <span>{pt}</span>
+                          <li key={i} className="text-xs flex items-start gap-1.5">
+                            <span className="mt-1 w-1 h-1 rounded-full bg-[var(--accent)] shrink-0" />
+                            <span className="leading-snug">{pt}</span>
                           </li>
                         ))}
                       </ul>
