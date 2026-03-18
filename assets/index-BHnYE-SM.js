@@ -1,5 +1,5 @@
-import { r as reactExports, R as React, L as Loader2, A as AlertCircle, X, S as Search, G as GripVertical, a as Sparkles, Z as Zap, M as MessageSquare, D as Database, F as FolderOpen, B as BookMarked, b as Layers, c as Activity, C as CheckSquare, d as Settings, e as CheckCircle2, I as Info, f as FileText, P as PenLine, g as FileUp, h as Grid3x3, i as List, j as ChevronLeft, k as Printer, l as RefreshCw, m as FilePlus, T as Trash2, E as Eye, n as Target, o as Stethoscope, p as ChevronRight, q as Thermometer, s as ChevronDown, t as Pin, u as Copy, v as Plus, w as Brain, H as History, x as CircleUserRound, y as MicOff, z as Mic, J as Send, K as Smartphone, N as Download, O as Globe, Q as KeyRound, U as Palette, V as Sun, W as CloudSun, Y as Flame, _ as Heart, $ as Leaf, a0 as Moon, a1 as MoonStar, a2 as PanelsTopLeft, a3 as FileCode, a4 as Image, a5 as Table, a6 as ZoomOut, a7 as Maximize, a8 as ZoomIn, a9 as Save, aa as BookOpen, ab as AlignLeft, ac as Pill, ad as Lightbulb, ae as Baby, af as Network, ag as Tag, ah as Clock, ai as Languages, aj as Wand2, ak as FlaskConical, al as Code, am as ListChecks, an as GraduationCap, ao as Hash, ap as MoreVertical, aq as ChevronUp } from './icons-nbm0w_CD.js';
-import { r as reactDomExports } from './react-BbAQWnT3.js';
+import { r as reactExports, R as React, L as Loader2, A as AlertCircle, X, S as Search, G as GripVertical, a as Sparkles, Z as Zap, M as MessageSquare, D as Database, F as FolderOpen, B as BookMarked, b as Layers, c as Activity, C as CheckSquare, d as Settings, e as CheckCircle2, I as Info, f as FileText, P as PenLine, g as FileUp, h as Grid3x3, i as List, j as ChevronLeft, k as Printer, l as RefreshCw, m as Pill, n as Clipboard, o as FilePlus, T as Trash2, E as Eye, p as Target, q as Stethoscope, s as ChevronRight, t as Thermometer, u as ChevronDown, v as Pin, w as Copy, x as Plus, y as Brain, H as History, z as CircleUserRound, J as MicOff, K as Mic, N as Send, O as Smartphone, Q as Download, U as Globe, V as KeyRound, W as Palette, Y as Sun, _ as CloudSun, $ as Flame, a0 as Heart, a1 as Leaf, a2 as Moon, a3 as MoonStar, a4 as PanelsTopLeft, a5 as FileCode, a6 as Image, a7 as Table, a8 as ZoomOut, a9 as Maximize, aa as ZoomIn, ab as Save, ac as BookOpen, ad as AlignLeft, ae as Lightbulb, af as Baby, ag as Network, ah as Tag, ai as Clock, aj as Languages, ak as Wand2, al as FlaskConical, am as Code, an as ListChecks, ao as GraduationCap, ap as Hash, aq as MoreVertical, ar as ChevronUp } from './icons-DGq5h3B2.js';
+import { r as reactDomExports } from './react-Dv4xOYRT.js';
 
 true&&(function polyfill() {
   const relList = document.createElement("link").relList;
@@ -16890,6 +16890,32 @@ try {
 } catch (e) {
   console.warn("[MARIAM] Law data failed to load:", e.message);
 }
+const drugDetailLookup = (() => {
+  const map = {};
+  try {
+    const allDrugCards = (drugFlashcards || []).flatMap((s) => s.cards || []);
+    for (const c of allDrugCards) {
+      const name = (c.q || "").trim().toLowerCase();
+      if (!name) continue;
+      const a = c.a || "";
+      const brandMatch = a.match(/Brand:\s*(.+?)\n/);
+      const classMatch = a.match(/Class:\s*(.+?)\n/);
+      const indicationMatch = a.match(/Indication:\s*(.+?)\n/);
+      const pointsMatch = a.match(/Counseling Points:\s*\n([\s\S]*)/);
+      const points = pointsMatch ? pointsMatch[1].split("\n").map((l) => l.replace(/^\s*-\s*/, "").trim()).filter(Boolean).slice(0, 4) : [];
+      map[name] = {
+        brand: brandMatch ? brandMatch[1].trim() : "",
+        generic: c.q.trim(),
+        drugClass: classMatch ? classMatch[1].trim() : "",
+        indication: indicationMatch ? indicationMatch[1].trim() : "",
+        counselingPoints: points
+      };
+    }
+  } catch (e) {
+    console.warn("[MARIAM] Drug detail lookup build failed:", e.message);
+  }
+  return map;
+})();
 (() => {
   let vp = document.querySelector('meta[name="viewport"]');
   if (!vp) {
@@ -19381,9 +19407,19 @@ function AiTutorPanel({ settings, context, onClose, width, onDragStart, alwaysOp
     setLoading(true);
     try {
       const hist = newMsgs.slice(-8, -1).map((m) => `${m.role === "user" ? "STUDENT" : "TUTOR"}: ${m.content}`).join("\n");
-      const prompt = `You are an expert medical/academic AI tutor. The student is currently studying the following content:
+      const prompt = `You are an expert medical/pharmacy AI tutor. The student is studying the EXACT content below. You MUST answer in detail with approximately 8 lines of focused, accurate explanation.
 
-CONTEXT:
+STRICT RULES:
+1. ONLY discuss the EXACT content shown in the CONTEXT below. NEVER bring in information from other cards, pages, questions, or topics.
+2. Be VERY detailed: give about 8 lines of thorough explanation covering the key facts, mechanisms, clinical relevance, and important pearls.
+3. Use bullet points and **bold** key terms for clarity.
+4. For drugs: ALWAYS include Brand Name, Generic Name, Drug Class, Indication, and the most critical 3-4 counseling points.
+5. CRITICAL MEDICINE RULE: Whenever you mention any drug, ALWAYS write it as "BrandName (generic name)". Example: "Tylenol (acetaminophen)", "Lipitor (atorvastatin)", "Lasix (furosemide)". Apply this to EVERY drug in your response.
+6. Answer the student's question precisely and completely — focus on being correct above all else.
+7. If the student asks about something outside the current card/question context, politely redirect them to focus on the current material.
+8. Include practical clinical tips, common exam pitfalls, and mnemonics when helpful.
+
+CONTEXT (this is the ONLY content you should discuss):
 ${context || "General study session"}
 
 Conversation so far:
@@ -19391,9 +19427,7 @@ ${hist}
 
 STUDENT: ${msg}
 
-TUTOR: Provide a clear, educational explanation. Use bullet points, bold key terms, and be thorough but concise.
-
-CRITICAL MEDICINE RULE: Whenever you discuss any medication or drug, ALWAYS start with the brand name first, followed by the generic name in parentheses. Format: "BrandName (generic name)". Example: "Tylenol (acetaminophen)", "Lipitor (atorvastatin)", "Lasix (furosemide)". Apply this to every single drug mentioned anywhere in your response.`;
+TUTOR:`;
       await callAIStreaming(prompt, (chunk) => {
         setMsgs((p) => [...p.slice(0, -1), { role: "assistant", content: chunk }]);
       }, settings, 4e3);
@@ -19548,12 +19582,25 @@ function FlashcardsView({ flashcards, setFlashcards, settings, addToast, docs, s
   if (selSet) {
     const card = selSet.cards[idx];
     const progress = (idx + 1) / selSet.cards.length * 100;
-    const tutorCtx = `Flashcard study session.
+    const cardDetail = drugDetailLookup[(card?.q || "").trim().toLowerCase()];
+    const detailBlock = cardDetail ? `
+Drug Details:
+  Brand: ${cardDetail.brand || "N/A"}
+  Generic: ${cardDetail.generic}
+  Class: ${cardDetail.drugClass || "N/A"}
+  Indication: ${cardDetail.indication || "N/A"}
+  Key Counseling Points:
+${cardDetail.counselingPoints.map((p) => "  - " + p).join("\n")}` : "";
+    const tutorCtx = `Flashcard study session — FOCUS ONLY ON THIS CARD.
 Set: ${selSet.title}
 Card ${idx + 1}/${selSet.cards.length}
+
+--- CURRENT CARD (answer ONLY about this) ---
 Question: ${card?.q}
 Answer: ${card?.a}
-Evidence: ${card?.evidence || "N/A"}`;
+Evidence: ${card?.evidence || "N/A"}${detailBlock}
+--- END OF CURRENT CARD ---
+Do NOT discuss other cards or topics outside this card.`;
     return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex-1 min-h-0 flex flex-col overflow-hidden", children: [
       /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "h-14 glass flex items-center justify-between px-5 shrink-0 border-b border-[color:var(--border2,var(--border))] border-x-0 border-t-0", children: [
         /* @__PURE__ */ jsxRuntimeExports.jsxs(
@@ -19652,6 +19699,45 @@ Evidence: ${card?.evidence || "N/A"}`;
             },
             l
           )) }) : /* @__PURE__ */ jsxRuntimeExports.jsx("button", { onClick: () => setFlipped(true), className: "w-full py-4 btn-accent rounded-2xl text-base font-black shadow-xl", children: "Show Answer" }),
+          flipped && (() => {
+            const qName = (card.q || "").trim().toLowerCase();
+            const detail = drugDetailLookup[qName];
+            if (!detail) return null;
+            return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "glass rounded-2xl border border-[var(--accent)]/20 px-4 py-3 animate-fade-in", children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center gap-2 mb-2", children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsx(Pill, { size: 14, className: "text-[var(--accent)]" }),
+                /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-[11px] font-black uppercase tracking-widest text-[var(--accent)]", children: "Quick Reference" })
+              ] }),
+              /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "grid grid-cols-2 sm:grid-cols-4 gap-x-3 gap-y-1 text-xs", children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
+                  /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "opacity-40 font-bold", children: "Generic" }),
+                  /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "font-semibold truncate", children: detail.generic })
+                ] }),
+                /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
+                  /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "opacity-40 font-bold", children: "Brand" }),
+                  /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "font-semibold text-[var(--accent)] truncate", children: detail.brand || "N/A" })
+                ] }),
+                /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
+                  /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "opacity-40 font-bold", children: "Class" }),
+                  /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "font-semibold truncate", children: detail.drugClass || "N/A" })
+                ] }),
+                /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
+                  /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "opacity-40 font-bold", children: "Indication" }),
+                  /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "font-semibold truncate", children: detail.indication || "N/A" })
+                ] })
+              ] }),
+              detail.counselingPoints.length > 0 && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "border-t border-[color:var(--border2,var(--border))] mt-2 pt-2", children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { className: "opacity-40 text-[11px] font-bold flex items-center gap-1 mb-1", children: [
+                  /* @__PURE__ */ jsxRuntimeExports.jsx(Clipboard, { size: 10 }),
+                  " Key Counseling Points"
+                ] }),
+                /* @__PURE__ */ jsxRuntimeExports.jsx("ul", { className: "space-y-0.5", children: detail.counselingPoints.map((pt, i) => /* @__PURE__ */ jsxRuntimeExports.jsxs("li", { className: "text-xs flex items-start gap-1.5", children: [
+                  /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "mt-1 w-1 h-1 rounded-full bg-[var(--accent)] shrink-0" }),
+                  /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "leading-snug", children: pt })
+                ] }, i)) })
+              ] })
+            ] });
+          })(),
           /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "lg:hidden mt-2 flex-shrink-0", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("button", { onClick: () => setMobileTutorOpen(true), className: "w-full glass py-3.5 rounded-2xl flex items-center justify-center gap-2 font-bold text-[var(--accent)] border border-[var(--accent)]/30 hover:bg-[var(--accent)]/10 transition-colors", children: [
             /* @__PURE__ */ jsxRuntimeExports.jsx(MessageSquare, { size: 18 }),
             " Ask AI Tutor"
@@ -19865,12 +19951,17 @@ function ExamsView({ exams, setExams, settings, addToast, docs, setFlashcards, s
   if (selEx && score === null && !reviewMode) {
     const q = selEx.questions[qi];
     const progress = (qi + 1) / selEx.questions.length * 100;
-    const tutorCtx = `Exam session: ${selEx.title}
+    const tutorCtx = `Exam study session — FOCUS ONLY ON THIS QUESTION.
+Exam: ${selEx.title}
 Question ${qi + 1}/${selEx.questions.length}
+
+--- CURRENT QUESTION (answer ONLY about this) ---
 Q: ${q?.q}
 Options: ${(q?.options || []).join(" | ")}
 Correct answer: ${q?.options?.[q?.correct]}
-Explanation: ${q?.explanation || "N/A"}`;
+Explanation: ${q?.explanation || "N/A"}
+--- END OF CURRENT QUESTION ---
+Do NOT discuss other questions or topics outside this question.`;
     return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex-1 min-h-0 flex flex-col overflow-hidden", children: [
       /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "h-14 glass flex items-center justify-between px-5 shrink-0 border-b border-[color:var(--border2,var(--border))] border-x-0 border-t-0", children: [
         /* @__PURE__ */ jsxRuntimeExports.jsxs("button", { onClick: () => {
@@ -20197,12 +20288,17 @@ function CasesView({ cases, setCases, settings, addToast, docs, setFlashcards, s
   if (selSet) {
     const cas = selSet.questions[ci];
     const q = cas.examQuestion || cas;
-    const tutorCtx = `Clinical case: ${cas?.title || "Untitled"}
+    const tutorCtx = `Clinical case study — FOCUS ONLY ON THIS CASE.
+Case: ${cas?.title || "Untitled"}
+
+--- CURRENT CASE (answer ONLY about this) ---
 Vignette: ${cas?.vignette || ""}
 Diagnosis: ${cas?.diagnosis || "N/A"}
 Question: ${q?.q}
 Correct answer: ${q?.options?.[q?.correct]}
-Explanation: ${q?.explanation || "N/A"}`;
+Explanation: ${q?.explanation || "N/A"}
+--- END OF CURRENT CASE ---
+Do NOT discuss other cases, questions, or topics outside this case.`;
     return (
       /* ══ THREE-PANEL LAYOUT ══ */
       /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex-1 min-h-0 flex flex-col overflow-hidden", children: [
