@@ -33,6 +33,38 @@ try {
   lawExams = lawDataModule.lawExams || [];
   lawCases = lawDataModule.lawCases || [];
 } catch (e) { console.warn('[MARIAM] Law data failed to load:', e.message); }
+
+/* ═══════════════════════════════════════════════════════════════════
+   DRUG DETAIL LOOKUP — parses drugData answers into structured info
+   for the auto-detail panel shown below flashcards during study.
+   ═══════════════════════════════════════════════════════════════════ */
+const drugDetailLookup = (() => {
+  const map = {};
+  try {
+    const allDrugCards = (drugFlashcards || []).flatMap(s => s.cards || []);
+    for (const c of allDrugCards) {
+      const name = (c.q || '').trim().toLowerCase();
+      if (!name) continue;
+      const a = c.a || '';
+      const brandMatch = a.match(/Brand:\s*(.+?)\n/);
+      const classMatch = a.match(/Class:\s*(.+?)\n/);
+      const indicationMatch = a.match(/Indication:\s*(.+?)\n/);
+      const pointsMatch = a.match(/Counseling Points:\s*\n([\s\S]*)/);
+      const points = pointsMatch
+        ? pointsMatch[1].split('\n').map(l => l.replace(/^\s*-\s*/, '').trim()).filter(Boolean).slice(0, 4)
+        : [];
+      map[name] = {
+        brand: brandMatch ? brandMatch[1].trim() : '',
+        generic: c.q.trim(),
+        drugClass: classMatch ? classMatch[1].trim() : '',
+        indication: indicationMatch ? indicationMatch[1].trim() : '',
+        counselingPoints: points,
+      };
+    }
+  } catch (e) { console.warn('[MARIAM] Drug detail lookup build failed:', e.message); }
+  return map;
+})();
+
 /*
  * ╔══════════════════════════════════════════════════════════════════╗
  * ║  MARIAM PRO v7.0 ULTRA — Universal AI Document Intelligence     ║
@@ -3177,7 +3209,9 @@ function FlashcardsView({ flashcards, setFlashcards, settings, addToast, docs, s
   if (selSet) {
     const card = selSet.cards[idx];
     const progress = ((idx + 1) / selSet.cards.length) * 100;
-    const tutorCtx = `Flashcard study session.\nSet: ${selSet.title}\nCard ${idx + 1}/${selSet.cards.length}\nQuestion: ${card?.q}\nAnswer: ${card?.a}\nEvidence: ${card?.evidence || 'N/A'}`;
+    const cardDetail = drugDetailLookup[(card?.q || '').trim().toLowerCase()];
+    const detailBlock = cardDetail ? `\nDrug Details:\n  Brand: ${cardDetail.brand || 'N/A'}\n  Generic: ${cardDetail.generic}\n  Class: ${cardDetail.drugClass || 'N/A'}\n  Indication: ${cardDetail.indication || 'N/A'}\n  Key Counseling Points:\n${cardDetail.counselingPoints.map(p => '  - ' + p).join('\n')}` : '';
+    const tutorCtx = `Flashcard study session.\nSet: ${selSet.title}\nCard ${idx + 1}/${selSet.cards.length}\nQuestion: ${card?.q}\nAnswer: ${card?.a}\nEvidence: ${card?.evidence || 'N/A'}${detailBlock}`;
     return (
       <div className="flex-1 min-h-0 flex flex-col overflow-hidden">
         {/* Top bar */}
@@ -3248,6 +3282,39 @@ function FlashcardsView({ flashcards, setFlashcards, settings, addToast, docs, s
                 Show Answer
               </button>
             )}
+            {/* ── Auto Drug Detail Panel ── */}
+            {(() => {
+              const qName = (card.q || '').trim().toLowerCase();
+              const detail = drugDetailLookup[qName];
+              if (!detail) return null;
+              return (
+                <div className="glass rounded-2xl border border-[var(--accent)]/20 p-5 space-y-3 animate-fade-in">
+                  <div className="flex items-center gap-2 mb-1">
+                    <Info size={16} className="text-[var(--accent)]" />
+                    <span className="text-xs font-black uppercase tracking-widest text-[var(--accent)]">Quick Reference</span>
+                  </div>
+                  <div className="grid grid-cols-2 gap-x-4 gap-y-2 text-sm">
+                    <div><span className="opacity-50 text-xs font-bold">Generic Name</span><p className="font-semibold">{detail.generic}</p></div>
+                    <div><span className="opacity-50 text-xs font-bold">Brand Name</span><p className="font-semibold text-[var(--accent)]">{detail.brand || 'N/A'}</p></div>
+                    <div><span className="opacity-50 text-xs font-bold">Drug Class</span><p className="font-semibold">{detail.drugClass || 'N/A'}</p></div>
+                    <div><span className="opacity-50 text-xs font-bold">Indication</span><p className="font-semibold">{detail.indication || 'N/A'}</p></div>
+                  </div>
+                  {detail.counselingPoints.length > 0 && (
+                    <div className="border-t border-[color:var(--border2,var(--border))] pt-3">
+                      <span className="opacity-50 text-xs font-bold flex items-center gap-1.5 mb-2"><Clipboard size={12} /> Key Counseling Points</span>
+                      <ul className="space-y-1.5">
+                        {detail.counselingPoints.map((pt, i) => (
+                          <li key={i} className="text-sm flex items-start gap-2">
+                            <span className="mt-1 w-1.5 h-1.5 rounded-full bg-[var(--accent)] shrink-0" />
+                            <span>{pt}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+                </div>
+              );
+            })()}
             {/* Inline AI Tutor Trigger */}
             <div className="lg:hidden mt-2 flex-shrink-0">
               <button onClick={() => setMobileTutorOpen(true)} className="w-full glass py-3.5 rounded-2xl flex items-center justify-center gap-2 font-bold text-[var(--accent)] border border-[var(--accent)]/30 hover:bg-[var(--accent)]/10 transition-colors">
