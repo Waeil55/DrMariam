@@ -3040,7 +3040,27 @@ function AiTutorPanel({ settings, context, onClose, width, onDragStart, alwaysOp
     setMsgs(newMsgs); setLoading(true);
     try {
       const hist = newMsgs.slice(-8, -1).map(m => `${m.role === 'user' ? 'STUDENT' : 'TUTOR'}: ${m.content}`).join('\n');
-      const prompt = `You are an expert medical/academic AI tutor. The student is currently studying the following content:\n\nCONTEXT:\n${context || 'General study session'}\n\nConversation so far:\n${hist}\n\nSTUDENT: ${msg}\n\nTUTOR: Provide a clear, educational explanation. Use bullet points, bold key terms, and be thorough but concise.\n\nCRITICAL MEDICINE RULE: Whenever you discuss any medication or drug, ALWAYS start with the brand name first, followed by the generic name in parentheses. Format: "BrandName (generic name)". Example: "Tylenol (acetaminophen)", "Lipitor (atorvastatin)", "Lasix (furosemide)". Apply this to every single drug mentioned anywhere in your response.`;
+      const prompt = `You are an expert medical/pharmacy AI tutor. The student is studying the EXACT content below. You MUST answer in detail with approximately 8 lines of focused, accurate explanation.
+
+STRICT RULES:
+1. ONLY discuss the EXACT content shown in the CONTEXT below. NEVER bring in information from other cards, pages, questions, or topics.
+2. Be VERY detailed: give about 8 lines of thorough explanation covering the key facts, mechanisms, clinical relevance, and important pearls.
+3. Use bullet points and **bold** key terms for clarity.
+4. For drugs: ALWAYS include Brand Name, Generic Name, Drug Class, Indication, and the most critical 3-4 counseling points.
+5. CRITICAL MEDICINE RULE: Whenever you mention any drug, ALWAYS write it as "BrandName (generic name)". Example: "Tylenol (acetaminophen)", "Lipitor (atorvastatin)", "Lasix (furosemide)". Apply this to EVERY drug in your response.
+6. Answer the student's question precisely and completely — focus on being correct above all else.
+7. If the student asks about something outside the current card/question context, politely redirect them to focus on the current material.
+8. Include practical clinical tips, common exam pitfalls, and mnemonics when helpful.
+
+CONTEXT (this is the ONLY content you should discuss):
+${context || 'General study session'}
+
+Conversation so far:
+${hist}
+
+STUDENT: ${msg}
+
+TUTOR:`;
       await callAIStreaming(prompt, chunk => { setMsgs(p => [...p.slice(0, -1), { role: 'assistant', content: chunk }]); }, settings, 4000);
     } catch (e) { setMsgs(p => [...p.slice(0, -1), { role: 'assistant', content: `⚠️ ${e.message}` }]); }
     finally { setLoading(false); }
@@ -3211,7 +3231,7 @@ function FlashcardsView({ flashcards, setFlashcards, settings, addToast, docs, s
     const progress = ((idx + 1) / selSet.cards.length) * 100;
     const cardDetail = drugDetailLookup[(card?.q || '').trim().toLowerCase()];
     const detailBlock = cardDetail ? `\nDrug Details:\n  Brand: ${cardDetail.brand || 'N/A'}\n  Generic: ${cardDetail.generic}\n  Class: ${cardDetail.drugClass || 'N/A'}\n  Indication: ${cardDetail.indication || 'N/A'}\n  Key Counseling Points:\n${cardDetail.counselingPoints.map(p => '  - ' + p).join('\n')}` : '';
-    const tutorCtx = `Flashcard study session.\nSet: ${selSet.title}\nCard ${idx + 1}/${selSet.cards.length}\nQuestion: ${card?.q}\nAnswer: ${card?.a}\nEvidence: ${card?.evidence || 'N/A'}${detailBlock}`;
+    const tutorCtx = `Flashcard study session — FOCUS ONLY ON THIS CARD.\nSet: ${selSet.title}\nCard ${idx + 1}/${selSet.cards.length}\n\n--- CURRENT CARD (answer ONLY about this) ---\nQuestion: ${card?.q}\nAnswer: ${card?.a}\nEvidence: ${card?.evidence || 'N/A'}${detailBlock}\n--- END OF CURRENT CARD ---\nDo NOT discuss other cards or topics outside this card.`;
     return (
       <div className="flex-1 min-h-0 flex flex-col overflow-hidden">
         {/* Top bar */}
@@ -3491,7 +3511,7 @@ function ExamsView({ exams, setExams, settings, addToast, docs, setFlashcards, s
   if (selEx && score === null && !reviewMode) {
     const q = selEx.questions[qi];
     const progress = ((qi + 1) / selEx.questions.length) * 100;
-    const tutorCtx = `Exam session: ${selEx.title}\nQuestion ${qi + 1}/${selEx.questions.length}\nQ: ${q?.q}\nOptions: ${(q?.options || []).join(' | ')}\nCorrect answer: ${q?.options?.[q?.correct]}\nExplanation: ${q?.explanation || 'N/A'}`;
+    const tutorCtx = `Exam study session — FOCUS ONLY ON THIS QUESTION.\nExam: ${selEx.title}\nQuestion ${qi + 1}/${selEx.questions.length}\n\n--- CURRENT QUESTION (answer ONLY about this) ---\nQ: ${q?.q}\nOptions: ${(q?.options || []).join(' | ')}\nCorrect answer: ${q?.options?.[q?.correct]}\nExplanation: ${q?.explanation || 'N/A'}\n--- END OF CURRENT QUESTION ---\nDo NOT discuss other questions or topics outside this question.`;
     return (
       <div className="flex-1 min-h-0 flex flex-col overflow-hidden">
         {/* Top bar */}
@@ -3758,7 +3778,7 @@ function CasesView({ cases, setCases, settings, addToast, docs, setFlashcards, s
 
   if (selSet) {
     const cas = selSet.questions[ci]; const q = cas.examQuestion || cas;
-    const tutorCtx = `Clinical case: ${cas?.title || 'Untitled'}\nVignette: ${cas?.vignette || ''}\nDiagnosis: ${cas?.diagnosis || 'N/A'}\nQuestion: ${q?.q}\nCorrect answer: ${q?.options?.[q?.correct]}\nExplanation: ${q?.explanation || 'N/A'}`;
+    const tutorCtx = `Clinical case study — FOCUS ONLY ON THIS CASE.\nCase: ${cas?.title || 'Untitled'}\n\n--- CURRENT CASE (answer ONLY about this) ---\nVignette: ${cas?.vignette || ''}\nDiagnosis: ${cas?.diagnosis || 'N/A'}\nQuestion: ${q?.q}\nCorrect answer: ${q?.options?.[q?.correct]}\nExplanation: ${q?.explanation || 'N/A'}\n--- END OF CURRENT CASE ---\nDo NOT discuss other cases, questions, or topics outside this case.`;
     return (
       /* ══ THREE-PANEL LAYOUT ══ */
       <div className="flex-1 min-h-0 flex flex-col overflow-hidden">
