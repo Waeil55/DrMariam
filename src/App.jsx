@@ -65,6 +65,65 @@ const drugDetailLookup = (() => {
   return map;
 })();
 
+/** Search question text + options for a drug name match in the lookup */
+function findDrugDetail(questionText, options, correctIdx) {
+  if (!questionText) return null;
+  // 1. Direct name match from question
+  const allNames = Object.keys(drugDetailLookup);
+  const qLow = questionText.toLowerCase();
+  for (const name of allNames) {
+    if (qLow.includes(name)) return drugDetailLookup[name];
+  }
+  // 2. Check correct answer option
+  if (options && correctIdx != null && options[correctIdx]) {
+    const optLow = options[correctIdx].toLowerCase().trim();
+    if (drugDetailLookup[optLow]) return drugDetailLookup[optLow];
+    for (const name of allNames) {
+      if (optLow.includes(name)) return drugDetailLookup[name];
+    }
+  }
+  // 3. Check all options
+  if (options) {
+    for (const opt of options) {
+      const oLow = (opt || '').toLowerCase().trim();
+      if (drugDetailLookup[oLow]) return drugDetailLookup[oLow];
+    }
+  }
+  return null;
+}
+
+/** Reusable Drug Quick Reference panel component */
+function DrugQuickRef({ detail, compact }) {
+  if (!detail) return null;
+  return (
+    <div className={`rounded-2xl border border-[var(--accent)]/30 bg-[var(--accent)]/5 ${compact ? 'px-3 py-2.5' : 'px-5 py-4'} space-y-2`}>
+      <div className="flex items-center gap-2">
+        <Pill size={compact ? 13 : 16} className="text-[var(--accent)]" />
+        <span className={`${compact ? 'text-[10px]' : 'text-xs'} font-black uppercase tracking-widest text-[var(--accent)]`}>Drug Quick Reference</span>
+      </div>
+      <div className={`grid grid-cols-2 gap-x-4 gap-y-1.5 ${compact ? 'text-xs' : 'text-sm'}`}>
+        <div><span className="opacity-50 text-[11px] font-bold uppercase">Generic</span><p className="font-bold">{detail.generic}</p></div>
+        <div><span className="opacity-50 text-[11px] font-bold uppercase">Brand</span><p className="font-bold text-[var(--accent)]">{detail.brand || 'N/A'}</p></div>
+        <div><span className="opacity-50 text-[11px] font-bold uppercase">Class</span><p className="font-semibold">{detail.drugClass || 'N/A'}</p></div>
+        <div><span className="opacity-50 text-[11px] font-bold uppercase">Indication</span><p className="font-semibold">{detail.indication || 'N/A'}</p></div>
+      </div>
+      {detail.counselingPoints.length > 0 && (
+        <div className="border-t border-[var(--accent)]/20 pt-2 mt-1">
+          <span className={`opacity-60 ${compact ? 'text-[10px]' : 'text-xs'} font-bold flex items-center gap-1.5 mb-1`}><Clipboard size={compact ? 10 : 12} /> Key Counseling Points</span>
+          <ul className="space-y-0.5">
+            {detail.counselingPoints.map((pt, i) => (
+              <li key={i} className={`${compact ? 'text-xs' : 'text-sm'} flex items-start gap-2`}>
+                <span className="mt-1.5 w-1.5 h-1.5 rounded-full bg-[var(--accent)] shrink-0" />
+                <span>{pt}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+    </div>
+  );
+}
+
 /*
  * ╔══════════════════════════════════════════════════════════════════╗
  * ║  MARIAM PRO v7.0 ULTRA — Universal AI Document Intelligence     ║
@@ -3303,38 +3362,7 @@ function FlashcardsView({ flashcards, setFlashcards, settings, addToast, docs, s
               </button>
             )}
             {/* ── Auto Drug Detail Panel — always visible below card ── */}
-            {(() => {
-              const qName = (card.q || '').trim().toLowerCase();
-              const detail = drugDetailLookup[qName];
-              if (!detail) return null;
-              return (
-                <div className="rounded-2xl border border-[var(--accent)]/30 bg-[var(--accent)]/5 px-5 py-4 space-y-2">
-                  <div className="flex items-center gap-2">
-                    <Pill size={16} className="text-[var(--accent)]" />
-                    <span className="text-xs font-black uppercase tracking-widest text-[var(--accent)]">Drug Quick Reference</span>
-                  </div>
-                  <div className="grid grid-cols-2 gap-x-4 gap-y-2 text-sm">
-                    <div><span className="opacity-50 text-[11px] font-bold uppercase">Generic Name</span><p className="font-bold">{detail.generic}</p></div>
-                    <div><span className="opacity-50 text-[11px] font-bold uppercase">Brand Name</span><p className="font-bold text-[var(--accent)]">{detail.brand || 'N/A'}</p></div>
-                    <div><span className="opacity-50 text-[11px] font-bold uppercase">Drug Class</span><p className="font-semibold">{detail.drugClass || 'N/A'}</p></div>
-                    <div><span className="opacity-50 text-[11px] font-bold uppercase">Indication</span><p className="font-semibold">{detail.indication || 'N/A'}</p></div>
-                  </div>
-                  {detail.counselingPoints.length > 0 && (
-                    <div className="border-t border-[var(--accent)]/20 pt-2 mt-1">
-                      <span className="opacity-60 text-xs font-bold flex items-center gap-1.5 mb-1.5"><Clipboard size={12} /> Key Counseling Points</span>
-                      <ul className="space-y-1">
-                        {detail.counselingPoints.map((pt, i) => (
-                          <li key={i} className="text-sm flex items-start gap-2">
-                            <span className="mt-1.5 w-1.5 h-1.5 rounded-full bg-[var(--accent)] shrink-0" />
-                            <span>{pt}</span>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  )}
-                </div>
-              );
-            })()}
+            <DrugQuickRef detail={drugDetailLookup[(card.q || '').trim().toLowerCase()]} />
             {/* Inline AI Tutor Trigger */}
             <div className="lg:hidden mt-2 flex-shrink-0">
               <button onClick={() => setMobileTutorOpen(true)} className="w-full glass py-3.5 rounded-2xl flex items-center justify-center gap-2 font-bold text-[var(--accent)] border border-[var(--accent)]/30 hover:bg-[var(--accent)]/10 transition-colors">
@@ -3560,6 +3588,7 @@ function ExamsView({ exams, setExams, settings, addToast, docs, setFlashcards, s
                 {q.evidence && <p className="text-xs opacity-40 italic mt-3 pt-3 border-t border-[color:var(--border2,var(--border))]">"{q.evidence}"</p>}
               </div>
             )}
+            {submitted && <DrugQuickRef detail={findDrugDetail(q.q, q.options, q.correct)} />}
             <div className="pb-4">
               {!submitted ?
                 <button onClick={submit} disabled={selected === null} className="w-full py-4 btn-accent rounded-2xl text-base font-black disabled:opacity-40 shadow-xl">Submit Answer</button> :
@@ -3634,6 +3663,7 @@ function ExamsView({ exams, setExams, settings, addToast, docs, setFlashcards, s
                   ))}
                 </div>
                 {q.explanation && <p className="text-xs opacity-50 mt-3 italic">{q.explanation}</p>}
+                <DrugQuickRef detail={findDrugDetail(q.q, q.options, q.correct)} compact />
               </div>
             ))}
           </div>
@@ -3853,6 +3883,7 @@ function CasesView({ cases, setCases, settings, addToast, docs, setFlashcards, s
                 {q.evidence && <p className="text-xs opacity-40 italic pt-3 border-t border-[color:var(--border2,var(--border))]">"{q.evidence}" — p.{q.sourcePage}</p>}
               </div>
             )}
+            {submitted && <DrugQuickRef detail={findDrugDetail(q.q, q.options, q.correct)} />}
 
             {/* Action */}
             <div className="pb-4">
