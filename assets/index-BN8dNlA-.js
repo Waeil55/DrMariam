@@ -1,5 +1,5 @@
-import { r as reactExports, R as React, L as Loader2, A as AlertCircle, X, S as Search, G as GripVertical, a as Sparkles, Z as Zap, M as MessageSquare, D as Database, F as FolderOpen, B as BookMarked, b as Layers, c as Activity, C as CheckSquare, d as Settings, e as CheckCircle2, I as Info, f as FileText, P as PenLine, g as FileUp, h as Grid3x3, i as List, j as ChevronLeft, k as Printer, l as RefreshCw, m as Pill, n as Clipboard, o as FilePlus, T as Trash2, E as Eye, p as Target, q as Stethoscope, s as ChevronRight, t as Thermometer, u as ChevronDown, v as Pin, w as Copy, x as Plus, y as Brain, H as History, z as CircleUserRound, J as MicOff, K as Mic, N as Send, O as Smartphone, Q as Download, U as Globe, V as KeyRound, W as Palette, Y as Sun, _ as CloudSun, $ as Flame, a0 as Heart, a1 as Leaf, a2 as Moon, a3 as MoonStar, a4 as PanelsTopLeft, a5 as FileCode, a6 as Image, a7 as Table, a8 as ZoomOut, a9 as Maximize, aa as ZoomIn, ab as Save, ac as BookOpen, ad as AlignLeft, ae as Lightbulb, af as Baby, ag as Network, ah as Tag, ai as Clock, aj as Languages, ak as Wand2, al as FlaskConical, am as Code, an as ListChecks, ao as GraduationCap, ap as Hash, aq as MoreVertical, ar as ChevronUp } from './icons-DGq5h3B2.js';
-import { r as reactDomExports } from './react-Dv4xOYRT.js';
+import { r as reactExports, R as React, L as Loader2, A as AlertCircle, X, S as Search, G as GripVertical, a as Sparkles, Z as Zap, M as MessageSquare, D as Database, F as FolderOpen, B as BookMarked, b as Layers, c as Activity, C as CheckSquare, d as Settings, e as CheckCircle2, I as Info, f as FileText, P as PenLine, g as FileUp, h as Grid3x3, i as List, j as ChevronLeft, k as Printer, l as RefreshCw, m as FilePlus, T as Trash2, E as Eye, n as Target, o as Stethoscope, p as ChevronRight, q as Thermometer, s as ChevronDown, t as Pin, u as Copy, v as Plus, w as Brain, H as History, x as CircleUserRound, y as MicOff, z as Mic, J as Send, K as Smartphone, N as Download, O as Globe, Q as KeyRound, U as Palette, V as Sun, W as CloudSun, Y as Flame, _ as Heart, $ as Leaf, a0 as Moon, a1 as MoonStar, a2 as PanelsTopLeft, a3 as FileCode, a4 as Image, a5 as Table, a6 as ZoomOut, a7 as Maximize, a8 as ZoomIn, a9 as Save, aa as BookOpen, ab as AlignLeft, ac as Pill, ad as Lightbulb, ae as Baby, af as Network, ag as Tag, ah as Clock, ai as Languages, aj as Wand2, ak as FlaskConical, al as Code, am as ListChecks, an as Clipboard, ao as GraduationCap, ap as Hash, aq as MoreVertical, ar as ChevronUp } from './icons-CYnqH1c0.js';
+import { r as reactDomExports } from './react-Dv1lV7Nv.js';
 
 true&&(function polyfill() {
   const relList = document.createElement("link").relList;
@@ -16916,6 +16916,65 @@ const drugDetailLookup = (() => {
   }
   return map;
 })();
+function findDrugDetail(questionText, options, correctIdx) {
+  if (!questionText) return null;
+  const allNames = Object.keys(drugDetailLookup);
+  const qLow = questionText.toLowerCase();
+  for (const name of allNames) {
+    if (qLow.includes(name)) return drugDetailLookup[name];
+  }
+  if (options && correctIdx != null && options[correctIdx]) {
+    const optLow = options[correctIdx].toLowerCase().trim();
+    if (drugDetailLookup[optLow]) return drugDetailLookup[optLow];
+    for (const name of allNames) {
+      if (optLow.includes(name)) return drugDetailLookup[name];
+    }
+  }
+  if (options) {
+    for (const opt of options) {
+      const oLow = (opt || "").toLowerCase().trim();
+      if (drugDetailLookup[oLow]) return drugDetailLookup[oLow];
+    }
+  }
+  return null;
+}
+function DrugQuickRef({ detail, compact }) {
+  if (!detail) return null;
+  return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: `rounded-2xl border border-[var(--accent)]/30 bg-[var(--accent)]/5 ${compact ? "px-3 py-2.5" : "px-5 py-4"} space-y-2`, children: [
+    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center gap-2", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx(Pill, { size: compact ? 13 : 16, className: "text-[var(--accent)]" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: `${compact ? "text-[10px]" : "text-xs"} font-black uppercase tracking-widest text-[var(--accent)]`, children: "Drug Quick Reference" })
+    ] }),
+    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: `grid grid-cols-2 gap-x-4 gap-y-1.5 ${compact ? "text-xs" : "text-sm"}`, children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "opacity-50 text-[11px] font-bold uppercase", children: "Generic" }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "font-bold", children: detail.generic })
+      ] }),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "opacity-50 text-[11px] font-bold uppercase", children: "Brand" }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "font-bold text-[var(--accent)]", children: detail.brand || "N/A" })
+      ] }),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "opacity-50 text-[11px] font-bold uppercase", children: "Class" }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "font-semibold", children: detail.drugClass || "N/A" })
+      ] }),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "opacity-50 text-[11px] font-bold uppercase", children: "Indication" }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "font-semibold", children: detail.indication || "N/A" })
+      ] })
+    ] }),
+    detail.counselingPoints.length > 0 && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "border-t border-[var(--accent)]/20 pt-2 mt-1", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { className: `opacity-60 ${compact ? "text-[10px]" : "text-xs"} font-bold flex items-center gap-1.5 mb-1`, children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx(Clipboard, { size: compact ? 10 : 12 }),
+        " Key Counseling Points"
+      ] }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("ul", { className: "space-y-0.5", children: detail.counselingPoints.map((pt, i) => /* @__PURE__ */ jsxRuntimeExports.jsxs("li", { className: `${compact ? "text-xs" : "text-sm"} flex items-start gap-2`, children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "mt-1.5 w-1.5 h-1.5 rounded-full bg-[var(--accent)] shrink-0" }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: pt })
+      ] }, i)) })
+    ] })
+  ] });
+}
 (() => {
   let vp = document.querySelector('meta[name="viewport"]');
   if (!vp) {
@@ -19699,45 +19758,7 @@ Do NOT discuss other cards or topics outside this card.`;
             },
             l
           )) }) : /* @__PURE__ */ jsxRuntimeExports.jsx("button", { onClick: () => setFlipped(true), className: "w-full py-4 btn-accent rounded-2xl text-base font-black shadow-xl", children: "Show Answer" }),
-          (() => {
-            const qName = (card.q || "").trim().toLowerCase();
-            const detail = drugDetailLookup[qName];
-            if (!detail) return null;
-            return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "rounded-2xl border border-[var(--accent)]/30 bg-[var(--accent)]/5 px-5 py-4 space-y-2", children: [
-              /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center gap-2", children: [
-                /* @__PURE__ */ jsxRuntimeExports.jsx(Pill, { size: 16, className: "text-[var(--accent)]" }),
-                /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-xs font-black uppercase tracking-widest text-[var(--accent)]", children: "Drug Quick Reference" })
-              ] }),
-              /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "grid grid-cols-2 gap-x-4 gap-y-2 text-sm", children: [
-                /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
-                  /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "opacity-50 text-[11px] font-bold uppercase", children: "Generic Name" }),
-                  /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "font-bold", children: detail.generic })
-                ] }),
-                /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
-                  /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "opacity-50 text-[11px] font-bold uppercase", children: "Brand Name" }),
-                  /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "font-bold text-[var(--accent)]", children: detail.brand || "N/A" })
-                ] }),
-                /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
-                  /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "opacity-50 text-[11px] font-bold uppercase", children: "Drug Class" }),
-                  /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "font-semibold", children: detail.drugClass || "N/A" })
-                ] }),
-                /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
-                  /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "opacity-50 text-[11px] font-bold uppercase", children: "Indication" }),
-                  /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "font-semibold", children: detail.indication || "N/A" })
-                ] })
-              ] }),
-              detail.counselingPoints.length > 0 && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "border-t border-[var(--accent)]/20 pt-2 mt-1", children: [
-                /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { className: "opacity-60 text-xs font-bold flex items-center gap-1.5 mb-1.5", children: [
-                  /* @__PURE__ */ jsxRuntimeExports.jsx(Clipboard, { size: 12 }),
-                  " Key Counseling Points"
-                ] }),
-                /* @__PURE__ */ jsxRuntimeExports.jsx("ul", { className: "space-y-1", children: detail.counselingPoints.map((pt, i) => /* @__PURE__ */ jsxRuntimeExports.jsxs("li", { className: "text-sm flex items-start gap-2", children: [
-                  /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "mt-1.5 w-1.5 h-1.5 rounded-full bg-[var(--accent)] shrink-0" }),
-                  /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: pt })
-                ] }, i)) })
-              ] })
-            ] });
-          })(),
+          /* @__PURE__ */ jsxRuntimeExports.jsx(DrugQuickRef, { detail: drugDetailLookup[(card.q || "").trim().toLowerCase()] }),
           /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "lg:hidden mt-2 flex-shrink-0", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("button", { onClick: () => setMobileTutorOpen(true), className: "w-full glass py-3.5 rounded-2xl flex items-center justify-center gap-2 font-bold text-[var(--accent)] border border-[var(--accent)]/30 hover:bg-[var(--accent)]/10 transition-colors", children: [
             /* @__PURE__ */ jsxRuntimeExports.jsx(MessageSquare, { size: 18 }),
             " Ask AI Tutor"
@@ -20018,6 +20039,7 @@ Do NOT discuss other questions or topics outside this question.`;
               '"'
             ] })
           ] }),
+          submitted && /* @__PURE__ */ jsxRuntimeExports.jsx(DrugQuickRef, { detail: findDrugDetail(q.q, q.options, q.correct) }),
           /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "pb-4", children: !submitted ? /* @__PURE__ */ jsxRuntimeExports.jsx("button", { onClick: submit, disabled: selected === null, className: "w-full py-4 btn-accent rounded-2xl text-base font-black disabled:opacity-40 shadow-xl", children: "Submit Answer" }) : qi < selEx.questions.length - 1 ? /* @__PURE__ */ jsxRuntimeExports.jsx("button", { onClick: next, className: "w-full py-4 btn-accent rounded-2xl text-base font-black shadow-xl", children: "Next Question →" }) : /* @__PURE__ */ jsxRuntimeExports.jsx("button", { onClick: () => {
             const sc = answers.filter((a) => a.correct).length;
             setScore(sc);
@@ -20098,7 +20120,8 @@ Correct: ${selEx?.questions?.[qi]?.options?.[selEx?.questions?.[qi]?.correct]}`,
           opt,
           oi === q.correct && /* @__PURE__ */ jsxRuntimeExports.jsx(CheckCircle2, { size: 16, className: "inline ml-2 text-emerald-500" })
         ] }, oi)) }),
-        q.explanation && /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-xs opacity-50 mt-3 italic", children: q.explanation })
+        q.explanation && /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-xs opacity-50 mt-3 italic", children: q.explanation }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(DrugQuickRef, { detail: findDrugDetail(q.q, q.options, q.correct), compact: true })
       ] }, i)) })
     ] }) });
   }
@@ -20382,6 +20405,7 @@ Do NOT discuss other cases, questions, or topics outside this case.`;
                 q.sourcePage
               ] })
             ] }),
+            submitted && /* @__PURE__ */ jsxRuntimeExports.jsx(DrugQuickRef, { detail: findDrugDetail(q.q, q.options, q.correct) }),
             /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "pb-4", children: !submitted ? /* @__PURE__ */ jsxRuntimeExports.jsx(
               "button",
               {
