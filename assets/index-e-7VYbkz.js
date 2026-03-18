@@ -19699,41 +19699,41 @@ Do NOT discuss other cards or topics outside this card.`;
             },
             l
           )) }) : /* @__PURE__ */ jsxRuntimeExports.jsx("button", { onClick: () => setFlipped(true), className: "w-full py-4 btn-accent rounded-2xl text-base font-black shadow-xl", children: "Show Answer" }),
-          flipped && (() => {
+          (() => {
             const qName = (card.q || "").trim().toLowerCase();
             const detail = drugDetailLookup[qName];
             if (!detail) return null;
-            return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "glass rounded-2xl border border-[var(--accent)]/20 px-4 py-3 animate-fade-in", children: [
-              /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center gap-2 mb-2", children: [
-                /* @__PURE__ */ jsxRuntimeExports.jsx(Pill, { size: 14, className: "text-[var(--accent)]" }),
-                /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-[11px] font-black uppercase tracking-widest text-[var(--accent)]", children: "Quick Reference" })
+            return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "rounded-2xl border border-[var(--accent)]/30 bg-[var(--accent)]/5 px-5 py-4 space-y-2", children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center gap-2", children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsx(Pill, { size: 16, className: "text-[var(--accent)]" }),
+                /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-xs font-black uppercase tracking-widest text-[var(--accent)]", children: "Drug Quick Reference" })
               ] }),
-              /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "grid grid-cols-2 sm:grid-cols-4 gap-x-3 gap-y-1 text-xs", children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "grid grid-cols-2 gap-x-4 gap-y-2 text-sm", children: [
                 /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
-                  /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "opacity-40 font-bold", children: "Generic" }),
-                  /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "font-semibold truncate", children: detail.generic })
+                  /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "opacity-50 text-[11px] font-bold uppercase", children: "Generic Name" }),
+                  /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "font-bold", children: detail.generic })
                 ] }),
                 /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
-                  /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "opacity-40 font-bold", children: "Brand" }),
-                  /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "font-semibold text-[var(--accent)] truncate", children: detail.brand || "N/A" })
+                  /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "opacity-50 text-[11px] font-bold uppercase", children: "Brand Name" }),
+                  /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "font-bold text-[var(--accent)]", children: detail.brand || "N/A" })
                 ] }),
                 /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
-                  /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "opacity-40 font-bold", children: "Class" }),
-                  /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "font-semibold truncate", children: detail.drugClass || "N/A" })
+                  /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "opacity-50 text-[11px] font-bold uppercase", children: "Drug Class" }),
+                  /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "font-semibold", children: detail.drugClass || "N/A" })
                 ] }),
                 /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
-                  /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "opacity-40 font-bold", children: "Indication" }),
-                  /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "font-semibold truncate", children: detail.indication || "N/A" })
+                  /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "opacity-50 text-[11px] font-bold uppercase", children: "Indication" }),
+                  /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "font-semibold", children: detail.indication || "N/A" })
                 ] })
               ] }),
-              detail.counselingPoints.length > 0 && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "border-t border-[color:var(--border2,var(--border))] mt-2 pt-2", children: [
-                /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { className: "opacity-40 text-[11px] font-bold flex items-center gap-1 mb-1", children: [
-                  /* @__PURE__ */ jsxRuntimeExports.jsx(Clipboard, { size: 10 }),
+              detail.counselingPoints.length > 0 && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "border-t border-[var(--accent)]/20 pt-2 mt-1", children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { className: "opacity-60 text-xs font-bold flex items-center gap-1.5 mb-1.5", children: [
+                  /* @__PURE__ */ jsxRuntimeExports.jsx(Clipboard, { size: 12 }),
                   " Key Counseling Points"
                 ] }),
-                /* @__PURE__ */ jsxRuntimeExports.jsx("ul", { className: "space-y-0.5", children: detail.counselingPoints.map((pt, i) => /* @__PURE__ */ jsxRuntimeExports.jsxs("li", { className: "text-xs flex items-start gap-1.5", children: [
-                  /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "mt-1 w-1 h-1 rounded-full bg-[var(--accent)] shrink-0" }),
-                  /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "leading-snug", children: pt })
+                /* @__PURE__ */ jsxRuntimeExports.jsx("ul", { className: "space-y-1", children: detail.counselingPoints.map((pt, i) => /* @__PURE__ */ jsxRuntimeExports.jsxs("li", { className: "text-sm flex items-start gap-2", children: [
+                  /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "mt-1.5 w-1.5 h-1.5 rounded-full bg-[var(--accent)] shrink-0" }),
+                  /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: pt })
                 ] }, i)) })
               ] })
             ] });
