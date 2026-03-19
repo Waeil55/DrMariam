@@ -53,13 +53,22 @@ const drugDetailLookup = (() => {
       const points = pointsMatch
         ? pointsMatch[1].split('\n').map(l => l.replace(/^\s*-\s*/, '').trim()).filter(Boolean).slice(0, 4)
         : [];
-      map[name] = {
+      const detail = {
         brand: brandMatch ? brandMatch[1].trim() : '',
         generic: c.q.trim(),
         drugClass: classMatch ? classMatch[1].trim() : '',
         indication: indicationMatch ? indicationMatch[1].trim() : '',
         counselingPoints: points,
       };
+      // Index by generic name
+      map[name] = detail;
+      // Also index by brand names (may be comma-separated)
+      if (detail.brand) {
+        const brands = detail.brand.split(',').map(b => b.trim()).filter(Boolean);
+        for (const b of brands) {
+          map[b.toLowerCase()] = detail;
+        }
+      }
     }
   } catch (e) { console.warn('[MARIAM] Drug detail lookup build failed:', e.message); }
   return map;
@@ -105,11 +114,11 @@ function DrugQuickRef({ detail, compact }) {
         <div><span className="opacity-50 text-[11px] font-bold uppercase">Generic</span><p className="font-bold">{detail.generic}</p></div>
         <div><span className="opacity-50 text-[11px] font-bold uppercase">Brand</span><p className="font-bold text-[var(--accent)]">{detail.brand || 'N/A'}</p></div>
         <div><span className="opacity-50 text-[11px] font-bold uppercase">Class</span><p className="font-semibold">{detail.drugClass || 'N/A'}</p></div>
-        <div><span className="opacity-50 text-[11px] font-bold uppercase">Indication</span><p className="font-semibold">{detail.indication || 'N/A'}</p></div>
+        <div><span className="opacity-50 text-[11px] font-bold uppercase">Use Cases</span><p className="font-semibold">{detail.indication || 'N/A'}</p></div>
       </div>
       {detail.counselingPoints.length > 0 && (
         <div className="border-t border-[var(--accent)]/20 pt-2 mt-1">
-          <span className={`opacity-60 ${compact ? 'text-[10px]' : 'text-xs'} font-bold flex items-center gap-1.5 mb-1`}><Clipboard size={compact ? 10 : 12} /> Key Counseling Points</span>
+          <span className={`opacity-60 ${compact ? 'text-[10px]' : 'text-xs'} font-bold flex items-center gap-1.5 mb-1`}><Clipboard size={compact ? 10 : 12} /> Top 4 Key Points</span>
           <ul className="space-y-0.5">
             {detail.counselingPoints.map((pt, i) => (
               <li key={i} className={`${compact ? 'text-xs' : 'text-sm'} flex items-start gap-2`}>
