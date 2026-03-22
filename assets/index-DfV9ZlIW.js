@@ -1,5 +1,5 @@
-import { r as reactExports, R as React, L as Loader2, A as AlertCircle, X, S as Search, F as FolderOpen, B as BookMarked, a as Layers, b as Activity, C as CheckSquare, G as Globe, M as MessageSquare, c as Settings, d as Sparkles, e as GripVertical, Z as Zap, D as Database, f as CheckCircle2, I as Info, g as FileText, P as PenLine, h as FileUp, i as Grid3x3, j as List, k as ChevronLeft, l as Printer, m as RefreshCw, n as FilePlus, T as Trash2, E as Eye, o as Target, p as Stethoscope, q as ChevronRight, s as Thermometer, t as ChevronDown, u as Pin, v as Copy, w as Plus, x as Brain, H as History, y as CircleUserRound, z as MicOff, J as Mic, K as Send, N as Pill, O as Heart, Q as GraduationCap, U as Award, V as Clipboard, W as Star, Y as Network, _ as Leaf, $ as Flame, a0 as Monitor, a1 as FlaskConical, a2 as BookA, a3 as BookOpen, a4 as BotMessageSquare, a5 as Smartphone, a6 as Download, a7 as KeyRound, a8 as Palette, a9 as Sun, aa as CloudSun, ab as Moon, ac as MoonStar, ad as PanelsTopLeft, ae as FileCode, af as Image, ag as Table, ah as ZoomOut, ai as Maximize, aj as ZoomIn, ak as Save, al as AlignLeft, am as Lightbulb, an as Baby, ao as Tag, ap as Clock, aq as Languages, ar as Wand2, as as Code, at as ListChecks, au as Hash, av as MoreVertical, aw as Layers3, ax as ChevronUp } from './icons-CwPTqmbQ.js';
-import { r as reactDomExports } from './react-B1AwND7L.js';
+import { r as reactExports, R as React, L as Loader2, A as AlertCircle, X, S as Search, F as FolderOpen, B as BookMarked, a as Layers, b as Activity, C as CheckSquare, G as Globe, c as FileText, M as MessageSquare, d as Settings, e as Sparkles, f as GripVertical, Z as Zap, D as Database, g as CheckCircle2, I as Info, P as PenLine, h as FileUp, i as Grid3x3, j as List, k as ChevronLeft, l as Printer, m as RefreshCw, n as FilePlus, T as Trash2, E as Eye, o as Target, p as Stethoscope, q as ChevronRight, s as Thermometer, t as ChevronDown, u as Pin, v as Copy, w as Plus, x as Brain, H as History, y as CircleUserRound, z as MicOff, J as Mic, K as Send, N as Pill, O as Heart, Q as GraduationCap, U as Award, V as Clipboard, W as Star, Y as Network, _ as Leaf, $ as Flame, a0 as Monitor, a1 as FlaskConical, a2 as BookA, a3 as BookOpen, a4 as BotMessageSquare, a5 as Smartphone, a6 as Download, a7 as KeyRound, a8 as Palette, a9 as Sun, aa as CloudSun, ab as Moon, ac as MoonStar, ad as PanelsTopLeft, ae as FileCode, af as Image, ag as Table, ah as ZoomOut, ai as Maximize, aj as ZoomIn, ak as Save, al as AlignLeft, am as Lightbulb, an as Baby, ao as Tag, ap as Clock, aq as Languages, ar as Wand2, as as Code, at as ListChecks, au as Hash, av as MoreVertical, aw as Layers3, ax as ChevronUp } from './icons-BGxlEkz6.js';
+import { r as reactDomExports } from './react-UlELaeE-.js';
 
 true&&(function polyfill() {
   const relList = document.createElement("link").relList;
@@ -24765,6 +24765,215 @@ function MedicalEncyclopediaView({ settings }) {
     ] })
   ] }) });
 }
+const SBAR_CAT = { id: "sbar", label: "SBAR Practice", color: "#06b6d4" };
+function SbarPageView({ settings }) {
+  const STORAGE_PREFIX = "osce-comm-form:sbar-standalone::";
+  const loadSessions = () => {
+    try {
+      return Object.keys(localStorage).filter((k) => k.startsWith(STORAGE_PREFIX)).map((k) => {
+        const name = k.slice(STORAGE_PREFIX.length);
+        try {
+          const d = JSON.parse(localStorage.getItem(k) || "{}");
+          return { id: name, savedAt: d.savedAt || null };
+        } catch {
+          return { id: name, savedAt: null };
+        }
+      }).sort((a, b) => (b.savedAt || "").localeCompare(a.savedAt || ""));
+    } catch {
+      return [];
+    }
+  };
+  const [sessions, setSessions] = reactExports.useState(loadSessions);
+  const [activeSession, setActiveSession] = reactExports.useState(null);
+  const [newName, setNewName] = reactExports.useState("");
+  const [showNewForm, setShowNewForm] = reactExports.useState(false);
+  const refreshSessions = () => setSessions(loadSessions());
+  const createSession = () => {
+    if (!newName.trim()) return;
+    const id = newName.trim();
+    setSessions((prev) => [{ id, savedAt: null }, ...prev.filter((s) => s.id !== id)]);
+    setActiveSession({ id, topicKey: `sbar-standalone::${id}` });
+    setNewName("");
+    setShowNewForm(false);
+  };
+  const deleteSession = (id) => {
+    if (!window.confirm(`Delete SBAR session "${id}"?`)) return;
+    try {
+      localStorage.removeItem(`${STORAGE_PREFIX}${id}`);
+    } catch {
+    }
+    setSessions((prev) => prev.filter((s) => s.id !== id));
+    if (activeSession?.id === id) setActiveSession(null);
+  };
+  reactExports.useEffect(() => {
+    const onFocus = () => refreshSessions();
+    window.addEventListener("focus", onFocus);
+    return () => window.removeEventListener("focus", onFocus);
+  }, []);
+  return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex flex-1 min-h-0", style: { height: "100%", overflow: "hidden" }, children: [
+    /* @__PURE__ */ jsxRuntimeExports.jsxs(
+      "div",
+      {
+        className: "shrink-0 flex flex-col border-r overflow-y-auto custom-scrollbar",
+        style: { width: 240, borderColor: "var(--border)", background: "var(--surface)" },
+        children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "px-3 py-4 border-b space-y-3", style: { borderColor: "var(--border)" }, children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center gap-2", children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "w-8 h-8 rounded-xl flex items-center justify-center shrink-0", style: { background: "#06b6d420" }, children: /* @__PURE__ */ jsxRuntimeExports.jsx(FileText, { size: 15, style: { color: "#06b6d4" } }) }),
+              /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-sm font-black", style: { color: "#06b6d4" }, children: "SBAR" }),
+                /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-[10px] opacity-40", children: "Practice sessions" })
+              ] })
+            ] }),
+            /* @__PURE__ */ jsxRuntimeExports.jsxs(
+              "button",
+              {
+                onClick: () => setShowNewForm((v) => !v),
+                className: "w-full flex items-center justify-center gap-2 py-2 rounded-xl text-xs font-black text-white",
+                style: { background: "linear-gradient(135deg,#06b6d4,#0891b2)" },
+                children: [
+                  /* @__PURE__ */ jsxRuntimeExports.jsx(Plus, { size: 13 }),
+                  " New Session"
+                ]
+              }
+            ),
+            showNewForm && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "space-y-2", children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx(
+                "input",
+                {
+                  value: newName,
+                  onChange: (e) => setNewName(e.target.value),
+                  onKeyDown: (e) => {
+                    if (e.key === "Enter") createSession();
+                    if (e.key === "Escape") {
+                      setShowNewForm(false);
+                      setNewName("");
+                    }
+                  },
+                  placeholder: "Topic: e.g. Warfarin, HTN…",
+                  autoFocus: true,
+                  className: "glass-input rounded-xl px-3 py-2 text-xs outline-none w-full",
+                  style: { border: "1.5px solid #06b6d430", background: "var(--card)", color: "var(--text)" }
+                }
+              ),
+              /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex gap-2", children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsx(
+                  "button",
+                  {
+                    onClick: createSession,
+                    disabled: !newName.trim(),
+                    className: "flex-1 py-1.5 rounded-xl text-xs font-black text-white disabled:opacity-40",
+                    style: { background: "#06b6d4" },
+                    children: "Create"
+                  }
+                ),
+                /* @__PURE__ */ jsxRuntimeExports.jsx(
+                  "button",
+                  {
+                    onClick: () => {
+                      setShowNewForm(false);
+                      setNewName("");
+                    },
+                    className: "px-3 py-1.5 rounded-xl text-xs font-black glass opacity-60 hover:opacity-100",
+                    children: "✕"
+                  }
+                )
+              ] })
+            ] })
+          ] }),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex-1 overflow-y-auto custom-scrollbar p-2 space-y-1", children: [
+            sessions.length === 0 && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "py-8 text-center opacity-30", children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx(FileText, { size: 22, className: "mx-auto mb-2" }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-xs", children: "No sessions yet" }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-[10px] mt-1", children: 'Click "New Session"' })
+            ] }),
+            sessions.map((s) => /* @__PURE__ */ jsxRuntimeExports.jsxs(
+              "div",
+              {
+                className: "group flex items-center gap-2 px-3 py-2.5 rounded-xl cursor-pointer transition-all",
+                style: activeSession?.id === s.id ? { background: "#06b6d4", color: "#fff" } : { color: "var(--text)" },
+                onClick: () => setActiveSession({ id: s.id, topicKey: `sbar-standalone::${s.id}` }),
+                children: [
+                  /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex-1 min-w-0", children: [
+                    /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-xs font-black truncate", children: s.id }),
+                    s.savedAt && /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: `text-[10px] truncate ${activeSession?.id === s.id ? "opacity-70" : "opacity-40"}`, children: s.savedAt })
+                  ] }),
+                  /* @__PURE__ */ jsxRuntimeExports.jsx(
+                    "button",
+                    {
+                      onClick: (e) => {
+                        e.stopPropagation();
+                        deleteSession(s.id);
+                      },
+                      className: "opacity-0 group-hover:opacity-50 hover:!opacity-100 shrink-0 transition-opacity",
+                      title: "Delete session",
+                      children: /* @__PURE__ */ jsxRuntimeExports.jsx(X, { size: 13 })
+                    }
+                  )
+                ]
+              },
+              s.id
+            ))
+          ] })
+        ]
+      }
+    ),
+    /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "flex-1 min-h-0 overflow-y-auto custom-scrollbar scroll-content", style: { padding: "16px 20px" }, children: !activeSession ? (
+      /* Welcome screen */
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex flex-col items-center justify-center min-h-[500px] gap-6 text-center", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          "div",
+          {
+            className: "w-20 h-20 rounded-3xl flex items-center justify-center",
+            style: { background: "#06b6d415", border: "2px solid #06b6d425" },
+            children: /* @__PURE__ */ jsxRuntimeExports.jsx(FileText, { size: 36, style: { color: "#06b6d4" } })
+          }
+        ),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "space-y-2", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("h2", { className: "text-2xl font-black", style: { color: "#06b6d4" }, children: "SBAR Practice Station" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-sm opacity-50 max-w-md leading-relaxed", children: "Generate a realistic patient case for any medication or disease, fill in the SBAR form, then get detailed AI evaluation of your clinical reasoning." })
+        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "grid grid-cols-3 gap-4 max-w-lg", children: [
+          { icon: "🏥", title: "Case Generator", desc: "AI creates a realistic patient scenario for any topic you choose" },
+          { icon: "📋", title: "Fillable SBAR", desc: "Structured form: Situation, Background, Assessment, Recommendation" },
+          { icon: "🎯", title: "AI Evaluation", desc: "Scored feedback per section with model answers and exam tips" }
+        ].map(({ icon, title, desc }) => /* @__PURE__ */ jsxRuntimeExports.jsxs(
+          "div",
+          {
+            className: "rounded-2xl p-4 text-center space-y-2",
+            style: { background: "var(--card)", border: "1.5px solid #06b6d420" },
+            children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-3xl", children: icon }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-xs font-black", style: { color: "#06b6d4" }, children: title }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-[10px] opacity-40 leading-snug", children: desc })
+            ]
+          },
+          title
+        )) }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs(
+          "button",
+          {
+            onClick: () => setShowNewForm(true),
+            className: "flex items-center gap-2 px-6 py-3 rounded-2xl text-sm font-black text-white",
+            style: { background: "linear-gradient(135deg,#06b6d4,#0891b2)" },
+            children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx(Plus, { size: 15 }),
+              " Start New SBAR Session"
+            ]
+          }
+        )
+      ] })
+    ) : /* @__PURE__ */ jsxRuntimeExports.jsx(
+      OsceCommunicationForm,
+      {
+        topicKey: activeSession.topicKey,
+        category: SBAR_CAT,
+        settings
+      },
+      activeSession.topicKey
+    ) })
+  ] });
+}
 function App() {
   const [loaded, setLoaded] = reactExports.useState(false);
   const [bootError, setBootError] = reactExports.useState(null);
@@ -25442,6 +25651,7 @@ Provide a detailed analysis of this content.`;
     { icon: Activity, label: "Cases", v: "cases" },
     { icon: CheckSquare, label: "Exams", v: "exams" },
     { icon: Globe, label: "Encyclo", v: "encyclopedia" },
+    { icon: FileText, label: "SBAR", v: "sbar" },
     { icon: MessageSquare, label: "Chat", v: "chat" },
     { icon: Settings, label: "Settings", v: "settings" }
   ];
@@ -25690,6 +25900,7 @@ Provide a detailed analysis of this content.`;
             /* @__PURE__ */ jsxRuntimeExports.jsx(ViewWrapper, { active: view === "cases", children: /* @__PURE__ */ jsxRuntimeExports.jsx(CasesView, { cases, setCases, settings, addToast, docs, setFlashcards, setExams }) }),
             /* @__PURE__ */ jsxRuntimeExports.jsx(ViewWrapper, { active: view === "chat", children: /* @__PURE__ */ jsxRuntimeExports.jsx(ChatView, { settings, sessions: chatSessions, setSessions: setChatSessions }) }),
             /* @__PURE__ */ jsxRuntimeExports.jsx(ViewWrapper, { active: view === "encyclopedia", children: /* @__PURE__ */ jsxRuntimeExports.jsx(MedicalEncyclopediaView, { settings }) }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx(ViewWrapper, { active: view === "sbar", children: /* @__PURE__ */ jsxRuntimeExports.jsx(SbarPageView, { settings }) }),
             /* @__PURE__ */ jsxRuntimeExports.jsx(ViewWrapper, { active: view === "settings", children: /* @__PURE__ */ jsxRuntimeExports.jsx(SettingsView, { settings, setSettings, installPrompt, onInstall }) }),
             /* @__PURE__ */ jsxRuntimeExports.jsx(ViewWrapper, { active: showReader, children: activeDoc && /* @__PURE__ */ jsxRuntimeExports.jsx(
               DocWorkspace,

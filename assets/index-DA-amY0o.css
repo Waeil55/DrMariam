@@ -917,6 +917,9 @@ video {
 .min-h-\[36px\] {
   min-height: 36px;
 }
+.min-h-\[500px\] {
+  min-height: 500px;
+}
 .min-h-\[52px\] {
   min-height: 52px;
 }
@@ -1778,6 +1781,10 @@ video {
   padding-top: 1.5rem;
   padding-bottom: 1.5rem;
 }
+.py-8 {
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+}
 .pb-1 {
   padding-bottom: 0.25rem;
 }
@@ -2368,6 +2375,10 @@ body,
 
 .group:hover .group-hover\:opacity-40 {
   opacity: 0.4;
+}
+
+.group:hover .group-hover\:opacity-50 {
+  opacity: 0.5;
 }
 
 .group:hover .group-hover\:opacity-60 {
