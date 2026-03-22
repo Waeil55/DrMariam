@@ -1,5 +1,5 @@
-import { r as reactExports, R as React, L as Loader2, A as AlertCircle, X, S as Search, F as FolderOpen, B as BookMarked, a as Layers, b as Activity, C as CheckSquare, G as Globe, M as MessageSquare, c as Settings, d as Sparkles, e as GripVertical, Z as Zap, D as Database, f as CheckCircle2, I as Info, g as FileText, P as PenLine, h as FileUp, i as Grid3x3, j as List, k as ChevronLeft, l as Printer, m as RefreshCw, n as FilePlus, T as Trash2, E as Eye, o as Target, p as Stethoscope, q as ChevronRight, s as Thermometer, t as ChevronDown, u as Pin, v as Copy, w as Plus, x as BookA, y as Brain, H as History, z as CircleUserRound, J as MicOff, K as Mic, N as Send, O as Pill, Q as Heart, U as GraduationCap, V as Award, W as Clipboard, Y as Star, _ as Network, $ as Leaf, a0 as Flame, a1 as Monitor, a2 as FlaskConical, a3 as BookOpen, a4 as BotMessageSquare, a5 as Smartphone, a6 as Download, a7 as KeyRound, a8 as Palette, a9 as Sun, aa as CloudSun, ab as Moon, ac as MoonStar, ad as PanelsTopLeft, ae as FileCode, af as Image, ag as Table, ah as ZoomOut, ai as Maximize, aj as ZoomIn, ak as Save, al as AlignLeft, am as Lightbulb, an as Baby, ao as Tag, ap as Clock, aq as Languages, ar as Wand2, as as Code, at as ListChecks, au as Hash, av as MoreVertical, aw as Layers3, ax as ChevronUp } from './icons-Diy7D0gj.js';
-import { r as reactDomExports } from './react-DSX0qhKv.js';
+import { r as reactExports, R as React, L as Loader2, A as AlertCircle, X, S as Search, F as FolderOpen, B as BookMarked, a as Layers, b as Activity, C as CheckSquare, G as Globe, M as MessageSquare, c as Settings, d as Sparkles, e as GripVertical, Z as Zap, D as Database, f as CheckCircle2, I as Info, g as FileText, P as PenLine, h as FileUp, i as Grid3x3, j as List, k as ChevronLeft, l as Printer, m as RefreshCw, n as FilePlus, T as Trash2, E as Eye, o as Target, p as Stethoscope, q as ChevronRight, s as Thermometer, t as ChevronDown, u as Pin, v as Copy, w as Plus, x as BookA, y as Pill, H as Heart, z as GraduationCap, J as Award, K as Brain, N as Clipboard, O as Star, Q as Network, U as Leaf, V as Flame, W as Monitor, Y as FlaskConical, _ as BookOpen, $ as History, a0 as RotateCcw, a1 as CircleUserRound, a2 as MicOff, a3 as Mic, a4 as Send, a5 as BotMessageSquare, a6 as Smartphone, a7 as Download, a8 as KeyRound, a9 as Palette, aa as Sun, ab as CloudSun, ac as Moon, ad as MoonStar, ae as PanelsTopLeft, af as FileCode, ag as Image, ah as Table, ai as ZoomOut, aj as Maximize, ak as ZoomIn, al as Save, am as AlignLeft, an as Lightbulb, ao as Baby, ap as Tag, aq as Clock, ar as Languages, as as Wand2, at as Code, au as ListChecks, av as Hash, aw as MoreVertical, ax as Layers3, ay as ChevronUp } from './icons-6CdlYKY6.js';
+import { r as reactDomExports } from './react-DYBYVNG8.js';
 
 true&&(function polyfill() {
   const relList = document.createElement("link").relList;
@@ -22247,6 +22247,10 @@ function ChatView({ settings, sessions, setSessions }) {
   const [showNewTopic, setShowNewTopic] = reactExports.useState(false);
   const [newTopicName, setNewTopicName] = reactExports.useState("");
   const [sidebarTab, setSidebarTab] = reactExports.useState("chats");
+  const [encCat, setEncCat] = reactExports.useState(null);
+  const [encSub, setEncSub] = reactExports.useState(null);
+  const [encContent, setEncContent] = reactExports.useState("");
+  const [encLoading, setEncLoading] = reactExports.useState(false);
   const [inputRows, setInputRows] = reactExports.useState(1);
   const [hasStarted, setHasStarted] = reactExports.useState(false);
   const endRef = reactExports.useRef(null);
@@ -22333,6 +22337,45 @@ function ChatView({ settings, sessions, setSessions }) {
     setTopics((prev) => [...prev, t]);
     setNewTopicName("");
     setShowNewTopic(false);
+  };
+  const openEncycloTopic = (cat, sub) => {
+    setEncCat(cat);
+    setEncSub(sub);
+    setEncContent("");
+    setEncLoading(true);
+    if (window.innerWidth < 1024) setSidebarOpen(false);
+    const prompt = [
+      "You are MARIAM, a world-class medical educator. Generate a COMPREHENSIVE, beautifully structured reference entry.",
+      "",
+      "Topic: " + sub.label,
+      "Category: " + cat.label,
+      "Description: " + sub.desc,
+      "",
+      "STRICT FORMAT REQUIREMENTS — follow every rule below:",
+      "1. Start with a 2-3 sentence bold clinical overview",
+      "2. Use ## headings for every major section",
+      "3. Use Markdown TABLES (| Col | Col |) for: classifications, comparisons, dosing, monitoring — include at LEAST 2 tables",
+      "4. Use bullet points for mechanisms, steps, and lists of facts",
+      "5. For drug comparisons: always use a side-by-side comparison table",
+      "6. Add Clinical Pearl boxes using > blockquote syntax",
+      "7. Use **bold** for all drug names, medical terms, key values, doses",
+      "8. Add emojis (💊 🧬 ⚠️ ✅ 🏥 🔬 📋 💉) as visual section markers",
+      '9. End with a "High-Yield Board Points" section as a numbered list',
+      "",
+      "REQUIRED CONTENT SECTIONS (include all relevant ones):",
+      "- Overview & Classification (with table)",
+      "- Mechanism of Action / Pathophysiology",
+      "- Key Drug/Condition Examples (table: name | class | MOA | indication | dose)",
+      "- Clinical Presentation / Indications",
+      "- Dosing Guidelines (table)",
+      "- Monitoring Parameters & Side Effects (table)",
+      "- Contraindications & Drug Interactions",
+      "- Clinical Pearls (use > blockquotes)",
+      "- High-Yield Board Exam Points",
+      "",
+      "Be exhaustive, clinically accurate, and NAPLEX/USMLE/NCLEX board-exam ready. Generate the complete reference now:"
+    ].join("\n");
+    callAIStreaming(prompt, (chunk) => setEncContent(chunk), settings, 1e4).catch((e) => setEncContent("⚠️ Error loading content: " + e.message)).finally(() => setEncLoading(false));
   };
   const openTopic = (topic) => {
     setHasStarted(true);
@@ -22534,14 +22577,19 @@ function ChatView({ settings, sessions, setSessions }) {
               }
             )
           ] }) }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "flex border-b border-[color:var(--border2,var(--border))] shrink-0 px-2 gap-0.5 pt-0.5", children: [["chats", "Chats", MessageSquare], ["projects", "Projects", FolderOpen], ["topics", "Topics", BookA]].map(([id, lbl, Icon]) => /* @__PURE__ */ jsxRuntimeExports.jsxs(
+          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "grid grid-cols-2 shrink-0 border-b border-[color:var(--border2,var(--border))]", children: [
+            ["chats", "Chats", MessageSquare],
+            ["projects", "Projects", FolderOpen],
+            ["topics", "Topics", BookA],
+            ["encyclo", "Encyclo", Globe]
+          ].map(([id, lbl, Icon], i) => /* @__PURE__ */ jsxRuntimeExports.jsxs(
             "button",
             {
               onClick: () => setSidebarTab(id),
-              className: "flex-1 flex items-center justify-center gap-1 px-1 py-2.5 text-[9px] font-black uppercase tracking-widest border-b-2 transition-colors -mb-px " + (sidebarTab === id ? "border-[var(--accent)] text-[var(--accent)]" : "border-transparent opacity-40 hover:opacity-70"),
+              className: "flex items-center justify-center gap-1.5 py-2.5 text-[10px] font-extrabold uppercase tracking-wide transition-all border-b-2 " + (i % 2 === 0 ? "border-r border-r-[color:var(--border2,var(--border))] " : "") + (sidebarTab === id ? "border-b-[var(--accent)] text-[var(--accent)] bg-[var(--accent)]/5" : "border-b-transparent opacity-45 hover:opacity-75 hover:bg-black/3 dark:hover:bg-white/3"),
               children: [
-                /* @__PURE__ */ jsxRuntimeExports.jsx(Icon, { size: 11 }),
-                lbl
+                /* @__PURE__ */ jsxRuntimeExports.jsx(Icon, { size: 12 }),
+                /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: lbl })
               ]
             },
             id
@@ -22677,6 +22725,73 @@ function ChatView({ settings, sessions, setSessions }) {
               )
             ] }, t.id))
           ] }),
+          sidebarTab === "encyclo" && /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "flex-1 min-h-0 overflow-y-auto custom-scrollbar", children: !encCat ? /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-[9px] font-black uppercase tracking-widest opacity-30 px-4 py-2 pt-3", children: "Browse Categories" }),
+            ENCYCLOPEDIA_CATEGORIES.map((cat) => /* @__PURE__ */ jsxRuntimeExports.jsxs(
+              "button",
+              {
+                onClick: () => setEncCat(cat),
+                className: "w-full flex items-center gap-3 px-4 py-2.5 hover:bg-[var(--accent)]/6 transition-all text-left group",
+                children: [
+                  /* @__PURE__ */ jsxRuntimeExports.jsx(
+                    "div",
+                    {
+                      className: "w-7 h-7 rounded-xl flex items-center justify-center shrink-0 transition-transform group-hover:scale-105",
+                      style: { background: cat.color + "18" },
+                      children: /* @__PURE__ */ jsxRuntimeExports.jsx(cat.icon, { size: 13, style: { color: cat.color } })
+                    }
+                  ),
+                  /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex-1 min-w-0", children: [
+                    /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-xs font-bold truncate", children: cat.label }),
+                    /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { className: "text-[9px] opacity-40", children: [
+                      cat.subcategories.length,
+                      " topics"
+                    ] })
+                  ] }),
+                  /* @__PURE__ */ jsxRuntimeExports.jsx(ChevronRight, { size: 11, className: "opacity-25 shrink-0" })
+                ]
+              },
+              cat.id
+            ))
+          ] }) : !encSub ? /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center gap-2 px-3 py-2 border-b border-[color:var(--border2,var(--border))] mb-1 sticky top-0", style: { background: "var(--bg)" }, children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx("button", { onClick: () => setEncCat(null), className: "p-1 rounded-lg hover:bg-black/8 dark:hover:bg-white/8 opacity-60 hover:opacity-100 transition-colors", children: /* @__PURE__ */ jsxRuntimeExports.jsx(ChevronLeft, { size: 14 }) }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx(encCat.icon, { size: 12, style: { color: encCat.color } }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-xs font-black truncate flex-1", style: { color: encCat.color }, children: encCat.label })
+            ] }),
+            encCat.subcategories.map((sub) => /* @__PURE__ */ jsxRuntimeExports.jsxs(
+              "button",
+              {
+                onClick: () => openEncycloTopic(encCat, sub),
+                className: "w-full flex items-center gap-2.5 px-4 py-2.5 hover:bg-[var(--accent)]/6 transition-all text-left group",
+                children: [
+                  /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "w-1.5 h-1.5 rounded-full shrink-0", style: { backgroundColor: encCat.color + "99" } }),
+                  /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex-1 min-w-0", children: [
+                    /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-xs font-semibold truncate", children: sub.label }),
+                    /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-[9px] opacity-35 truncate", children: sub.desc })
+                  ] })
+                ]
+              },
+              sub.id
+            ))
+          ] }) : /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center gap-2 px-3 py-2 border-b border-[color:var(--border2,var(--border))] mb-1 sticky top-0", style: { background: "var(--bg)" }, children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx("button", { onClick: () => setEncSub(null), className: "p-1 rounded-lg hover:bg-black/8 dark:hover:bg-white/8 opacity-60 hover:opacity-100 transition-colors", children: /* @__PURE__ */ jsxRuntimeExports.jsx(ChevronLeft, { size: 14 }) }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-[10px] font-black truncate flex-1", children: encCat.label })
+            ] }),
+            encCat.subcategories.map((sub) => /* @__PURE__ */ jsxRuntimeExports.jsxs(
+              "button",
+              {
+                onClick: () => openEncycloTopic(encCat, sub),
+                className: "w-full flex items-center gap-2 px-4 py-2.5 text-left transition-all " + (encSub.id === sub.id ? "bg-[var(--accent)]/10 text-[var(--accent)]" : "hover:bg-[var(--accent)]/5 opacity-55 hover:opacity-90"),
+                children: [
+                  encSub.id === sub.id && /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "w-1.5 h-1.5 rounded-full bg-[var(--accent)] shrink-0" }),
+                  /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-xs truncate " + (encSub.id === sub.id ? "font-black" : "font-semibold"), children: sub.label })
+                ]
+              },
+              sub.id
+            ))
+          ] }) }),
           /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "shrink-0 px-4 py-2.5 border-t border-[color:var(--border2,var(--border))]", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { className: "text-[10px] opacity-30 font-bold flex items-center gap-1.5", children: [
             /* @__PURE__ */ jsxRuntimeExports.jsx(Brain, { size: 11 }),
             sessions.length,
@@ -22713,7 +22828,106 @@ function ChatView({ settings, sessions, setSessions }) {
           ] })
         ] })
       ] }),
-      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "flex-1 min-h-0 overflow-y-auto custom-scrollbar", ref: scrollRef, children: !hasStarted ? /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex flex-col items-center justify-center min-h-full p-6 gap-7 max-w-2xl mx-auto", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "flex-1 min-h-0 overflow-y-auto custom-scrollbar", ref: scrollRef, children: sidebarTab === "encyclo" && (encSub || encLoading) ? (
+        /* ── ENCYCLOPEDIA CONTENT VIEW ── */
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex flex-col h-full", children: [
+          encCat && encSub && /* @__PURE__ */ jsxRuntimeExports.jsx(
+            "div",
+            {
+              className: "shrink-0 px-5 pt-5 pb-4 border-b border-[color:var(--border2,var(--border))]",
+              style: { background: "linear-gradient(135deg, " + encCat.color + "08 0%, transparent 100%)" },
+              children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-start gap-3", children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsx(
+                  "div",
+                  {
+                    className: "w-11 h-11 rounded-2xl flex items-center justify-center shrink-0 shadow-sm",
+                    style: { background: encCat.color + "20" },
+                    children: /* @__PURE__ */ jsxRuntimeExports.jsx(encCat.icon, { size: 22, style: { color: encCat.color } })
+                  }
+                ),
+                /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex-1 min-w-0", children: [
+                  /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-[9px] font-black uppercase tracking-widest opacity-40 mb-0.5", children: encCat.label }),
+                  /* @__PURE__ */ jsxRuntimeExports.jsx("h2", { className: "text-lg font-black leading-tight", children: encSub.label }),
+                  /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-xs opacity-45 mt-0.5", children: encSub.desc })
+                ] }),
+                /* @__PURE__ */ jsxRuntimeExports.jsx(
+                  "button",
+                  {
+                    onClick: () => openEncycloTopic(encCat, encSub),
+                    className: "shrink-0 p-2 rounded-xl hover:bg-black/8 dark:hover:bg-white/8 opacity-50 hover:opacity-100 transition-colors",
+                    title: "Regenerate",
+                    children: /* @__PURE__ */ jsxRuntimeExports.jsx(RotateCcw, { size: 14 })
+                  }
+                )
+              ] })
+            }
+          ),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex-1 min-h-0 overflow-y-auto custom-scrollbar px-5 py-4", children: [
+            encLoading && !encContent && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex flex-col items-center gap-4 py-16 opacity-50", children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "w-8 h-8 border-2 border-[var(--accent)] border-t-transparent rounded-full animate-spin" }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-sm font-bold", children: "Generating comprehensive reference…" }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-xs opacity-60", children: "This may take a moment" })
+            ] }),
+            encContent && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "text-sm leading-relaxed prose-like", children: [
+              renderMarkdown(encContent),
+              encLoading && /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "inline-block w-1.5 h-4 bg-[var(--accent)] opacity-70 animate-pulse ml-0.5 rounded-sm align-middle" })
+            ] })
+          ] }),
+          encSub && /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "shrink-0 px-4 pb-4 pt-2 border-t border-[color:var(--border2,var(--border))]", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "glass rounded-2xl border border-[color:var(--border2,var(--border))] focus-within:border-[var(--accent)]/50 transition-colors", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx(
+              "textarea",
+              {
+                placeholder: "Ask a follow-up about " + encSub.label + "…",
+                rows: 2,
+                className: "w-full bg-transparent px-4 pt-3 pb-1.5 text-sm outline-none resize-none text-[var(--text)]",
+                onKeyDown: (e) => {
+                  if (e.key === "Enter" && !e.shiftKey) {
+                    e.preventDefault();
+                    const q = e.target.value.trim();
+                    if (!q) return;
+                    e.target.value = "";
+                    setSidebarTab("chats");
+                    setTimeout(() => send("[ENCYCLO: " + encSub.label + "] " + q), 50);
+                  }
+                }
+              }
+            ),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-[10px] opacity-30 px-4 pb-2.5 font-medium", children: "Enter to ask in Chat  ·  Shift+Enter for new line" })
+          ] }) })
+        ] })
+      ) : sidebarTab === "encyclo" ? (
+        /* ── ENCYCLOPEDIA HOME ── */
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "p-5 space-y-6 max-w-2xl mx-auto", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "text-center py-8", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "text-5xl mb-4", children: "🌍" }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("h2", { className: "text-2xl font-black", children: "Medical Encyclopedia" }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-sm opacity-45 mt-2 max-w-sm mx-auto", children: "Browse hundreds of topics across Pharmacy, Medicine, Nursing, and more — with AI-generated rich references" })
+          ] }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "grid grid-cols-2 sm:grid-cols-3 gap-3", children: ENCYCLOPEDIA_CATEGORIES.map((cat) => /* @__PURE__ */ jsxRuntimeExports.jsxs(
+            "button",
+            {
+              onClick: () => setEncCat(cat),
+              className: "flex flex-col items-center gap-2.5 p-4 rounded-2xl border border-[color:var(--border2,var(--border))] hover:border-[var(--accent)]/30 hover:bg-[var(--accent)]/4 transition-all group text-center",
+              children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsx(
+                  "div",
+                  {
+                    className: "w-11 h-11 rounded-2xl flex items-center justify-center transition-transform group-hover:scale-110",
+                    style: { background: cat.color + "18" },
+                    children: /* @__PURE__ */ jsxRuntimeExports.jsx(cat.icon, { size: 22, style: { color: cat.color } })
+                  }
+                ),
+                /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-[11px] font-black leading-snug", children: cat.label }),
+                /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { className: "text-[9px] opacity-40", children: [
+                  cat.subcategories.length,
+                  " topics"
+                ] })
+              ]
+            },
+            cat.id
+          )) })
+        ] })
+      ) : !hasStarted ? /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex flex-col items-center justify-center min-h-full p-6 gap-7 max-w-2xl mx-auto", children: [
         /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "text-center space-y-3", children: [
           /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "relative inline-block", children: [
             /* @__PURE__ */ jsxRuntimeExports.jsx("img", { src: MARIAM_IMG, className: "w-20 h-20 rounded-2xl object-cover shadow-2xl border-2 border-[color:var(--border2,var(--border))]", alt: "MARIAM" }),
