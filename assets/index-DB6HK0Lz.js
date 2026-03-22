@@ -1,5 +1,5 @@
-import { r as reactExports, R as React, L as Loader2, A as AlertCircle, X, S as Search, F as FolderOpen, B as BookMarked, a as Layers, b as Activity, C as CheckSquare, G as Globe, M as MessageSquare, c as Settings, d as Sparkles, e as GripVertical, Z as Zap, D as Database, f as CheckCircle2, I as Info, g as FileText, P as PenLine, h as FileUp, i as Grid3x3, j as List, k as ChevronLeft, l as Printer, m as RefreshCw, n as FilePlus, T as Trash2, E as Eye, o as Target, p as Stethoscope, q as ChevronRight, s as Thermometer, t as ChevronDown, u as Pin, v as Copy, w as Plus, x as Brain, H as History, y as CircleUserRound, z as MicOff, J as Mic, K as Send, N as Pill, O as Heart, Q as GraduationCap, U as Award, V as Clipboard, W as Star, Y as Network, _ as Leaf, $ as Flame, a0 as Monitor, a1 as FlaskConical, a2 as BookA, a3 as BookOpen, a4 as BotMessageSquare, a5 as Smartphone, a6 as Download, a7 as KeyRound, a8 as Palette, a9 as Sun, aa as CloudSun, ab as Moon, ac as MoonStar, ad as PanelsTopLeft, ae as FileCode, af as Image, ag as Table, ah as ZoomOut, ai as Maximize, aj as ZoomIn, ak as Save, al as AlignLeft, am as Lightbulb, an as Baby, ao as Tag, ap as Clock, aq as Languages, ar as Wand2, as as Code, at as ListChecks, au as Hash, av as MoreVertical, aw as Layers3, ax as ChevronUp } from './icons-CwPTqmbQ.js';
-import { r as reactDomExports } from './react-B1AwND7L.js';
+import { r as reactExports, R as React, L as Loader2, A as AlertCircle, X, S as Search, F as FolderOpen, B as BookMarked, a as Layers, b as Activity, C as CheckSquare, G as Globe, M as MessageSquare, c as Settings, d as Sparkles, e as GripVertical, Z as Zap, D as Database, f as CheckCircle2, I as Info, g as FileText, P as PenLine, h as FileUp, i as Grid3x3, j as List, k as ChevronLeft, l as Printer, m as RefreshCw, n as FilePlus, T as Trash2, E as Eye, o as Target, p as Stethoscope, q as ChevronRight, s as Thermometer, t as ChevronDown, u as Pin, v as Copy, w as Plus, x as BookA, y as Brain, H as History, z as CircleUserRound, J as MicOff, K as Mic, N as Send, O as Pill, Q as Heart, U as GraduationCap, V as Award, W as Clipboard, Y as Star, _ as Network, $ as Leaf, a0 as Flame, a1 as Monitor, a2 as FlaskConical, a3 as BookOpen, a4 as BotMessageSquare, a5 as Smartphone, a6 as Download, a7 as KeyRound, a8 as Palette, a9 as Sun, aa as CloudSun, ab as Moon, ac as MoonStar, ad as PanelsTopLeft, ae as FileCode, af as Image, ag as Table, ah as ZoomOut, ai as Maximize, aj as ZoomIn, ak as Save, al as AlignLeft, am as Lightbulb, an as Baby, ao as Tag, ap as Clock, aq as Languages, ar as Wand2, as as Code, at as ListChecks, au as Hash, av as MoreVertical, aw as Layers3, ax as ChevronUp } from './icons-Diy7D0gj.js';
+import { r as reactDomExports } from './react-DSX0qhKv.js';
 
 true&&(function polyfill() {
   const relList = document.createElement("link").relList;
@@ -18302,51 +18302,102 @@ const renderMdInline = (text) => {
 };
 const renderMarkdown = (text) => {
   if (!text) return null;
-  const lines = text.split("\n");
+  const lines = text.replace(/\r\n/g, "\n").split("\n");
   const out = [];
   let listItems = [];
+  let tableRows = [];
+  let inCode = false;
+  let codeLines = [];
   const flushList = () => {
     if (!listItems.length) return;
-    out.push(/* @__PURE__ */ jsxRuntimeExports.jsx("ul", { style: { paddingLeft: 18, margin: "4px 0", listStyle: "disc" }, children: listItems.splice(0) }, `ul${out.length}`));
+    out.push(/* @__PURE__ */ jsxRuntimeExports.jsx("ul", { style: { paddingLeft: 18, margin: "4px 0", listStyle: "disc" }, children: listItems.splice(0) }, "ul" + out.length));
+  };
+  const flushTable = () => {
+    if (!tableRows.length) return;
+    const rows = tableRows.splice(0).filter((row) => !row.every((c) => /^[-: ]+$/.test(c)));
+    if (!rows.length) return;
+    const [headerCols, ...bodyRows] = rows;
+    out.push(
+      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { style: { overflowX: "auto", margin: "12px 0", borderRadius: 12, border: "1px solid rgba(99,102,241,0.18)" }, children: /* @__PURE__ */ jsxRuntimeExports.jsxs("table", { style: { width: "100%", borderCollapse: "collapse", fontSize: "0.85em", tableLayout: "auto", minWidth: 300 }, children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("thead", { children: /* @__PURE__ */ jsxRuntimeExports.jsx("tr", { children: headerCols.map(
+          (c, i) => /* @__PURE__ */ jsxRuntimeExports.jsx("th", { style: { background: "rgba(99,102,241,0.08)", padding: "8px 12px", textAlign: "left", fontWeight: 800, fontSize: "0.8em", color: "var(--accent)", whiteSpace: "nowrap", borderBottom: "1.5px solid rgba(99,102,241,0.2)" }, children: renderMdInline(c.trim()) }, i)
+        ) }) }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("tbody", { children: bodyRows.map(
+          (row, ri) => /* @__PURE__ */ jsxRuntimeExports.jsx("tr", { style: { background: ri % 2 === 0 ? "transparent" : "rgba(99,102,241,0.03)", borderBottom: "1px solid rgba(99,102,241,0.08)" }, children: row.map(
+            (c, ci) => /* @__PURE__ */ jsxRuntimeExports.jsx("td", { style: { padding: "7px 12px", lineHeight: 1.5, verticalAlign: "top", borderRight: ci < row.length - 1 ? "1px solid rgba(99,102,241,0.08)" : "none" }, children: renderMdInline(c.trim()) }, ci)
+          ) }, ri)
+        ) })
+      ] }) }, "tbl" + out.length)
+    );
   };
   lines.forEach((line, idx) => {
+    if (/^```/.test(line)) {
+      if (!inCode) {
+        flushList();
+        flushTable();
+        inCode = true;
+        codeLines = [];
+      } else {
+        inCode = false;
+        out.push(/* @__PURE__ */ jsxRuntimeExports.jsx("pre", { style: { background: "rgba(0,0,0,0.08)", borderRadius: 10, padding: "10px 14px", overflowX: "auto", margin: "8px 0", fontSize: "0.82em", fontFamily: "ui-monospace,Menlo,monospace", lineHeight: 1.55 }, children: /* @__PURE__ */ jsxRuntimeExports.jsx("code", { children: codeLines.join("\n") }) }, "code" + idx));
+        codeLines = [];
+      }
+      return;
+    }
+    if (inCode) {
+      codeLines.push(line);
+      return;
+    }
+    const tl = line.trim();
+    if (tl.startsWith("|") && tl.endsWith("|")) {
+      flushList();
+      tableRows.push(tl.split("|").slice(1, -1));
+      return;
+    } else if (tableRows.length) flushTable();
+    const bq = line.match(/^> ?(.*)/);
+    if (bq) {
+      flushList();
+      out.push(/* @__PURE__ */ jsxRuntimeExports.jsx("div", { style: { borderLeft: "3px solid var(--accent)", paddingLeft: 12, margin: "4px 0", opacity: 0.8, fontStyle: "italic" }, children: renderMdInline(bq[1]) }, idx));
+      return;
+    }
     const h3 = line.match(/^### (.+)$/);
     if (h3) {
       flushList();
-      out.push(/* @__PURE__ */ jsxRuntimeExports.jsx("p", { style: { fontWeight: 800, margin: "10px 0 2px" }, children: renderMdInline(h3[1]) }, idx));
+      out.push(/* @__PURE__ */ jsxRuntimeExports.jsx("p", { style: { fontWeight: 800, margin: "12px 0 3px", fontSize: "1.0em" }, children: renderMdInline(h3[1]) }, idx));
       return;
     }
     const h2 = line.match(/^## (.+)$/);
     if (h2) {
       flushList();
-      out.push(/* @__PURE__ */ jsxRuntimeExports.jsx("p", { style: { fontWeight: 800, fontSize: "1.05em", margin: "10px 0 3px" }, children: renderMdInline(h2[1]) }, idx));
+      out.push(/* @__PURE__ */ jsxRuntimeExports.jsx("p", { style: { fontWeight: 900, fontSize: "1.06em", margin: "14px 0 4px", borderBottom: "1px solid rgba(99,102,241,0.12)", paddingBottom: 3 }, children: renderMdInline(h2[1]) }, idx));
       return;
     }
     const h1 = line.match(/^# (.+)$/);
     if (h1) {
       flushList();
-      out.push(/* @__PURE__ */ jsxRuntimeExports.jsx("p", { style: { fontWeight: 900, fontSize: "1.1em", margin: "12px 0 4px" }, children: renderMdInline(h1[1]) }, idx));
+      out.push(/* @__PURE__ */ jsxRuntimeExports.jsx("p", { style: { fontWeight: 900, fontSize: "1.15em", margin: "16px 0 5px" }, children: renderMdInline(h1[1]) }, idx));
       return;
     }
-    const li = line.match(/^\s*[-*•+] (.+)$/) || line.match(/^\s*\d+\.\s+(.+)$/);
+    const li = line.match(/^\s*[-*+] (.+)$/) || line.match(/^\s*\d+\.\s+(.+)$/);
     if (li) {
-      listItems.push(/* @__PURE__ */ jsxRuntimeExports.jsx("li", { style: { marginBottom: 2, lineHeight: 1.5 }, children: renderMdInline(li[1]) }, idx));
+      listItems.push(/* @__PURE__ */ jsxRuntimeExports.jsx("li", { style: { marginBottom: 3, lineHeight: 1.55 }, children: renderMdInline(li[1]) }, idx));
       return;
     }
-    if (/^---+$/.test(line.trim())) {
+    if (/^---+$/.test(tl)) {
       flushList();
-      out.push(/* @__PURE__ */ jsxRuntimeExports.jsx("hr", { style: { border: "none", borderTop: "1px solid rgba(0,0,0,0.15)", margin: "8px 0" } }, idx));
+      out.push(/* @__PURE__ */ jsxRuntimeExports.jsx("hr", { style: { border: "none", borderTop: "1px solid rgba(99,102,241,0.15)", margin: "10px 0" } }, idx));
       return;
     }
-    if (!line.trim()) {
+    if (!tl) {
       flushList();
       if (out.length) out.push(/* @__PURE__ */ jsxRuntimeExports.jsx("div", { style: { height: 6 } }, idx));
       return;
     }
     flushList();
-    out.push(/* @__PURE__ */ jsxRuntimeExports.jsx("div", { style: { lineHeight: 1.6 }, children: renderMdInline(line) }, idx));
+    out.push(/* @__PURE__ */ jsxRuntimeExports.jsx("div", { style: { lineHeight: 1.65 }, children: renderMdInline(line) }, idx));
   });
   flushList();
+  flushTable();
   return /* @__PURE__ */ jsxRuntimeExports.jsx(jsxRuntimeExports.Fragment, { children: out });
 };
 const callAIStreaming = async (prompt, onChunk, settings = {}, maxTokens = 4e3) => {
@@ -22188,32 +22239,34 @@ function ChatView({ settings, sessions, setSessions }) {
   const [pinnedIds, setPinnedIds] = reactExports.useState([]);
   const [contextMenu, setContextMenu] = reactExports.useState(null);
   const [projects, setProjects] = reactExports.useState([]);
+  const [topics, setTopics] = reactExports.useState([]);
   const [selProject, setSelProject] = reactExports.useState(null);
   const [showNewProject, setShowNewProject] = reactExports.useState(false);
   const [newProjectName, setNewProjectName] = reactExports.useState("");
   const [newProjectInstructions, setNewProjectInstructions] = reactExports.useState("");
+  const [showNewTopic, setShowNewTopic] = reactExports.useState(false);
+  const [newTopicName, setNewTopicName] = reactExports.useState("");
   const [sidebarTab, setSidebarTab] = reactExports.useState("chats");
   const [inputRows, setInputRows] = reactExports.useState(1);
   const [hasStarted, setHasStarted] = reactExports.useState(false);
   const endRef = reactExports.useRef(null);
   const recogRef = reactExports.useRef(null);
   const inputRef = reactExports.useRef(null);
-  const scrollContainerRef = reactExports.useRef(null);
+  const scrollRef = reactExports.useRef(null);
   reactExports.useEffect(() => {
-    const el = scrollContainerRef.current;
-    if (el) el.scrollTop = el.scrollHeight;
+    if (scrollRef.current) scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
   }, [msgs, loading]);
   const STARTERS = [
-    { icon: "🧬", text: "Explain a complex topic" },
-    { icon: "📋", text: "Create a study plan" },
-    { icon: "❓", text: "Quiz me on key concepts" },
-    { icon: "🔍", text: "Compare and contrast" },
-    { icon: "📝", text: "Summarize main points" },
-    { icon: "💡", text: "Give me clinical pearls" }
+    { icon: "🧬", text: "Explain a complex pharmacology concept" },
+    { icon: "📋", text: "Create a study plan for my exam" },
+    { icon: "❓", text: "Quiz me on controlled substances law" },
+    { icon: "🔍", text: "Compare drug mechanisms of action" },
+    { icon: "🏥", text: "Walk me through a clinical case" },
+    { icon: "💊", text: "Explain drug interactions for warfarin" }
   ];
   const toggleVoice = () => {
     if (listening) {
-      recogRef.current?.stop();
+      recogRef.current && recogRef.current.stop();
       setListening(false);
       return;
     }
@@ -22225,35 +22278,33 @@ function ChatView({ settings, sessions, setSessions }) {
     const r = new SR();
     r.continuous = false;
     r.interimResults = true;
-    r.onresult = (e) => {
-      setInput(Array.from(e.results).map((r2) => r2[0].transcript).join(""));
-    };
+    r.onresult = (e) => setInput(Array.from(e.results).map((r2) => r2[0].transcript).join(""));
     r.onend = () => setListening(false);
     r.onerror = () => setListening(false);
     r.start();
     recogRef.current = r;
     setListening(true);
   };
-  const newSession = () => {
+  const newChat = () => {
     setSelSess(null);
     setMsgs([]);
     setHasStarted(false);
-    inputRef.current?.focus();
+    setTimeout(() => inputRef.current && inputRef.current.focus(), 50);
   };
-  const saveSession = reactExports.useCallback((ms, id) => {
+  const saveSession = (ms, id) => {
     if (!ms.filter((m) => m.role === "user").length) return;
     const sessId = id || selSess || Date.now().toString();
-    const title = ms.find((m) => m.role === "user")?.content?.slice(0, 50) || "New Chat";
+    const title = (ms.find((m) => m.role === "user") || {}).content.slice(0, 60) || "New Chat";
     const sess = { id: sessId, title, messages: ms, updatedAt: (/* @__PURE__ */ new Date()).toISOString(), msgCount: ms.filter((m) => m.role === "user").length, projectId: selProject || null };
     setSessions((p) => {
       const ex = p.findIndex((s) => s.id === sessId);
       return ex >= 0 ? [...p.slice(0, ex), sess, ...p.slice(ex + 1)] : [sess, ...p];
     });
     setSelSess(sessId);
-  }, [selSess, setSessions, selProject]);
-  const loadSession = (sess) => {
-    setSelSess(sess.id);
-    setMsgs(sess.messages || []);
+  };
+  const loadSession = (s) => {
+    setSelSess(s.id);
+    setMsgs(s.messages || []);
     setHasStarted(true);
     if (window.innerWidth < 1024) setSidebarOpen(false);
   };
@@ -22263,65 +22314,86 @@ function ChatView({ settings, sessions, setSessions }) {
     if (selSess === id) {
       setSelSess(null);
       setMsgs([]);
+      setHasStarted(false);
     }
-    setContextMenu(null);
-  };
-  const copySession = (id) => {
-    const sess = sessions.find((s) => s.id === id);
-    if (!sess) return;
-    const text = sess.messages.map((m) => `${m.role === "user" ? "You" : "MARIAM"}: ${m.content}`).join("\n\n");
-    navigator.clipboard?.writeText(text);
     setContextMenu(null);
   };
   const createProject = () => {
     if (!newProjectName.trim()) return;
-    const p = { id: Date.now().toString(), name: newProjectName.trim(), instructions: newProjectInstructions.trim(), color: ["#6366f1", "#8b5cf6", "#3b82f6", "#10b981", "#f59e0b", "#ef4444"][Math.floor(Math.random() * 6)], createdAt: (/* @__PURE__ */ new Date()).toISOString() };
+    const colors = ["#6366f1", "#8b5cf6", "#3b82f6", "#10b981", "#f59e0b", "#ef4444"];
+    const p = { id: Date.now().toString(), name: newProjectName.trim(), instructions: newProjectInstructions.trim(), color: colors[Math.floor(Math.random() * colors.length)], createdAt: (/* @__PURE__ */ new Date()).toISOString() };
     setProjects((prev) => [...prev, p]);
     setNewProjectName("");
     setNewProjectInstructions("");
     setShowNewProject(false);
   };
+  const createTopic = () => {
+    if (!newTopicName.trim()) return;
+    const t = { id: Date.now().toString(), name: newTopicName.trim(), createdAt: (/* @__PURE__ */ new Date()).toISOString() };
+    setTopics((prev) => [...prev, t]);
+    setNewTopicName("");
+    setShowNewTopic(false);
+  };
+  const openTopic = (topic) => {
+    setHasStarted(true);
+    setMsgs([]);
+    setSelSess(null);
+    if (window.innerWidth < 1024) setSidebarOpen(false);
+    const hiddenPrompt = [
+      'You are MARIAM, an expert medical educator. The student wants a comprehensive deep-dive lesson on: "' + topic.name + '".',
+      "",
+      "Produce an outstanding, textbook-quality teaching response structured as a complete lesson:",
+      "- Use ## headings for major sections",
+      "- Use **bold** for key terms, drug names, and concepts",
+      "- Use Markdown tables to compare mechanisms, classifications, or data",
+      "- Use bullet points and numbered lists for key facts",
+      "- Add clinical pearls with emojis",
+      "- Include mnemonics or memory aids where useful",
+      "",
+      "Cover: Overview, Mechanism of Action, Classification (with table), Clinical Uses, Dosing (table), Pharmacokinetics, Side Effects, Contraindications, Drug Interactions, Monitoring, Clinical Pearls.",
+      "",
+      "Be thorough, accurate, richly formatted, and immediately useful for pharmacy/medical students."
+    ].join("\n");
+    const userMsg = "Teach me everything about: " + topic.name;
+    const sessId = Date.now().toString();
+    setSelSess(sessId);
+    const initMsgs = [
+      { role: "user", content: userMsg, timestamp: Date.now() },
+      { role: "assistant", content: "", timestamp: Date.now() }
+    ];
+    setMsgs(initMsgs);
+    setLoading(true);
+    callAIStreaming(hiddenPrompt + "\n\nUSER: " + userMsg + "\n\nMARIAM:", (chunk) => {
+      setMsgs((p) => [...p.slice(0, -1), { role: "assistant", content: chunk, timestamp: Date.now() }]);
+    }, settings, 8e3).catch((e) => setMsgs((p) => [...p.slice(0, -1), { role: "assistant", content: "⚠️ " + e.message }])).finally(() => setLoading(false));
+  };
   const send = async (overrideMsg) => {
-    const msg = overrideMsg || input;
-    if (!msg.trim() || loading) return;
+    const msg = (overrideMsg || input).trim();
+    if (!msg || loading) return;
     setInput("");
     setInputRows(1);
     setHasStarted(true);
     const sessId = selSess || Date.now().toString();
     if (!selSess) setSelSess(sessId);
-    const newMsgs = [...msgs, { role: "user", content: msg, timestamp: Date.now() }, { role: "assistant", content: "", timestamp: Date.now() }];
+    const proj = selProject ? projects.find((p) => p.id === selProject) : null;
+    const projCtx = proj ? "\n\nProject: " + proj.name + (proj.instructions ? "\nInstructions: " + proj.instructions : "") : "";
+    const sysPrompt = "You are MARIAM, a brilliant AI study assistant specialized in medicine and pharmacy. Format responses with **bold** for key terms, ## headings for long answers, bullet points, and tables when comparing items." + projCtx;
+    const newMsgs = [
+      ...msgs,
+      { role: "user", content: msg, timestamp: Date.now() },
+      { role: "assistant", content: "", timestamp: Date.now() }
+    ];
     setMsgs(newMsgs);
     setLoading(true);
     try {
-      const hist = newMsgs.slice(-12, -1).map((m) => `${m.role === "user" ? "USER" : "MARIAM"}: ${m.content}`).join("\n");
-      const proj = selProject ? projects.find((p) => p.id === selProject) : null;
-      const projCtx = proj ? `
-
-Project: ${proj.name}${proj.instructions ? `
-Project instructions: ${proj.instructions}` : ""}` : "";
-      const sysPrompt = `You are MARIAM, a brilliant, warm, and knowledgeable AI study assistant specialized in medicine and academia. You help students understand complex topics, create study materials, explain clinical concepts, and achieve their academic goals.${projCtx}
-
-Formatting rules:
-- Use **bold** for key terms and important concepts
-- Use bullet points and numbered lists when listing items
-- Use headers (##) for major sections in long responses
-- Be thorough but organized — students need to be able to study from your answers
-- Always cite clinical evidence when relevant`;
-      const prompt = `${sysPrompt}
-
-Conversation:
-${hist}
-
-USER: ${msg}
-
-MARIAM:`;
+      const hist = newMsgs.slice(-13, -1).map((m) => (m.role === "user" ? "USER" : "MARIAM") + ": " + m.content).join("\n");
+      const prompt = sysPrompt + "\n\nConversation:\n" + hist + "\n\nUSER: " + msg + "\n\nMARIAM:";
       await callAIStreaming(prompt, (chunk) => {
         setMsgs((p) => [...p.slice(0, -1), { role: "assistant", content: chunk, timestamp: Date.now() }]);
       }, settings, 6e3);
-      const finalMsgs = [...newMsgs.slice(0, -1), { ...newMsgs[newMsgs.length - 1] }];
-      setTimeout(() => saveSession(finalMsgs, sessId), 300);
+      setTimeout(() => saveSession(newMsgs, sessId), 400);
     } catch (e) {
-      setMsgs((p) => [...p.slice(0, -1), { role: "assistant", content: `⚠️ ${e.message}` }]);
+      setMsgs((p) => [...p.slice(0, -1), { role: "assistant", content: "⚠️ " + e.message }]);
     } finally {
       setLoading(false);
     }
@@ -22330,61 +22402,67 @@ MARIAM:`;
     let s = [...sessions];
     if (sidebarTab === "projects" && selProject) s = s.filter((x) => x.projectId === selProject);
     const q = sessSearch.toLowerCase();
-    if (q) s = s.filter((x) => x.title.toLowerCase().includes(q) || x.messages?.some((m) => m.content?.toLowerCase().includes(q)));
-    return s;
+    if (q) s = s.filter((x) => x.title.toLowerCase().includes(q));
+    return s.sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt));
   }, [sessions, sessSearch, sidebarTab, selProject]);
   const pinned = filteredSessions.filter((s) => pinnedIds.includes(s.id));
-  const unpinned = filteredSessions.filter((s) => !pinnedIds.includes(s.id)).sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt));
+  const unpinned = filteredSessions.filter((s) => !pinnedIds.includes(s.id));
   const groupByDate = (items) => {
-    const today = /* @__PURE__ */ new Date();
-    today.setHours(0, 0, 0, 0);
-    const yesterday = new Date(today);
-    yesterday.setDate(yesterday.getDate() - 1);
-    const week = new Date(today);
+    const now = /* @__PURE__ */ new Date();
+    now.setHours(0, 0, 0, 0);
+    const yest = new Date(now);
+    yest.setDate(yest.getDate() - 1);
+    const week = new Date(now);
     week.setDate(week.getDate() - 7);
-    const groups = { Today: [], Yesterday: [], "Last 7 Days": [], "Older": [] };
+    const g = { Today: [], Yesterday: [], "Last 7 Days": [], Older: [] };
     items.forEach((s) => {
       const d = new Date(s.updatedAt);
-      if (d >= today) groups.Today.push(s);
-      else if (d >= yesterday) groups.Yesterday.push(s);
-      else if (d >= week) groups["Last 7 Days"].push(s);
-      else groups.Older.push(s);
+      if (d >= now) g.Today.push(s);
+      else if (d >= yest) g.Yesterday.push(s);
+      else if (d >= week) g["Last 7 Days"].push(s);
+      else g.Older.push(s);
     });
-    return groups;
+    return g;
   };
   const grouped = groupByDate(unpinned);
-  const SessionItem = ({ s }) => /* @__PURE__ */ jsxRuntimeExports.jsxs(
+  const SessItem = ({ s }) => /* @__PURE__ */ jsxRuntimeExports.jsxs(
     "button",
     {
-      className: `w-full flex items-start gap-2.5 px-3 py-2 rounded-xl text-left transition-all group relative ${selSess === s.id ? "bg-[var(--accent)]/10 border border-[var(--accent)]/20" : "hover:bg-black/5 dark:hover:bg-white/5 border border-transparent"}`,
+      className: "w-full flex items-start gap-2.5 px-3 py-2.5 rounded-xl text-left transition-all group relative " + (selSess === s.id ? "bg-[var(--accent)]/10 border border-[var(--accent)]/25" : "hover:bg-black/5 dark:hover:bg-white/5 border border-transparent"),
       onClick: () => loadSession(s),
       children: [
-        s.projectId && /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "w-2 h-2 rounded-full mt-1.5 shrink-0", style: { backgroundColor: projects.find((p) => p.id === s.projectId)?.color || "#6366f1" } }),
+        s.projectId && /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "w-1.5 h-1.5 rounded-full mt-2.5 shrink-0", style: { backgroundColor: (projects.find((p) => p.id === s.projectId) || {}).color || "#6366f1" } }),
         /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex-1 min-w-0", children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: `text-sm truncate font-medium ${selSess === s.id ? "text-[var(--accent)] font-bold" : ""}`, children: s.title }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-xs opacity-40 mt-0.5", children: new Date(s.updatedAt).toLocaleDateString("en-US", { month: "short", day: "numeric" }) })
+          /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-sm truncate font-semibold " + (selSess === s.id ? "text-[var(--accent)]" : ""), children: s.title }),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { className: "text-[10px] opacity-35 mt-0.5", children: [
+            new Date(s.updatedAt).toLocaleDateString("en-US", { month: "short", day: "numeric" }),
+            " · ",
+            s.msgCount || 0,
+            " msgs"
+          ] })
         ] }),
         /* @__PURE__ */ jsxRuntimeExports.jsx(
           "button",
           {
-            className: "opacity-0 group-hover:opacity-60 hover:!opacity-100 shrink-0 p-1 rounded-lg hover:bg-black/10 dark:hover:bg-white/10",
+            className: "opacity-0 group-hover:opacity-60 hover:!opacity-100 shrink-0 p-1 rounded-lg hover:bg-black/10 dark:hover:bg-white/10 mt-0.5",
             onClick: (e) => {
               e.stopPropagation();
               setContextMenu({ id: s.id, x: e.clientX, y: e.clientY });
             },
-            children: /* @__PURE__ */ jsxRuntimeExports.jsx(MoreVertical, { size: 14 })
+            children: /* @__PURE__ */ jsxRuntimeExports.jsx(MoreVertical, { size: 13 })
           }
         )
       ]
     }
   );
-  const curSessData = sessions.find((s) => s.id === selSess);
-  return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex h-full min-h-0 overflow-hidden bg-[var(--bg)]", onClick: () => contextMenu && setContextMenu(null), children: [
+  const curSess = sessions.find((s) => s.id === selSess);
+  const topicsFiltered = sessSearch ? topics.filter((t) => t.name.toLowerCase().includes(sessSearch.toLowerCase())) : topics;
+  return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex h-full min-h-0 overflow-hidden", style: { background: "var(--bg)" }, onClick: () => contextMenu && setContextMenu(null), children: [
     contextMenu && /* @__PURE__ */ jsxRuntimeExports.jsxs(
       "div",
       {
         className: "fixed z-[9999] glass rounded-xl shadow-2xl border border-[color:var(--border2,var(--border))] py-1 min-w-[180px]",
-        style: { left: Math.min(contextMenu.x, window.innerWidth - 200), top: Math.min(contextMenu.y, window.innerHeight - 140) },
+        style: { left: Math.min(contextMenu.x, window.innerWidth - 210), top: Math.min(contextMenu.y, window.innerHeight - 150) },
         children: [
           /* @__PURE__ */ jsxRuntimeExports.jsxs(
             "button",
@@ -22393,9 +22471,9 @@ MARIAM:`;
                 setPinnedIds((p) => p.includes(contextMenu.id) ? p.filter((x) => x !== contextMenu.id) : [...p, contextMenu.id]);
                 setContextMenu(null);
               },
-              className: "w-full flex items-center gap-3 px-4 py-2.5 text-sm font-medium hover:bg-[var(--accent)]/10 transition-colors",
+              className: "w-full flex items-center gap-3 px-4 py-2.5 text-sm font-semibold hover:bg-[var(--accent)]/10 transition-colors",
               children: [
-                /* @__PURE__ */ jsxRuntimeExports.jsx(Pin, { size: 15 }),
+                /* @__PURE__ */ jsxRuntimeExports.jsx(Pin, { size: 14 }),
                 pinnedIds.includes(contextMenu.id) ? "Unpin" : "Pin to top"
               ]
             }
@@ -22403,10 +22481,14 @@ MARIAM:`;
           /* @__PURE__ */ jsxRuntimeExports.jsxs(
             "button",
             {
-              onClick: () => copySession(contextMenu.id),
-              className: "w-full flex items-center gap-3 px-4 py-2.5 text-sm font-medium hover:bg-[var(--accent)]/10 transition-colors",
+              onClick: () => {
+                const s = sessions.find((x) => x.id === contextMenu.id);
+                if (s) navigator.clipboard && navigator.clipboard.writeText(s.messages.map((m) => (m.role === "user" ? "You" : "MARIAM") + ": " + m.content).join("\n\n"));
+                setContextMenu(null);
+              },
+              className: "w-full flex items-center gap-3 px-4 py-2.5 text-sm font-semibold hover:bg-[var(--accent)]/10 transition-colors",
               children: [
-                /* @__PURE__ */ jsxRuntimeExports.jsx(Copy, { size: 15 }),
+                /* @__PURE__ */ jsxRuntimeExports.jsx(Copy, { size: 14 }),
                 "Copy transcript"
               ]
             }
@@ -22416,9 +22498,9 @@ MARIAM:`;
             "button",
             {
               onClick: () => deleteSession(contextMenu.id),
-              className: "w-full flex items-center gap-3 px-4 py-2.5 text-sm font-medium text-red-500 hover:bg-red-500/10 transition-colors",
+              className: "w-full flex items-center gap-3 px-4 py-2.5 text-sm font-semibold text-red-500 hover:bg-red-500/10 transition-colors",
               children: [
-                /* @__PURE__ */ jsxRuntimeExports.jsx(Trash2, { size: 15 }),
+                /* @__PURE__ */ jsxRuntimeExports.jsx(Trash2, { size: 14 }),
                 "Delete chat"
               ]
             }
@@ -22426,108 +22508,75 @@ MARIAM:`;
         ]
       }
     ),
-    sidebarOpen && /* @__PURE__ */ jsxRuntimeExports.jsx(
-      "div",
-      {
-        className: "lg:hidden fixed inset-0 z-[40]",
-        style: { background: "rgba(0,0,0,0.55)" },
-        onClick: () => setSidebarOpen(false)
-      }
-    ),
+    sidebarOpen && /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "lg:hidden fixed inset-0 z-40 bg-black/50", onClick: () => setSidebarOpen(false) }),
     /* @__PURE__ */ jsxRuntimeExports.jsxs(
       "div",
       {
-        className: `flex flex-col border-r border-[color:var(--border2,var(--border))] transition-all duration-300 shrink-0 z-[41]
-        ${sidebarOpen ? "w-72" : "w-0 overflow-hidden"}
-        lg:relative absolute inset-y-0 left-0`,
-        style: { background: "var(--bg, #f8fafc)" },
+        className: "flex flex-col border-r border-[color:var(--border2,var(--border))] transition-all duration-300 shrink-0 lg:relative absolute inset-y-0 left-0 z-[41] " + (sidebarOpen ? "w-[280px]" : "w-0 overflow-hidden"),
+        style: { background: "var(--bg)" },
         children: [
           /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center justify-between px-4 py-3 border-b border-[color:var(--border2,var(--border))] shrink-0", children: [
-            /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-base font-black", children: "MARIAM Chat" }),
-            /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center gap-1", children: [
-              /* @__PURE__ */ jsxRuntimeExports.jsx(
-                "button",
-                {
-                  onClick: newSession,
-                  className: "w-8 h-8 btn-accent rounded-xl flex items-center justify-center shadow-sm",
-                  title: "New chat",
-                  children: /* @__PURE__ */ jsxRuntimeExports.jsx(Plus, { size: 18 })
-                }
-              ),
-              /* @__PURE__ */ jsxRuntimeExports.jsx(
-                "button",
-                {
-                  onClick: () => setSidebarOpen(false),
-                  className: "lg:hidden w-8 h-8 glass rounded-xl flex items-center justify-center opacity-60",
-                  children: /* @__PURE__ */ jsxRuntimeExports.jsx(X, { size: 18 })
-                }
-              )
+            /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-base font-black tracking-tight", children: "MARIAM" }),
+            /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center gap-1.5", children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx("button", { onClick: newChat, className: "w-8 h-8 btn-accent rounded-xl flex items-center justify-center shadow-sm", title: "New chat", children: /* @__PURE__ */ jsxRuntimeExports.jsx(Plus, { size: 17 }) }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("button", { onClick: () => setSidebarOpen(false), className: "lg:hidden w-8 h-8 glass rounded-xl flex items-center justify-center opacity-60", children: /* @__PURE__ */ jsxRuntimeExports.jsx(X, { size: 17 }) })
             ] })
           ] }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "px-3 py-2 shrink-0", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "relative", children: [
-            /* @__PURE__ */ jsxRuntimeExports.jsx(Search, { size: 14, className: "absolute left-3 top-1/2 -translate-y-1/2 opacity-40" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "px-3 py-2.5 shrink-0", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "relative", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx(Search, { size: 13, className: "absolute left-3 top-1/2 -translate-y-1/2 opacity-40 pointer-events-none" }),
             /* @__PURE__ */ jsxRuntimeExports.jsx(
               "input",
               {
                 value: sessSearch,
                 onChange: (e) => setSessSearch(e.target.value),
-                placeholder: "Search conversations…",
-                className: "w-full bg-black/5 dark:bg-white/5 rounded-xl pl-9 pr-3 py-2.5 text-sm outline-none border border-transparent focus:border-[var(--accent)]/40 text-[var(--text)]"
+                placeholder: "Search…",
+                className: "w-full bg-black/5 dark:bg-white/5 rounded-xl pl-8 pr-3 py-2 text-sm outline-none border border-transparent focus:border-[var(--accent)]/40 text-[var(--text)]"
               }
             )
           ] }) }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "flex border-b border-[color:var(--border2,var(--border))] shrink-0 px-3 gap-1", children: [["chats", "Chats", MessageSquare], ["projects", "Projects", FolderOpen]].map(([id, lbl, Icon]) => /* @__PURE__ */ jsxRuntimeExports.jsxs(
+          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "flex border-b border-[color:var(--border2,var(--border))] shrink-0 px-2 gap-0.5 pt-0.5", children: [["chats", "Chats", MessageSquare], ["projects", "Projects", FolderOpen], ["topics", "Topics", BookA]].map(([id, lbl, Icon]) => /* @__PURE__ */ jsxRuntimeExports.jsxs(
             "button",
             {
               onClick: () => setSidebarTab(id),
-              className: `flex items-center gap-1.5 px-3 py-2.5 text-xs font-black uppercase tracking-widest border-b-2 transition-colors -mb-px
-                ${sidebarTab === id ? "border-[var(--accent)] text-[var(--accent)]" : "border-transparent opacity-50 hover:opacity-80"}`,
+              className: "flex-1 flex items-center justify-center gap-1 px-1 py-2.5 text-[9px] font-black uppercase tracking-widest border-b-2 transition-colors -mb-px " + (sidebarTab === id ? "border-[var(--accent)] text-[var(--accent)]" : "border-transparent opacity-40 hover:opacity-70"),
               children: [
-                /* @__PURE__ */ jsxRuntimeExports.jsx(Icon, { size: 14 }),
+                /* @__PURE__ */ jsxRuntimeExports.jsx(Icon, { size: 11 }),
                 lbl
               ]
             },
             id
           )) }),
-          sidebarTab === "chats" && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex-1 min-h-0 overflow-y-auto custom-scrollbar py-2", children: [
+          sidebarTab === "chats" && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex-1 min-h-0 overflow-y-auto custom-scrollbar py-2 px-2", children: [
             pinned.length > 0 && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mb-2", children: [
-              /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { className: "text-xs font-black uppercase tracking-widest opacity-30 px-4 py-1.5 flex items-center gap-1.5", children: [
-                /* @__PURE__ */ jsxRuntimeExports.jsx(Pin, { size: 10 }),
+              /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { className: "text-[9px] font-black uppercase tracking-widest opacity-30 px-2 py-1 flex items-center gap-1", children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsx(Pin, { size: 8 }),
                 "Pinned"
               ] }),
-              pinned.map((s) => /* @__PURE__ */ jsxRuntimeExports.jsx(SessionItem, { s }, s.id)),
-              /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "mx-3 my-2 border-t border-[color:var(--border2,var(--border))]" })
+              pinned.map((s) => /* @__PURE__ */ jsxRuntimeExports.jsx(SessItem, { s }, s.id)),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "mx-2 my-2 border-t border-[color:var(--border2,var(--border))]" })
             ] }),
             Object.entries(grouped).map(([grp, items]) => items.length > 0 && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mb-3", children: [
-              /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-xs font-black uppercase tracking-widest opacity-30 px-4 py-1.5", children: grp }),
-              items.map((s) => /* @__PURE__ */ jsxRuntimeExports.jsx(SessionItem, { s }, s.id))
+              /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-[9px] font-black uppercase tracking-widest opacity-30 px-2 py-1", children: grp }),
+              items.map((s) => /* @__PURE__ */ jsxRuntimeExports.jsx(SessItem, { s }, s.id))
             ] }, grp)),
             !sessions.length && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "text-center py-16 px-4 opacity-30", children: [
-              /* @__PURE__ */ jsxRuntimeExports.jsx(MessageSquare, { size: 32, className: "mx-auto mb-3" }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx(MessageSquare, { size: 28, className: "mx-auto mb-3" }),
               /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-sm font-bold", children: "No chats yet" }),
-              /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-xs mt-1", children: "Start a conversation below" })
+              /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-xs mt-1 opacity-70", children: "Start a conversation below" })
             ] })
           ] }),
           sidebarTab === "projects" && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex-1 min-h-0 overflow-y-auto custom-scrollbar py-2", children: [
-            /* @__PURE__ */ jsxRuntimeExports.jsxs(
-              "button",
-              {
-                onClick: () => setShowNewProject(true),
-                className: "w-full flex items-center gap-2.5 px-4 py-2.5 text-sm font-bold text-[var(--accent)] hover:bg-[var(--accent)]/5 transition-colors",
-                children: [
-                  /* @__PURE__ */ jsxRuntimeExports.jsx(Plus, { size: 16 }),
-                  "New Project"
-                ]
-              }
-            ),
-            showNewProject && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mx-3 mb-3 p-3 rounded-xl border border-[color:var(--border2,var(--border))] space-y-2.5", style: { background: "var(--surface, rgba(255,255,255,0.95))" }, children: [
-              /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-xs font-black uppercase tracking-widest opacity-40", children: "New Project" }),
+            /* @__PURE__ */ jsxRuntimeExports.jsxs("button", { onClick: () => setShowNewProject(true), className: "w-full flex items-center gap-2 px-4 py-2.5 text-sm font-bold text-[var(--accent)] hover:bg-[var(--accent)]/5 transition-colors", children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx(Plus, { size: 15 }),
+              "New Project"
+            ] }),
+            showNewProject && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mx-3 mb-3 p-3 rounded-xl border border-[color:var(--border2,var(--border))] space-y-2.5", style: { background: "var(--card)" }, children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-[9px] font-black uppercase tracking-widest opacity-40", children: "New Project" }),
               /* @__PURE__ */ jsxRuntimeExports.jsx(
                 "input",
                 {
                   value: newProjectName,
                   onChange: (e) => setNewProjectName(e.target.value),
-                  onKeyDown: (e) => e.key === "Enter" && e.shiftKey === false && !newProjectInstructions && createProject(),
                   placeholder: "Project name…",
                   autoFocus: true,
                   className: "w-full text-sm bg-transparent outline-none border-b border-[color:var(--border2,var(--border))] pb-1.5 font-bold text-[var(--text)] placeholder:font-normal placeholder:opacity-40"
@@ -22538,7 +22587,7 @@ MARIAM:`;
                 {
                   value: newProjectInstructions,
                   onChange: (e) => setNewProjectInstructions(e.target.value),
-                  placeholder: "Custom instructions (optional) — e.g. Always answer in Arabic, focus on USMLE Step 1, treat me as a 3rd year med student…",
+                  placeholder: "Custom instructions (optional)…",
                   rows: 3,
                   className: "w-full text-xs bg-black/5 dark:bg-white/5 rounded-lg px-2.5 py-2 outline-none resize-none border border-[color:var(--border2,var(--border))] focus:border-[var(--accent)]/50 text-[var(--text)] placeholder:opacity-40"
                 }
@@ -22549,170 +22598,226 @@ MARIAM:`;
                   setShowNewProject(false);
                   setNewProjectName("");
                   setNewProjectInstructions("");
-                }, className: "flex-1 py-2 rounded-lg text-xs font-black border border-[color:var(--border2,var(--border))] opacity-60 hover:opacity-100", style: { background: "transparent" }, children: "Cancel" })
+                }, className: "flex-1 py-2 rounded-lg text-xs font-black glass opacity-70", children: "Cancel" })
               ] })
-            ] }),
-            projects.length === 0 && !showNewProject && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "text-center py-12 px-4 opacity-30", children: [
-              /* @__PURE__ */ jsxRuntimeExports.jsx(FolderOpen, { size: 32, className: "mx-auto mb-3" }),
-              /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-sm font-bold", children: "No projects yet" }),
-              /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-xs mt-1", children: "Organize chats into projects" })
             ] }),
             [{ id: null, name: "All Chats", color: "#6366f1" }, ...projects].map((p) => /* @__PURE__ */ jsxRuntimeExports.jsxs(
               "button",
               {
                 onClick: () => {
                   setSelProject(p.id);
-                  setSidebarTab(p.id ? "projects" : "chats");
+                  if (!p.id) setSidebarTab("chats");
                 },
-                className: `w-full flex items-center gap-3 px-4 py-2.5 rounded-xl text-left transition-all mx-0
-                  ${selProject === p.id ? "bg-[var(--accent)]/10" : "hover:bg-black/5 dark:hover:bg-white/5"}`,
+                className: "w-full flex items-center gap-3 px-4 py-2.5 rounded-xl text-left transition-all " + (selProject === p.id ? "bg-[var(--accent)]/10" : "hover:bg-black/5 dark:hover:bg-white/5"),
                 children: [
-                  /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "w-3 h-3 rounded-full shrink-0", style: { backgroundColor: p.color } }),
+                  /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "w-2.5 h-2.5 rounded-full shrink-0", style: { backgroundColor: p.color } }),
                   /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex-1 min-w-0", children: [
                     /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-sm font-bold truncate", children: p.name }),
-                    /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { className: "text-xs opacity-40", children: [
-                      p.instructions ? "📋 Custom instructions · " : "",
+                    /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { className: "text-[10px] opacity-40", children: [
                       sessions.filter((s) => s.projectId === p.id).length,
                       " chats"
                     ] })
-                  ] }),
-                  p.id && /* @__PURE__ */ jsxRuntimeExports.jsx(
-                    "button",
-                    {
-                      onClick: (e) => {
-                        e.stopPropagation();
-                        setProjects((prev) => prev.filter((x) => x.id !== p.id));
-                      },
-                      className: "opacity-0 group-hover:opacity-60 hover:!opacity-100 w-6 h-6 rounded-lg hover:bg-red-500/10 flex items-center justify-center",
-                      children: /* @__PURE__ */ jsxRuntimeExports.jsx(Trash2, { size: 12, className: "text-red-500" })
-                    }
-                  )
+                  ] })
                 ]
               },
               p.id || "all"
             )),
-            selProject && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "border-t border-[color:var(--border2,var(--border))] mt-2 pt-2", children: [
-              /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-xs font-black uppercase tracking-widest opacity-30 px-4 py-1.5", children: "Chats in project" }),
-              filteredSessions.map((s) => /* @__PURE__ */ jsxRuntimeExports.jsx(SessionItem, { s }, s.id)),
-              filteredSessions.length === 0 && /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-xs opacity-30 text-center py-4", children: "No chats in this project" })
+            !projects.length && !showNewProject && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "text-center py-12 px-4 opacity-30", children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx(FolderOpen, { size: 28, className: "mx-auto mb-3" }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-sm font-bold", children: "No projects yet" })
             ] })
           ] }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "shrink-0 p-3 border-t border-[color:var(--border2,var(--border))]", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center gap-2 px-2 py-2 text-xs opacity-40", children: [
-            /* @__PURE__ */ jsxRuntimeExports.jsx(Brain, { size: 14 }),
-            /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { className: "font-bold", children: [
-              sessions.length,
-              " conversations · ",
-              sessions.reduce((a, s) => a + (s.msgCount || 0), 0),
-              " messages"
-            ] })
+          sidebarTab === "topics" && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex-1 min-h-0 overflow-y-auto custom-scrollbar py-2", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsxs("button", { onClick: () => setShowNewTopic(true), className: "w-full flex items-center gap-2 px-4 py-2.5 text-sm font-bold text-[var(--accent)] hover:bg-[var(--accent)]/5 transition-colors", children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx(Plus, { size: 15 }),
+              "New Topic"
+            ] }),
+            showNewTopic && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mx-3 mb-3 p-3 rounded-xl border border-[color:var(--border2,var(--border))] space-y-2.5", style: { background: "var(--card)" }, children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-[9px] font-black uppercase tracking-widest opacity-40", children: "New Topic" }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx(
+                "input",
+                {
+                  value: newTopicName,
+                  onChange: (e) => setNewTopicName(e.target.value),
+                  onKeyDown: (e) => e.key === "Enter" && createTopic(),
+                  placeholder: "e.g. Warfarin, Renal Dosing, Beta Blockers…",
+                  autoFocus: true,
+                  className: "w-full text-sm bg-transparent outline-none border-b border-[color:var(--border2,var(--border))] pb-1.5 font-bold text-[var(--text)] placeholder:font-normal placeholder:opacity-40"
+                }
+              ),
+              /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex gap-2", children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsx("button", { onClick: createTopic, className: "flex-1 py-2 btn-accent rounded-lg text-xs font-black", children: "Generate Lesson" }),
+                /* @__PURE__ */ jsxRuntimeExports.jsx("button", { onClick: () => {
+                  setShowNewTopic(false);
+                  setNewTopicName("");
+                }, className: "flex-1 py-2 rounded-lg text-xs font-black glass opacity-70", children: "Cancel" })
+              ] })
+            ] }),
+            !topicsFiltered.length && !showNewTopic && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "text-center py-12 px-4 opacity-30", children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx(BookA, { size: 28, className: "mx-auto mb-3" }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-sm font-bold", children: "No topics yet" }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-xs mt-1 opacity-70", children: "Add a drug or concept for a deep lesson" })
+            ] }),
+            topicsFiltered.map((t) => /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "group flex items-center px-3 py-0.5", children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsxs("button", { onClick: () => openTopic(t), className: "flex-1 flex items-center gap-3 px-2 py-2.5 rounded-xl text-left hover:bg-[var(--accent)]/8 transition-all", children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "w-8 h-8 rounded-xl btn-accent flex items-center justify-center shrink-0 shadow-sm", children: /* @__PURE__ */ jsxRuntimeExports.jsx(BookA, { size: 14 }) }),
+                /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex-1 min-w-0", children: [
+                  /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-sm font-bold truncate", children: t.name }),
+                  /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-[10px] opacity-40", children: "Tap for full lesson" })
+                ] }),
+                /* @__PURE__ */ jsxRuntimeExports.jsx(ChevronRight, { size: 13, className: "opacity-30 shrink-0" })
+              ] }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx(
+                "button",
+                {
+                  onClick: () => setTopics((p) => p.filter((x) => x.id !== t.id)),
+                  className: "opacity-0 group-hover:opacity-60 hover:!opacity-100 w-7 h-7 rounded-lg hover:bg-red-500/10 flex items-center justify-center ml-1 flex-shrink-0",
+                  children: /* @__PURE__ */ jsxRuntimeExports.jsx(Trash2, { size: 12, className: "text-red-500" })
+                }
+              )
+            ] }, t.id))
+          ] }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "shrink-0 px-4 py-2.5 border-t border-[color:var(--border2,var(--border))]", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { className: "text-[10px] opacity-30 font-bold flex items-center gap-1.5", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx(Brain, { size: 11 }),
+            sessions.length,
+            " chats · ",
+            topics.length,
+            " topics"
           ] }) })
         ]
       }
     ),
-    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex-1 flex flex-col min-h-0 min-w-0 relative", children: [
-      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center gap-3 px-4 py-3 border-b border-[color:var(--border2,var(--border))] shrink-0", style: { background: "var(--surface, var(--card))", backdropFilter: "blur(20px)" }, children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsx(
-          "button",
-          {
-            onClick: () => setSidebarOpen((o) => !o),
-            className: "w-9 h-9 glass rounded-xl flex items-center justify-center opacity-60 hover:opacity-100 shrink-0 transition-all",
-            children: /* @__PURE__ */ jsxRuntimeExports.jsx(History, { size: 18 })
-          }
-        ),
+    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex-1 flex flex-col min-h-0 min-w-0", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center gap-3 px-4 py-2.5 border-b border-[color:var(--border2,var(--border))] shrink-0", style: { backdropFilter: "blur(20px)", background: "var(--surface,var(--card))" }, children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("button", { onClick: () => setSidebarOpen((o) => !o), className: "w-9 h-9 glass rounded-xl flex items-center justify-center opacity-60 hover:opacity-100 shrink-0 transition-all", title: "Toggle sidebar", children: /* @__PURE__ */ jsxRuntimeExports.jsx(History, { size: 17 }) }),
         /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex-1 min-w-0", children: [
-          curSessData?.projectId && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center gap-1.5 mb-0.5", children: [
-            /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "w-2 h-2 rounded-full", style: { backgroundColor: projects.find((p) => p.id === curSessData.projectId)?.color || "#6366f1" } }),
-            /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-xs opacity-50 font-bold", children: projects.find((p) => p.id === curSessData.projectId)?.name || "Project" })
+          curSess && curSess.projectId && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center gap-1.5 mb-0.5", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "w-1.5 h-1.5 rounded-full", style: { backgroundColor: (projects.find((p) => p.id === curSess.projectId) || {}).color || "#6366f1" } }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-[10px] opacity-40 font-bold", children: (projects.find((p) => p.id === curSess.projectId) || {}).name })
           ] }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-sm font-black truncate", children: curSessData?.title || "New Conversation" })
+          /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-sm font-black truncate", children: curSess ? curSess.title : "New Conversation" })
         ] }),
         /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center gap-1", children: [
           msgs.length > 0 && /* @__PURE__ */ jsxRuntimeExports.jsx(
             "button",
             {
-              onClick: () => {
-                const t = msgs.map((m) => `${m.role === "user" ? "You" : "MARIAM"}: ${m.content}`).join("\n\n");
-                navigator.clipboard?.writeText(t);
-              },
-              className: "w-9 h-9 glass rounded-xl flex items-center justify-center opacity-60 hover:opacity-100 transition-all",
-              title: "Copy transcript",
-              children: /* @__PURE__ */ jsxRuntimeExports.jsx(Copy, { size: 18 })
+              onClick: () => navigator.clipboard && navigator.clipboard.writeText(msgs.map((m) => (m.role === "user" ? "You" : "MARIAM") + ": " + m.content).join("\n\n")),
+              className: "w-9 h-9 glass rounded-xl flex items-center justify-center opacity-50 hover:opacity-100 transition-all",
+              title: "Copy all",
+              children: /* @__PURE__ */ jsxRuntimeExports.jsx(Copy, { size: 15 })
             }
           ),
-          msgs.length > 0 && /* @__PURE__ */ jsxRuntimeExports.jsxs(
-            "button",
-            {
-              onClick: newSession,
-              className: "flex items-center gap-2 px-3 py-2 glass rounded-xl text-sm font-black opacity-60 hover:opacity-100 transition-all",
-              children: [
-                /* @__PURE__ */ jsxRuntimeExports.jsx(Plus, { size: 16 }),
-                "New"
-              ]
-            }
-          )
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("button", { onClick: newChat, className: "flex items-center gap-1.5 px-3 py-2 glass rounded-xl text-xs font-black opacity-60 hover:opacity-100 transition-all", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx(Plus, { size: 13 }),
+            "New"
+          ] })
         ] })
       ] }),
-      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "flex-1 min-h-0 overflow-y-auto custom-scrollbar", ref: scrollContainerRef, children: !hasStarted ? /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex flex-col items-center justify-center min-h-full p-6 gap-8", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "flex-1 min-h-0 overflow-y-auto custom-scrollbar", ref: scrollRef, children: !hasStarted ? /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex flex-col items-center justify-center min-h-full p-6 gap-7 max-w-2xl mx-auto", children: [
         /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "text-center space-y-3", children: [
           /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "relative inline-block", children: [
-            /* @__PURE__ */ jsxRuntimeExports.jsx("img", { src: MARIAM_IMG, className: "w-24 h-24 rounded-3xl object-cover shadow-2xl border-4 border-[color:var(--border2,var(--border))]", alt: "MARIAM AI" }),
-            /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "absolute -bottom-1.5 -right-1.5 w-7 h-7 bg-emerald-500 rounded-full border-2 border-[var(--bg)] flex items-center justify-center", children: /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "w-2.5 h-2.5 bg-white rounded-full" }) })
+            /* @__PURE__ */ jsxRuntimeExports.jsx("img", { src: MARIAM_IMG, className: "w-20 h-20 rounded-2xl object-cover shadow-2xl border-2 border-[color:var(--border2,var(--border))]", alt: "MARIAM" }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "absolute -bottom-1.5 -right-1.5 w-6 h-6 bg-emerald-500 rounded-full border-2 border-[var(--bg)] flex items-center justify-center", children: /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "w-2 h-2 bg-white rounded-full" }) })
           ] }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx("h1", { className: "text-3xl font-black", children: "What can I help you study?" }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-base opacity-50 max-w-md", children: "Your AI study assistant — medicine, sciences, and beyond" })
+          /* @__PURE__ */ jsxRuntimeExports.jsx("h1", { className: "text-2xl font-black", children: "What can I help you study?" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-sm opacity-40 max-w-xs", children: "Your AI study companion for pharmacy & medicine" })
         ] }),
-        /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 w-full max-w-2xl", children: STARTERS.map((s) => /* @__PURE__ */ jsxRuntimeExports.jsxs(
+        topics.length > 0 && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "w-full", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { className: "text-[10px] font-black uppercase tracking-widest opacity-35 mb-2 flex items-center gap-1.5", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx(BookA, { size: 10 }),
+            "Your Topics"
+          ] }),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex flex-wrap gap-2", children: [
+            topics.map((t) => /* @__PURE__ */ jsxRuntimeExports.jsxs(
+              "button",
+              {
+                onClick: () => openTopic(t),
+                className: "flex items-center gap-1.5 px-3 py-2 rounded-xl text-sm font-bold border border-[var(--accent)]/20 bg-[var(--accent)]/5 hover:bg-[var(--accent)]/12 hover:border-[var(--accent)]/40 transition-all text-[var(--accent)]",
+                children: [
+                  /* @__PURE__ */ jsxRuntimeExports.jsx(BookA, { size: 11 }),
+                  t.name
+                ]
+              },
+              t.id
+            )),
+            /* @__PURE__ */ jsxRuntimeExports.jsxs(
+              "button",
+              {
+                onClick: () => {
+                  setSidebarOpen(true);
+                  setSidebarTab("topics");
+                  setTimeout(() => setShowNewTopic(true), 200);
+                },
+                className: "flex items-center gap-1.5 px-3 py-2 rounded-xl text-sm font-bold border border-dashed border-[var(--accent)]/25 text-[var(--accent)]/50 hover:text-[var(--accent)] hover:border-[var(--accent)] transition-all",
+                children: [
+                  /* @__PURE__ */ jsxRuntimeExports.jsx(Plus, { size: 11 }),
+                  "Add"
+                ]
+              }
+            )
+          ] })
+        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "grid grid-cols-1 sm:grid-cols-2 gap-3 w-full", children: STARTERS.map((s) => /* @__PURE__ */ jsxRuntimeExports.jsxs(
           "button",
           {
             onClick: () => send(s.text),
-            className: "glass rounded-2xl p-4 text-left hover:border-[var(--accent)]/40 hover:bg-[var(--accent)]/5 transition-all border border-[color:var(--border2,var(--border))] group",
+            className: "glass rounded-2xl p-4 text-left hover:border-[var(--accent)]/35 hover:bg-[var(--accent)]/5 transition-all border border-[color:var(--border2,var(--border))] group",
             children: [
-              /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "text-2xl mb-2", children: s.icon }),
-              /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-sm font-bold group-hover:text-[var(--accent)] transition-colors", children: s.text })
+              /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "text-xl mb-2", children: s.icon }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-sm font-semibold group-hover:text-[var(--accent)] transition-colors leading-snug", children: s.text })
             ]
           },
           s.text
         )) }),
-        selProject && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "glass rounded-2xl px-4 py-3 flex items-center gap-3 border border-[var(--accent)]/20", children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "w-3 h-3 rounded-full", style: { backgroundColor: projects.find((p) => p.id === selProject)?.color } }),
-          /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { className: "text-sm font-bold", children: [
-            "Project: ",
-            projects.find((p) => p.id === selProject)?.name
-          ] }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx("button", { onClick: () => setSelProject(null), className: "ml-auto text-xs opacity-50 hover:opacity-100", children: /* @__PURE__ */ jsxRuntimeExports.jsx(X, { size: 14 }) })
-        ] })
-      ] }) : /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "max-w-3xl mx-auto py-6 px-4 space-y-6", children: [
-        msgs.map((m, i) => /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: `flex gap-4 ${m.role === "user" ? "flex-row-reverse" : ""} group`, children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: `w-9 h-9 rounded-xl flex items-center justify-center shrink-0 mt-1 ${m.role === "user" ? "bg-[var(--accent)]" : "overflow-hidden border border-[color:var(--border2,var(--border))]"}`, children: m.role === "user" ? /* @__PURE__ */ jsxRuntimeExports.jsx(CircleUserRound, { size: 20, className: "text-white" }) : /* @__PURE__ */ jsxRuntimeExports.jsx("img", { src: MARIAM_IMG, className: "w-full h-full object-cover", alt: "AI" }) }),
-          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: `flex-1 max-w-[85%] flex flex-col gap-1.5 ${m.role === "user" ? "items-end" : ""}`, children: [
-            /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: `px-4 py-3 rounded-2xl text-sm leading-relaxed
-                      ${m.role === "user" ? "bg-[var(--accent)] text-white rounded-tr-sm max-w-[80%]" : "rounded-tl-sm"}`, children: m.role === "assistant" ? /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "prose-custom", children: m.content ? renderMarkdown(m.content) : /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "opacity-30 animate-pulse", children: "▊" }) }) : /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "whitespace-pre-wrap", children: m.content }) }),
-            /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "flex items-center gap-2 px-1", children: /* @__PURE__ */ jsxRuntimeExports.jsxs(
+        !topics.length && /* @__PURE__ */ jsxRuntimeExports.jsxs(
+          "button",
+          {
+            onClick: () => {
+              setSidebarOpen(true);
+              setSidebarTab("topics");
+              setTimeout(() => setShowNewTopic(true), 200);
+            },
+            className: "flex items-center gap-2 px-5 py-3 rounded-2xl text-sm font-black border-2 border-dashed border-[var(--accent)]/25 text-[var(--accent)]/50 hover:text-[var(--accent)] hover:border-[var(--accent)] transition-all",
+            children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx(BookA, { size: 17 }),
+              "Add a Study Topic for deep AI lessons"
+            ]
+          }
+        )
+      ] }) : /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "max-w-3xl mx-auto py-6 px-4 space-y-5", children: [
+        msgs.map((m, i) => /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex gap-3 " + (m.role === "user" ? "flex-row-reverse" : "") + " group", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "w-8 h-8 rounded-xl flex items-center justify-center shrink-0 mt-0.5 " + (m.role === "user" ? "bg-[var(--accent)]" : "overflow-hidden border border-[color:var(--border2,var(--border))]"), children: m.role === "user" ? /* @__PURE__ */ jsxRuntimeExports.jsx(CircleUserRound, { size: 17, className: "text-white" }) : /* @__PURE__ */ jsxRuntimeExports.jsx("img", { src: MARIAM_IMG, className: "w-full h-full object-cover" }) }),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex-1 max-w-[88%] flex flex-col gap-1 " + (m.role === "user" ? "items-end" : ""), children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "px-4 py-3 rounded-2xl text-sm leading-relaxed " + (m.role === "user" ? "bg-[var(--accent)] text-white rounded-tr-sm max-w-[82%]" : "glass rounded-tl-sm border border-[color:var(--border2,var(--border))]"), children: m.role === "assistant" ? /* @__PURE__ */ jsxRuntimeExports.jsx("div", { children: m.content ? renderMarkdown(m.content) : /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "opacity-30 text-lg animate-pulse", children: "▊" }) }) : /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "whitespace-pre-wrap", children: m.content }) }),
+            /* @__PURE__ */ jsxRuntimeExports.jsxs(
               "button",
               {
-                onClick: () => navigator.clipboard?.writeText(m.content),
-                className: "opacity-0 group-hover:opacity-40 hover:!opacity-80 text-xs font-bold flex items-center gap-1 transition-opacity",
+                onClick: () => navigator.clipboard && navigator.clipboard.writeText(m.content),
+                className: "opacity-0 group-hover:opacity-40 hover:!opacity-80 text-[10px] font-bold flex items-center gap-1 transition-opacity px-1",
                 children: [
-                  /* @__PURE__ */ jsxRuntimeExports.jsx(Copy, { size: 12 }),
+                  /* @__PURE__ */ jsxRuntimeExports.jsx(Copy, { size: 10 }),
                   "Copy"
                 ]
               }
-            ) })
+            )
           ] })
         ] }, i)),
-        loading && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex gap-4", children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "w-9 h-9 rounded-xl overflow-hidden border border-[color:var(--border2,var(--border))] shrink-0 mt-1", children: /* @__PURE__ */ jsxRuntimeExports.jsx("img", { src: MARIAM_IMG, className: "w-full h-full object-cover", alt: "AI" }) }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "glass rounded-2xl rounded-tl-sm px-4 py-3.5 flex items-center gap-1.5", children: [0, 1, 2].map((i) => /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "w-2.5 h-2.5 bg-[var(--accent)] rounded-full animate-bounce", style: { animationDelay: `${i * 0.15}s` } }, i)) })
+        loading && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex gap-3", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "w-8 h-8 rounded-xl overflow-hidden border border-[color:var(--border2,var(--border))] shrink-0 mt-0.5", children: /* @__PURE__ */ jsxRuntimeExports.jsx("img", { src: MARIAM_IMG, className: "w-full h-full object-cover" }) }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "glass rounded-2xl rounded-tl-sm px-4 py-3.5 flex items-center gap-1.5 border border-[color:var(--border2,var(--border))]", children: [0, 1, 2].map((i) => /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "w-2 h-2 bg-[var(--accent)] rounded-full animate-bounce", style: { animationDelay: i * 0.15 + "s" } }, i)) })
         ] }),
         /* @__PURE__ */ jsxRuntimeExports.jsx("div", { ref: endRef })
       ] }) }),
-      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "shrink-0 px-4 py-4 border-t border-[color:var(--border2,var(--border))]", style: { background: "var(--surface, var(--card))", backdropFilter: "blur(20px)" }, children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "max-w-3xl mx-auto", children: [
-        selProject && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center gap-2 mb-2 px-1", children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "w-2 h-2 rounded-full", style: { backgroundColor: projects.find((p) => p.id === selProject)?.color } }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-xs font-bold opacity-60", children: projects.find((p) => p.id === selProject)?.name }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx("button", { onClick: () => setSelProject(null), className: "opacity-40 hover:opacity-80 ml-1", children: /* @__PURE__ */ jsxRuntimeExports.jsx(X, { size: 12 }) })
-        ] }),
-        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "glass rounded-2xl border border-[color:var(--border2,var(--border))] focus-within:border-[var(--accent)]/60 transition-colors shadow-lg", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "shrink-0 px-4 pb-4 pt-3 border-t border-[color:var(--border2,var(--border))]", style: { backdropFilter: "blur(20px)", background: "var(--surface,var(--card))" }, children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "max-w-3xl mx-auto", children: [
+        selProject && (() => {
+          const p = projects.find((x) => x.id === selProject);
+          return p ? /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center gap-2 mb-2 px-1", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "w-2 h-2 rounded-full", style: { backgroundColor: p.color } }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-xs font-bold opacity-50", children: p.name }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("button", { onClick: () => setSelProject(null), className: "opacity-40 hover:opacity-80", children: /* @__PURE__ */ jsxRuntimeExports.jsx(X, { size: 11 }) })
+          ] }) : null;
+        })(),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "glass rounded-2xl border border-[color:var(--border2,var(--border))] focus-within:border-[var(--accent)]/50 transition-colors shadow-lg", children: [
           /* @__PURE__ */ jsxRuntimeExports.jsx(
             "textarea",
             {
@@ -22720,7 +22825,7 @@ MARIAM:`;
               value: input,
               onChange: (e) => {
                 setInput(e.target.value);
-                setInputRows(Math.min(8, e.target.value.split("\n").length));
+                setInputRows(Math.min(8, e.target.value.split("\n").length + 1));
               },
               onKeyDown: (e) => {
                 if (e.key === "Enter" && !e.shiftKey) {
@@ -22728,10 +22833,11 @@ MARIAM:`;
                   send();
                 }
               },
-              placeholder: "Message MARIAM…",
+              placeholder: "Message MARIAM… (Shift+Enter for new line)",
               disabled: loading,
               rows: inputRows,
-              className: "w-full bg-transparent px-4 pt-4 pb-2 text-sm outline-none resize-none custom-scrollbar text-[var(--text)] min-h-[52px]"
+              className: "w-full bg-transparent px-4 pt-3.5 pb-2 text-sm outline-none resize-none custom-scrollbar text-[var(--text)]",
+              style: { minHeight: 52 }
             }
           ),
           /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center justify-between px-3 pb-3", children: [
@@ -22740,25 +22846,24 @@ MARIAM:`;
                 "button",
                 {
                   onClick: toggleVoice,
-                  className: `w-8 h-8 rounded-xl flex items-center justify-center transition-all ${listening ? "bg-red-500 text-white animate-pulse" : "opacity-50 hover:opacity-100 hover:bg-black/10 dark:hover:bg-white/10"}`,
-                  title: "Voice input",
-                  children: listening ? /* @__PURE__ */ jsxRuntimeExports.jsx(MicOff, { size: 16 }) : /* @__PURE__ */ jsxRuntimeExports.jsx(Mic, { size: 16 })
+                  className: "w-8 h-8 rounded-xl flex items-center justify-center transition-all " + (listening ? "bg-red-500 text-white animate-pulse" : "opacity-50 hover:opacity-100 hover:bg-black/8 dark:hover:bg-white/8"),
+                  title: listening ? "Stop" : "Voice input",
+                  children: listening ? /* @__PURE__ */ jsxRuntimeExports.jsx(MicOff, { size: 15 }) : /* @__PURE__ */ jsxRuntimeExports.jsx(Mic, { size: 15 })
                 }
               ),
-              projects.length > 0 && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "relative group", children: [
-                /* @__PURE__ */ jsxRuntimeExports.jsx("button", { className: "w-8 h-8 rounded-xl flex items-center justify-center opacity-50 hover:opacity-100 hover:bg-black/10 dark:hover:bg-white/10 transition-all", title: "Assign to project", children: /* @__PURE__ */ jsxRuntimeExports.jsx(FolderOpen, { size: 16 }) }),
-                /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "absolute bottom-10 left-0 hidden group-hover:flex flex-col glass rounded-xl border border-[color:var(--border2,var(--border))] shadow-xl min-w-[160px] py-1 z-50", children: projects.map((p) => /* @__PURE__ */ jsxRuntimeExports.jsxs(
-                  "button",
-                  {
-                    onClick: () => setSelProject(p.id),
-                    className: "flex items-center gap-2.5 px-3 py-2 text-sm hover:bg-[var(--accent)]/10 transition-colors",
-                    children: [
-                      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "w-2.5 h-2.5 rounded-full", style: { backgroundColor: p.color } }),
-                      p.name
-                    ]
-                  },
-                  p.id
-                )) })
+              topics.length > 0 && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "relative group/tpop", children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsx("button", { className: "w-8 h-8 rounded-xl flex items-center justify-center opacity-50 hover:opacity-100 hover:bg-black/8 dark:hover:bg-white/8 transition-all", title: "Load topic lesson", children: /* @__PURE__ */ jsxRuntimeExports.jsx(BookA, { size: 15 }) }),
+                /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "absolute bottom-10 left-0 hidden group-hover/tpop:flex flex-col glass rounded-xl border border-[color:var(--border2,var(--border))] shadow-xl min-w-[180px] py-1 z-50 max-h-48 overflow-y-auto", children: topics.map((t) => /* @__PURE__ */ jsxRuntimeExports.jsxs("button", { onClick: () => openTopic(t), className: "flex items-center gap-2.5 px-3 py-2 text-sm hover:bg-[var(--accent)]/10 transition-colors text-left whitespace-nowrap", children: [
+                  /* @__PURE__ */ jsxRuntimeExports.jsx(BookA, { size: 12, className: "text-[var(--accent)] shrink-0" }),
+                  t.name
+                ] }, t.id)) })
+              ] }),
+              projects.length > 0 && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "relative group/ppop", children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsx("button", { className: "w-8 h-8 rounded-xl flex items-center justify-center opacity-50 hover:opacity-100 hover:bg-black/8 dark:hover:bg-white/8 transition-all", title: "Select project", children: /* @__PURE__ */ jsxRuntimeExports.jsx(FolderOpen, { size: 15 }) }),
+                /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "absolute bottom-10 left-0 hidden group-hover/ppop:flex flex-col glass rounded-xl border border-[color:var(--border2,var(--border))] shadow-xl min-w-[160px] py-1 z-50", children: projects.map((p) => /* @__PURE__ */ jsxRuntimeExports.jsxs("button", { onClick: () => setSelProject(p.id), className: "flex items-center gap-2.5 px-3 py-2 text-sm hover:bg-[var(--accent)]/10 transition-colors whitespace-nowrap", children: [
+                  /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "w-2.5 h-2.5 rounded-full shrink-0", style: { backgroundColor: p.color } }),
+                  p.name
+                ] }, p.id)) })
               ] })
             ] }),
             /* @__PURE__ */ jsxRuntimeExports.jsx(
@@ -22766,13 +22871,13 @@ MARIAM:`;
               {
                 onClick: () => send(),
                 disabled: loading || !input.trim(),
-                className: "w-9 h-9 bg-[var(--accent)] disabled:opacity-30 rounded-xl text-white flex items-center justify-center shrink-0 shadow-lg transition-all hover:opacity-90 active:scale-95",
-                children: loading ? /* @__PURE__ */ jsxRuntimeExports.jsx(Loader2, { size: 18, className: "animate-spin" }) : /* @__PURE__ */ jsxRuntimeExports.jsx(Send, { size: 16 })
+                className: "w-9 h-9 bg-[var(--accent)] disabled:opacity-30 rounded-xl text-white flex items-center justify-center shadow-md transition-all hover:opacity-90 active:scale-95",
+                children: loading ? /* @__PURE__ */ jsxRuntimeExports.jsx(Loader2, { size: 16, className: "animate-spin" }) : /* @__PURE__ */ jsxRuntimeExports.jsx(Send, { size: 15 })
               }
             )
           ] })
         ] }),
-        /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-xs text-center opacity-20 font-medium mt-2", children: "MARIAM can make mistakes. Verify important medical information." })
+        /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-[10px] text-center opacity-20 font-medium mt-2", children: "MARIAM may make errors. Always verify medical information." })
       ] }) })
     ] })
   ] });
@@ -27358,7 +27463,7 @@ Provide a detailed analysis of this content.`;
           /* @__PURE__ */ jsxRuntimeExports.jsx("button", { onClick: () => setBootError(null), className: "ml-auto opacity-60 hover:opacity-100", children: /* @__PURE__ */ jsxRuntimeExports.jsx(X, { size: 16 }) })
         ] }),
         /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "design-top-glass", "aria-hidden": "true" }),
-        /* @__PURE__ */ jsxRuntimeExports.jsxs("header", { className: "design-header shrink-0 relative", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("header", { className: `design-header shrink-0 relative${view === "chat" ? " chat-header-hide" : ""}`, children: [
           /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mobile-nav-only items-center justify-center gap-2 absolute left-0 right-0", style: { pointerEvents: "none" }, children: [
             /* @__PURE__ */ jsxRuntimeExports.jsx("img", { src: MARIAM_IMG, alt: "", className: "w-9 h-9 rounded-xl object-cover", style: { pointerEvents: "auto" } }),
             /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "font-bold text-[1.5rem]", children: "MARIAM" })
