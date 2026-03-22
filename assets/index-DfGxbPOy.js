@@ -1,5 +1,5 @@
-import { r as reactExports, R as React, L as Loader2, A as AlertCircle, X, S as Search, F as FolderOpen, B as BookMarked, a as Layers, b as Activity, C as CheckSquare, G as Globe, c as FileText, M as MessageSquare, d as Settings, e as Sparkles, f as GripVertical, Z as Zap, D as Database, g as CheckCircle2, I as Info, P as PenLine, h as FileUp, i as Grid3x3, j as List, k as ChevronLeft, l as Printer, m as RefreshCw, n as FilePlus, T as Trash2, E as Eye, o as Target, p as Stethoscope, q as ChevronRight, s as Thermometer, t as ChevronDown, u as Pin, v as Copy, w as Plus, x as Brain, H as History, y as CircleUserRound, z as MicOff, J as Mic, K as Send, N as Pill, O as Heart, Q as GraduationCap, U as Award, V as Clipboard, W as Star, Y as Network, _ as Leaf, $ as Flame, a0 as Monitor, a1 as FlaskConical, a2 as BookA, a3 as BookOpen, a4 as BotMessageSquare, a5 as Smartphone, a6 as Download, a7 as KeyRound, a8 as Palette, a9 as Sun, aa as CloudSun, ab as Moon, ac as MoonStar, ad as PanelsTopLeft, ae as FileCode, af as Image, ag as Table, ah as ZoomOut, ai as Maximize, aj as ZoomIn, ak as Save, al as AlignLeft, am as Lightbulb, an as Baby, ao as Tag, ap as Clock, aq as Languages, ar as Wand2, as as Code, at as ListChecks, au as Hash, av as MoreVertical, aw as Layers3, ax as ChevronUp } from './icons-BGxlEkz6.js';
-import { r as reactDomExports } from './react-UlELaeE-.js';
+import { r as reactExports, R as React, L as Loader2, A as AlertCircle, X, S as Search, F as FolderOpen, B as BookMarked, a as Layers, b as Activity, C as CheckSquare, G as Globe, M as MessageSquare, c as Settings, d as Sparkles, e as GripVertical, Z as Zap, D as Database, f as CheckCircle2, I as Info, g as FileText, P as PenLine, h as FileUp, i as Grid3x3, j as List, k as ChevronLeft, l as Printer, m as RefreshCw, n as FilePlus, T as Trash2, E as Eye, o as Target, p as Stethoscope, q as ChevronRight, s as Thermometer, t as ChevronDown, u as Pin, v as Copy, w as Plus, x as Brain, H as History, y as CircleUserRound, z as MicOff, J as Mic, K as Send, N as Pill, O as Heart, Q as GraduationCap, U as Award, V as Clipboard, W as Star, Y as Network, _ as Leaf, $ as Flame, a0 as Monitor, a1 as FlaskConical, a2 as BookA, a3 as BookOpen, a4 as BotMessageSquare, a5 as Smartphone, a6 as Download, a7 as KeyRound, a8 as Palette, a9 as Sun, aa as CloudSun, ab as Moon, ac as MoonStar, ad as PanelsTopLeft, ae as FileCode, af as Image, ag as Table, ah as ZoomOut, ai as Maximize, aj as ZoomIn, ak as Save, al as AlignLeft, am as Lightbulb, an as Baby, ao as Tag, ap as Clock, aq as Languages, ar as Wand2, as as Code, at as ListChecks, au as Hash, av as MoreVertical, aw as Layers3, ax as ChevronUp } from './icons-CwPTqmbQ.js';
+import { r as reactDomExports } from './react-B1AwND7L.js';
 
 true&&(function polyfill() {
   const relList = document.createElement("link").relList;
@@ -5190,7 +5190,86 @@ const counselingExams$1 = [{
 ]
 }];
 
-const counselingCases$1 = [];
+const counselingCases$1 = [{
+  id: "builtin_cases_counseling",
+  title: "Patient Counseling Cases",
+  icon: "Stethoscope",
+  color: "#8b5cf6",
+  isBuiltIn: true,
+  isBuiltin: true,
+  questions: [
+    {
+      title: "Case: New Inhaler Prescription (Asthma)",
+      vignette: "A 28-year-old female with newly diagnosed moderate persistent asthma is picking up her first prescription at the pharmacy: fluticasone/salmeterol (Advair) 250/50 mcg diskus BID and albuterol metered-dose inhaler (MDI) 2 puffs q4–6h PRN. She has no prior inhaler experience and appears anxious. She asks the pharmacist: 'Are both inhalers the same? Do I use both of them every day?' She is also concerned about 'steroid side effects' and mentions she heard inhalers can cause 'infections in the mouth.' She has a history of mild lactose intolerance and occasionally uses antacids.",
+      diagnosis: "Asthma — Inhaler Counseling and Education",
+      labPanels: [
+        { panelName: "PULMONARY FUNCTION TESTS", rows: [{ test: "FEV1", result: "68", flag: "L", range: ">80% predicted", units: "% predicted" }, { test: "FEV1/FVC ratio", result: "0.72", flag: "L", range: "≥0.70", units: "" }, { test: "Post-bronchodilator FEV1 change", result: "+15", flag: "H", range: ">12% = significant", units: "%" }] },
+        { panelName: "ALLERGY & LABS", rows: [{ test: "IgE (Total)", result: "380", flag: "H", range: "<100", units: "IU/mL" }, { test: "Eosinophils", result: "0.6", flag: "H", range: "0.0-0.5", units: "K/uL" }] },
+        { panelName: "PEAK FLOW DIARY", rows: [{ test: "Best personal PEF", result: "380", flag: "", range: ">400 for age/sex", units: "L/min" }, { test: "Morning PEF variability", result: "22", flag: "H", range: "<20%", units: "%" }] }
+      ],
+      q: "Which of the following represents the MOST complete and accurate counseling for this patient?",
+      options: ["A) Fluticasone/salmeterol is the controller medication (use every day even when feeling well); albuterol is the rescue inhaler (use only for acute symptoms or before exercise). Rinse mouth and spit after each dose of the fluticasone/salmeterol diskus to prevent oral candidiasis. Track albuterol use — if needed >2 days/week (not counting pre-exercise use), call provider.", "B) Both inhalers should be used together at the same time, but only when symptoms occur", "C) Use the fluticasone/salmeterol inhaler only when symptoms occur — it works fast enough for rescue", "D) Steroids in inhalers enter the bloodstream just like systemic steroids and cause the same side effects (osteoporosis, weight gain)", "E) Albuterol MDI should be used every day (even without symptoms) to prevent bronchoconstriction"],
+      correct: 0,
+      explanation: "Controller vs. rescue distinction is the foundation of asthma counseling: ICS/LABA (fluticasone/salmeterol) is used DAILY for maintenance regardless of symptoms; albuterol is ONLY for acute relief. Salmeterol (LABA) has an irreversible BOXED WARNING — it must never be used as monotherapy without ICS. Oral candidiasis (thrush) from ICS is prevented by rinsing and spitting after each dose. ICS are inhaled with minimal systemic absorption — local side effects (thrush, hoarseness) occur, NOT systemic corticosteroid effects at standard doses. Overuse of rescue albuterol (>2 days/week) signals poor control requiring step-up therapy."
+    },
+    {
+      title: "Case: SSRI Initiation Counseling (Depression)",
+      vignette: "A 34-year-old male with newly diagnosed major depressive disorder (MDD) is being started on sertraline 50 mg daily. He has no prior psychiatric history, no suicidal ideation currently, and denies substance use. He is engaged to be married in 6 months and is concerned about sexual side effects. He asks the pharmacist: 'How long before I feel better? Can I stop it once I feel normal again? I heard these medications make you want to hurt yourself.' He also takes ibuprofen PRN for headaches and mentions he sometimes has a glass of wine on weekends.",
+      diagnosis: "Major Depressive Disorder — SSRI Initiation Counseling",
+      labPanels: [
+        { panelName: "MENTAL HEALTH SCREENING", rows: [{ test: "PHQ-9 Score (at baseline)", result: "16", flag: "H", range: "0-4: None | 5-9: Mild | 10-14: Mod | 15-19: Mod-Severe", units: "score" }] },
+        { panelName: "BASELINE LABS", rows: [{ test: "TSH", result: "1.8", flag: "", range: "0.4-4.0", units: "mIU/L" }, { test: "CBC", result: "Normal", flag: "", range: "Normal", units: "" }, { test: "BMP", result: "Normal", flag: "", range: "Normal", units: "" }] },
+        { panelName: "MEDICATION REVIEW", rows: [{ test: "Ibuprofen (PRN)", result: "Active", flag: "H", range: "Caution with SSRIs — GI bleed risk", units: "" }, { test: "Alcohol (PRN)", result: "Occasional", flag: "H", range: "Avoid during SSRI initiation", units: "" }] }
+      ],
+      q: "What is the most complete and accurate counseling response to his concerns?",
+      options: ["A) Full effect takes 4–6 weeks (anxiety may improve sooner); continue medication for ≥6–12 months after remission then taper — never stop abruptly; FDA Black Box Warning for suicidal ideation in under-25s (monitor closely first 4 weeks but risk is low in adults); avoid ibuprofen due to increased GI bleeding risk with SSRIs (use acetaminophen instead); limit alcohol (worsens depression and sedation)", "B) Sertraline works within 3–5 days so he should feel better very soon; he can stop whenever he feels normal", "C) The suicidal ideation warning applies equally to all adults on SSRIs and should frighten him to avoid the medication", "D) Ibuprofen and wine are safe to take with sertraline — just space them apart by 2 hours", "E) Sexual dysfunction with SSRIs is rare and permanent — he should not worry about it"],
+      correct: 0,
+      explanation: "SSRIs require 4–6 weeks for full antidepressant effect (anxiolytic effect may precede). Duration: first episode → treat 6–12 months post-remission; recurrent episodes → longer/indefinite. Abrupt discontinuation causes serotonin discontinuation syndrome. FDA Black Box Warning: increased suicidal ideation in children, adolescents, and adults ≤24 — requires close monitoring in first 4 weeks but the absolute risk is low and untreated depression carries higher risk. NSAIDs + SSRIs increase GI bleeding risk by 3–15x (reduced platelet aggregation) — acetaminophen is preferred. Alcohol worsens CNS depression and impairs treatment response. Sexual dysfunction (decreased libido, delayed ejaculation) affects 30–40% — this is important to discuss openly; if bothersome, bupropion or mirtazapine are alternatives."
+    },
+    {
+      title: "Case: Anticoagulation Counseling (New A-Fib)",
+      vignette: "A 76-year-old female with newly diagnosed non-valvular atrial fibrillation, hypertension, and type 2 diabetes is started on apixaban (Eliquis) 5 mg BID. Her CHA2DS2-VASc score is 5. She lives alone, has mild cognitive impairment (MMSE 22/30), and her daughter manages her medications. She asks about her new medication and expresses concerns: 'Can I take aspirin for my heart? What happens if I cut myself? Can I take my herbal supplements — fish oil and ginkgo?' She has a history of falls (2 in the last year).",
+      diagnosis: "Atrial Fibrillation — DOAC Initiation Counseling (Apixaban)",
+      labPanels: [
+        { panelName: "CARDIAC / LABS", rows: [{ test: "ECG", result: "Irregular rhythm, A-Fib", flag: "H", range: "Normal sinus rhythm", units: "" }, { test: "Creatinine", result: "1.1", flag: "", range: "0.5-1.1", units: "mg/dL" }, { test: "eGFR", result: "58", flag: "", range: ">60", units: "mL/min/1.73m²" }] },
+        { panelName: "STROKE RISK", rows: [{ test: "CHA2DS2-VASc Score", result: "5", flag: "H", range: "Anticoagulate if ≥2 (female)", units: "score" }, { test: "HAS-BLED Score", result: "2", flag: "", range: "Low-moderate bleed risk", units: "score" }] },
+        { panelName: "MEDICATION REVIEW", rows: [{ test: "Fish oil (1g/day)", result: "Active", flag: "H", range: "Antiplatelet — additive bleed risk", units: "" }, { test: "Ginkgo biloba", result: "Active", flag: "H", range: "Antiplatelet — additive bleed risk", units: "" }] }
+      ],
+      q: "What are the most important counseling points for apixaban in this patient?",
+      options: ["A) Take apixaban BID at the same times every day; do NOT take aspirin or NSAIDs (increased bleeding risk) unless prescribed; minor cuts — apply pressure; serious or unusual bleeding (blood in urine/stool, stroke symptoms) → go to ER immediately; discontinue fish oil and ginkgo (additive bleeding risk); do not skip doses but do not double-dose if missed", "B) Apixaban does not need to be taken twice daily — taking it once daily in the morning is sufficient for A-Fib", "C) It is safe to add aspirin 81 mg to apixaban for additional stroke prevention in A-Fib", "D) Taking apixaban with ginkgo biloba and fish oil is safe since these are natural products", "E) Apixaban requires routine INR monitoring every month to ensure the dose is therapeutic"],
+      correct: 0,
+      explanation: "Apixaban (Eliquis) for non-valvular A-Fib is dosed 5 mg BID (or 2.5 mg BID if ≥2 of: age ≥80, weight ≤60 kg, SCr ≥1.5). Unlike warfarin, DOACs do NOT require routine INR monitoring. Aspirin + DOAC dramatically increases major bleeding without added stroke benefit in non-valvular A-Fib. Fish oil >3g/day and ginkgo biloba have antiplatelet properties that add to DOAC bleeding risk. Serious bleeding: brain, eyes, joints, GI → immediate ED evaluation. Minor cuts: local pressure. For this cognitively impaired patient, involve the daughter in medication management and fall prevention planning (padding, non-slip mats) since falls + anticoagulation carry clinical risk."
+    },
+    {
+      title: "Case: Immunization Counseling (Zoster Vaccine)",
+      vignette: "A 68-year-old male diabetic patient is at the pharmacy for his quarterly medication refill. During a medication therapy management (MTM) session, the pharmacist notes he has not received any vaccines in 10 years. He received the older zoster vaccine (Zostavax) 12 years ago. He mentions: 'I already had the shingles shot years ago — why would I need another one? Also, I am not sure about vaccines since I had a bad reaction to the flu shot once (arm soreness lasting a week).' He has no known egg allergies, is not immunocompromised, and takes metformin and amlodipine.",
+      diagnosis: "Vaccine Counseling: Shingrix (RZV) vs. Zostavax + Influenza Vaccine Misconception",
+      labPanels: [
+        { panelName: "VACCINATION HISTORY", rows: [{ test: "Pneumococcal (PCV15/PPSV23)", result: "Never received", flag: "H", range: "Age ≥65 recommended", units: "" }, { test: "Influenza (annual)", result: "Last received 10 years ago", flag: "H", range: "Annual recommended", units: "" }, { test: "Zostavax (live zoster)", result: "Received 12 years ago", flag: "H", range: "Replace with Shingrix", units: "" }, { test: "COVID-19 updated booster", result: "Not up to date", flag: "H", range: "Recommended annually", units: "" }] },
+        { panelName: "CLINICAL RISK", rows: [{ test: "Diabetes (risk factor for VZV reactivation)", result: "Present", flag: "H", range: "Increases herpes zoster risk", units: "" }, { test: "Age (≥60 — HZ incidence rises sharply)", result: "68 years", flag: "H", range: "High risk", units: "" }] },
+        { panelName: "ALLERGY SCREENING", rows: [{ test: "Egg allergy", result: "None", flag: "", range: "No contraindication to flu vaccine", units: "" }, { test: "Gelatin allergy", result: "None", flag: "", range: "No contraindication to Shingrix", units: "" }] }
+      ],
+      q: "What is the most appropriate counseling response for this patient?",
+      options: ["A) Recommend Shingrix (recombinant zoster vaccine, RZV) 2-dose series regardless of prior Zostavax: Shingrix is non-live, >90% effective vs 51% for Zostavax, immune protection wanes faster with Zostavax. Arm soreness after flu vaccine is a normal local reaction (Grade 1 adverse event) — not an allergy or contraindication to future vaccines.", "B) Since he already received Zostavax, he does not need Shingrix — two different shingles vaccines are not recommended together", "C) His arm soreness after flu vaccine was an allergic reaction — he should avoid all vaccines in the future", "D) Shingrix is the same vaccine as Zostavax — there is no clinical difference between them", "E) Diabetes patients are not at increased risk for shingles, so he can defer the Shingrix vaccine"],
+      correct: 0,
+      explanation: "ACIP recommends Shingrix (RZV, GSK) for ALL immunocompetent adults ≥50, including those who previously received Zostavax (live attenuated). Shingrix is 90–97% effective vs. 51% for Zostavax; Zostavax efficacy falls to <30% after 5–6 years. Shingrix is administered as 2 doses (0 and 2–6 months). It is non-live (recombinant adjuvanted) and safe in immunocompromised patients. Local injection site reactions (soreness, redness, swelling) and systemic reactions (fatigue, headache) are common with Shingrix — these are expected immune responses, not allergic reactions. Arm soreness after flu vaccine is a Grade 1 injection site reaction — it does NOT contraindicate future vaccines. Diabetes increases herpes zoster risk by ~2-fold."
+    },
+    {
+      title: "Case: Oral Contraceptive Counseling",
+      vignette: "A 22-year-old female college student is starting a combined oral contraceptive pill (OCP) — ethinyl estradiol 30 mcg / levonorgestrel 150 mcg — for contraception and dysmenorrhea. She smokes half a pack per day, is healthy, and has no prior medical history. She asks the pharmacist: 'What if I forget a pill? Can I smoke while taking this? I also have antibiotics (amoxicillin) prescribed for a dental infection — will that affect the pill? I want to know about side effects.' She is not planning pregnancy.",
+      diagnosis: "Combined Oral Contraceptive Counseling — Complete Initiation Education",
+      labPanels: [
+        { panelName: "CLINICAL RISK ASSESSMENT", rows: [{ test: "Age", result: "22 years", flag: "", range: "OK for COC", units: "" }, { test: "Smoking status", result: "Smoker, < 35 years", flag: "H", range: "VTE risk — AVOID COC if ≥35 + smoking", units: "" }, { test: "BP", result: "118/74", flag: "", range: "Normal (<130/80)", units: "mmHg" }, { test: "BMI", result: "23.4", flag: "", range: "Normal (18.5-24.9)", units: "kg/m²" }] },
+        { panelName: "CONTRACEPTIVE EFFECTIVENESS", rows: [{ test: "COC typical use failure rate", result: "7", flag: "", range: "9% typical vs <1% perfect use", units: "% annually" }, { test: "Perfect use failure rate", result: "<1", flag: "", range: "<1%", units: "%" }] },
+        { panelName: "DRUG INTERACTION SCREEN", rows: [{ test: "Amoxicillin — COC interaction", result: "No significant interaction", flag: "", range: "Evidence: NOT significant (updated guidance)", units: "" }, { test: "Rifampin — COC interaction", result: "High significance", flag: "H", range: "CYP3A4 inducer — reduces COC efficacy", units: "" }] }
+      ],
+      q: "Which of the following represents the most complete and accurate counseling for this patient?",
+      options: ["A) Take the pill at the same time daily; if you miss 1 pill (<24h late), take it ASAP and continue; if 2+ pills missed, use backup contraception for 7 days; smoking increases VTE/stroke risk but is not an absolute contraindication until age 35 — strongly encourage smoking cessation; amoxicillin does NOT significantly interact with COCs per current evidence (old advice about antibiotics was not supported by clinical data); watch for: nausea, breast tenderness, spotting (usually resolve in 1–3 months)", "B) Amoxicillin significantly reduces the effectiveness of the pill — always use condoms when taking any antibiotic with the OCP", "C) Smoking while on the OCP is completely safe under age 25 — the VTE risk only applies over 35", "D) If you forget a pill, take 2 pills the next day and just continue — no backup contraception needed regardless of how many were missed", "E) Combined OCPs should never be taken by smokers regardless of age because of absolute contraindication"],
+      correct: 0,
+      explanation: "COC counseling: (1) Daily compliance is key — consistent timing minimizes hormonal variation. (2) Missed pill management: <24h late → take immediately; ≥2 consecutive missed pills → backup contraception x7 days. (3) Smoking + COC: absolute contraindication is ≥35 years + smoking; at age 22 it is a relative concern (VTE/CVD risk elevation) — counsel on cessation but it is not disqualifying. (4) Antibiotic interaction: Rifampin is a potent CYP3A4 inducer that reduces COC efficacy — backup needed. Amoxicillin/penicillins do NOT significantly reduce COC efficacy per updated pharmacokinetic and pharmacodynamic evidence (old anecdotal guidance was removed from major guidelines). (5) Common side effects: nausea (take with food), breakthrough bleeding (improves by cycle 3), breast tenderness."
+    }
+  ]
+}];
 
 const diseasesFlashcards$1 = [{
   id: "builtin_diseases",
@@ -7492,7 +7571,86 @@ const diseasesExams$1 = [{
   }
 ]
 }];
-const diseasesCases$1 = [];
+const diseasesCases$1 = [{
+  id: "builtin_cases_diseases",
+  title: "Medical Sciences Cases",
+  icon: "Stethoscope",
+  color: "#06b6d4",
+  isBuiltIn: true,
+  isBuiltin: true,
+  questions: [
+    {
+      title: "Case: Decompensated Heart Failure",
+      vignette: "A 72-year-old male with a history of ischemic cardiomyopathy (EF 30%), hypertension, and type 2 diabetes presents to the ED with a 4-day history of progressive dyspnea, orthopnea requiring 3 pillows, and bilateral leg swelling. He reports weight gain of 8 lbs over 1 week. Current medications include carvedilol, lisinopril, and spironolactone, but he admits to eating salty foods over the holidays and missing his furosemide for 3 days. Vital signs: BP 158/92 mmHg, HR 98 bpm, RR 24/min, O2 sat 89% on room air. Physical exam reveals bilateral crackles, JVD to the jaw, and 3+ pitting edema to the knees. CXR shows cardiomegaly, bilateral pleural effusions, and pulmonary vascular congestion.",
+      diagnosis: "Acute Decompensated Heart Failure (HFrEF)",
+      labPanels: [
+        { panelName: "COMPLETE BLOOD COUNT", rows: [{ test: "WBC", result: "8.2", flag: "", range: "4.5-11.0", units: "K/uL" }, { test: "Hemoglobin", result: "11.4", flag: "L", range: "13.5-17.5", units: "g/dL" }, { test: "Hematocrit", result: "34", flag: "L", range: "41-53", units: "%" }, { test: "Platelets", result: "210", flag: "", range: "150-400", units: "K/uL" }] },
+        { panelName: "BASIC METABOLIC PANEL", rows: [{ test: "Na", result: "134", flag: "L", range: "136-145", units: "mEq/L" }, { test: "K", result: "5.1", flag: "H", range: "3.5-5.0", units: "mEq/L" }, { test: "BUN", result: "38", flag: "H", range: "7-20", units: "mg/dL" }, { test: "Creatinine", result: "1.8", flag: "H", range: "0.6-1.2", units: "mg/dL" }, { test: "Glucose", result: "148", flag: "H", range: "70-100", units: "mg/dL" }] },
+        { panelName: "CARDIAC MARKERS", rows: [{ test: "BNP", result: "1840", flag: "H", range: "<100", units: "pg/mL" }, { test: "Troponin I", result: "0.04", flag: "", range: "<0.04", units: "ng/mL" }, { test: "Pro-BNP", result: "8200", flag: "H", range: "<300", units: "pg/mL" }] }
+      ],
+      q: "What is the most appropriate initial management for this patient?",
+      options: ["A) IV furosemide 40–80 mg and supplemental oxygen to target O2 sat ≥94%", "B) Start IV dopamine infusion immediately for cardiogenic shock", "C) Administer 1L normal saline bolus to improve renal perfusion", "D) Increase the dose of oral carvedilol to reduce heart rate", "E) Emergent coronary angiography to rule out new MI"],
+      correct: 0,
+      explanation: "Decompensated HFrEF with volume overload requires IV loop diuretics (furosemide) to relieve congestion and supplemental oxygen to correct hypoxemia. IV furosemide is far more bioavailable and faster-acting than oral in acute decompensation. IV dopamine is reserved for cardiogenic shock. NS bolus would worsen the overloaded state. Increasing beta-blocker worsens acute decompensation. Angiography is not the priority without ACS evidence."
+    },
+    {
+      title: "Case: COPD Exacerbation",
+      vignette: "A 64-year-old male with a 40 pack-year smoking history and known COPD (GOLD Stage III) presents to the clinic with worsening dyspnea, increased sputum production with yellow-green color, and new low-grade fever of 38.2°C for 3 days. He uses albuterol PRN and tiotropium daily but has not used his rescue inhaler more than twice in the last 2 days. He currently smokes half a pack per day. Vital signs: BP 130/84 mmHg, HR 104 bpm, RR 26/min, O2 sat 88% on room air, T 38.2°C. Auscultation reveals diffuse expiratory wheezing and prolonged expiratory phase. He is using accessory muscles. He has no lower extremity edema.",
+      diagnosis: "Acute Exacerbation of COPD (Bacterial Trigger)",
+      labPanels: [
+        { panelName: "COMPLETE BLOOD COUNT", rows: [{ test: "WBC", result: "13.8", flag: "H", range: "4.5-11.0", units: "K/uL" }, { test: "Neutrophils", result: "82", flag: "H", range: "50-70", units: "%" }, { test: "Hemoglobin", result: "15.2", flag: "", range: "13.5-17.5", units: "g/dL" }, { test: "Platelets", result: "285", flag: "", range: "150-400", units: "K/uL" }] },
+        { panelName: "ARTERIAL BLOOD GAS", rows: [{ test: "pH", result: "7.33", flag: "L", range: "7.35-7.45", units: "" }, { test: "pCO2", result: "58", flag: "H", range: "35-45", units: "mmHg" }, { test: "pO2", result: "52", flag: "L", range: "75-100", units: "mmHg" }, { test: "HCO3", result: "30", flag: "H", range: "22-26", units: "mEq/L" }] },
+        { panelName: "CRP / PROCALCITONIN", rows: [{ test: "CRP", result: "62", flag: "H", range: "<5", units: "mg/L" }, { test: "Procalcitonin", result: "0.42", flag: "H", range: "<0.1", units: "ng/mL" }] }
+      ],
+      q: "Which treatment regimen is most appropriate for this patient at this time?",
+      options: ["A) Short-acting bronchodilators (albuterol + ipratropium), systemic corticosteroids (prednisone 40 mg x5 days), and antibiotics (azithromycin or doxycycline)", "B) IV methylprednisolone 1g/day for 3 days plus broad-spectrum IV antibiotics", "C) Inhaled corticosteroids alone with increased albuterol PRN", "D) Start long-term oxygen therapy at 2 L/min and discharge home", "E) Intubation and mechanical ventilation immediately"],
+      correct: 0,
+      explanation: "Acute COPD exacerbation with increased purulent sputum and elevated inflammatory markers (WBC, procalcitonin >0.25) indicates a bacterial trigger requiring antibiotics. Short-acting bronchodilators (SABD) relieve acute bronchoconstriction. Systemic corticosteroids (prednisone 40 mg x5 days) are equivalent to longer courses and reduce treatment failure. IV methylprednisolone 1g is excessive and not standard of care. ICS alone do not treat acute exacerbations. LTOT requires stable assessment. Intubation is a last resort if NIV fails."
+    },
+    {
+      title: "Case: Diabetic Ketoacidosis",
+      vignette: "A 22-year-old female with known Type 1 diabetes mellitus, poorly controlled on insulin, presents to the ED with a 2-day history of nausea, vomiting, abdominal pain, and polyuria. She ran out of insulin 3 days ago and has not been able to refill her prescription. She reports no fever but has had a sore throat for 4 days. Vital signs: BP 98/62 mmHg (lying), HR 118 bpm, RR 28/min with Kussmaul breathing, O2 sat 98%, T 37.5°C. The patient appears ill, with dry mucous membranes, decreased skin turgor, and a fruity odor on her breath. She is alert and oriented but appears confused and fatigued.",
+      diagnosis: "Diabetic Ketoacidosis (DKA) - Precipitated by Infection and Insulin Omission",
+      labPanels: [
+        { panelName: "COMPLETE METABOLIC PANEL", rows: [{ test: "Glucose", result: "542", flag: "H", range: "70-100", units: "mg/dL" }, { test: "Na", result: "128", flag: "L", range: "136-145", units: "mEq/L" }, { test: "K", result: "5.8", flag: "H", range: "3.5-5.0", units: "mEq/L" }, { test: "HCO3", result: "8", flag: "L", range: "22-29", units: "mEq/L" }, { test: "BUN", result: "32", flag: "H", range: "7-20", units: "mg/dL" }, { test: "Creatinine", result: "1.6", flag: "H", range: "0.5-1.1", units: "mg/dL" }] },
+        { panelName: "KETONES & BLOOD GAS", rows: [{ test: "pH", result: "7.18", flag: "L", range: "7.35-7.45", units: "" }, { test: "pCO2", result: "22", flag: "L", range: "35-45", units: "mmHg" }, { test: "Beta-hydroxybutyrate", result: "6.8", flag: "H", range: "<0.6", units: "mmol/L" }, { test: "Anion Gap", result: "24", flag: "H", range: "8-12", units: "mEq/L" }, { test: "Urine Ketones", result: "3+", flag: "H", range: "Negative", units: "" }] },
+        { panelName: "OTHER LABS", rows: [{ test: "HbA1c", result: "11.8", flag: "H", range: "<7.0", units: "%" }, { test: "WBC", result: "16.2", flag: "H", range: "4.5-11.0", units: "K/uL" }, { test: "Phosphate", result: "1.2", flag: "L", range: "2.5-4.5", units: "mg/dL" }] }
+      ],
+      q: "What is the initial priority in managing this patient with DKA?",
+      options: ["A) IV isotonic saline (0.9% NaCl) 1-2 L/hr for volume resuscitation, followed by insulin infusion once K+ ≥3.5 mEq/L", "B) Immediately start IV insulin infusion at 0.1 units/kg/hr regardless of potassium level", "C) Administer sodium bicarbonate to correct the metabolic acidosis", "D) Give oral glucose tablets to prevent overcorrection of hypoglycemia", "E) Start subcutaneous insulin and oral fluids as the patient is alert"],
+      correct: 0,
+      explanation: "DKA management begins with aggressive IV fluid resuscitation using 0.9% NaCl at 1-2 L/hr to correct dehydration and hypotension. Insulin must NOT be started until K+ ≥3.5 mEq/L because insulin drives K+ intracellularly, worsening hypokalemia and risking cardiac arrhythmia (initial K+ of 5.8 is high due to acidosis but will drop sharply with insulin). Bicarbonate is only considered for pH <6.9 or severe hemodynamic instability. Glucose administration is for hypoglycemia prevention once glucose falls to ~200 mg/dL. Subcutaneous insulin is too slow for severe DKA."
+    },
+    {
+      title: "Case: Community-Acquired Pneumonia",
+      vignette: "A 58-year-old male with a history of hypertension and 30 pack-year smoking history presents to the ED with 4 days of productive cough with rust-colored sputum, fever to 39.1°C, rigors, pleuritic chest pain on the right side, and progressive dyspnea. He is not immunocompromised and has not been hospitalized in the last 90 days. He takes amlodipine and aspirin. Vital signs: BP 112/74 mmHg, HR 102 bpm, RR 24/min, T 39.1°C, O2 sat 92% on room air. Physical exam: right lower lobe (RLL) dullness to percussion, decreased breath sounds, and E-to-A change with egophony. CXR confirms RLL consolidation.",
+      diagnosis: "Community-Acquired Pneumonia (CAP) - Likely Streptococcus pneumoniae",
+      labPanels: [
+        { panelName: "COMPLETE BLOOD COUNT", rows: [{ test: "WBC", result: "18.4", flag: "H", range: "4.5-11.0", units: "K/uL" }, { test: "Neutrophils", result: "88", flag: "H", range: "50-70", units: "%" }, { test: "Bands", result: "12", flag: "H", range: "0-5", units: "%" }, { test: "Hemoglobin", result: "13.8", flag: "", range: "13.5-17.5", units: "g/dL" }, { test: "Platelets", result: "320", flag: "", range: "150-400", units: "K/uL" }] },
+        { panelName: "BASIC METABOLIC PANEL", rows: [{ test: "Na", result: "131", flag: "L", range: "136-145", units: "mEq/L" }, { test: "BUN", result: "28", flag: "H", range: "7-20", units: "mg/dL" }, { test: "Creatinine", result: "1.3", flag: "H", range: "0.6-1.2", units: "mg/dL" }, { test: "Glucose", result: "112", flag: "", range: "70-100", units: "mg/dL" }] },
+        { panelName: "INFLAMMATORY MARKERS", rows: [{ test: "CRP", result: "148", flag: "H", range: "<5", units: "mg/L" }, { test: "Procalcitonin", result: "2.8", flag: "H", range: "<0.1", units: "ng/mL" }, { test: "ESR", result: "88", flag: "H", range: "0-20", units: "mm/hr" }, { test: "LDH", result: "312", flag: "H", range: "140-280", units: "U/L" }] }
+      ],
+      q: "Based on PSI/PORT scoring and presentation, what is the most appropriate disposition and antibiotic regimen?",
+      options: ["A) Admit to general ward; start beta-lactam (ceftriaxone 1–2g IV daily) PLUS azithromycin 500 mg IV daily for atypical coverage", "B) Discharge home with azithromycin monotherapy 500 mg daily x5 days", "C) Admit to ICU and start vancomycin plus piperacillin-tazobactam for MRSA coverage", "D) Start levofloxacin alone as monotherapy and plan for discharge in 24 hours", "E) Withhold antibiotics until blood cultures result and sputum gram stain is finalized"],
+      correct: 0,
+      explanation: "This patient has multiple PORT risk factors: age, Na <130, BUN >20, RR ≥30, O2 sat <94%, confusion — placing him in PSI Class IV (admit). IDSA/ATS guidelines recommend combination therapy for hospitalized non-ICU CAP: a beta-lactam (ceftriaxone) + azithromycin (covering atypicals like Legionella, Mycoplasma). Home azithromycin monotherapy is only for low-risk outpatients. ICU-level care and MRSA coverage are not indicated without risk factors (aspiration, cavitation, prior MRSA). Respiratory fluoroquinolone monotherapy is an alternative but the combination is preferred for hospitalized patients. Delaying antibiotics in confirmed CAP increases mortality."
+    },
+    {
+      title: "Case: Acute Sepsis from Urinary Source",
+      vignette: "A 68-year-old female with type 2 diabetes and recurrent UTIs presents via EMS with altered mental status, confusion, and inability to care for herself for 24 hours. Her daughter reports she had burning urination 5 days ago but refused to see a doctor. She has not voided in 6 hours. She takes metformin and lisinopril. Vital signs: BP 84/50 mmHg, HR 124 bpm, RR 22/min, T 39.4°C, O2 sat 95% on 2L NC. On exam she is confused (GCS 13), has suprapubic tenderness, and no neck stiffness. Urinalysis shows large leukocyte esterase, nitrite positive, WBC >50, numerous bacteria.",
+      diagnosis: "Septic Shock - Urinary Source (Urosepsis)",
+      labPanels: [
+        { panelName: "COMPLETE BLOOD COUNT", rows: [{ test: "WBC", result: "22.6", flag: "H", range: "4.5-11.0", units: "K/uL" }, { test: "Bands", result: "18", flag: "H", range: "0-5", units: "%" }, { test: "Hemoglobin", result: "10.8", flag: "L", range: "12.0-16.0", units: "g/dL" }, { test: "Platelets", result: "88", flag: "L", range: "150-400", units: "K/uL" }] },
+        { panelName: "METABOLIC / INFECTION", rows: [{ test: "Lactate", result: "4.2", flag: "H", range: "<2.0", units: "mmol/L" }, { test: "Creatinine", result: "2.8", flag: "H", range: "0.5-1.1", units: "mg/dL" }, { test: "BUN", result: "52", flag: "H", range: "7-20", units: "mg/dL" }, { test: "Procalcitonin", result: "18.4", flag: "H", range: "<0.1", units: "ng/mL" }, { test: "CRP", result: "210", flag: "H", range: "<5", units: "mg/L" }] },
+        { panelName: "COAGULATION", rows: [{ test: "PT/INR", result: "1.6", flag: "H", range: "<1.2", units: "" }, { test: "aPTT", result: "48", flag: "H", range: "25-35", units: "sec" }, { test: "Fibrinogen", result: "120", flag: "L", range: "200-400", units: "mg/dL" }, { test: "D-Dimer", result: "8.4", flag: "H", range: "<0.5", units: "mcg/mL" }] }
+      ],
+      q: "What is the correct initial management bundle for septic shock (Surviving Sepsis Campaign Hour-1 Bundle)?",
+      options: ["A) IV fluid resuscitation 30 mL/kg crystalloid, blood cultures x2 before antibiotics, broad-spectrum antibiotics within 1 hour, vasopressors (norepinephrine) if MAP <65 mmHg, and measure lactate", "B) Administer broad-spectrum antibiotics first before drawing blood cultures to save time", "C) Give albumin 5% IV instead of crystalloid as it is superior first-line fluid in septic shock", "D) Start vasopressors immediately and withhold fluids due to risk of pulmonary edema", "E) Begin corticosteroids (hydrocortisone 200 mg/day) as first-line to reverse shock"],
+      correct: 0,
+      explanation: "The Surviving Sepsis Campaign Hour-1 Bundle requires: (1) measure lactate — this patient has 4.2 mmol/L confirming septic shock; (2) obtain blood cultures x2 BEFORE antibiotics; (3) administer broad-spectrum antibiotics within 1 hour of recognition; (4) give 30 mL/kg IV crystalloid (NS or LR) for hypoperfusion; (5) vasopressors (norepinephrine first-line) if MAP remains <65 mmHg. Culture before antibiotics minimizes yield loss. Albumin is not first-line. Withholding fluids risks organ failure. Corticosteroids are adjunctive therapy for shock refractory to vasopressors, not first-line."
+    }
+  ]
+}];
 
 const drugFlashcards$1 = [{
   id: "builtin_drug",
@@ -10848,7 +11006,86 @@ const drugExams$1 = [{
 ]
 }];
 
-const drugCases$1 = [];
+const drugCases$1 = [{
+  id: "builtin_cases_drug",
+  title: "Drug Counseling Cases",
+  icon: "Stethoscope",
+  color: "#f59e0b",
+  isBuiltIn: true,
+  isBuiltin: true,
+  questions: [
+    {
+      title: "Case: Supratherapeutic INR on Warfarin",
+      vignette: "A 72-year-old male with atrial fibrillation on warfarin 5 mg daily comes to the anticoagulation clinic for a routine INR check. He recently completed a 7-day course of trimethoprim-sulfamethoxazole (TMP-SMX) for a UTI. He denies any bleeding. His current INR is 7.8 (therapeutic range 2.0–3.0). His previous INR 3 weeks ago was 2.4. He takes no other prescription medications but recently started taking acetaminophen 650 mg TID for knee pain. He has no history of intracranial bleeding and no current signs of active bleeding on exam.",
+      diagnosis: "Supratherapeutic INR — Drug Interaction (TMP-SMX + Warfarin) with Acetaminophen",
+      labPanels: [
+        { panelName: "COAGULATION STUDIES", rows: [{ test: "INR", result: "7.8", flag: "H", range: "2.0-3.0 (therapeutic)", units: "" }, { test: "PT", result: "82", flag: "H", range: "11-13.5", units: "seconds" }, { test: "aPTT", result: "48", flag: "H", range: "25-35", units: "seconds" }] },
+        { panelName: "BASIC METABOLIC PANEL", rows: [{ test: "Na", result: "139", flag: "", range: "136-145", units: "mEq/L" }, { test: "Creatinine", result: "1.1", flag: "", range: "0.6-1.2", units: "mg/dL" }, { test: "Hemoglobin", result: "13.2", flag: "", range: "13.5-17.5", units: "g/dL" }] },
+        { panelName: "LIVER FUNCTION TESTS", rows: [{ test: "AST", result: "28", flag: "", range: "10-40", units: "U/L" }, { test: "ALT", result: "32", flag: "", range: "7-56", units: "U/L" }, { test: "Albumin", result: "3.8", flag: "", range: "3.5-5.0", units: "g/dL" }] }
+      ],
+      q: "What is the most appropriate management for this patient with INR 7.8 and no active bleeding?",
+      options: ["A) Hold warfarin, administer oral vitamin K 2.5–5 mg, recheck INR in 24 hours, and resume warfarin at a reduced dose once INR is therapeutic", "B) Immediately administer IV vitamin K 10 mg and 4-factor PCC for urgent reversal", "C) Continue warfarin at the current dose and recheck INR in 1 week", "D) Discontinue warfarin permanently and switch to aspirin for stroke prevention", "E) Administer fresh frozen plasma (FFP) 2 units urgently to reverse anticoagulation"],
+      correct: 0,
+      explanation: "For INR 5.0–9.0 with no active bleeding, ACCP guidelines recommend holding warfarin and giving LOW-DOSE oral vitamin K (2.5–5 mg). Oral vitamin K is preferred — it works within 24–48 hours and avoids rebound over-reversal seen with high IV doses. IV vitamin K 10 mg + PCC is for life-threatening bleeding (e.g., intracranial hemorrhage). Continuing warfarin risks serious bleeding. Discontinuing warfarin is not warranted. FFP alone is only used for emergent reversal with active bleeding. TMP-SMX inhibits CYP2C9 (warfarin S-enantiomer metabolism) and acetaminophen potentiates warfarin — both interactions were responsible."
+    },
+    {
+      title: "Case: Metformin in Chronic Kidney Disease",
+      vignette: "A 65-year-old female with type 2 diabetes (HbA1c 8.2%), hypertension, and chronic kidney disease is seen in primary care. She has been on metformin 1000 mg BID for 8 years and her diabetes has been well managed. Lab results today show: eGFR 26 mL/min/1.73m² (down from 38 last year), serum creatinine 2.4 mg/dL. She is also on lisinopril, amlodipine, and furosemide. She is scheduled for a CT scan with IV contrast next week and her provider is asking about medication management. She feels well with no symptoms of hypoglycemia or nausea.",
+      diagnosis: "Metformin Contraindicated in Stage 4 CKD — Lactic Acidosis Risk",
+      labPanels: [
+        { panelName: "RENAL FUNCTION", rows: [{ test: "eGFR", result: "26", flag: "L", range: ">60", units: "mL/min/1.73m²" }, { test: "Creatinine", result: "2.4", flag: "H", range: "0.5-1.1", units: "mg/dL" }, { test: "BUN", result: "38", flag: "H", range: "7-20", units: "mg/dL" }, { test: "Urine protein/Cr ratio", result: "0.68", flag: "H", range: "<0.15", units: "g/g" }] },
+        { panelName: "METABOLIC", rows: [{ test: "HbA1c", result: "8.2", flag: "H", range: "<7.0", units: "%" }, { test: "Fasting glucose", result: "162", flag: "H", range: "70-99", units: "mg/dL" }, { test: "K+", result: "5.3", flag: "H", range: "3.5-5.0", units: "mEq/L" }, { test: "Bicarbonate", result: "20", flag: "L", range: "22-29", units: "mEq/L" }] },
+        { panelName: "LIVER FUNCTION", rows: [{ test: "ALT", result: "22", flag: "", range: "7-56", units: "U/L" }, { test: "AST", result: "19", flag: "", range: "10-40", units: "U/L" }] }
+      ],
+      q: "What is the most appropriate action regarding metformin at this time?",
+      options: ["A) Discontinue metformin immediately (eGFR <30 mL/min/1.73m²); hold metformin 48 hours before and after IV contrast; consider alternative agents such as a GLP-1 agonist or SGLT-2 inhibitor (with appropriate eGFR thresholds)", "B) Continue metformin at the current dose since the patient has no symptoms of lactic acidosis", "C) Reduce metformin to 500 mg daily and continue it safely in stage 4 CKD", "D) Hold metformin only for the CT contrast and resume immediately after the scan without waiting", "E) Switch metformin to glipizide as the safest antidiabetic agent in CKD"],
+      correct: 0,
+      explanation: "FDA labeling: metformin is CONTRAINDICATED when eGFR <30 mL/min/1.73m² due to risk of metformin-associated lactic acidosis (MALA) via reduced renal clearance. This patient's eGFR of 26 requires immediate discontinuation. Additionally, IV iodinated contrast can cause acute kidney injury, which would further accumulate metformin — metformin should be held ≥48 hours before and after contrast administration, then only resumed if eGFR remains stable. Glipizide accumulates in CKD (active metabolites) and causes hypoglycemia. GLP-1 agonists (semaglutide, dulaglutide) and insulin are safer alternatives for diabetic management in stage 4 CKD. SGLT-2 inhibitors lose efficacy at eGFR <30–45."
+    },
+    {
+      title: "Case: Statin-Induced Myopathy",
+      vignette: "A 58-year-old male with hyperlipidemia, treated with simvastatin 80 mg daily for 3 years, presents to the clinic with a 3-week history of bilateral proximal muscle weakness and myalgia affecting his thighs and shoulders. He started clarithromycin 500 mg BID 4 weeks ago for community-acquired pneumonia. He denies dark urine. He takes no other medications other than aspirin. Physical exam shows bilateral proximal muscle tenderness to palpation but intact muscle strength (4+/5 bil). He is afebrile with normal vital signs.",
+      diagnosis: "Statin-Induced Myopathy — Drug Interaction (Simvastatin + Clarithromycin)",
+      labPanels: [
+        { panelName: "MUSCLE ENZYMES", rows: [{ test: "CK (Creatine Kinase)", result: "4820", flag: "H", range: "38-174", units: "U/L" }, { test: "LDH", result: "410", flag: "H", range: "140-280", units: "U/L" }, { test: "Aldolase", result: "14", flag: "H", range: "1.5-8.1", units: "U/L" }] },
+        { panelName: "RENAL FUNCTION", rows: [{ test: "Creatinine", result: "1.0", flag: "", range: "0.6-1.2", units: "mg/dL" }, { test: "BUN", result: "16", flag: "", range: "7-20", units: "mg/dL" }, { test: "Urine myoglobin", result: "Negative", flag: "", range: "Negative", units: "" }] },
+        { panelName: "LIPID PANEL", rows: [{ test: "LDL", result: "72", flag: "", range: "<100", units: "mg/dL" }, { test: "HDL", result: "48", flag: "", range: ">40", units: "mg/dL" }, { test: "Triglycerides", result: "142", flag: "", range: "<150", units: "mg/dL" }] }
+      ],
+      q: "What is the most appropriate next step in management for this patient?",
+      options: ["A) Discontinue simvastatin immediately; ensure adequate hydration; check renal function; switch to a statin NOT metabolized by CYP3A4 (e.g., pravastatin or rosuvastatin) after resolution", "B) Reduce simvastatin to 40 mg daily and continue monitoring CK levels", "C) Continue simvastatin and reassure the patient that myalgia is a common side effect that resolves with time", "D) Add coenzyme Q10 (CoQ10) 200 mg daily to prevent further muscle damage while continuing simvastatin", "E) Stop clarithromycin and continue simvastatin at the same dose"],
+      correct: 0,
+      explanation: "Clarithromycin is a potent CYP3A4 inhibitor that markedly increases simvastatin plasma levels (up to 10-fold), causing drug-induced myopathy. This patient's CK is >10x ULN — consistent with myositis. Simvastatin (and lovastatin) carry a BOXED WARNING against use with potent CYP3A4 inhibitors. Immediate discontinuation of simvastatin is required to prevent progression to rhabdomyolysis. Hydration protects the kidneys from myoglobinuria. After resolution, statins less dependent on CYP3A4 (pravastatin, rosuvastatin, fluvastatin) can be safely restarted. Dose reduction alone is insufficient at this CK level. CoQ10 has no proven preventive benefit. Stopping only the macrolide while continuing simvastatin risks continued toxicity."
+    },
+    {
+      title: "Case: Angiotensin-Converting Enzyme Inhibitor Cough + Switch",
+      vignette: "A 54-year-old female with hypertension and proteinuric diabetic nephropathy (eGFR 52 mL/min/1.73m², urine albumin/creatinine 520 mg/g) has been on lisinopril 20 mg daily for 2 years. She presents today complaining of a persistent dry, nonproductive cough for the past 4 months. She reports the cough wakes her at night and is causing sleep disturbance. Her current BP is well controlled at 126/78 mmHg. She has tried lozenge drops and OTC cough suppressants without relief. History is negative for asthma, postnasal drip, or GERD. Her BMP is otherwise normal. Spirometry is normal.",
+      diagnosis: "ACE Inhibitor-Induced Chronic Dry Cough",
+      labPanels: [
+        { panelName: "RENAL FUNCTION", rows: [{ test: "eGFR", result: "52", flag: "", range: ">60", units: "mL/min/1.73m²" }, { test: "Creatinine", result: "1.3", flag: "H", range: "0.5-1.1", units: "mg/dL" }, { test: "Urine Alb/Cr ratio", result: "520", flag: "H", range: "<30", units: "mg/g" }, { test: "K+", result: "4.4", flag: "", range: "3.5-5.0", units: "mEq/L" }] },
+        { panelName: "BLOOD PRESSURE LOG", rows: [{ test: "Mean SBP (last 3 visits)", result: "128", flag: "", range: "<130", units: "mmHg" }, { test: "Mean DBP (last 3 visits)", result: "78", flag: "", range: "<80", units: "mmHg" }] },
+        { panelName: "METABOLIC", rows: [{ test: "HbA1c", result: "7.2", flag: "H", range: "<7.0", units: "%" }, { test: "Total cholesterol", result: "192", flag: "", range: "<200", units: "mg/dL" }] }
+      ],
+      q: "What is the preferred management for this patient's ACE inhibitor-induced cough?",
+      options: ["A) Discontinue lisinopril and switch to an ARB (e.g., losartan or valsartan) — ARBs provide equivalent reno- and cardioprotection without causing bradykinin-mediated cough", "B) Switch to a calcium channel blocker (amlodipine) as the replacement antihypertensive", "C) Add codeine-based cough suppressant and continue lisinopril indefinitely", "D) Reduce lisinopril dose to 5 mg daily to minimize the cough side effect", "E) Switch to a beta-blocker (metoprolol) for comparable renoprotective effects in diabetic nephropathy"],
+      correct: 0,
+      explanation: "ACE inhibitors cause dry cough in 5–20% of patients (more common in women and Asian patients) due to bradykinin accumulation. ARBs (angiotensin receptor blockers) block the AT1 receptor, providing equivalent BP lowering, proteinuria reduction, and renoprotection WITHOUT affecting bradykinin — and thus are cough-free. Losartan, irbesartan, and candesartan have proven benefit in diabetic nephropathy (RENAAL, IDNT trials). Calcium channel blockers alone lack antiproteinuric effects and are not equivalent for CKD. Codeine is inappropriate long-term and does not address the cause. Dose reduction does not reliably eliminate the cough — mechanism is pharmacodynamic, not dose-dependent."
+    },
+    {
+      title: "Case: Opioid Counseling — Risk Mitigation",
+      vignette: "A 45-year-old male with chronic low back pain (lumbar disc herniation, failed conservative therapy) is being started on extended-release oxycodone 10 mg every 12 hours for the first time. He has a history of prior alcohol use disorder (in remission for 4 years), is not currently on any other medications, and has no documented allergies. He lives alone, has a teenage son who visits on weekends, and works as a truck driver. He has signed a controlled substance treatment agreement. The provider wants to ensure safe opioid initiation and appropriate patient counseling before dispensing.",
+      diagnosis: "Opioid therapy initiation — chronic non-cancer pain with high-risk features",
+      labPanels: [
+        { panelName: "URINE DRUG SCREEN (at initiation)", rows: [{ test: "Opiates", result: "Negative", flag: "", range: "Negative", units: "" }, { test: "Cocaine", result: "Negative", flag: "", range: "Negative", units: "" }, { test: "Benzodiazepines", result: "Negative", flag: "", range: "Negative", units: "" }, { test: "Amphetamines", result: "Negative", flag: "", range: "Negative", units: "" }, { test: "Alcohol (EtOH)", result: "Negative", flag: "", range: "Negative", units: "" }] },
+        { panelName: "FUNCTIONAL ASSESSMENT", rows: [{ test: "ORT Score (Opioid Risk Tool)", result: "8", flag: "H", range: "≥8 = High Risk", units: "score" }, { test: "PDMP Check", result: "No prior prescriptions", flag: "", range: "Clear", units: "" }] },
+        { panelName: "BASELINE LABS", rows: [{ test: "LFTs (AST/ALT)", result: "Normal", flag: "", range: "Normal", units: "" }, { test: "Creatinine", result: "0.9", flag: "", range: "0.6-1.2", units: "mg/dL" }] }
+      ],
+      q: "Which of the following counseling points is MOST critical before dispensing the opioid prescription?",
+      options: ["A) Prescribe co-dispensing naloxone (Narcan) kit; counsel on safe storage (locked container away from children); never share medications; avoid alcohol and CNS depressants; do not operate heavy machinery (addresses CDL concerns); and provide opioid tapering expectations", "B) Advise the patient to take the medication as needed for pain, using up to 3 extra doses if pain is severe", "C) Inform the patient that opioids are completely safe with alcohol since he is in remission and that risk is low", "D) Instruct the patient to share his medication with family members who may also experience pain", "E) Tell the patient that extended-release opioids can be crushed for faster pain relief if needed"],
+      correct: 0,
+      explanation: "CDC opioid prescribing guidelines mandate co-prescribing naloxone for patients on ≥50 MME/day or with risk factors (prior SUD). This patient's history of alcohol use disorder is a high-risk feature requiring naloxone co-prescription and counseling. Safe storage (locked box) is critical with a teenage son in the home — diversion and accidental ingestion are real risks. Commercial driving (CDL) is impaired by opioids — federal law prohibits driving commercial vehicles while on schedule II-IV medications. Alcohol synergizes with opioids to cause dangerous CNS/respiratory depression even in remission. Extended-release formulations must NEVER be crushed — this destroys the extended-release mechanism and can cause fatal rapid release (dose dumping)."
+    }
+  ]
+}];
 
 const lawFlashcards$1 = [{
   id: "builtin_law",
@@ -12963,3900 +13200,307 @@ const lawFlashcards$1 = [{
     "q": "Question 351",
     "a": "Provide notice, attempt to obtain written acknowledgement, document good faith effort, keep record for 6 years",
     "nextReview": 0
-  },
-  {
-    "id": "law_fc_351",
-    "q": "Question 352",
-    "a": "Within 60 days if breach poses significant risk",
-    "nextReview": 0
   }
-]
+  ]
 }];
 
 const lawExams$1 = [{
   id: "builtin_exam_law",
-  title: "Pharmacy Law Exam",
-  icon: "CheckSquare",
-  color: "#10b981",
-  isBuiltIn: true,
-  isBuiltin: true,
+  title: "Pharmacy Law & Regulations",
+  subject: "law",
   questions: [
   {
-    "id": "law_ex_0",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "Federal law regulating controlled substances and creating a closed system for manufacture, distribution, and dispensing",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
+    "id": "law_mcq_0",
+    "q": "Which federal law specifically regulates controlled substances by establishing Schedules I�V and creating a closed system of distribution?",
+    "options": ["Controlled Substances Act (CSA) of 1970","Food, Drug, and Cosmetic Act (FDCA) of 1938","Durham-Humphrey Amendment of 1951","Poison Prevention Packaging Act of 1970"],
+    "correct": 0,
+    "explanation": "The Controlled Substances Act (CSA), enforced by the DEA under the Department of Justice, creates Schedules I�V based on abuse potential, accepted medical use, and safety. It establishes a closed system of distribution requiring registration of all handlers of controlled substances."
   },
   {
-    "id": "law_ex_1",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "DEA (Drug Enforcement Administration) under the Department of Justice",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
+    "id": "law_mcq_1",
+    "q": "A Schedule II controlled substance prescription CANNOT be:",
+    "options": ["Dispensed via a written order signed by a licensed prescriber","Refilled under any circumstances","Dispensed in partial quantities for long-term care facility patients","Prescribed in writing for a 30-day supply"],
+    "correct": 1,
+    "explanation": "Schedule II controlled substances have ZERO refills allowed under any circumstances (21 CFR 1306.12). Schedule III�V may be refilled with limitations. CII may be partially dispensed for LTCF patients or terminal illness patients."
   },
   {
-    "id": "law_ex_2",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "High abuse potential\nNo accepted medical use\nLack of safety even under supervision",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
+    "id": "law_mcq_2",
+    "q": "Pseudoephedrine products are subject to the Combat Methamphetamine Epidemic Act (CMEA). What is the daily purchase limit per person?",
+    "options": ["3.6 grams per day","9 grams per 30-day period","7.5 grams per day","1.8 grams per day"],
+    "correct": 0,
+    "explanation": "CMEA limits pseudoephedrine purchases to 3.6 g/day and 9 g/30 days per individual. Purchasers must show valid ID, and transactions must be logged in a retrievable electronic or written system accessible to law enforcement."
   },
   {
-    "id": "law_ex_3",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "Heroin, LSD, marijuana, MDMA, psilocybin, peyote",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
+    "id": "law_mcq_3",
+    "q": "Under the HIPAA Privacy Rule, which of the following disclosures does NOT require patient authorization?",
+    "options": ["Disclosing PHI to a pharmaceutical manufacturer for marketing research","Sharing PHI with a health plan for payment purposes","Providing PHI to an employer for pre-employment fitness evaluation","Releasing medical records to a patient's attorney"],
+    "correct": 1,
+    "explanation": "HIPAA permits disclosure of PHI without patient authorization for Treatment, Payment, and Healthcare Operations (TPO). Payment between covered entities (billing the insurer) is a permitted disclosure. Marketing use, employer fitness assessments, and attorney requests all require written authorization."
   },
   {
-    "id": "law_ex_4",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "High abuse potential\nAccepted medical use (with restrictions)\nSevere dependence risk",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
+    "id": "law_mcq_4",
+    "q": "Which Drug Recall Class poses the greatest immediate danger to consumers � a reasonable probability of serious adverse health consequences or death?",
+    "options": ["Class II Recall","Class I Recall","Class III Recall","Voluntary Market Withdrawal"],
+    "correct": 1,
+    "explanation": "FDA Recall Classes: Class I � reasonable probability that use will cause serious adverse health consequences or death (most severe). Class II � may cause temporary adverse health consequences. Class III � unlikely to cause adverse health consequences but violates FDA regulations."
   },
   {
-    "id": "law_ex_5",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "Morphine, oxycodone, fentanyl, hydrocodone combos, amphetamine, methylphenidate, methadone",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
+    "id": "law_mcq_5",
+    "q": "OBRA '90 (Omnibus Budget Reconciliation Act) requires pharmacists to perform prospective drug utilization review (DUR) for Medicaid patients. Which activity is specifically required?",
+    "options": ["Pharmacist must counsel all walk-in patients for at least 10 minutes","Pharmacist must offer to counsel Medicaid patients on each new prescription and document the offer","Pharmacists must refuse to dispense any drug with a potential interaction","Pharmacists must call the prescriber before dispensing any new medication"],
+    "correct": 1,
+    "explanation": "OBRA '90 requires pharmacists to: (1) screen each prescription for DUR problems (interactions, duplications, contraindications), (2) OFFER to counsel patients (not mandatory that patient accepts), and (3) maintain records. The offer must be documented. This applies to ALL Medicaid outpatient prescriptions."
   },
   {
-    "id": "law_ex_6",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "Less abuse than I & II, accepted medical use, moderate/low physical dependence or high psychological dependence",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
+    "id": "law_mcq_6",
+    "q": "When state law and federal law conflict regarding pharmacy practice, which standard applies?",
+    "options": ["Federal law always supersedes state law","State law always supersedes federal law","Whichever law is MORE STRINGENT (more restrictive) for the patient applies","The pharmacist may choose which law to follow based on professional judgment"],
+    "correct": 2,
+    "explanation": "When federal and state drug laws conflict, the MORE STRINGENT (more protective) law governs. For example, if state law requires 3-year record retention but federal law requires 2 years, the 3-year requirement applies. This principle prevents states from relaxing federal minimum standards."
   },
   {
-    "id": "law_ex_7",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "Tylenol #3, buprenorphine, ketamine, anabolic steroids, dronabinol",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
+    "id": "law_mcq_7",
+    "q": "A DEA number for a prescriber consists of two letters followed by seven digits. The check digit validation formula confirms a valid DEA number. If the number is AB1234563, what is the fastest way to verify validity?",
+    "options": ["Sum digits 1+3+5 (1+3+5=9), sum digits 2+4+6 (2+4+6=12), multiply by 2 (24), add 9+24=33; last digit = 3 ?","Simply call the DEA to confirm registration","Check only the first letter matches the prescriber type","Run the number through any online DEA lookup � all are accurate"],
+    "correct": 0,
+    "explanation": "DEA number validation: Add odd-position digits (1+3+5), add even-position digits (2+4+6), multiply by 2, then add both sums. The last digit of the total must match the last digit of the DEA number. The first letter indicates registrant type (A/B=practitioner, M=mid-level, F=teaching hosp, R=narcotic treatment). The second letter is the first letter of the registrant's last name."
   },
   {
-    "id": "law_ex_8",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "Low abuse potential relative to III\nAccepted medical use\nLimited dependence risk",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
+    "id": "law_mcq_8",
+    "q": "Faxed prescriptions for Schedule II controlled substances are generally not valid for dispensing EXCEPT in which specific scenario?",
+    "options": ["When the patient requests faxed delivery to avoid making a trip to the pharmacy","For Schedule II compounded preparations for home infusion or hospice patients","Faxed CII prescriptions are always valid if the prescriber scans a signed copy","Any faxed prescription is acceptable if the pharmacist verifies it by calling the prescriber"],
+    "correct": 1,
+    "explanation": "DEA regulations (21 CFR 1306.11) permit faxed CII prescriptions ONLY in three narrow exceptions: (1) compounded CII for direct home infusion patients (fax as hard copy), (2) terminal illness/hospice patients (annotated 'hospice patient'), (3) long-term care facility residents. In all other cases, CII requires an original written prescription or EPCS electronic prescription."
   },
   {
-    "id": "law_ex_9",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "Benzodiazepines, zolpidem, tramadol, carisoprodol",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
+    "id": "law_mcq_9",
+    "q": "The Durham-Humphrey Amendment of 1951 established which distinction?",
+    "options": ["Created DEA Schedules I through V for controlled substances","Defined the difference between prescription (Rx) and over-the-counter (OTC) drugs, and established the prohibition on oral refills for dangerous drugs","Required that all drugs undergo FDA approval for efficacy before marketing","Mandated child-resistant packaging for all hazardous medications"],
+    "correct": 1,
+    "explanation": "The Durham-Humphrey Amendment amended the FDCA to create the Rx/OTC distinction: drugs deemed unsafe for self-medication require a valid prescription from a licensed practitioner and cannot be refilled without a new prescription. It also established that oral prescriptions may be taken and that some CIIIs-CVs may be refilled verbally."
   },
   {
-    "id": "law_ex_10",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "Lowest abuse potential\nAccepted medical use\nLimited dependence risk",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
+    "id": "law_mcq_10",
+    "q": "Under federal law, how long must Schedule II controlled substance records be retained?",
+    "options": ["1 year from date of dispensing","2 years from date of dispensing (or longer if state law requires)","5 years from date of dispensing","10 years from date of dispensing"],
+    "correct": 1,
+    "explanation": "DEA requires that Schedule II records be maintained for a minimum of 2 years (21 CFR 1304.04). Many states require longer retention periods (e.g., 5�7 years) � the more stringent state requirement applies. CII records must be kept separate from other records (or readily retrievable), while CIII-V records may be maintained in a readily retrievable manner with other records."
   },
   {
-    "id": "law_ex_11",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "Codeine cough syrups, pregabalin, diphenoxylate/atropine",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
+    "id": "law_mcq_11",
+    "q": "Prescriptions for Schedule III-V controlled substances may be refilled up to how many times and within what time period?",
+    "options": ["Up to 12 refills within 1 year of issuance","Up to 5 refills within 6 months of issuance","Up to 3 refills within 90 days","Unlimited refills within 1 year if authorized by prescriber"],
+    "correct": 1,
+    "explanation": "Under 21 CFR 1306.22, Schedule III and IV prescriptions may be filled up to 5 times within 6 months of the date the prescription was issued. After 6 months or 5 refills � whichever occurs first � a new prescription is required. Schedule V has the same rules in most states but may vary."
   },
   {
-    "id": "law_ex_12",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "≤1.8 g per 100 mL OR ≤90 mg per dosage unit",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
+    "id": "law_mcq_12",
+    "q": "A pharmacist receives a prescription for hydrocodone/acetaminophen 5/325 mg #120. The prescriber writes 'no refills.' Under current DEA scheduling (post-2014), which statement is CORRECT?",
+    "options": ["Hydrocodone combinations are Schedule III � up to 5 refills within 6 months are permitted","Hydrocodone combinations are Schedule II � no refills are permitted regardless of what prescriber writes","The prescriber may verbally authorize refills for hydrocodone combinations","Hydrocodone combinations may be faxed as a valid dispensable prescription"],
+    "correct": 1,
+    "explanation": "Effective October 6, 2014, the DEA rescheduled all hydrocodone combination products (HCPs) from Schedule III to Schedule II. As Schedule II substances: no refills permitted, no oral/fax prescriptions (except narrow exceptions), and a written or EPCS prescription is required. This significantly changed dispensing requirements for this drug class."
   },
   {
-    "id": "law_ex_13",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "≤200 mg per 100 mL",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
+    "id": "law_mcq_13",
+    "q": "Which of the following is an example of a drug recall that would be classified as a Class III recall?",
+    "options": ["A blood pressure medication contaminated with NDMA (a carcinogen) that may cause cancer","An injectable that has visible particulate matter that could cause embolism","A product with labeling that fails to include a minor warning but poses low health risk","A product distributed without proper tamper-evident packaging in an outbreak situation"],
+    "correct": 2,
+    "explanation": "Class III recall: the product is unlikely to cause adverse health consequences but violates FDA labeling or manufacturing regulations (e.g., minor label error, slight over/under potency within acceptable range, packaging non-compliance). Class I � serious/life-threatening risk. Class II � temporary or reversible adverse effects, or remote serious risk."
   },
   {
-    "id": "law_ex_14",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "Quantities divisible by 3",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
+    "id": "law_mcq_14",
+    "q": "The Orange Book (FDA Approved Drug Products with Therapeutic Equivalence Evaluations) AB-rated drugs are considered therapeutically equivalent and may be substituted without prescriber approval in most states (unless 'Dispense as Written' is noted). What does the 'B' in AB rating indicate?",
+    "options": ["'B' means the generic is a biological product with biosimilar status","'B' means the drug has met FDA bioequivalence and pharmaceutical equivalence standards for substitution","'B' is a safety rating indicating no significant adverse effects have been documented","'B' means the product is manufactured in a Tier B approved facility"],
+    "correct": 1,
+    "explanation": "Orange Book rating 'AB' = Actual therapeutic equivalence: (A) the drug is pharmaceutically equivalent (same active ingredient, dosage form, strength, route) and (B) bioequivalent to the reference listed drug (RLD). An 'A' alone means no known or suspected equivalence problems. 'B' codes indicate actual or potential bioequivalence issues � these are NOT substitutable."
   },
   {
-    "id": "law_ex_15",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "Quantities divisible by 5",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
+    "id": "law_mcq_15",
+    "q": "Under HIPAA, what is a 'covered entity'?",
+    "options": ["Any business that processes patient data electronically, including software vendors","Health plans, healthcare clearinghouses, and healthcare providers who transmit health information electronically in covered transactions","Any entity that stores patient medical records regardless of transmission method","Only hospital systems and large insurance companies � small pharmacies are exempt"],
+    "correct": 1,
+    "explanation": "HIPAA defines covered entities as: (1) Health plans (insurers, HMOs), (2) Healthcare clearinghouses (entities that process nonstandard health information), and (3) Healthcare providers who transmit any health information electronically for standard transactions (billing, eligibility). This includes virtually ALL licensed pharmacies. Business Associates (BAs) who handle PHI on behalf of covered entities are also governed by HIPAA through BAAs."
   },
   {
-    "id": "law_ex_16",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "2 letters + 7 numbers\nLast digit = check digit",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
+    "id": "law_mcq_16",
+    "q": "Which statement BEST describes the MedWatch program?",
+    "options": ["A federal program that monitors pseudoephedrine purchases nationwide","The FDA's voluntary adverse event reporting system through which healthcare professionals and patients can report serious adverse events, product problems, and medication errors","A DEA database tracking controlled substance prescriptions in real time across all states","The CDC's mandatory disease outbreak reporting system for pharmacy dispensing data"],
+    "correct": 1,
+    "explanation": "MedWatch (FDA Safety Reporting Portal) allows VOLUNTARY reporting of serious adverse events, product quality problems, product use errors, and therapeutic failures for pharmaceuticals, biologics, medical devices, and dietary supplements. Mandatory reporting is required from manufacturers, importers, and device user facilities. Healthcare professionals and patients may report voluntarily � reports are the foundation of FDA post-market safety surveillance."
   },
   {
-    "id": "law_ex_17",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "1. Add digits 1, 3, 5\n2. Add digits 2, 4, 6 then x 2\n3. Add both totals\n4. Last digit must equal check digit",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
+    "id": "law_mcq_17",
+    "q": "According to OBRA '90, what is the MINIMUM information a pharmacist should attempt to obtain during patient counseling?",
+    "options": ["The patient's insurance plan and copay amount, primary diagnosis, and date of birth for verification","Name and description of the medication, dosage form and strength, route of administration, duration of therapy, special directions, common side effects, interactions, contraindications, storage instructions, and what to do if a dose is missed","Only the drug name and dose � additional information may cause patient anxiety","The prescriber's name and NPI number, prior authorization status, and patient weight"],
+    "correct": 1,
+    "explanation": "OBRA '90 specifies the information to be offered during counseling includes: drug name and description, dosage form, dose, route, duration, precautions, common side effects/adverse effects/interactions/contraindications, techniques for self-monitoring, proper storage, refill information, action if missed dose. This is the standard of care for patient medication counseling in the United States."
   },
   {
-    "id": "law_ex_18",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "Certificate of registration",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
+    "id": "law_mcq_18",
+    "q": "A pharmacy technician discovers a discrepancy in the controlled substance log showing 10 tablets of oxycodone missing. What is the appropriate next step?",
+    "options": ["The technician should handle it internally without documentation to avoid regulatory scrutiny","Report the theft or significant loss to the DEA using DEA Form 106 (Report of Theft or Significant Loss of Controlled Substances) and also notify local/state law enforcement","Simply recount the inventory � discrepancies are common and do not require reporting","The pharmacy manager should write off the missing tablets as a counting error in the inventory log"],
+    "correct": 1,
+    "explanation": "DEA Form 106 is required for reporting THEFT or SIGNIFICANT LOSS of controlled substances (21 CFR 1301.76). 'Theft' is any unauthorized taking; 'significant loss' includes substantial discrepancies after accounting for normal wastage. The pharmacy must notify the local DEA Office in writing and complete Form 106. Local law enforcement notification is also required for theft. Failure to report is a federal violation."
   },
   {
-    "id": "law_ex_19",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "New application (pharmacy/practitioner)",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
+    "id": "law_mcq_19",
+    "q": "The Prescription Drug Monitoring Program (PDMP) serves which primary purpose?",
+    "options": ["To automatically fill prescriptions for patients who have run out of medications","A statewide database of controlled substance dispensing records used by pharmacists and prescribers to identify potential drug diversion, doctor shopping, and poly-substance abuse patterns","A national inventory tracking system for pharmaceutical manufacturers to monitor production","A billing clearinghouse for Medicare Part D prescription drug plans"],
+    "correct": 1,
+    "explanation": "PDMPs are state-run databases (now available in all 50 states plus DC) that collect dispensing data for controlled substances (typically CII�CV). Pharmacists and prescribers can � and in many states MUST � check the PDMP before dispensing CII-CV prescriptions to identify: patients receiving the same drug from multiple prescribers (doctor shopping), early refills, inappropriate combinations (opioid+benzo), and other patterns of diversion or misuse."
   },
   {
-    "id": "law_ex_20",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "Renewal application",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
+    "id": "law_mcq_20",
+    "q": "Under the Poison Prevention Packaging Act (PPPA), which product is REQUIRED to have child-resistant packaging?",
+    "options": ["All over-the-counter antacid tablets (e.g., calcium carbonate 500 mg)","Oral prescription medications in most circumstances, with narrow exceptions","Topical corticosteroid creams dispensed in original manufacturer tubes","Insulin vials dispensed at a pharmacy for diabetic patients"],
+    "correct": 1,
+    "explanation": "PPPA requires child-resistant (CR) packaging for most Rx medications and many OTC hazardous drugs. Exceptions include: oral contraceptives in mnemonic packaging, sublingual nitroglycerin, certain unit-dose forms, products a prescriber or patient requests in non-CR packaging (signed waiver). Topical preparations and insulin (not orally toxic) are typically exempt. The key standard: child unable to open in 5 minutes, adult able to open in 5 minutes."
   },
   {
-    "id": "law_ex_21",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "Chain pharmacy renewal affidavit",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
+    "id": "law_mcq_21",
+    "q": "A prescriber writes an early refill of a Schedule II controlled substance for a patient going on vacation. The patient has 7 days of medication remaining. What should the pharmacist do?",
+    "options": ["Dispense the early refill since the prescriber authorized it � physician authorization overrides the restriction","Refuse to dispense � Schedule II controlled substances have NO refills; a new, separate prescription is required each time","Dispense a vacation override of up to 30 additional days per DEA emergency dispensing provision","Allow the early refill since the patient has a legitimate reason (vacation) documented by the prescriber"],
+    "correct": 1,
+    "explanation": "Schedule II controlled substances CANNOT be refilled under ANY circumstances � there is no such thing as an 'early refill' or 'vacation override' for CII under federal law. Each dispensing requires a separate, valid prescription. For patients going on vacation, the prescriber must write a NEW Schedule II prescription. Unlike CIII-V (which may have prescribed refills), CII is zero refills, period."
   },
   {
-    "id": "law_ex_22",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "Manufacturer/distributor/researcher application",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
+    "id": "law_mcq_22",
+    "q": "Which statement about the National Drug Code (NDC) number is CORRECT?",
+    "options": ["NDC is a 9-digit number assigned by the DEA for Schedule II�V drugs only","NDC is a 10-digit (or 11-digit with leading zeros for electronic claims) unique identifier for every drug approved for human use � assigned by FDA to identify the labeler, product, and package","NDC numbers are required only on controlled substance labels and manufacturer cartons","NDC numbers uniquely identify the prescriber who is permitted to dispense that specific drug"],
+    "correct": 1,
+    "explanation": "The National Drug Code (NDC) is an 11-digit (padded) or 10-digit (printed) unique identifier for every FDA-regulated drug product. Format: Labeler Code (4-5 digits, assigned to manufacturer/distributor) � Product Code (3-4 digits, identifies drug) � Package Code (1-2 digits, identifies package size/type). Required on all drug labels. Used for billing (electronic claims require 11-digit zero-padded format), inventory tracking, and product identification."
   },
   {
-    "id": "law_ex_23",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "Narcotic treatment program application",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
+    "id": "law_mcq_23",
+    "q": "Electronic Prescribing for Controlled Substances (EPCS) must comply with DEA's Interim Final Rule. Which is a required security feature?",
+    "options": ["Simple username and password login is sufficient for EPCS authorization","Two-factor authentication (e.g., password plus hardware token or biometric) is required to authorize electronic CII prescriptions","Controlled substance electronic prescriptions only need prescriber digital signature","EPCS requires DEA pre-approval of each individual prescription before it can be sent to the pharmacy"],
+    "correct": 1,
+    "explanation": "DEA's EPCS Interim Final Rule (21 CFR Parts 1300, 1304, et al.) requires two-factor authentication to sign electronic controlled substance prescriptions. The two factors must come from different categories: something you KNOW (password/PIN), something you HAVE (token/smartcard), or something you ARE (biometric). This prevents unauthorized transmissions. The prescriber must also use a DEA-registered pharmacy as the receiving system."
   },
   {
-    "id": "law_ex_24",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "Ordering Schedule I & II drugs",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
+    "id": "law_mcq_24",
+    "q": "A patient presents a prescription for diazepam 10 mg (Schedule IV) that was issued 8 months ago �it has 2 refills remaining. Can the pharmacist legally dispense it?",
+    "options": ["Yes � Schedule IV prescriptions are valid for 1 year with unlimited refills if the prescriber authorizes","No � Schedule IV prescriptions and refills expire after 6 months from the date of issue; prescribed refills may not be dispensed after that date","Yes � as long as refills remain, the prescription is valid indefinitely","No � Schedule IV prescriptions may not be refilled at all; a new prescription is required"],
+    "correct": 1,
+    "explanation": "Under 21 CFR 1306.22, Schedule III and IV prescriptions are only valid for 6 months from the date ISSUED (not date first filled). After 6 months, authorization for both the original fill and all remaining refills expires � even if refills are remaining. The patient must obtain a new prescription. This 6-month clock applies to both CIII and CIV. This prescription was issued 8 months ago, so it is expired."
   },
   {
-    "id": "law_ex_25",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "Single-sheet form (replaced triplicate)",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
+    "id": "law_mcq_25",
+    "q": "In a state where a pharmacist may perform generic substitution, which condition MUST be met for substitution to be legally permitted?",
+    "options": ["The generic must be cheaper by at least 20% for the patient versus the brand name","The generic must be FDA-rated as therapeutically equivalent (AB-rated) AND the prescriber must not have written 'Dispense as Written' or 'Brand Medically Necessary'","The patient must sign a substitution consent form confirming they accept the generic","Pharmacist substitution is only permitted if the brand name product is out of stock"],
+    "correct": 1,
+    "explanation": "Generic substitution requires: (1) FDA therapeutic equivalence rating of AB (or equivalent), AND (2) No DAW/Brand Medically Necessary notation from the prescriber, AND (3) No patient objection (in many states the patient may also opt out). Cost savings don't determine legality. Consent forms are typically not required. Out-of-stock does not override substitution criteria � the pharmacist would need an AB-rated generic regardless."
   },
   {
-    "id": "law_ex_26",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "20 items per form",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
+    "id": "law_mcq_26",
+    "q": "Which of the following best describes the federal pharmacy law concept of 'valid prescription'?",
+    "options": ["Any written document with a drug name and quantity signed by any licensed healthcare provider","A prescription issued for a legitimate medical purpose by a practitioner acting in the usual course of their professional practice � prescriptions issued outside the prescriber-patient relationship or without examination are not valid","A prescription is valid as long as the medication requested is not a controlled substance","Any prescription filled by a licensed pharmacist is automatically valid upon their professional review"],
+    "correct": 1,
+    "explanation": "21 CFR 1306.04 defines a valid prescription: 'issued for a legitimate medical purpose by an individual practitioner acting in the usual course of his professional practice.' Prescriptions written without a bona fide prescriber-patient relationship (e.g., prescribing to oneself, internet prescriptions without examination, fictitious patients) are not valid. Pharmacists have a corresponding responsibility to ensure prescriptions are legitimate before dispensing � this is both a legal duty and an ethical obligation."
   },
   {
-    "id": "law_ex_27",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "Keep copy for 2 years",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
+    "id": "law_mcq_27",
+    "q": "Which regulatory body enforces the Food, Drug, and Cosmetic Act (FDCA) and oversees drug approval, labeling, and market withdrawal?",
+    "options": ["Drug Enforcement Administration (DEA) under the Department of Justice","Food and Drug Administration (FDA) under the Department of Health and Human Services","Centers for Medicare & Medicaid Services (CMS)","State Board of Pharmacy in each jurisdiction"],
+    "correct": 1,
+    "explanation": "The FDA (under DHHS) enforces the FDCA and has authority over drug approvals (NDA, ANDA, BLA), labeling requirements, manufacturing standards (cGMP), drug recalls, market withdrawals, and post-market safety surveillance (MedWatch). The DEA enforces the Controlled Substances Act. State Boards of Pharmacy regulate pharmacist licensing and practice within the state. CMS administers Medicare/Medicaid reimbursement."
   },
   {
-    "id": "law_ex_28",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "60 days",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
+    "id": "law_mcq_28",
+    "q": "A pharmacist is considering refusing to fill a prescription based on their personal moral or religious beliefs (conscientious objection). Which statement is MOST accurate regarding pharmacy law and ethics?",
+    "options": ["Pharmacists always have an absolute right to refuse any prescription for any reason","State laws vary � some states require pharmacists to dispense or transfer prescriptions even if they object; professional obligation generally requires not abandoning the patient and ensuring alternative access to the medication","Pharmacists may only refuse to fill prescription medications � OTC recommendations are mandatory","Conscientious objection applies only to controlled substances and not to other medications"],
+    "correct": 1,
+    "explanation": "Conscientious objection in pharmacy is a state law-by-state issue. Some states allow refusal (with duty to refer); others mandate dispensing (especially for emergency contraception). Key principles: (1) Non-abandonment � the pharmacist must ensure the patient has access to alternative dispensing; (2) Professional duty to the patient's wellbeing must be balanced with personal objection; (3) Absolute refusal without transfer or referral may constitute patient abandonment. NABP recommends pharmacists ensure patients are not denied access to legally prescribed medication."
   },
   {
-    "id": "law_ex_29",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "Cannot correct - must replace and keep defective form for 4 years",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_30",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "Execute new form\nAttach statement with order # and date\nNotify DEA if stolen",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_31",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "Allows someone to sign DEA Form 222 on registrant's behalf",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_32",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "Registrant signature\nPerson granted signature\n2 witnesses",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_33",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "Signature of registrant (or last registrant signer)\n2 witnesses",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_34",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "Yes, DEA Form 363",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_35",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "Patient name & address\nDrug name, strength, dosage form, quantity\nDirections\nDate issued\nPrescriber name, address, DEA #\nSignature",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_36",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "Manual signature\nElectronic (per DEA rules)",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_37",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "Pharmacist and prescriber share responsibility for validity and legitimacy of controlled prescription",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_38",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "Altered Rx\nEarly refill requests\nCash payment for expensive opioids\nDoctor shopping\nUnusual quantities\nTraveling long distance\nMultiple prescribers/pharmacies",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_39",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "Non-narcotics",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_40",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "3 years (36 months)",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_41",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "1 year (12 months)",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_42",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "Yes, they may prescribe under the hospital's DEA registration if:\nLicensed by the state to prescribe\nActing within scope of employment\nAuthorized by hospital\nAssigned internal code suffix to institutional DEA number",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_43",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "New application for chemical registrants, including entities distributing listed chemicals used in the manufacture of controlled substances",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_44",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "DEA must be notified to terminate registration. The registrant must:\nReturn DEA registration certificate\nReturn executed DEA Form 222s\nDispose of controlled substances per DEA rules\nMaintain records for at least 2 years",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_45",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "No. Hospital medication orders are not defined as prescriptions under federal law and do not need to be written on a security prescription blank because the medication is administered within the institution",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_46",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "Prescription prepared by staff but personally signed by the prescriber\nPrescription prepared & signed by the prescriber",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_47",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "Staff signing prescriber's name (even with consent)\nRubber stamp signature\nPre-printed signature on prescription blank",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_48",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "Multistate Pharmacy Jurisprudence Examination",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_49",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "NABP (National Association of Boards of Pharmacy)",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_50",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "120 total questions (100 scored, 20 unscored)",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_51",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "2.5 hours (150 minutes)",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_52",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "At least 107 questions",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_53",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "Pass/Fail only (no numerical score reported)",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_54",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "Yes, question difficulty adapts based on answers",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_55",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "No, questions must be answered in order with no review",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_56",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "5 attempts per state",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_57",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "Multiple choice, Select All That Apply, K-type questions",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_58",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "No, they are mixed together unless specifically stated",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_59",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "No, citations are not tested",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_60",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "A standardized national jurisprudence exam covering laws common to all states",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_61",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "No, pharmacists are still responsible for individual state laws",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_62",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "100 scored questions",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_63",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "Only 3 answer choices per questions",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_64",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "The U.S. Constitution",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_65",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "Supremacy Clause (Article VI)",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_66",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "Police powers under the 10th Amendment",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_67",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "10th Amendment",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_68",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "Legislatures (Congress or state legislatures)",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_69",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "Administrative agencies (e.g., Board of Pharmacy, FDA, DEA)",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_70",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "No",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_71",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "Yes",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_72",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "United States Code (USC)",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_73",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "Code of Federal Regulations (CFR)",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_74",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "Indiana Code (IC)",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_75",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "Indiana Administrative Code (IAC)",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_76",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "Notice and Comment Rulemaking",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_77",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "Federal Register",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_78",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "regulations.gov",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_79",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "Agency issues a final rule or abandons rulemaking",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_80",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "Government must follow fair procedures before depriving life, liberty, or property",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_81",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "5th Amendment",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_82",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "14th Amendment",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_83",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "Fair procedures (notice and hearing)",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_84",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "Protection of fundamental rights from government interference",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_85",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "Strict scrutiny",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_86",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "Religion, Speech, Press, Assembly, Petition",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_87",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "Declared the 13 colonies independent from Great Britain (July 4, 1776)",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_88",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "No, it states principles but is not legally binding law",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_89",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "Common Sense by Thomas Paine",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_90",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "Life, Liberty, and the Pursuit of Happiness",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_91",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "1787",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_92",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "The Bill of Rights (added in 1791)",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_93",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "27",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_94",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "Legislative Branch (Congress)",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_95",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "Executive Branch (President)",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_96",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "Judicial Branch (Courts)",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_97",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "2/3 of Congress + 3/4 of states",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_98",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "Right to bear arms",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_99",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "No quartering soldiers in homes",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_100",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "Protection against unreasonable searches and seizures",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_101",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "Double jeopardy, self-incrimination, due process, takings clause",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_102",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "Speedy trial, impartial jury, right to attorney",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_103",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "No cruel and unusual punishment; no excessive fines/bails",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_104",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "Rights not listed still exist",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_105",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "Powers not given to federal government belong to states or people",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_106",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "Abolished slavery",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_107",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "Applies due process and equal protection to states",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_108",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "Race cannot be used to deny voting",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_109",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "Federal income tax",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_110",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "Direct election of Senators",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_111",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "Prohibition (later repealed)",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_112",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "Women's right to vote",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_113",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "Repealed Prohibition",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_114",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "President limited to two terms",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_115",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "Presidential succession and disability procedures",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_116",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "Voting age of 18",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_117",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "The President",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_118",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "4 years",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_119",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "Sign/veto bills, appoint judges, make treaties, pardon criminals",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_120",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "Senate",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_121",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "Vice President",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_122",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "Speaker of the House",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_123",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "President Pro Tempore of the Senate",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_124",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "Secretary of State",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_125",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "Two chambers (House and Senate)",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_126",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "100 (2 per state)",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_127",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "6 years",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_128",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "435",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_129",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "2 years",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_130",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "218 (simple majority)",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_131",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "51 (simple majority)",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_132",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "A Senator or Representative (sponsor)",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_133",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "Committee/Subcommittee",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_134",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "Conference Committee",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_135",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "Sign, Veto, Pocket Veto, Take no action (becomes law in 10 days)",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_136",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "2/3 vote in both chambers",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_137",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "Article III",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_138",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "District Courts, Courts of Appeals, Supreme Court",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_139",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "Trial courts (federal question and diversity jurisdiction)",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_140",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "Cases involving the U.S. Constitution or federal law",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_141",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "Cases between citizens of different states where amount exceeds $75,000",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_142",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "9",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_143",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "Lifetime appointments",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_144",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "A request asking the Supreme Court to hear a case",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_145",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "~10,000 petitions; hears ~75-80 cases",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_146",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "Judge-made law created through court decisions",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_147",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "A prior court decision that is binding on lower courts",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_148",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "\"To stand by things decided\" (follow precedent)",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_149",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "The daily journal/newspaper of the federal government",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_150",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "1. Within agency authority\n2. Based on statutory authority\n3. Reasonably related to public health, safety, welfare",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_151",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "Issue guidance, policy statements, interpretive rules",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_152",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "Inspections, recalls, fines, injunctions, seizure, prosecution",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_153",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "Courts (Judicial Review)",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_154",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "Standing, exhaustion of remedies, ripeness",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_155",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "Department of Health and Human Services",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_156",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "FDA, CMS, CDC, NIH, HRSA, SAMHSA",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_157",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "Safety and efficacy of drugs, food, medical devices",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_158",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "Controlled substances",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_159",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "Medicare and Medicaid",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_160",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "Trade practices and consumer protection",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_161",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "Interstate Commerce Clause (Article I, Section 8)",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_162",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "Federal govenment",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_163",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "States",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_164",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "Statute (broad framework)",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_165",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "Regulation (specific implementation details)",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_166",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "A statute",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_167",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "The codified database of all general and permanent federal statutes",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_168",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "51 titles",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_169",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "Title 21",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_170",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "The Title number",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_171",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "Section",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_172",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "A specific paragraph within the section",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_173",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "The codified collection of federal agency regulations",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_174",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "50 titles",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_175",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "Food and Drugs",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_176",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "The Part number",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_177",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "The Section number",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_178",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "Federal Register",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_179",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "Indiana Code (state statutes)",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_180",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "Indiana Administrative Code (state regulations)",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_181",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "Title",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_182",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "Title number for Indiana Administrative Code (Board of Pharmacy)",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_183",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "Indiana Board of Pharmacy",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_184",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "Indiana Register",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_185",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "Statutory authority granted by the legislature",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_186",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "No",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_187",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "It must be within agency authority, based on statute, and reasonably related to public health, safety, and welfare",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_188",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "Federal government (under Interstate Commerce Clause)",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_189",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "States (under police powers/10th Amendment)",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_190",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "DEA",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_191",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "Indiana Register (IR)",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_192",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "Indiana Register",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_193",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "Members of the public and interested parties",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_194",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "Indiana Professional Licensing Agency (PLA) website",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_195",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "A preliminary notice asking for public input before proposing a formal rule",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_196",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "The official published proposed rule during notice and comment",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_197",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "A Final Rule",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_198",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "Code of Federal Regulations (CFR)",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_199",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "Yes, through a resolution of disapproval (rare)",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_200",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "Yes, if unconstitutional, exceeds authority, or arbitrary/capricious",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_201",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "An official who presides over agency hearings",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_202",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "Administrative Order",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_203",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "Court review of an agency's actions",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_204",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "Creates or establishes a government program",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_205",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "Provides funding for the program",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_206",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "No, it must be funded",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_207",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "Senate: HELP and Finance\nHouse: Energy and Commerce and Ways and Means",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_208",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "Health, Education, Labor and Pensions",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_209",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "Whether agency exceeded authority?\nWhether proper procedures were followed?\nWhether decision was arbitrary or capricious?",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_210",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "Procedural due process and substantive due process",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_211",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "It must be issued for a legitimate medical purpose by a practitioner acting in the usual course of professional practice",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_212",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "The pharmacist",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_213",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "DEA Form 222 (or its electronic equivalent via CSOS)",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_214",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "Initially upon registration and at least every 2 years thereafter",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_215",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "They must be maintained separately from all other records",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_216",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "Limited quantity sufficient to treat during the emergency period (oral authorization allowed; written prescription required within 7 days)",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_217",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "To track controlled substance dispensing and detect misuse or diversion",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_218",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "Authorized prescribers, pharmacists, regulatory boards, and sometimes law enforcement (depending on state law)",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_219",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "Up to 5 refills within 6 months of the issue date",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_220",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "No",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_221",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "Once (unless pharmacies share a real-time electronic database)",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_222",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "Only in limited circumstances (e.g., pharmacy closure) and under strict federal guidelines",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_223",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "<795> governs nonsterile compounding; <797> governs sterile compounding",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_224",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "Handling of hazardous drugs to minimize exposure risk",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_225",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "Proper training, environmental controls, and appropriate engineering controls (e.g., cleanroom standards)",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_226",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "Professional negligence that causes harm to a patient",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_227",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "Duty, breach, causation, damages",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_228",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "When an employer is legally responsible for the actions of an employee",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_229",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "Liability without needing to prove negligence (defective product cases)",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_230",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "Protected Health Information (PHI)",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_231",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "Privacy Rule and Security Rule",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_232",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "For treatment, payment, healthcare operations (TPO)",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_233",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "Review of records, inventory, security, and compliance procedures",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_234",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "Presiding over agency hearings",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_235",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "The final decision issued by an agency after a hearing",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_236",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "The activities professionals are legally authorized to perform",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_237",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "No",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_238",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "State law and Board of Pharmacy regulations",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_239",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "Proper labeling, security, and patient confidentiality",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_240",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "Prompt notification to DEA and completion of DEA Form 106",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_241",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "A drug that fails purity, strength, or quality standards",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_242",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "False or misleading labeling or inadequate directions for use",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_243",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "When the President takes no action and Congress adjourns within 10 days, causing the bill to die",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_244",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "A committee formed to reconcile differences between House and Senate versions of a bill",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_245",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "Dispensing a different drug than prescribed, usually within the same class (requires authorization)",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_246",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "Dispensing an FDA-approved equivalent product in place of the brand-name drug",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_247",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "Manufacturer/supplier intent controls - not how the consumer uses the product",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_248",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "Preventing misbranding and adulteration of food and drugs",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_249",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "No",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_250",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "The FDA",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_251",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "The sulfanilamide elixir tragedy (diethylene glycol poisoning)",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_252",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "Drugs must be proven safe before marketing",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_253",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "Authority to inspect manufacturing facilities",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_254",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "Medical devices and cosmetics",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_255",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "The distinction between prescription (Rx only) and OTC drugs",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_256",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "\"Caution: Federal law prohibits dispensing without a prescription\"",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_257",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "Yes - authorized refills",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_258",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "Thalidomide causing birth defects (phocomelia)",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_259",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "Drugs must be proven effective (not just safe) before approval",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_260",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "Well-controlled clinical trials",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_261",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "Required informed consent from clinical trial participants",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_262",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "Good Manufacturing Practices (GMPs)",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_263",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "Yes - efficacy review of previously approved drugs began",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_264",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "The 5-schedule classification system",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_265",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "Abuse potential, medical use, and safety/dependence risk",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_266",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "DEA",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_267",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "Kefauver-Harris Amendment",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_268",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "Hatch-Waxman",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_269",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "The Abbreviated New Drug Application (ANDA) pathway",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_270",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "Bioequivalence - not full clinical trials",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_271",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "Generic access and brand patent protections",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_272",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "Prevent accidental pediatric poisionings",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_273",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "Yes, via written request (blanket waivers allowed)",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_274",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "Prospective drug utilization review (DUR)",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_275",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "Offer to counsel Medicaid patients (later expanded by states)",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_276",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "Yes, but most states extended it to all patients",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_277",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "Track-and-trace system for prescription drugs in the supply chain",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_278",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "Transaction information, history, and statement",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_279",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "Dissemination of certain off-label information to providers",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_280",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "Risk Evaluation and Mitigation Strategies (REMS)",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_281",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "Yes, under FDAAA",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_282",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "By examining labeling, advertising, promotional materials, and marketing format",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_283",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "Yes, if it is intended to affect the structure or function of the body (unless properly regulated as a dietary supplement)",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_284",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "Yes, if it is marketed for both cosmetic and therapeutic purposes",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_285",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "No - it must be classified as one or the other (unless it is a combination product)",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_286",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "No. Medicare eligibility is not based on income.",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_287",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "Part A: Inpatient (hospital insurance)\nPart B: Outpatient/medical insurance\nPart C: Medicare Advantage (managed care plans)\nPart D: Prescription drug benefit",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_288",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "$35 per month supply (no deductible required)",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_289",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "$2,100 annual cap",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_290",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "Antidepressants, antipsychotics, anticonvulsants, antiretrovirals, antineoplastics, immunosuppressants",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_291",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "Plans must accept participation from any pharmacy that agrees to plan terms and conditions",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_292",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "10 years",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_293",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "1% premium increase per month of delay",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_294",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "A low-income subsidy (≤150% FPL) that reduces Part D costs (e.g., low copays for generics and brands)",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_295",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "Caremark (CVS Health), Express Scripts (Cigna), Optum Rx (UnitedHealth Group)",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_296",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "HMO: Must stay in network, usually need PCP + referrals\nPPO: More flexibility, high cost out-of-network, no referral needed",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_297",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "Offering or receiving remuneration to generate federal healthcare business",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_298",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "Yes",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_299",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "No. They're considered illegal kickbacks",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_300",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "Office of Inspector General (OIG)",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_301",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "Exceptions protecting certain arrangements from Anti-Kickback violations",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_302",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "Physician self-referrals for designated health services to entities where they have a financial relationship",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_303",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "No",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_304",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "Lab, radiology, DME, outpatient drugs, PT/OT, home health, hospital services, etc",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_305",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "Submitting false or fraudulent claims to the federal government",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_306",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "Treble (3x) damages",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_307",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "Whistleblower suits where private individuals can recover 15-25% of recovered funds",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_308",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "It mandated prospective DUR, counseling, and documentation as a condition of Medicaid participation",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_309",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "Therapeutic duplication, drug-disease contraindications, drug-drug interactions, incorrect dosage/duration, drug-allergy interactions, misuse/abuse, over/under utilization",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_310",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "1. Drug Utilization Review (DUR)\n2. Rebates (Best Price requirement)\n3. Demonstration projects",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_311",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "It requires an offer to counsel (not forced counseling)",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_312",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "Yes. Must be informed and voluntary; document refusal",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_313",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "Patient demographics, disease states, allergies, medication list, pharmacist interventions, refusals",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_314",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "1996",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_315",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "Individually identifiable health information related to condition, treatment, or payment",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_316",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "Only disclose the minimum PHI necessary to accomplish the purpose",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_317",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "Health plans, clearinghouses, and healthcare providers transmitting electronic health information",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_318",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "Office for Civil Rights (OCR)",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_319",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "6 years",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_320",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "Notify affects individuals within 60 days and notify media + HHS",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_321",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "Yes",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_322",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "Allows refill/adherence communications about currently prescribed drugs if remuneration is reasonably related to cost",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_323",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "State and federal government (minimum 50% federal match)",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_324",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "Yes",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_325",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "Individuals eligible for both Medicare and Medicaid",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_326",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "No",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_327",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "Yes",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_328",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "Yes",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_329",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "Individuals ≥65 years of age, individuals with permanent disabilities, individuals with ESRD, individuals exposed to environmental hazards",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_330",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "Private insurance companies often follow Medicare coverage policies",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_331",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "1. Deductible phase\n2. Initial coverage phase\n3. Catastrophic coverage phase",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_332",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "25% coinsurance",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_333",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "Part D plan, manufacturer, Medicare",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_334",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "Part D plan, Medicare",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_335",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "Medication Therapy Management - pharmacist-provided services to optimize therapeutic outcomes",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_336",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "1. Medication therapy review\n2. Personal medication record\n3. Medication-related action plan\n4. Intervention/referral\n5. Documentation and follow-up",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_337",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "All commercially available vaccines not covered under Part B",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_338",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "Weight loss drugs, fertility drugs, cosmetic/hair growth drugs, OTC drugs, DESI drugs, non-FDA approved drugs",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_339",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "Hoosier Healthwise, Hoosier Care Connect, Healthy Indiana Plan (HIP), Traditional Medicaid, Indiana PathWays for Aging, HoosierRx",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_340",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "Children ≤19 and pregnant women",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_341",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "Ages 19-64 with income ≤ ~138% FPL",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_342",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "Indiana residents ≥65 with income <150% FPL and enrolled in Part D",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_343",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "Drug interactions, duplication, incorrect dose/duration, drug-disease, allergies, misuse/abuse",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_344",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "Patient demographics, medication list, allergies, pharmacist interventions",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_345",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "Electronic healthcare transactions, privacy standards, security standards, NPI numbers",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_346",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "Health plans, clearinghouses, healthcare providers transmitting electronic data",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_347",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "No, if reasonable safeguards are in place",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_348",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "Administrative, technical, and physical protections to limit PHI exposure",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_349",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "Name, address, DOB, SSN, medical record number, email, photos",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_350",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "Provide notice, attempt to obtain written acknowledgement, document good faith effort, keep record for 6 years",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
-  },
-  {
-    "id": "law_ex_351",
-    "q": "What is a key point regarding this item?",
-    "options": [
-      "Within 60 days if breach poses significant risk",
-      "Incorrect Option A",
-      "Incorrect Option B",
-      "Incorrect Option C"
-    ],
-    "correct": 0
+    "id": "law_mcq_29",
+    "q": "Which of the following medications is classified as Schedule V and has the LOWEST abuse potential among scheduled drugs?",
+    "options": ["Oxycodone (OxyContin) � used for chronic pain","Cough preparations containing < 200 mg of codeine per 100 mL (e.g., Robitussin AC)","Alprazolam (Xanax) � used for anxiety disorders","Methylphenidate (Ritalin) � used for ADHD"],
+    "correct": 1,
+    "explanation": "Schedule V drugs have the lowest abuse potential of controlled substances and include: cough preparations with <200 mg codeine per 100 mL (e.g., Robitussin AC, Phenergan with Codeine), pregabalin (Lyrica), lacosamide (Vimpat), and some antidiarrheal preparations (Lomotil � diphenoxylate with atropine). Oxycodone is CII; alprazolam is CIV; methylphenidate is CII."
   }
 ]
 }];
-
-const lawCases$1 = [];
+const lawCases$1 = [{
+  id: "builtin_cases_law",
+  title: "Pharmacy Law & Ethics Cases",
+  icon: "Stethoscope",
+  color: "#ec4899",
+  isBuiltIn: true,
+  isBuiltin: true,
+  questions: [
+    {
+      title: "Case: Emergency Dispensing Without Prescription",
+      vignette: "A 55-year-old male presents to the pharmacy in apparent distress. He states he is a known epilepsy patient and has run out of his levetiracetam 500 mg BID. He shows his pharmacy profile and empty pill bottle from a different pharmacy that closed permanently. He cannot reach his neurologist (it is Saturday afternoon) and his last dose was this morning. He reports he typically has breakthrough seizures if he misses more than one dose. The pharmacist reviews the patient's prescription history in the state PMP database and confirms a valid 90-day supply was filled 89 days ago. The prescribing physician's office is closed.",
+      diagnosis: "Emergency Dispensing of a Non-Controlled Prescription Medication",
+      labPanels: [
+        { panelName: "PRESCRIPTION DETAILS", rows: [{ test: "Medication", result: "Levetiracetam 500 mg BID", flag: "", range: "Non-controlled Schedule", units: "" }, { test: "Days supply on last fill", result: "90 days (89 days ago)", flag: "H", range: "Essentially expired", units: "" }, { test: "PMP Verification", result: "No other controlled substance fills", flag: "", range: "No red flags", units: "" }] },
+        { panelName: "LEGAL FRAMEWORK", rows: [{ test: "Controlled Substance Schedule", result: "Non-controlled (no DEA schedule)", flag: "", range: "More permissive emergency provisions", units: "" }, { test: "Emergency dispensing state law (typical)", result: "Up to 72-hour supply permitted", flag: "", range: "Must notify prescriber within 72h", units: "" }] },
+        { panelName: "CLINICAL RISK", rows: [{ test: "Seizure risk if missed doses", result: "High", flag: "H", range: "Life-threatening risk", units: "" }] }
+      ],
+      q: "Under federal and most state pharmacy laws, what is the pharmacist's most appropriate action?",
+      options: ["A) Dispense an emergency supply (typically 72-hour supply in most states) for non-controlled legend drugs without a prescription when there is an immediate threat to patient health, document clearly, and contact the prescriber within 72 hours to obtain a valid prescription", "B) Refuse to dispense since no valid prescription is present — dispensing without a prescription violates federal law for all legend medications", "C) Dispense a 30-day supply without any documentation since it is clearly the patient's established medication", "D) Refer the patient to the emergency room since pharmacists have no authority to dispense without a prescription", "E) Require the patient to pay full cash price, then dispense without contacting the prescriber"],
+      correct: 0,
+      explanation: "Federal law (FDCA) and most state pharmacy practice acts allow pharmacists to dispense an EMERGENCY supply of non-controlled legend drugs in a quantity necessary to treat the emergency (commonly a 72-hour supply) when: a bona fide patient-prescriber relationship exists, the pharmacist makes a professional judgment, and the prescriber is contacted within a reasonable time (typically 72 hours) to provide a valid prescription. The pharmacist must document everything (patient identification, emergency nature, prescriber notified). This is NOT permitted for Schedule II–V controlled substances (except narrow federal DEA exceptions for CII emergencies with limitations). Refusing to dispense levetiracetam risks life-threatening breakthrough seizures — professional and ethical obligation supports dispensing."
+    },
+    {
+      title: "Case: Suspicious Controlled Substance Prescription",
+      vignette: "A young man (approximately 25 years old) presents with a prescription for oxycodone 30 mg #120 'Take 1–2 tablets every 4 hours PRN severe pain' signed by a physician whose name and DEA number are not familiar to the pharmacist. The prescription is handwritten on a printed security pad from a physician's office 80 miles away. When checking the state's PMP (Prescription Monitoring Program), the pharmacist finds the patient received the same prescription at two other pharmacies in the past 28 days from two different prescribers. The physician's DEA number does not validate using the standard check formula. The patient insists it is legitimate and becomes increasingly agitated.",
+      diagnosis: "Suspected Forged/Fraudulent CII Prescription — Doctor Shopping",
+      labPanels: [
+        { panelName: "PRESCRIPTION VALIDITY CHECKS", rows: [{ test: "DEA Number Validation Formula", result: "INVALID", flag: "H", range: "Must pass 2-digit check formula", units: "" }, { test: "PMP Review", result: "2 other CII fills in 28 days", flag: "H", range: "Doctor shopping pattern", units: "" }, { test: "Prescriber verification (phone)", result: "Unable to reach", flag: "H", range: "Required for CII suspicion", units: "" }] },
+        { panelName: "LEGAL SCHEDULE", rows: [{ test: "Oxycodone 30 mg", result: "Schedule II", flag: "H", range: "Highest abuse potential, no refills", units: "" }, { test: "Quantity (120 = 4-day supply at max dose)", result: "High quantity", flag: "H", range: "Typical 30 days or fewer in pain practice", units: "" }] },
+        { panelName: "RED FLAGS", rows: [{ test: "Prescriber distance (>80 miles)", result: "Present", flag: "H", range: "Doctor shopping indicator", units: "" }, { test: "Patient behavior (agitation)", result: "Present", flag: "H", range: "Behavioral red flag", units: "" }] }
+      ],
+      q: "What is the pharmacist's professional and legal obligation in this situation?",
+      options: ["A) Refuse to fill the prescription due to reasonable professional suspicion of fraud (invalid DEA number, PMP pattern of doctor shopping); document the refusal; report to the state pharmacy board, DEA, and law enforcement if appropriate; do NOT return the suspicious prescription to the patient", "B) Dispense the medication since the patient may legitimately be in pain and it is not the pharmacist's role to determine validity", "C) Fill only a 3-day emergency supply of oxycodone 30 mg to tide the patient over until the prescription can be verified", "D) Call the police immediately without first attempting to verify the prescription through legitimate channels", "E) Reduce the quantity to 30 tablets and dispense the rest when the prescription is verified"],
+      correct: 0,
+      explanation: "Pharmacists have a LEGAL DUTY not to fill prescriptions they have reason to believe are fraudulent or issued outside the scope of legitimate medical practice (21 CFR 1306.04). A suspicious prescription should NOT be returned to the patient — it is evidence. Key red flags here: invalid DEA number (fails check formula), multiple CII fills from different prescribers in 28 days (doctor shopping — a federal offense under 21 USC 843), prescriber located 80+ miles away (geographic red flag), extreme quantity, patient agitation. Steps: (1) Refuse professionally and calmly, (2) Do NOT return the prescription, (3) Document everything, (4) Report to DEA Suspicious Orders team, state board, and/or local law enforcement as warranted. Partial fills of CII are only allowed for long-term care facilities or documented terminal illness."
+    },
+    {
+      title: "Case: HIPAA Violation — Information Disclosure",
+      vignette: "A pharmacist at a busy community pharmacy receives a phone call from a man identifying himself as the husband of a 32-year-old female patient. He states he needs to know 'exactly what medications my wife is taking' because 'she is diabetic and I need to help manage her care.' The patient is a regular customer. The pharmacist recalls that the patient once asked for her profile to be kept confidential and told the pharmacist 'please don't share my information with my husband.' The patient is not in the pharmacy. The pharmacist does not have any signed authorization on file from the patient allowing disclosure to the husband.",
+      diagnosis: "HIPAA Privacy Rule — Unauthorized Disclosure Request",
+      labPanels: [
+        { panelName: "HIPAA STATUS REVIEW", rows: [{ test: "Patient signed authorization on file (HIPAA)", result: "No", flag: "H", range: "Required for non-TPO disclosures", units: "" }, { test: "Patient documented request for confidentiality", result: "Yes — husband excluded", flag: "H", range: "Active hold on disclosure", units: "" }, { test: "Is caller verified as authorized representative?", result: "No verification possible", flag: "H", range: "Cannot confirm identity by phone", units: "" }] },
+        { panelName: "LEGAL FRAMEWORK", rows: [{ test: "HIPAA covered entity", result: "Yes — pharmacy", flag: "", range: "Governs PHI use/disclosure", units: "" }, { test: "Permitted disclosure without authorization (TPO)", result: "Treatment/Payment/Operations only", flag: "", range: "Spouse requesting = NOT TPO unless clinically involved", units: "" }, { test: "Minimum Necessary Rule", result: "Applies — disclose only what needed", flag: "", range: "Not applicable here — no authorization", units: "" }] },
+        { panelName: "ETHICAL CONSIDERATIONS", rows: [{ test: "Patient autonomy (right to restrict)", result: "Explicitly exercised", flag: "H", range: "Must be honored", units: "" }, { test: "Safety exception (imminent threat)", result: "No evidence of imminent threat", flag: "", range: "Not triggered", units: "" }] }
+      ],
+      q: "What is the pharmacist legally required to do in this situation?",
+      options: ["A) Decline to provide any medication information to the husband; do NOT confirm or deny what medications the patient takes; document the call. Inform him that the patient must authorize any disclosure in writing per HIPAA.", "B) Share the medication list since the husband may be helping manage her diabetes — this falls under the treatment exception in HIPAA", "C) Provide a general summary of her medications without specifics, which does not violate HIPAA", "D) Call local police and report the incident as a potential domestic abuse situation", "E) Ask the husband to come to the pharmacy in person with ID, and then share the medication profile"],
+      correct: 0,
+      explanation: "HIPAA Privacy Rule (45 CFR 164.510) requires patient authorization for disclosure of PHI to anyone not involved in treatment, payment, or healthcare operations. A spouse is NOT automatically authorized to receive PHI — this requires explicit patient authorization or a signed healthcare proxy/POA. This patient EXPLICITLY restricted disclosure to her husband — that restriction must be honored. The pharmacist must: (1) decline to confirm or deny any medication information ('I cannot share patient information without patient authorization'), (2) document the call, (3) advise the caller how the patient can authorize disclosure. HIPAA safety exceptions allow disclosure ONLY if there is a credible, imminent threat to health/safety — a general wellness inquiry does not qualify. In-person ID verification does not override the patient's privacy directive."
+    },
+    {
+      title: "Case: DEA Schedule II Dispensing Requirements",
+      vignette: "A pharmacist receives a prescription for Adderall XR 30 mg #90 (a 90-day supply at 1 capsule daily) for a 24-year-old male for ADHD. The prescription was written on a standard prescription pad, signed by a psychiatrist. The patient asks for a 90-day supply to avoid multiple pharmacy trips. He also asks if the pharmacist can 'call the prescription in to' a pharmacy in his hometown for when he visits his parents. The psychiatrist is known to the pharmacy and has called in other prescriptions before. Additionally, the patient inquires about getting a refill in 2 weeks if his supply runs out.",
+      diagnosis: "Schedule II Controlled Substance — Dispensing Restrictions (DEA)",
+      labPanels: [
+        { panelName: "DEA REQUIREMENTS (CII)", rows: [{ test: "Written prescription required", result: "Yes — REQUIRED", flag: "H", range: "Electronic (EPCS) or paper; NO oral/phone orders", units: "" }, { test: "Refills permitted", result: "NONE — Schedule II", flag: "H", range: "Zero refills allowed (21 CFR 1306.12)", units: "" }, { test: "Maximum days supply (typically)", result: "30 days (most states)", flag: "H", range: "Some states allow 90 days for maintenance", units: "" }, { test: "Transfer to another pharmacy", result: "NOT permitted for CII", flag: "H", range: "CII cannot be transferred to another pharmacy", units: "" }] },
+        { panelName: "STATE SPECIFIC", rows: [{ test: "Multi-prescription (CII written in advance)", result: "Permitted in some states", flag: "", range: "'Do not fill before' date required", units: "" }, { test: "Electronic prescription for controlled substances (EPCS)", result: "Increasingly required", flag: "", range: "Many states require EPCS for CII", units: "" }] },
+        { panelName: "PATIENT PROFILE", rows: [{ test: "PMP — prior CII fills", result: "90-day fills x3 in past 6 months", flag: "H", range: "Review clinical necessity", units: "" }] }
+      ],
+      q: "Which statement BEST describes the applicable federal DEA regulations for this Schedule II prescription?",
+      options: ["A) Schedule II prescriptions cannot be phoned/faxed (except for compounded CII in specific hospice situations); they cannot be refilled; they cannot be transferred to another pharmacy; a prescriber may write multiple dated prescriptions for legitimate 90-day supplies in states that allow it; zero refills are permitted under any circumstances", "B) Schedule II prescriptions can be faxed to any pharmacy and act as an authorized prescription for dispensing", "C) A refill is permitted if the patient is known to the pharmacy and the physician confirms by phone", "D) Schedule II prescriptions can be transferred once between pharmacies in the same state if it has not been filled yet", "E) The pharmacist can dispense a 90-day supply as long as the prescription says '#90' — no state law overrides this federal limit"],
+      correct: 0,
+      explanation: "21 CFR 1306.11–1306.12 governs CII prescriptions: (1) No oral orders — must be written (paper or EPCS) — faxed CII is NOT a valid authorization EXCEPT for compounded CII for hospice/home infusion. (2) ZERO refills permitted — Schedule II has no refills under any circumstances. (3) No transfers — CII cannot be transferred between pharmacies (unlike CIII-V which can transfer once). (4) A prescriber can write multiple separate written prescriptions for CII to provide a 90-day supply if: each is for a legitimate amount, the prescriber writes 'do not fill before [date]' on each, and state law permits. (5) Many states limit CII to 30-day supplies — check state law. Key point: 'calling in' a CII or refilling it are federal violations."
+    },
+    {
+      title: "Case: Medication Error Reporting and Root Cause",
+      vignette: "A pharmacist at a hospital pharmacy discovers that a patient received methotrexate 50 mg daily for 7 days (total 350 mg) instead of the intended methotrexate 7.5 mg once WEEKLY for rheumatoid arthritis. The error was caught when the patient was admitted to the hospital with severe mouth sores, profound neutropenia (WBC 0.8 K/uL), and signs of methotrexate toxicity. The original order was ambiguous: 'methotrexate 7.5 mg oral weekly' was transcribed by the nurse as 'methotrexate 7.5 mg oral daily' and the pharmacy dispensed 7-day bottles of 7.5 mg tablets (filled daily). Nobody questioned the order. Now pharmacy leadership wants a full investigation.",
+      diagnosis: "High-Alert Medication Error — Methotrexate Dosing Frequency (Weekly vs. Daily)",
+      labPanels: [
+        { panelName: "PATIENT STATUS (at adverse event discovery)", rows: [{ test: "WBC", result: "0.8", flag: "L", range: "4.5-11.0", units: "K/uL" }, { test: "ANC (Absolute Neutrophil Count)", result: "0.3", flag: "L", range: ">1.5", units: "K/uL" }, { test: "Mucositis Grade", result: "Grade 3", flag: "H", range: "Grade 0-4", units: "" }, { test: "Serum Methotrexate Level", result: "2.8", flag: "H", range: "<0.1 (48h post-dose)", units: "micromol/L" }] },
+        { panelName: "ERROR SEVERITY", rows: [{ test: "NCC MERP Category", result: "Category G", flag: "H", range: "Caused temporary patient harm, hospitalization required", units: "" }, { test: "Medication involved", result: "High-Alert: Methotrexate", flag: "H", range: "ISMP High-Alert Medication", units: "" }] },
+        { panelName: "SYSTEMIC FACTORS", rows: [{ test: "CPOE alert for weekly dosing", result: "Not implemented", flag: "H", range: "Missing safeguard", units: "" }, { test: "Pharmacist verification of frequency", result: "Not performed for non-IV orders", flag: "H", range: "Process gap", units: "" }] }
+      ],
+      q: "What is the most appropriate institutional response and error reporting framework to apply following this medication error?",
+      options: ["A) Conduct a Root Cause Analysis (RCA) using a systems-based approach (not individual blame); report the event to the internal patient safety/quality committee and external body (e.g., ISMP MERP, TJC Sentinel Event if required); implement corrective actions: CPOE hard stop for daily methotrexate orders, mandatory pharmacist DUR for all methotrexate orders, patient education on weekly dosing at dispensing", "B) Terminate the nurse and pharmacist who were directly involved — individual accountability prevents future errors most effectively", "C) Document the event only in the patient's chart and take no further action since the patient survived", "D) Report the event to the DEA since methotrexate is a controlled substance that requires special reporting", "E) Issue a press release to the public to ensure full transparency about the error"],
+      correct: 0,
+      explanation: "Medication error management requires a SYSTEMS-BASED approach per ISMP, Joint Commission, and AHRQ. Root Cause Analysis (RCA) identifies systemic failures (process, technology, communication gaps) rather than blaming individuals. This error involved: ambiguous frequency documentation, failed transcription verification, no CPOE safeguards, and lack of pharmacist DUR for oral methotrexate — all SYSTEM failures. Required actions: (1) Internal report to Patient Safety/QI committee; (2) External voluntary report to ISMP's MERP (Medication Errors Reporting Program); (3) TJC Sentinel Event self-reporting if required (serious harm/hospitalization); (4) CAPAs: CPOE hard stop for 'methotrexate daily' orders, mandatory clinical pharmacist review of ALL methotrexate orders, patient education initiative. Termination of individuals ('second victim') without system change is ineffective and ethically problematic. DEA has no jurisdiction over non-controlled medications. Methotrexate is NOT a DEA scheduled drug."
+    }
+  ]
+}];
 
 let counselingFlashcards = [], counselingExams = [], counselingCases = [];
 let diseasesFlashcards = [], diseasesExams = [], diseasesCases = [];
@@ -17969,6 +14613,121 @@ function GlobalTaskIndicator({ onViewResult }) {
     ] }, id))
   ] });
 }
+const MEDICAL_RANDOM_TOPICS = [
+  "Acetaminophen (Tylenol) toxicity: mechanisms, NAC protocol, and liver failure",
+  "Hypertension: JNC-8 classification, lifestyle and pharmacotherapy",
+  "Type 2 diabetes mellitus: glycemic targets and stepwise drug therapy",
+  "Acute STEMI: reperfusion, antiplatelet, and anticoagulation management",
+  "Heart failure with reduced ejection fraction: GDMT and device therapy",
+  "COPD: GOLD staging, bronchodilators, and exacerbation management",
+  "Community-acquired pneumonia: CURB-65, pathogens, and antibiotics",
+  "Sepsis and septic shock: Surviving Sepsis Campaign bundle",
+  "Ischemic stroke: tPA eligibility, thrombectomy, and secondary prevention",
+  "Atrial fibrillation: CHA₂DS₂-VASc, rate vs rhythm, and anticoagulation",
+  "DVT and pulmonary embolism: Wells score, DOAC therapy, thrombolytics",
+  "Acute kidney injury: KDIGO staging, causes (prerenal/intrinsic/postrenal), management",
+  "Chronic kidney disease: GFR staging, progression prevention, dialysis criteria",
+  "Liver cirrhosis: Child-Pugh/MELD scoring, varices, SBP, hepatorenal syndrome",
+  "Upper GI bleeding: Blatchford score, endoscopy, PPIs, H. pylori",
+  "Inflammatory bowel disease: Crohn vs ulcerative colitis, aminosalicylates, biologics",
+  "Hyperthyroidism and thyroid storm: Graves disease, propylthiouracil vs methimazole",
+  "Hypothyroidism: levothyroxine dosing, TSH monitoring, myxedema coma",
+  "Iron-deficiency anemia: labs, oral vs IV iron, transfusion thresholds",
+  "Anticoagulation therapy: warfarin INR management, heparin, DOACs comparison",
+  "Asthma: GINA stepwise management, controller vs reliever, biologics",
+  "Breast cancer: screening mammography, staging, HER2/hormone receptor therapy",
+  "Lung cancer: NSCLC vs SCLC, EGFR/ALK targeted therapy, immunotherapy",
+  "Colorectal cancer: colonoscopy screening, Lynch syndrome, chemotherapy",
+  "Prostate cancer: PSA screening, androgen deprivation therapy, enzalutamide",
+  "Melanoma: ABCDE criteria, TNM staging, BRAF/MEK inhibitors, checkpoint inhibitors",
+  "Chronic pain and opioid use disorder: opioid equianalgesic doses, naloxone, buprenorphine",
+  "Generalized anxiety disorder: SSRIs, SNRIs, buspirone, benzodiazepine risks",
+  "Major depressive disorder: antidepressants, augmentation, TMS, ECT",
+  "Schizophrenia: typical vs atypical antipsychotics, metabolic monitoring",
+  "Bipolar disorder: lithium monitoring, valproate, lamotrigine, acute mania",
+  "Epilepsy: first-line AEDs by seizure type, drug interactions, teratogenicity",
+  "Parkinson disease: levodopa/carbidopa, dopamine agonists, MAO-B inhibitors",
+  "Alzheimer disease: cholinesterase inhibitors, memantine, staging",
+  "Multiple sclerosis: relapsing-remitting, interferon, natalizumab, ocrelizumab",
+  "Rheumatoid arthritis: DMARDs (methotrexate), biologics (anti-TNF), treat-to-target",
+  "Systemic lupus erythematosus: ACR criteria, hydroxychloroquine, immunosuppressants",
+  "Osteoporosis: DEXA T-score, bisphosphonates, denosumab, teriparatide",
+  "Gout: uric acid targets, colchicine/NSAIDs for acute, allopurinol prophylaxis",
+  "Infectious endocarditis: Duke criteria, empiric antibiotics, surgical indications",
+  "Tuberculosis: RIPE therapy, latent TB, MDR-TB, IGRA vs TST",
+  "HIV/AIDS: ART initiation, regimen selection, OI prophylaxis, PrEP",
+  "UTI and complicated UTI: E. coli resistance patterns, nitrofurantoin vs TMP-SMX",
+  "STIs: gonorrhea/chlamydia dual therapy, syphilis stages, HSV antivirals",
+  "Beta-blockers: receptor selectivity, indications, contraindications, toxicity",
+  "ACE inhibitors and ARBs: RAAS axis, indications, hyperkalemia monitoring",
+  "Statins: LDL targets, intensity levels, myopathy, drug interactions",
+  "Antibiotic resistance: beta-lactamase, MRSA, ESBL, VRE, CRE mechanisms",
+  "Anaphylaxis: epinephrine 0.3mg IM, antihistamines, steroids, airway management",
+  "Drug-induced QT prolongation: offending drugs list, Torsades de Pointes risk",
+  "Serotonin syndrome vs neuroleptic malignant syndrome: Hunter criteria, cyproheptadine",
+  "CYP450 drug interactions: inhibitors, inducers, and clinically significant pairs",
+  "Acetylcholine vs norepinephrine: receptor subtypes, clinical relevance",
+  "Burn management: Parkland formula, depth classification, escharotomy",
+  "Traumatic brain injury: ICP monitoring, osmotherapy, barbiturate coma",
+  "Types of shock: hemorrhagic, distributive (septic/anaphylactic), cardiogenic, obstructive",
+  "Neonatal jaundice: bilirubin thresholds, phototherapy, exchange transfusion",
+  "Gestational diabetes: GDM screening, insulin vs metformin, fetal risks",
+  "Preeclampsia and eclampsia: BP targets, magnesium sulfate protocol, delivery",
+  "Antihypertensives in pregnancy: labetalol, nifedipine, hydralazine safety",
+  "Drug-induced liver injury: RUCAM scale, hepatotoxic drugs, N-acetylcysteine",
+  "Pediatric vaccines: schedule, live vs inactivated, contraindications, catch-up",
+  "Alcohol use disorder: CAGE/AUDIT, CIWA scale, lorazepam protocol, naltrexone",
+  "Acid-base disorders: metabolic acidosis/alkalosis, respiratory compensation",
+  "Electrolyte disorders: hyponatremia correction rate, hyperkalemia management, hypomagnesemia",
+  "Thyroid nodule and cancer: TIRADS, FNA biopsy, PTC vs FTC surgery, RAI"
+];
+const runTopicGeneration = async ({ taskId, topic, taskType, count, difficultyLevel, settings, onSave }) => {
+  const batchSize = 40;
+  const numBatches = count > batchSize ? Math.ceil(count / batchSize) : 1;
+  bgStart(taskId, { type: taskType, docName: topic, msg: "Generating from topic…", done: 0, total: numBatches });
+  try {
+    const MEDICINE_RULE = `
+
+MEDICINE RULE — MANDATORY: Write every drug as "BrandName (generic)" — e.g. "Tylenol (acetaminophen)", "Lasix (furosemide)", "Glucophage (metformin)". Apply to EVERY drug in EVERY item.`;
+    const makePrompt = (bc) => {
+      const base = `TOPIC: "${topic}"
+DIFFICULTY: ${difficultyLevel}${MEDICINE_RULE}
+
+Generate accurate, board-exam-level ${taskType} items about this topic. Use international standards (US, UK, AUS, Middle East). Include specific numbers: doses, lab values, %, NNT, timelines.
+
+`;
+      if (taskType === "flashcards") return `${base}Generate EXACTLY ${bc} high-yield clinical flashcards. Question: detailed, multi-sentence clinical scenario or concept. Answer: precise 3-5 sentence response with specific values, doses, and mechanisms. RETURN JSON ONLY: {"items":[{"q":"detailed clinical question","a":"accurate answer with specific data","evidence":"key supporting fact"}]}`;
+      if (taskType === "exam") return `${base}Generate EXACTLY ${bc} board-exam MCQs. Each: 2-4 sentence clinical vignette stem, 4 plausible options (A-D), correct answer index, 4-5 sentence explanation addressing every option. RETURN JSON ONLY: {"items":[{"q":"clinical vignette stem","options":["A. option","B. option","C. option","D. option"],"correct":0,"explanation":"explanation covering all options with specific reasoning"}]}`;
+      if (taskType === "cases") return `${base}Generate EXACTLY ${bc} realistic clinical cases about "${topic}". Each case: (1) 8-12 sentence vignette including demographics, HPI, PMH, allergies, medications, vitals, physical exam; (2) 3 lab panels with realistic abnormal values; (3) clinical question with 5 options (A-E). RETURN JSON ONLY: {"items":[{"vignette":"8-12 sentence detailed case","title":"case title","diagnosis":"diagnosis","labPanels":[{"panelName":"COMPLETE BLOOD COUNT","rows":[{"test":"WBC","result":"11.8","flag":"H","range":"4.5-11.0","units":"K/uL"},{"test":"Hgb","result":"10.2","flag":"L","range":"12-16","units":"g/dL"},{"test":"Hct","result":"30","flag":"L","range":"36-46","units":"%"},{"test":"Platelets","result":"380","flag":"","range":"150-400","units":"K/uL"},{"test":"MCV","result":"72","flag":"L","range":"80-100","units":"fL"}]},{"panelName":"BASIC METABOLIC PANEL","rows":[{"test":"Sodium","result":"138","flag":"","range":"135-145","units":"mEq/L"},{"test":"Potassium","result":"3.9","flag":"","range":"3.5-5.0","units":"mEq/L"},{"test":"Creatinine","result":"1.1","flag":"","range":"0.6-1.2","units":"mg/dL"},{"test":"BUN","result":"18","flag":"","range":"7-20","units":"mg/dL"},{"test":"Glucose","result":"95","flag":"","range":"70-100","units":"mg/dL"}]},{"panelName":"DISEASE-SPECIFIC PANEL","rows":[{"test":"relevant test","result":"abnormal value","flag":"H","range":"reference","units":"unit"},{"test":"relevant test","result":"abnormal value","flag":"L","range":"reference","units":"unit"},{"test":"relevant test","result":"value","flag":"","range":"reference","units":"unit"}]}],"examQuestion":{"q":"clinical question stem","options":["A) option","B) option","C) option","D) option","E) option"],"correct":0,"explanation":"4-6 sentence explanation with specific data"}}]}`;
+      return `${base}Analyze "${topic}" comprehensively.`;
+    };
+    const isJson = ["flashcards", "exam", "cases"].includes(taskType);
+    const tasks = Array.from({ length: numBatches }, (_, i) => {
+      const bc = i === numBatches - 1 ? count % batchSize === 0 ? batchSize : count % batchSize : batchSize;
+      return () => callAI(makePrompt(bc), isJson, false, settings, 8e3);
+    });
+    let all = [];
+    const results = await runParallel(tasks, 50, (done, total) => {
+      bgUpdate(taskId, { done, total, msg: `${done}/${total} batches complete…` });
+    });
+    for (const r of results) {
+      if (r.status === "fulfilled") {
+        try {
+          const p = parseJson(r.value);
+          all = [...all, ...p.items || p.cases || p.questions || p.flashcards || []];
+        } catch (e) {
+          console.warn("Topic parse err:", e.message);
+        }
+      }
+    }
+    if (!all.length) throw new Error("AI returned no data. Check your API key or try a different topic.");
+    const finalData = all.slice(0, count);
+    bgFinish(taskId, { type: taskType, data: finalData, pages: "", docName: topic, count: finalData.length });
+    if (onSave) onSave(finalData, taskId);
+  } catch (e) {
+    bgFail(taskId, e.message || String(e));
+  }
+};
 function QuickGenerateModal({
   type,
   docs,
@@ -17990,6 +14749,7 @@ function QuickGenerateModal({
   const [endPage, setEndPage] = reactExports.useState(1);
   const [count, setCount] = reactExports.useState(20);
   const [difficulty, setDifficulty] = reactExports.useState(2);
+  const [topicInput, setTopicInput] = reactExports.useState("");
   const levels = ["Easy", "Medium", "Hard"];
   const inputRef = reactExports.useRef(null);
   const activeDoc = tab === "upload" ? uploadedDoc : docs.find((d) => d.id === selDocId) || null;
@@ -18035,6 +14795,45 @@ function QuickGenerateModal({
   const tc = typeConfig[type] || typeConfig.flashcards;
   const Icon = tc.icon;
   const handleGo = () => {
+    if (tab === "topic") {
+      const topic = topicInput.trim();
+      if (!topic) {
+        addToast("Enter a topic or click Random Topic first.", "error");
+        return;
+      }
+      const taskId2 = "task_" + Date.now();
+      const onSave2 = (data, tid) => {
+        const now = (/* @__PURE__ */ new Date()).toISOString();
+        if (type === "flashcards") {
+          const cards = data.map((c) => ({
+            id: Date.now() + Math.random(),
+            q: c.q,
+            a: c.a,
+            evidence: c.evidence || "",
+            sourcePage: 0,
+            repetitions: 0,
+            ef: 2.5,
+            interval: 1,
+            nextReview: Date.now(),
+            lastReview: Date.now()
+          }));
+          setFlashcards((p) => [...p, { id: taskId2, docId: null, sourcePages: "topic", title: `Cards — ${topic.slice(0, 30)}`, cards, createdAt: now }]);
+          addToast(`${cards.length} flashcards saved! ⚡`, "success");
+        } else if (type === "exam") {
+          setExams((p) => [...p, { id: taskId2, docId: null, sourcePages: "topic", title: `Exam — ${topic.slice(0, 30)}`, questions: data, createdAt: now }]);
+          addToast(`${data.length} exam questions saved! ⚡`, "success");
+        } else if (type === "cases") {
+          setCases((p) => [...p, { id: taskId2, docId: null, sourcePages: "topic", title: `Cases — ${topic.slice(0, 30)}`, questions: data, createdAt: now }]);
+          addToast(`${data.length} cases saved! ⚡`, "success");
+        }
+        bgClear(tid);
+      };
+      runTopicGeneration({ taskId: taskId2, topic, taskType: type, count, difficultyLevel: levels[difficulty - 1], settings, onSave: onSave2 });
+      if (onTaskStart) onTaskStart(taskId2);
+      addToast(`Generating ${count} ${tc.label} on "${topic.slice(0, 25)}…" in background!`, "info");
+      onClose();
+      return;
+    }
     if (!activeDoc) {
       addToast("Select or upload a document first.", "error");
       return;
@@ -18119,25 +14918,78 @@ function QuickGenerateModal({
                 "Generate ",
                 tc.label
               ] }),
-              /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-xs opacity-50 font-bold", children: "From any document • Runs in background" })
+              /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-xs opacity-50 font-bold", children: "From file · By topic · Random — runs in background" })
             ] })
           ] }),
           /* @__PURE__ */ jsxRuntimeExports.jsx("button", { onClick: onClose, className: "w-9 h-9 glass rounded-xl flex items-center justify-center opacity-60 hover:opacity-100", children: /* @__PURE__ */ jsxRuntimeExports.jsx(X, { size: 16 }) })
         ] }),
         /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex-1 min-h-0 overflow-y-auto custom-scrollbar p-5 space-y-4 max-h-[70vh]", children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "flex gap-1 p-1 glass rounded-2xl", children: [["library", "From Library", BookOpen], ["upload", "Upload File", FileUp]].map(([id, lbl, TIcon]) => /* @__PURE__ */ jsxRuntimeExports.jsxs(
+          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "flex gap-1 p-1 glass rounded-2xl", children: [["library", "From Library", BookOpen], ["upload", "Upload File", FileUp], ["topic", "By Topic / Random", Sparkles]].map(([id, lbl, TIcon]) => /* @__PURE__ */ jsxRuntimeExports.jsxs(
             "button",
             {
               onClick: () => setTab(id),
-              className: `flex-1 flex items-center justify-center gap-2 py-2.5 rounded-xl text-xs font-black transition-all
-                  ${tab === id ? "bg-[var(--accent)] text-white shadow-md" : "opacity-50 hover:opacity-80"}`,
+              className: `flex-1 flex items-center justify-center gap-1.5 py-2.5 rounded-xl text-xs font-black transition-all
+                  ${tab === id ? "text-white shadow-md" : "opacity-50 hover:opacity-80"}`,
+              style: tab === id ? { background: tc.color } : {},
               children: [
-                /* @__PURE__ */ jsxRuntimeExports.jsx(TIcon, { size: 16 }),
+                /* @__PURE__ */ jsxRuntimeExports.jsx(TIcon, { size: 14 }),
                 lbl
               ]
             },
             id
           )) }),
+          tab === "topic" && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "space-y-3", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "space-y-2", children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx("label", { className: "text-xs font-black uppercase tracking-widest opacity-60 block", children: "Topic or Condition" }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx(
+                "input",
+                {
+                  value: topicInput,
+                  onChange: (e) => setTopicInput(e.target.value),
+                  placeholder: "e.g. Tylenol toxicity, hypertension management, cancer staging…",
+                  className: "w-full glass rounded-2xl px-4 py-3 text-sm outline-none border border-[color:var(--border2,var(--border))] focus:border-[var(--accent)] text-[var(--text)] placeholder:opacity-40"
+                }
+              )
+            ] }),
+            /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex gap-2", children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx(
+                "button",
+                {
+                  onClick: () => {
+                    const t = MEDICAL_RANDOM_TOPICS[Math.floor(Math.random() * MEDICAL_RANDOM_TOPICS.length)];
+                    setTopicInput(t);
+                  },
+                  className: "flex-1 flex items-center justify-center gap-2 py-2.5 rounded-2xl text-xs font-black border-2 border-dashed transition-all hover:opacity-80",
+                  style: { borderColor: tc.color + "60", color: tc.color, background: tc.color + "10" },
+                  children: "🎲 Random Medical Topic"
+                }
+              ),
+              topicInput && /* @__PURE__ */ jsxRuntimeExports.jsx("button", { onClick: () => setTopicInput(""), className: "px-3 py-2 rounded-xl glass text-xs font-bold opacity-50 hover:opacity-80", children: /* @__PURE__ */ jsxRuntimeExports.jsx(X, { size: 14 }) })
+            ] }),
+            topicInput && /* @__PURE__ */ jsxRuntimeExports.jsxs(
+              "div",
+              {
+                className: "rounded-xl px-4 py-3 text-xs font-bold flex items-start gap-2",
+                style: { background: tc.color + "12", color: tc.color, border: `1px solid ${tc.color}30` },
+                children: [
+                  /* @__PURE__ */ jsxRuntimeExports.jsx(Sparkles, { size: 13, className: "shrink-0 mt-0.5" }),
+                  /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { children: [
+                    "AI will generate ",
+                    count,
+                    " accurate ",
+                    tc.label,
+                    " on: ",
+                    /* @__PURE__ */ jsxRuntimeExports.jsxs("strong", { children: [
+                      '"',
+                      topicInput.slice(0, 60),
+                      topicInput.length > 60 ? "…" : "",
+                      '"'
+                    ] })
+                  ] })
+                ]
+              }
+            )
+          ] }),
           tab === "library" && /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "space-y-2 max-h-48 overflow-y-auto custom-scrollbar", children: !docs.length ? /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "text-center py-6 opacity-40", children: [
             /* @__PURE__ */ jsxRuntimeExports.jsx(BookOpen, { size: 28, className: "mx-auto mb-2" }),
             /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-xs font-bold", children: "No documents in library" }),
@@ -18205,7 +15057,7 @@ function QuickGenerateModal({
             ] }),
             /* @__PURE__ */ jsxRuntimeExports.jsx("button", { onClick: () => setUploadedDoc(null), className: "opacity-40 hover:opacity-80", children: /* @__PURE__ */ jsxRuntimeExports.jsx(X, { size: 14 }) })
           ] }) }),
-          activeDoc && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "glass rounded-2xl p-4 space-y-3", children: [
+          tab !== "topic" && activeDoc && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "glass rounded-2xl p-4 space-y-3", children: [
             /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center justify-between", children: [
               /* @__PURE__ */ jsxRuntimeExports.jsxs("h3", { className: "text-xs font-black uppercase tracking-widest opacity-60 flex items-center gap-2", children: [
                 /* @__PURE__ */ jsxRuntimeExports.jsx(BookOpen, { size: 16 }),
@@ -18307,20 +15159,28 @@ function QuickGenerateModal({
           ] })
         ] }),
         /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "p-5 border-t border-[color:var(--border2,var(--border))] shrink-0", children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsxs(
+          /* @__PURE__ */ jsxRuntimeExports.jsx(
             "button",
             {
               onClick: handleGo,
-              disabled: !activeDoc,
+              disabled: tab === "topic" ? !topicInput.trim() : !activeDoc,
               className: "w-full py-4 btn-accent rounded-2xl text-sm font-black uppercase tracking-widest disabled:opacity-40 flex items-center justify-center gap-3 shadow-xl",
-              children: [
+              style: { background: tc.color },
+              children: tab === "topic" ? /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsx(Sparkles, { size: 18 }),
+                " Generate ",
+                count,
+                " ",
+                tc.label,
+                " on Topic"
+              ] }) : /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
                 /* @__PURE__ */ jsxRuntimeExports.jsx(Zap, { size: 18, fill: "currentColor" }),
-                "Generate ",
+                " Generate ",
                 count,
                 " ",
                 tc.label,
                 " in Background"
-              ]
+              ] })
             }
           ),
           /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-xs text-center opacity-30 font-bold mt-2", children: "You can switch pages — generation never stops" })
@@ -18534,6 +15394,17 @@ const PROVIDERS = {
   custom: { label: "Custom API", note: "Any OpenAI-compatible endpoint.", needsKey: true, defaultModel: "", baseUrl: "" }
 };
 const DEFAULT_SETTINGS = { provider: "anthropic", apiKey: "", baseUrl: "", model: "", strictMode: false, theme: "pure-white", fontSize: "large", accentColor: "indigo", lineSpacing: "normal", cardStyle: "comfortable", animations: true, compactSidebar: false };
+const shuffleOptions = (questions) => (questions || []).map((q) => {
+  if (!Array.isArray(q.options) || q.options.length < 2) return q;
+  const correctText = q.options[typeof q.correct === "number" ? q.correct : 0];
+  const shuffled = [...q.options];
+  for (let i = shuffled.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+  }
+  const newCorrect = shuffled.indexOf(correctText);
+  return { ...q, options: shuffled, correct: newCorrect >= 0 ? newCorrect : 0 };
+});
 const BUILTIN_FLASHCARD_SETS = [
   ...counselingFlashcards,
   ...diseasesFlashcards,
@@ -19537,25 +16408,29 @@ function AiTutorPanel({ settings, context, onClose, width, onDragStart, alwaysOp
     setLoading(true);
     try {
       const hist = newMsgs.slice(-8, -1).map((m) => `${m.role === "user" ? "STUDENT" : "TUTOR"}: ${m.content}`).join("\n");
-      const prompt = `You are an expert pharmacy/medical AI tutor. Answer ONLY about the EXACT content in CONTEXT below.
+      const prompt = `You are an expert medical/pharmacy/nursing AI tutor with encyclopedic knowledge. Answer any medical or clinical question — whether about the current card context or any related topic the student raises.
 
-RULES:
-- Be SHORT but VERY detailed and accurate. Use 4-6 concise bullet points max.
-- Every bullet must be a specific, high-yield fact — no filler or generic statements.
-- For drugs: always state BrandName (generic), Class, Indication, and 3-4 key counseling points.
-- Drug format: "Tylenol (acetaminophen)" — brand first, generic in parentheses, EVERY time.
-- NEVER discuss content from other cards/pages/questions. Stay on THIS card only.
-- If student asks "Explain this in detail" → give the mechanism of action, clinical use, key side effects, and most important counseling points in tight bullet points.
-- If student asks "Why is this the correct answer?" → explain exactly why this answer is right and why other options are wrong, with specific pharmacological reasoning.
-- If student asks "What are common mistakes here?" → list the 3-4 most common exam errors students make on this exact topic, with why each is wrong.
-- If student asks "Give me a mnemonic" → create a memorable, clever mnemonic specifically for this drug/topic that covers the most testable facts.
-- If student asks "What else should I know?" → give 3-4 additional high-yield facts about this exact topic that are commonly tested but not in the card.
-- If student asks "Create a practice question" → write one realistic multiple-choice question (4 options, A-D) with the correct answer and a brief explanation.
+RESPONSE FORMAT RULES:
+- Prefer TABLES when comparing drugs, conditions, side effects, mechanisms, or dosing — tables are clearer than prose for lists.
+- Use bullet points (–) for step-by-step processes, criteria lists, or clinical decision trees.
+- Keep answers MEDIUM LENGTH: precise and accurate, not padded. 4-8 bullet points or 1-2 tables max per response.
+- Always include SPECIFIC data: doses, lab cutoffs, %, timelines — never vague statements.
+- For every drug: write "BrandName (generic)" — e.g. "Tylenol (acetaminophen)", "Lasix (furosemide)".
+- End with 1 high-yield board exam tip when relevant.
 
-CONTEXT (discuss ONLY this):
-${context || "General study session"}
+RESPONSE TYPES:
+- "Explain in detail" → mechanism + clinical use + key AEs + monitoring in a table if comparing ≥2 drugs.
+- "Why is this correct?" → explain why right answer is right + why each wrong option is wrong, bullet by option.
+- "Common mistakes" → table: Mistake | Why It's Wrong | What's Actually True.
+- "Give a mnemonic" → create a memorable acronym with clinical coverage, explain each letter.
+- "What else should I know?" → 3-4 additional HY facts not in the card, with specific values.
+- "Practice question" → write a full 4-option MCQ vignette, mark correct answer, explain all options.
+- Any free question → answer it accurately using best current guidelines (AHA/ACC/WHO/ASHP).
 
-${hist ? "Conversation:\n" + hist + "\n" : ""}STUDENT: ${msg}
+CURRENT CONTEXT (may be referenced but not required):
+${context || "General medical study session — answer any clinical question."}
+
+${hist ? "CONVERSATION HISTORY:\n" + hist + "\n" : ""}STUDENT: ${msg}
 
 TUTOR:`;
       await callAIStreaming(prompt, (chunk) => {
@@ -19570,10 +16445,12 @@ TUTOR:`;
   const QUICK = [
     "Explain this in detail",
     "Why is this the correct answer?",
+    "Show me a comparison table",
     "What are common mistakes here?",
     "Give me a mnemonic",
     "What else should I know?",
-    "Create a practice question"
+    "Create a practice question",
+    "Show me the mechanism of action"
   ];
   return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex flex-col h-full min-h-0 bg-[var(--surface,var(--card))] border-l border-[color:var(--border2,var(--border))]", style: { width: width || 360 }, children: [
     /* @__PURE__ */ jsxRuntimeExports.jsxs(
@@ -19656,6 +16533,8 @@ function FlashcardsView({ flashcards, setFlashcards, settings, addToast, docs, s
   const [mobileTutorOpen, setMobileTutorOpen] = reactExports.useState(false);
   const [showResumePrompt, setShowResumePrompt] = reactExports.useState(false);
   const [savedProgress, setSavedProgress] = reactExports.useState(null);
+  const [inlineCount, setInlineCount] = reactExports.useState(20);
+  const [inlineDiff, setInlineDiff] = reactExports.useState("Medium");
   const rateCard = reactExports.useCallback((q) => {
     trackStudy("flashcard");
     setFlashcards((p) => p.map((set) => {
@@ -19924,22 +16803,113 @@ Do NOT discuss other cards or topics outside this card.`;
       }
     ),
     /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "w-full p-6 lg:p-8 space-y-6", children: [
-      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center justify-between", children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsxs("h1", { className: "text-2xl lg:text-3xl font-black flex items-center gap-3", children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsx(Layers, { size: 26, className: "opacity-40" }),
-          " Flashcards"
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex flex-col gap-3", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center justify-between", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("h1", { className: "text-2xl lg:text-3xl font-black flex items-center gap-3", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx(Layers, { size: 26, className: "opacity-40" }),
+            " Flashcards"
+          ] }),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs(
+            "button",
+            {
+              onClick: () => setShowModal(true),
+              className: "btn-accent px-4 py-2.5 rounded-xl text-xs font-black flex items-center gap-2 shadow-lg",
+              children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsx(FilePlus, { size: 18 }),
+                " From File"
+              ]
+            }
+          )
         ] }),
-        /* @__PURE__ */ jsxRuntimeExports.jsxs(
-          "button",
-          {
-            onClick: () => setShowModal(true),
-            className: "btn-accent px-4 py-2.5 rounded-xl text-xs font-black flex items-center gap-2 shadow-lg",
-            children: [
-              /* @__PURE__ */ jsxRuntimeExports.jsx(FilePlus, { size: 18 }),
-              " New from File"
-            ]
-          }
-        )
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex gap-2 items-center flex-wrap", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex-1 flex items-center gap-2 glass rounded-2xl px-4 py-2.5 border border-[color:var(--border2,var(--border))]", style: { minWidth: 200 }, children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx(Search, { size: 15, className: "opacity-30 shrink-0" }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx(
+              "input",
+              {
+                placeholder: "Type a topic… e.g. 'Tylenol toxicity', 'sepsis' — then press Enter",
+                className: "flex-1 bg-transparent text-sm outline-none placeholder:opacity-40 text-[var(--text)]",
+                onKeyDown: (e) => {
+                  if (e.key === "Enter") {
+                    const val = e.target.value.trim();
+                    if (!val) return;
+                    const taskId = "task_" + Date.now();
+                    runTopicGeneration({
+                      taskId,
+                      topic: val,
+                      taskType: "flashcards",
+                      count: inlineCount,
+                      difficultyLevel: inlineDiff,
+                      settings,
+                      onSave: (data, tid) => {
+                        const now = (/* @__PURE__ */ new Date()).toISOString();
+                        const cards = data.map((c) => ({ id: Date.now() + Math.random(), q: c.q, a: c.a, evidence: c.evidence || "", sourcePage: 0, repetitions: 0, ef: 2.5, interval: 1, nextReview: Date.now(), lastReview: Date.now() }));
+                        setFlashcards((p) => [...p, { id: taskId, docId: null, sourcePages: "topic", title: `Cards — ${val.slice(0, 30)}`, cards, createdAt: now }]);
+                        addToast(`${cards.length} flashcards saved! ⚡`, "success");
+                        bgClear(tid);
+                      }
+                    });
+                    addToast(`Generating ${inlineCount} ${inlineDiff} cards on "${val.slice(0, 25)}…"`, "info");
+                    e.target.value = "";
+                  }
+                }
+              }
+            )
+          ] }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx(
+            "button",
+            {
+              onClick: () => {
+                const topic = MEDICAL_RANDOM_TOPICS[Math.floor(Math.random() * MEDICAL_RANDOM_TOPICS.length)];
+                const taskId = "task_" + Date.now();
+                runTopicGeneration({ taskId, topic, taskType: "flashcards", count: inlineCount, difficultyLevel: inlineDiff, settings, onSave: (data, tid) => {
+                  const now = (/* @__PURE__ */ new Date()).toISOString();
+                  const cards = data.map((c) => ({ id: Date.now() + Math.random(), q: c.q, a: c.a, evidence: c.evidence || "", sourcePage: 0, repetitions: 0, ef: 2.5, interval: 1, nextReview: Date.now(), lastReview: Date.now() }));
+                  setFlashcards((p) => [...p, { id: taskId, docId: null, sourcePages: "topic", title: `Cards — ${topic.split(":")[0].trim().slice(0, 30)}`, cards, createdAt: now }]);
+                  addToast(`${cards.length} flashcards saved! ⚡`, "success");
+                  bgClear(tid);
+                } });
+                addToast("🎲 Generating random topic cards…", "info");
+              },
+              className: "flex items-center gap-2 px-4 py-2.5 rounded-2xl text-xs font-black border-2 border-dashed transition-all hover:opacity-80 whitespace-nowrap",
+              style: { borderColor: "#6366f160", color: "#6366f1", background: "#6366f110" },
+              children: "🎲 Random"
+            }
+          ),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("button", { onClick: () => setShowModal(true), className: "flex items-center gap-2 px-3 py-2.5 rounded-2xl text-xs font-black glass border border-[color:var(--border2,var(--border))] hover:opacity-80 whitespace-nowrap opacity-60", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx(FilePlus, { size: 13 }),
+            " From File"
+          ] })
+        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex gap-3 items-center flex-wrap", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center gap-1.5", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-[11px] font-black uppercase tracking-widest opacity-40 shrink-0", children: "Count:" }),
+            [5, 10, 20, 50, 100].map((n) => /* @__PURE__ */ jsxRuntimeExports.jsx(
+              "button",
+              {
+                onClick: () => setInlineCount(n),
+                className: "px-2.5 py-1 rounded-lg text-xs font-black transition-all",
+                style: { background: inlineCount === n ? "#6366f1" : "#6366f118", color: inlineCount === n ? "#fff" : "#6366f1" },
+                children: n
+              },
+              n
+            ))
+          ] }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "w-px h-4 opacity-20", style: { background: "var(--border)" } }),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center gap-1.5", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-[11px] font-black uppercase tracking-widest opacity-40 shrink-0", children: "Level:" }),
+            [["Easy", "#10b981"], ["Medium", "#f59e0b"], ["Hard", "#ef4444"], ["Board", "#7c3aed"]].map(([d, col]) => /* @__PURE__ */ jsxRuntimeExports.jsx(
+              "button",
+              {
+                onClick: () => setInlineDiff(d),
+                className: "px-2.5 py-1 rounded-lg text-xs font-black transition-all",
+                style: { background: inlineDiff === d ? col : col + "18", color: inlineDiff === d ? "#fff" : col },
+                children: d
+              },
+              d
+            ))
+          ] })
+        ] })
       ] }),
       flashcards.length > 0 && /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
         /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "grid grid-cols-3 gap-3", children: [
@@ -20037,6 +17007,24 @@ function ExamsView({ exams, setExams, settings, addToast, docs, setFlashcards, s
   const [examMobileOpen, setExamMobileOpen] = reactExports.useState(false);
   const [showResumePrompt, setShowResumePrompt] = reactExports.useState(false);
   const [savedProgress, setSavedProgress] = reactExports.useState(null);
+  const [inlineCount, setInlineCount] = reactExports.useState(20);
+  const [inlineDiff, setInlineDiff] = reactExports.useState("Medium");
+  const startExamWithResumeCheck = async (ex) => {
+    const shuffledEx = { ...ex, questions: shuffleOptions(ex.questions) };
+    const saved = await getSessionProgress(ex.id);
+    if (saved && saved.type === "exam" && saved.index < ex.questions.length) {
+      setSavedProgress(saved);
+      setShowResumePrompt(true);
+    } else {
+      setSelEx(shuffledEx);
+      setQi(0);
+      setSelected(null);
+      setSubmitted(false);
+      setScore(null);
+      setAnswers([]);
+      setReviewMode(false);
+    }
+  };
   const submit = () => {
     if (selected === null) return;
     const correct = selEx.questions[qi].correct === selected;
@@ -20130,15 +17118,15 @@ Do NOT discuss other questions or topics outside this question.`;
               children: [
                 /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: `w-7 h-7 rounded-full flex items-center justify-center text-xs font-black shrink-0 border transition-all
                     ${submitted && oi === q.correct ? "bg-emerald-500 border-emerald-500 text-white" : submitted && oi === selected && oi !== q.correct ? "bg-red-500 border-red-500 text-white" : selected === oi ? "bg-[var(--accent)] border-[var(--accent)] text-white" : "border-[color:var(--border2,var(--border))] opacity-50"}`, children: String.fromCharCode(65 + oi) }),
-                /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "flex-1", children: opt }),
+                /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "flex-1", children: opt.replace(/^[A-E][).]\s+/i, "") }),
                 submitted && oi === q.correct && /* @__PURE__ */ jsxRuntimeExports.jsx(CheckCircle2, { size: 15, className: "text-emerald-500 shrink-0" })
               ]
             },
             oi
           )) }),
-          submitted && q.explanation && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "glass p-5 rounded-2xl border-l-4 border-[var(--accent)] bg-[var(--accent)]/5", children: [
-            /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-xs font-black opacity-60 mb-2 uppercase tracking-widest", children: "Explanation" }),
-            /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-sm leading-relaxed", children: q.explanation }),
+          submitted && (q.explanation || q.options?.[q.correct]) && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "glass p-5 rounded-2xl border-l-4 border-[var(--accent)] bg-[var(--accent)]/5", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-xs font-black opacity-60 mb-2 uppercase tracking-widest", children: q.explanation ? "Explanation" : "Correct Answer" }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-sm leading-relaxed", children: q.explanation || q.options?.[q.correct] }),
             q.evidence && /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { className: "text-xs opacity-40 italic mt-3 pt-3 border-t border-[color:var(--border2,var(--border))]", children: [
               '"',
               q.evidence,
@@ -20282,14 +17270,101 @@ Correct: ${selEx?.questions?.[qi]?.options?.[selEx?.questions?.[qi]?.correct]}`,
       }
     ),
     /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "w-full p-6 lg:p-8 space-y-6", children: [
-      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center justify-between", children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsxs("h1", { className: "text-2xl lg:text-3xl font-black flex items-center gap-3", children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsx(CheckSquare, { size: 26, className: "opacity-40" }),
-          " Exams"
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex flex-col gap-3", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center justify-between", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("h1", { className: "text-2xl lg:text-3xl font-black flex items-center gap-3", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx(CheckSquare, { size: 26, className: "opacity-40" }),
+            " Exams"
+          ] }),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("button", { onClick: () => setShowModal(true), className: "btn-accent px-4 py-2.5 rounded-xl text-xs font-black flex items-center gap-2 shadow-lg", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx(FilePlus, { size: 18 }),
+            " From File"
+          ] })
         ] }),
-        /* @__PURE__ */ jsxRuntimeExports.jsxs("button", { onClick: () => setShowModal(true), className: "btn-accent px-4 py-2.5 rounded-xl text-xs font-black flex items-center gap-2 shadow-lg", children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsx(FilePlus, { size: 18 }),
-          " New from File"
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex gap-2 items-center flex-wrap", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex-1 flex items-center gap-2 glass rounded-2xl px-4 py-2.5 border border-[color:var(--border2,var(--border))]", style: { minWidth: 200 }, children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx(Search, { size: 15, className: "opacity-30 shrink-0" }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx(
+              "input",
+              {
+                placeholder: "Type a topic… e.g. 'cancer staging', 'diabetes management' — then press Enter",
+                className: "flex-1 bg-transparent text-sm outline-none placeholder:opacity-40 text-[var(--text)]",
+                onKeyDown: (e) => {
+                  if (e.key === "Enter") {
+                    const val = e.target.value.trim();
+                    if (!val) return;
+                    const taskId = "task_" + Date.now();
+                    runTopicGeneration({
+                      taskId,
+                      topic: val,
+                      taskType: "exam",
+                      count: inlineCount,
+                      difficultyLevel: inlineDiff,
+                      settings,
+                      onSave: (data, tid) => {
+                        setExams((p) => [...p, { id: taskId, docId: null, sourcePages: "topic", title: `Exam — ${val.slice(0, 30)}`, questions: data, createdAt: (/* @__PURE__ */ new Date()).toISOString() }]);
+                        addToast(`${data.length} exam questions saved! ⚡`, "success");
+                        bgClear(tid);
+                      }
+                    });
+                    addToast(`Generating ${inlineCount} ${inlineDiff} questions on "${val.slice(0, 25)}…"`, "info");
+                    e.target.value = "";
+                  }
+                }
+              }
+            )
+          ] }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx(
+            "button",
+            {
+              onClick: () => {
+                const topic = MEDICAL_RANDOM_TOPICS[Math.floor(Math.random() * MEDICAL_RANDOM_TOPICS.length)];
+                const taskId = "task_" + Date.now();
+                runTopicGeneration({ taskId, topic, taskType: "exam", count: inlineCount, difficultyLevel: inlineDiff, settings, onSave: (data, tid) => {
+                  setExams((p) => [...p, { id: taskId, docId: null, sourcePages: "topic", title: `Exam — ${topic.split(":")[0].trim().slice(0, 30)}`, questions: data, createdAt: (/* @__PURE__ */ new Date()).toISOString() }]);
+                  addToast(`${data.length} exam questions saved! ⚡`, "success");
+                  bgClear(tid);
+                } });
+                addToast("🎲 Generating random exam…", "info");
+              },
+              className: "flex items-center gap-2 px-4 py-2.5 rounded-2xl text-xs font-black border-2 border-dashed transition-all hover:opacity-80 whitespace-nowrap",
+              style: { borderColor: "#3b82f660", color: "#3b82f6", background: "#3b82f610" },
+              children: "🎲 Random"
+            }
+          ),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("button", { onClick: () => setShowModal(true), className: "flex items-center gap-2 px-3 py-2.5 rounded-2xl text-xs font-black glass border border-[color:var(--border2,var(--border))] hover:opacity-80 whitespace-nowrap opacity-60", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx(FilePlus, { size: 13 }),
+            " From File"
+          ] })
+        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex gap-3 items-center flex-wrap", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center gap-1.5", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-[11px] font-black uppercase tracking-widest opacity-40 shrink-0", children: "Count:" }),
+            [5, 10, 20, 50, 100].map((n) => /* @__PURE__ */ jsxRuntimeExports.jsx(
+              "button",
+              {
+                onClick: () => setInlineCount(n),
+                className: "px-2.5 py-1 rounded-lg text-xs font-black transition-all",
+                style: { background: inlineCount === n ? "#3b82f6" : "#3b82f618", color: inlineCount === n ? "#fff" : "#3b82f6" },
+                children: n
+              },
+              n
+            ))
+          ] }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "w-px h-4 opacity-20", style: { background: "var(--border)" } }),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center gap-1.5", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-[11px] font-black uppercase tracking-widest opacity-40 shrink-0", children: "Level:" }),
+            [["Easy", "#10b981"], ["Medium", "#f59e0b"], ["Hard", "#ef4444"], ["Board", "#7c3aed"]].map(([d, col]) => /* @__PURE__ */ jsxRuntimeExports.jsx(
+              "button",
+              {
+                onClick: () => setInlineDiff(d),
+                className: "px-2.5 py-1 rounded-lg text-xs font-black transition-all",
+                style: { background: inlineDiff === d ? col : col + "18", color: inlineDiff === d ? "#fff" : col },
+                children: d
+              },
+              d
+            ))
+          ] })
         ] })
       ] }),
       exams.length > 0 && /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
@@ -20380,7 +17455,7 @@ Correct: ${selEx?.questions?.[qi]?.options?.[selEx?.questions?.[qi]?.correct]}`,
               children: /* @__PURE__ */ jsxRuntimeExports.jsx(Eye, { size: 18 })
             }
           ),
-          /* @__PURE__ */ jsxRuntimeExports.jsxs("button", { onClick: () => startExam(ex), className: "btn-accent px-4 py-2 rounded-xl text-xs font-black shadow-md flex items-center gap-2", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("button", { onClick: () => startExamWithResumeCheck(ex), className: "btn-accent px-4 py-2 rounded-xl text-xs font-black shadow-md flex items-center gap-2", children: [
             /* @__PURE__ */ jsxRuntimeExports.jsx(Target, { size: 18 }),
             " Start"
           ] }),
@@ -20399,6 +17474,8 @@ function CasesView({ cases, setCases, settings, addToast, docs, setFlashcards, s
   const [submitted, setSubmitted] = reactExports.useState(false);
   const [showModal, setShowModal] = reactExports.useState(false);
   const [exporting, setExporting] = reactExports.useState(null);
+  const [inlineCount, setInlineCount] = reactExports.useState(5);
+  const [inlineDiff, setInlineDiff] = reactExports.useState("Medium");
   const handleExport = async (set) => {
     setExporting(set.id);
     await exportToPDF("cases", set.questions, set.title, addToast);
@@ -20491,7 +17568,7 @@ Do NOT discuss other cases, questions, or topics outside this case.`;
                 children: [
                   /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: `w-7 h-7 rounded-full flex items-center justify-center text-xs font-black shrink-0 border transition-all
                     ${submitted && oi === q.correct ? "bg-emerald-500 border-emerald-500 text-white" : submitted && oi === selOpt && oi !== q.correct ? "bg-red-500 border-red-500 text-white" : selOpt === oi ? "bg-[var(--accent)] border-[var(--accent)] text-white" : "border-[color:var(--border2,var(--border))] opacity-50"}`, children: String.fromCharCode(65 + oi) }),
-                  /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "flex-1", children: opt }),
+                  /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "flex-1", children: opt.replace(/^[A-E][).]\s+/i, "") }),
                   submitted && oi === q.correct && /* @__PURE__ */ jsxRuntimeExports.jsx(CheckCircle2, { size: 16, className: "text-emerald-500 shrink-0" })
                 ]
               },
@@ -20503,7 +17580,7 @@ Do NOT discuss other cases, questions, or topics outside this case.`;
                 "Diagnosis: ",
                 cas.diagnosis
               ] }),
-              q.explanation && /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-sm leading-relaxed", children: q.explanation }),
+              (q.explanation || q.options?.[q.correct]) && /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-sm leading-relaxed", children: q.explanation || `Correct answer: ${(q.options?.[q.correct] || "").replace(/^[A-E][).]\s+/i, "")}` }),
               q.evidence && /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { className: "text-xs opacity-40 italic pt-3 border-t border-[color:var(--border2,var(--border))]", children: [
                 '"',
                 q.evidence,
@@ -20676,14 +17753,101 @@ Do NOT discuss other cases, questions, or topics outside this case.`;
       }
     ),
     /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "w-full p-6 lg:p-8 space-y-6", children: [
-      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center justify-between", children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsxs("h1", { className: "text-2xl lg:text-3xl font-black flex items-center gap-3", children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsx(Activity, { size: 26, className: "opacity-40" }),
-          " Clinical Cases"
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex flex-col gap-3", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center justify-between", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("h1", { className: "text-2xl lg:text-3xl font-black flex items-center gap-3", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx(Activity, { size: 26, className: "opacity-40" }),
+            " Clinical Cases"
+          ] }),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("button", { onClick: () => setShowModal(true), className: "btn-accent px-4 py-2.5 rounded-xl text-xs font-black flex items-center gap-2 shadow-lg", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx(FilePlus, { size: 18 }),
+            " From File"
+          ] })
         ] }),
-        /* @__PURE__ */ jsxRuntimeExports.jsxs("button", { onClick: () => setShowModal(true), className: "btn-accent px-4 py-2.5 rounded-xl text-xs font-black flex items-center gap-2 shadow-lg", children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsx(FilePlus, { size: 18 }),
-          " New from File"
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex gap-2 items-center flex-wrap", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex-1 flex items-center gap-2 glass rounded-2xl px-4 py-2.5 border border-[color:var(--border2,var(--border))]", style: { minWidth: 200 }, children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx(Search, { size: 15, className: "opacity-30 shrink-0" }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx(
+              "input",
+              {
+                placeholder: "Type a topic… e.g. 'septic shock', 'Tylenol OD' — then press Enter",
+                className: "flex-1 bg-transparent text-sm outline-none placeholder:opacity-40 text-[var(--text)]",
+                onKeyDown: (e) => {
+                  if (e.key === "Enter") {
+                    const val = e.target.value.trim();
+                    if (!val) return;
+                    const taskId = "task_" + Date.now();
+                    runTopicGeneration({
+                      taskId,
+                      topic: val,
+                      taskType: "cases",
+                      count: inlineCount,
+                      difficultyLevel: inlineDiff,
+                      settings,
+                      onSave: (data, tid) => {
+                        setCases((p) => [...p, { id: taskId, docId: null, sourcePages: "topic", title: `Cases — ${val.slice(0, 30)}`, questions: data, createdAt: (/* @__PURE__ */ new Date()).toISOString() }]);
+                        addToast(`${data.length} cases saved! ⚡`, "success");
+                        bgClear(tid);
+                      }
+                    });
+                    addToast(`Generating ${inlineCount} ${inlineDiff} cases on "${val.slice(0, 25)}…"`, "info");
+                    e.target.value = "";
+                  }
+                }
+              }
+            )
+          ] }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx(
+            "button",
+            {
+              onClick: () => {
+                const topic = MEDICAL_RANDOM_TOPICS[Math.floor(Math.random() * MEDICAL_RANDOM_TOPICS.length)];
+                const taskId = "task_" + Date.now();
+                runTopicGeneration({ taskId, topic, taskType: "cases", count: inlineCount, difficultyLevel: inlineDiff, settings, onSave: (data, tid) => {
+                  setCases((p) => [...p, { id: taskId, docId: null, sourcePages: "topic", title: `Cases — ${topic.split(":")[0].trim().slice(0, 30)}`, questions: data, createdAt: (/* @__PURE__ */ new Date()).toISOString() }]);
+                  addToast(`${data.length} cases saved! ⚡`, "success");
+                  bgClear(tid);
+                } });
+                addToast("🎲 Generating random cases…", "info");
+              },
+              className: "flex items-center gap-2 px-4 py-2.5 rounded-2xl text-xs font-black border-2 border-dashed transition-all hover:opacity-80 whitespace-nowrap",
+              style: { borderColor: "#8b5cf660", color: "#8b5cf6", background: "#8b5cf610" },
+              children: "🎲 Random"
+            }
+          ),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("button", { onClick: () => setShowModal(true), className: "flex items-center gap-2 px-3 py-2.5 rounded-2xl text-xs font-black glass border border-[color:var(--border2,var(--border))] hover:opacity-80 whitespace-nowrap opacity-60", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx(FilePlus, { size: 13 }),
+            " From File"
+          ] })
+        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex gap-3 items-center flex-wrap", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center gap-1.5", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-[11px] font-black uppercase tracking-widest opacity-40 shrink-0", children: "Cases:" }),
+            [1, 3, 5, 10, 20].map((n) => /* @__PURE__ */ jsxRuntimeExports.jsx(
+              "button",
+              {
+                onClick: () => setInlineCount(n),
+                className: "px-2.5 py-1 rounded-lg text-xs font-black transition-all",
+                style: { background: inlineCount === n ? "#8b5cf6" : "#8b5cf618", color: inlineCount === n ? "#fff" : "#8b5cf6" },
+                children: n
+              },
+              n
+            ))
+          ] }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "w-px h-4 opacity-20", style: { background: "var(--border)" } }),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center gap-1.5", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-[11px] font-black uppercase tracking-widest opacity-40 shrink-0", children: "Level:" }),
+            [["Easy", "#10b981"], ["Medium", "#f59e0b"], ["Hard", "#ef4444"], ["Board", "#7c3aed"]].map(([d, col]) => /* @__PURE__ */ jsxRuntimeExports.jsx(
+              "button",
+              {
+                onClick: () => setInlineDiff(d),
+                className: "px-2.5 py-1 rounded-lg text-xs font-black transition-all",
+                style: { background: inlineDiff === d ? col : col + "18", color: inlineDiff === d ? "#fff" : col },
+                children: d
+              },
+              d
+            ))
+          ] })
         ] })
       ] }),
       cases.length > 0 && /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "grid grid-cols-2 sm:grid-cols-3 gap-3", children: [
@@ -20730,7 +17894,8 @@ Do NOT discuss other cases, questions, or topics outside this case.`;
             "button",
             {
               onClick: () => {
-                setSelSet(set);
+                const shuffledSet = { ...set, questions: shuffleOptions(set.questions.map((c) => c.examQuestion ? { ...c, examQuestion: shuffleOptions([c.examQuestion])[0] } : c)) };
+                setSelSet(shuffledSet);
                 setCi(0);
                 setSelOpt(null);
                 setSubmitted(false);
@@ -21772,6 +18937,7 @@ const ENCYCLOPEDIA_CATEGORIES = [
       { id: "internal-med", label: "Internal Medicine", desc: "Clinical medicine: diagnosis and management" },
       { id: "surgery-basics", label: "Surgery Basics", desc: "Preoperative care, common surgeries, post-op complications" },
       { id: "radiology", label: "Radiology Basics", desc: "CXR, CT, MRI, ultrasound interpretation basics" },
+      { id: "sbar-practice", label: "SBAR Practice", desc: "Generate patient cases, fill SBAR communication forms, and get AI evaluation of your clinical reasoning" },
       { id: "nutrition-med", label: "Clinical Nutrition", desc: "Malnutrition, TPN, enteral feeds, vitamins" }
     ]
   },
@@ -21795,7 +18961,8 @@ const ENCYCLOPEDIA_CATEGORIES = [
       { id: "osce-obstetric", label: "Obstetric OSCE", desc: "Antenatal, postnatal, fetal monitoring, CTG" },
       { id: "osce-psychiatric", label: "Psychiatric OSCE", desc: "Mental state exam, risk assessment, cognitive testing" },
       { id: "osce-pediatric", label: "Pediatric OSCE", desc: "Child examination, developmental milestones, vaccination" },
-      { id: "osce-scenarios", label: "Practice Scenarios", desc: "50+ fully worked OSCE station scenarios with marking" }
+      { id: "osce-scenarios", label: "Practice Scenarios", desc: "50+ fully worked OSCE station scenarios with marking" },
+      { id: "sbar-practice", label: "SBAR Practice", desc: "Generate patient cases, fill SBAR communication forms, and get AI evaluation of your clinical reasoning" }
     ]
   },
   // ──────────────── NAPLEX / US PHARMACY EXAMS ────────────────
@@ -23514,7 +20681,12 @@ RULES:
 6. Make globally relevant — suitable for USMLE, PLAB, NCLEX, NAPLEX, DHA, AMC exam takers`;
       const raw = await callAI(prompt, true, false, settings, Math.min(4e3 + practiceCount * 400, 1e4));
       const parsed = parseJson(raw);
-      setPracticeQs(Array.isArray(parsed) ? parsed : parsed.questions || []);
+      const qs = Array.isArray(parsed) ? parsed : parsed.questions || [];
+      setPracticeQs(qs);
+      try {
+        localStorage.setItem(QS_CACHE_KEY, JSON.stringify(qs));
+      } catch {
+      }
     } catch (e) {
       setPracticeQs({ error: e.message });
     } finally {
@@ -23522,6 +20694,7 @@ RULES:
     }
   };
   const topicKey = `${category.id}::${subcategory.id}`;
+  const QS_CACHE_KEY = `practiceQs:${topicKey}`;
   reactExports.useEffect(() => {
     let cancelled = false;
     setContent(null);
@@ -23532,7 +20705,16 @@ RULES:
     setSortDir("asc");
     setTablePage(0);
     setActiveTab("overview");
-    setPracticeQs(null);
+    try {
+      const savedQs = localStorage.getItem(QS_CACHE_KEY);
+      if (savedQs) {
+        setPracticeQs(JSON.parse(savedQs));
+      } else {
+        setPracticeQs(null);
+      }
+    } catch {
+      setPracticeQs(null);
+    }
     setRevealedAnswers({});
     (async () => {
       try {
@@ -24382,6 +21564,45 @@ function MedicalEncyclopediaView({ settings }) {
     ).slice(0, 20);
   }, [globalSearch, allSubcategories]);
   if (selectedSub && selectedCategory) {
+    if (selectedSub.id === "sbar-practice") {
+      return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex-1 min-h-0 flex flex-col overflow-hidden scroll-content", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsxs(
+          "div",
+          {
+            className: "shrink-0 flex items-center gap-2 px-4 py-2.5 border-b text-xs flex-wrap",
+            style: { borderColor: "var(--border)", background: "var(--surface)" },
+            children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx(
+                "button",
+                {
+                  onClick: () => {
+                    setSelectedSub(null);
+                    setSelectedCategory(null);
+                  },
+                  className: "font-bold opacity-60 hover:opacity-100 transition-opacity",
+                  children: "Encyclopedia"
+                }
+              ),
+              /* @__PURE__ */ jsxRuntimeExports.jsx(ChevronRight, { size: 12, className: "opacity-30" }),
+              /* @__PURE__ */ jsxRuntimeExports.jsxs(
+                "button",
+                {
+                  onClick: () => setSelectedSub(null),
+                  className: "font-bold opacity-60 hover:opacity-100 transition-opacity flex items-center gap-1",
+                  children: [
+                    /* @__PURE__ */ jsxRuntimeExports.jsx(selectedCategory.icon, { size: 11, style: { color: selectedCategory.color } }),
+                    selectedCategory.label
+                  ]
+                }
+              ),
+              /* @__PURE__ */ jsxRuntimeExports.jsx(ChevronRight, { size: 12, className: "opacity-30" }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "font-black", style: { color: "#06b6d4" }, children: "SBAR Practice" })
+            ]
+          }
+        ),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(SbarPageView, { settings })
+      ] });
+    }
     return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "flex-1 min-h-0 overflow-y-auto custom-scrollbar scroll-content", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "max-w-4xl mx-auto p-4 lg:p-6 space-y-5", children: [
       /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center gap-2 text-sm flex-wrap", children: [
         /* @__PURE__ */ jsxRuntimeExports.jsx(
@@ -24837,6 +22058,19 @@ function SbarPageView({ settings }) {
                 ]
               }
             ),
+            /* @__PURE__ */ jsxRuntimeExports.jsx(
+              "button",
+              {
+                onClick: () => {
+                  const t = MEDICAL_RANDOM_TOPICS[Math.floor(Math.random() * MEDICAL_RANDOM_TOPICS.length)];
+                  setNewName(t.split(":")[0].trim());
+                  setShowNewForm(true);
+                },
+                className: "w-full flex items-center justify-center gap-2 py-2 rounded-xl text-xs font-black border-2 border-dashed transition-all hover:opacity-80",
+                style: { borderColor: "#06b6d440", color: "#06b6d4", background: "#06b6d408" },
+                children: "🎲 Random Topic"
+              }
+            ),
             showNewForm && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "space-y-2", children: [
               /* @__PURE__ */ jsxRuntimeExports.jsx(
                 "input",
@@ -24850,7 +22084,7 @@ function SbarPageView({ settings }) {
                       setNewName("");
                     }
                   },
-                  placeholder: "Topic: e.g. Warfarin, HTN…",
+                  placeholder: "Topic: e.g. Warfarin, HTN, sepsis…",
                   autoFocus: true,
                   className: "glass-input rounded-xl px-3 py-2 text-xs outline-none w-full",
                   style: { border: "1.5px solid #06b6d430", background: "var(--card)", color: "var(--text)" }
@@ -24950,18 +22184,47 @@ function SbarPageView({ settings }) {
           },
           title
         )) }),
-        /* @__PURE__ */ jsxRuntimeExports.jsxs(
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex flex-col sm:flex-row gap-3", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsxs(
+            "button",
+            {
+              onClick: () => setShowNewForm(true),
+              className: "flex items-center gap-2 px-6 py-3 rounded-2xl text-sm font-black text-white",
+              style: { background: "linear-gradient(135deg,#06b6d4,#0891b2)" },
+              children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsx(Plus, { size: 15 }),
+                " Start New SBAR Session"
+              ]
+            }
+          ),
+          /* @__PURE__ */ jsxRuntimeExports.jsx(
+            "button",
+            {
+              onClick: () => {
+                const t = MEDICAL_RANDOM_TOPICS[Math.floor(Math.random() * MEDICAL_RANDOM_TOPICS.length)];
+                const name = t.split(":")[0].trim();
+                setSessions((prev) => [{ id: name, savedAt: null }, ...prev.filter((s) => s.id !== name)]);
+                setActiveSession({ id: name, topicKey: `sbar-standalone::${name}` });
+              },
+              className: "flex items-center gap-2 px-6 py-3 rounded-2xl text-sm font-black border-2 border-dashed transition-all hover:opacity-80",
+              style: { borderColor: "#06b6d460", color: "#06b6d4", background: "#06b6d410" },
+              children: "🎲 Random Patient Case"
+            }
+          )
+        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "flex flex-wrap gap-2 justify-center max-w-lg", children: ["Sepsis", "ACS / STEMI", "DKA", "Stroke", "GI Bleed", "PE", "Hypertensive Crisis"].map((topic) => /* @__PURE__ */ jsxRuntimeExports.jsx(
           "button",
           {
-            onClick: () => setShowNewForm(true),
-            className: "flex items-center gap-2 px-6 py-3 rounded-2xl text-sm font-black text-white",
-            style: { background: "linear-gradient(135deg,#06b6d4,#0891b2)" },
-            children: [
-              /* @__PURE__ */ jsxRuntimeExports.jsx(Plus, { size: 15 }),
-              " Start New SBAR Session"
-            ]
-          }
-        )
+            onClick: () => {
+              setSessions((prev) => [{ id: topic, savedAt: null }, ...prev.filter((s) => s.id !== topic)]);
+              setActiveSession({ id: topic, topicKey: `sbar-standalone::${topic}` });
+            },
+            className: "px-3 py-1.5 rounded-xl text-xs font-black transition-all hover:opacity-80",
+            style: { background: "#06b6d415", color: "#06b6d4", border: "1px solid #06b6d430" },
+            children: topic
+          },
+          topic
+        )) })
       ] })
     ) : /* @__PURE__ */ jsxRuntimeExports.jsx(
       OsceCommunicationForm,
@@ -25651,7 +22914,6 @@ Provide a detailed analysis of this content.`;
     { icon: Activity, label: "Cases", v: "cases" },
     { icon: CheckSquare, label: "Exams", v: "exams" },
     { icon: Globe, label: "Encyclo", v: "encyclopedia" },
-    { icon: FileText, label: "SBAR", v: "sbar" },
     { icon: MessageSquare, label: "Chat", v: "chat" },
     { icon: Settings, label: "Settings", v: "settings" }
   ];
@@ -25900,7 +23162,6 @@ Provide a detailed analysis of this content.`;
             /* @__PURE__ */ jsxRuntimeExports.jsx(ViewWrapper, { active: view === "cases", children: /* @__PURE__ */ jsxRuntimeExports.jsx(CasesView, { cases, setCases, settings, addToast, docs, setFlashcards, setExams }) }),
             /* @__PURE__ */ jsxRuntimeExports.jsx(ViewWrapper, { active: view === "chat", children: /* @__PURE__ */ jsxRuntimeExports.jsx(ChatView, { settings, sessions: chatSessions, setSessions: setChatSessions }) }),
             /* @__PURE__ */ jsxRuntimeExports.jsx(ViewWrapper, { active: view === "encyclopedia", children: /* @__PURE__ */ jsxRuntimeExports.jsx(MedicalEncyclopediaView, { settings }) }),
-            /* @__PURE__ */ jsxRuntimeExports.jsx(ViewWrapper, { active: view === "sbar", children: /* @__PURE__ */ jsxRuntimeExports.jsx(SbarPageView, { settings }) }),
             /* @__PURE__ */ jsxRuntimeExports.jsx(ViewWrapper, { active: view === "settings", children: /* @__PURE__ */ jsxRuntimeExports.jsx(SettingsView, { settings, setSettings, installPrompt, onInstall }) }),
             /* @__PURE__ */ jsxRuntimeExports.jsx(ViewWrapper, { active: showReader, children: activeDoc && /* @__PURE__ */ jsxRuntimeExports.jsx(
               DocWorkspace,
