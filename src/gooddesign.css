@@ -359,6 +359,11 @@ html.dark .design-nav-btn.active,
 .mobile-nav-only { display: flex; }
 @media (min-width: 1024px) { .mobile-nav-only { display: none !important; } }
 
+/* Hide the top header bar on mobile when Chat view is active */
+@media (max-width: 1023px) {
+  .chat-header-hide { display: none !important; }
+}
+
 .design-btn {
   display: inline-flex;
   align-items: center;
