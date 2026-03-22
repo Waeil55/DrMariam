@@ -3353,4 +3353,83 @@ export const drugExams = [{
 ]
 }];
 
-export const drugCases = [];
+export const drugCases = [{
+  id: "builtin_cases_drug",
+  title: "Drug Counseling Cases",
+  icon: "Stethoscope",
+  color: "#f59e0b",
+  isBuiltIn: true,
+  isBuiltin: true,
+  questions: [
+    {
+      title: "Case: Supratherapeutic INR on Warfarin",
+      vignette: "A 72-year-old male with atrial fibrillation on warfarin 5 mg daily comes to the anticoagulation clinic for a routine INR check. He recently completed a 7-day course of trimethoprim-sulfamethoxazole (TMP-SMX) for a UTI. He denies any bleeding. His current INR is 7.8 (therapeutic range 2.0–3.0). His previous INR 3 weeks ago was 2.4. He takes no other prescription medications but recently started taking acetaminophen 650 mg TID for knee pain. He has no history of intracranial bleeding and no current signs of active bleeding on exam.",
+      diagnosis: "Supratherapeutic INR — Drug Interaction (TMP-SMX + Warfarin) with Acetaminophen",
+      labPanels: [
+        { panelName: "COAGULATION STUDIES", rows: [{ test: "INR", result: "7.8", flag: "H", range: "2.0-3.0 (therapeutic)", units: "" }, { test: "PT", result: "82", flag: "H", range: "11-13.5", units: "seconds" }, { test: "aPTT", result: "48", flag: "H", range: "25-35", units: "seconds" }] },
+        { panelName: "BASIC METABOLIC PANEL", rows: [{ test: "Na", result: "139", flag: "", range: "136-145", units: "mEq/L" }, { test: "Creatinine", result: "1.1", flag: "", range: "0.6-1.2", units: "mg/dL" }, { test: "Hemoglobin", result: "13.2", flag: "", range: "13.5-17.5", units: "g/dL" }] },
+        { panelName: "LIVER FUNCTION TESTS", rows: [{ test: "AST", result: "28", flag: "", range: "10-40", units: "U/L" }, { test: "ALT", result: "32", flag: "", range: "7-56", units: "U/L" }, { test: "Albumin", result: "3.8", flag: "", range: "3.5-5.0", units: "g/dL" }] }
+      ],
+      q: "What is the most appropriate management for this patient with INR 7.8 and no active bleeding?",
+      options: ["A) Hold warfarin, administer oral vitamin K 2.5–5 mg, recheck INR in 24 hours, and resume warfarin at a reduced dose once INR is therapeutic", "B) Immediately administer IV vitamin K 10 mg and 4-factor PCC for urgent reversal", "C) Continue warfarin at the current dose and recheck INR in 1 week", "D) Discontinue warfarin permanently and switch to aspirin for stroke prevention", "E) Administer fresh frozen plasma (FFP) 2 units urgently to reverse anticoagulation"],
+      correct: 0,
+      explanation: "For INR 5.0–9.0 with no active bleeding, ACCP guidelines recommend holding warfarin and giving LOW-DOSE oral vitamin K (2.5–5 mg). Oral vitamin K is preferred — it works within 24–48 hours and avoids rebound over-reversal seen with high IV doses. IV vitamin K 10 mg + PCC is for life-threatening bleeding (e.g., intracranial hemorrhage). Continuing warfarin risks serious bleeding. Discontinuing warfarin is not warranted. FFP alone is only used for emergent reversal with active bleeding. TMP-SMX inhibits CYP2C9 (warfarin S-enantiomer metabolism) and acetaminophen potentiates warfarin — both interactions were responsible."
+    },
+    {
+      title: "Case: Metformin in Chronic Kidney Disease",
+      vignette: "A 65-year-old female with type 2 diabetes (HbA1c 8.2%), hypertension, and chronic kidney disease is seen in primary care. She has been on metformin 1000 mg BID for 8 years and her diabetes has been well managed. Lab results today show: eGFR 26 mL/min/1.73m² (down from 38 last year), serum creatinine 2.4 mg/dL. She is also on lisinopril, amlodipine, and furosemide. She is scheduled for a CT scan with IV contrast next week and her provider is asking about medication management. She feels well with no symptoms of hypoglycemia or nausea.",
+      diagnosis: "Metformin Contraindicated in Stage 4 CKD — Lactic Acidosis Risk",
+      labPanels: [
+        { panelName: "RENAL FUNCTION", rows: [{ test: "eGFR", result: "26", flag: "L", range: ">60", units: "mL/min/1.73m²" }, { test: "Creatinine", result: "2.4", flag: "H", range: "0.5-1.1", units: "mg/dL" }, { test: "BUN", result: "38", flag: "H", range: "7-20", units: "mg/dL" }, { test: "Urine protein/Cr ratio", result: "0.68", flag: "H", range: "<0.15", units: "g/g" }] },
+        { panelName: "METABOLIC", rows: [{ test: "HbA1c", result: "8.2", flag: "H", range: "<7.0", units: "%" }, { test: "Fasting glucose", result: "162", flag: "H", range: "70-99", units: "mg/dL" }, { test: "K+", result: "5.3", flag: "H", range: "3.5-5.0", units: "mEq/L" }, { test: "Bicarbonate", result: "20", flag: "L", range: "22-29", units: "mEq/L" }] },
+        { panelName: "LIVER FUNCTION", rows: [{ test: "ALT", result: "22", flag: "", range: "7-56", units: "U/L" }, { test: "AST", result: "19", flag: "", range: "10-40", units: "U/L" }] }
+      ],
+      q: "What is the most appropriate action regarding metformin at this time?",
+      options: ["A) Discontinue metformin immediately (eGFR <30 mL/min/1.73m²); hold metformin 48 hours before and after IV contrast; consider alternative agents such as a GLP-1 agonist or SGLT-2 inhibitor (with appropriate eGFR thresholds)", "B) Continue metformin at the current dose since the patient has no symptoms of lactic acidosis", "C) Reduce metformin to 500 mg daily and continue it safely in stage 4 CKD", "D) Hold metformin only for the CT contrast and resume immediately after the scan without waiting", "E) Switch metformin to glipizide as the safest antidiabetic agent in CKD"],
+      correct: 0,
+      explanation: "FDA labeling: metformin is CONTRAINDICATED when eGFR <30 mL/min/1.73m² due to risk of metformin-associated lactic acidosis (MALA) via reduced renal clearance. This patient's eGFR of 26 requires immediate discontinuation. Additionally, IV iodinated contrast can cause acute kidney injury, which would further accumulate metformin — metformin should be held ≥48 hours before and after contrast administration, then only resumed if eGFR remains stable. Glipizide accumulates in CKD (active metabolites) and causes hypoglycemia. GLP-1 agonists (semaglutide, dulaglutide) and insulin are safer alternatives for diabetic management in stage 4 CKD. SGLT-2 inhibitors lose efficacy at eGFR <30–45."
+    },
+    {
+      title: "Case: Statin-Induced Myopathy",
+      vignette: "A 58-year-old male with hyperlipidemia, treated with simvastatin 80 mg daily for 3 years, presents to the clinic with a 3-week history of bilateral proximal muscle weakness and myalgia affecting his thighs and shoulders. He started clarithromycin 500 mg BID 4 weeks ago for community-acquired pneumonia. He denies dark urine. He takes no other medications other than aspirin. Physical exam shows bilateral proximal muscle tenderness to palpation but intact muscle strength (4+/5 bil). He is afebrile with normal vital signs.",
+      diagnosis: "Statin-Induced Myopathy — Drug Interaction (Simvastatin + Clarithromycin)",
+      labPanels: [
+        { panelName: "MUSCLE ENZYMES", rows: [{ test: "CK (Creatine Kinase)", result: "4820", flag: "H", range: "38-174", units: "U/L" }, { test: "LDH", result: "410", flag: "H", range: "140-280", units: "U/L" }, { test: "Aldolase", result: "14", flag: "H", range: "1.5-8.1", units: "U/L" }] },
+        { panelName: "RENAL FUNCTION", rows: [{ test: "Creatinine", result: "1.0", flag: "", range: "0.6-1.2", units: "mg/dL" }, { test: "BUN", result: "16", flag: "", range: "7-20", units: "mg/dL" }, { test: "Urine myoglobin", result: "Negative", flag: "", range: "Negative", units: "" }] },
+        { panelName: "LIPID PANEL", rows: [{ test: "LDL", result: "72", flag: "", range: "<100", units: "mg/dL" }, { test: "HDL", result: "48", flag: "", range: ">40", units: "mg/dL" }, { test: "Triglycerides", result: "142", flag: "", range: "<150", units: "mg/dL" }] }
+      ],
+      q: "What is the most appropriate next step in management for this patient?",
+      options: ["A) Discontinue simvastatin immediately; ensure adequate hydration; check renal function; switch to a statin NOT metabolized by CYP3A4 (e.g., pravastatin or rosuvastatin) after resolution", "B) Reduce simvastatin to 40 mg daily and continue monitoring CK levels", "C) Continue simvastatin and reassure the patient that myalgia is a common side effect that resolves with time", "D) Add coenzyme Q10 (CoQ10) 200 mg daily to prevent further muscle damage while continuing simvastatin", "E) Stop clarithromycin and continue simvastatin at the same dose"],
+      correct: 0,
+      explanation: "Clarithromycin is a potent CYP3A4 inhibitor that markedly increases simvastatin plasma levels (up to 10-fold), causing drug-induced myopathy. This patient's CK is >10x ULN — consistent with myositis. Simvastatin (and lovastatin) carry a BOXED WARNING against use with potent CYP3A4 inhibitors. Immediate discontinuation of simvastatin is required to prevent progression to rhabdomyolysis. Hydration protects the kidneys from myoglobinuria. After resolution, statins less dependent on CYP3A4 (pravastatin, rosuvastatin, fluvastatin) can be safely restarted. Dose reduction alone is insufficient at this CK level. CoQ10 has no proven preventive benefit. Stopping only the macrolide while continuing simvastatin risks continued toxicity."
+    },
+    {
+      title: "Case: Angiotensin-Converting Enzyme Inhibitor Cough + Switch",
+      vignette: "A 54-year-old female with hypertension and proteinuric diabetic nephropathy (eGFR 52 mL/min/1.73m², urine albumin/creatinine 520 mg/g) has been on lisinopril 20 mg daily for 2 years. She presents today complaining of a persistent dry, nonproductive cough for the past 4 months. She reports the cough wakes her at night and is causing sleep disturbance. Her current BP is well controlled at 126/78 mmHg. She has tried lozenge drops and OTC cough suppressants without relief. History is negative for asthma, postnasal drip, or GERD. Her BMP is otherwise normal. Spirometry is normal.",
+      diagnosis: "ACE Inhibitor-Induced Chronic Dry Cough",
+      labPanels: [
+        { panelName: "RENAL FUNCTION", rows: [{ test: "eGFR", result: "52", flag: "", range: ">60", units: "mL/min/1.73m²" }, { test: "Creatinine", result: "1.3", flag: "H", range: "0.5-1.1", units: "mg/dL" }, { test: "Urine Alb/Cr ratio", result: "520", flag: "H", range: "<30", units: "mg/g" }, { test: "K+", result: "4.4", flag: "", range: "3.5-5.0", units: "mEq/L" }] },
+        { panelName: "BLOOD PRESSURE LOG", rows: [{ test: "Mean SBP (last 3 visits)", result: "128", flag: "", range: "<130", units: "mmHg" }, { test: "Mean DBP (last 3 visits)", result: "78", flag: "", range: "<80", units: "mmHg" }] },
+        { panelName: "METABOLIC", rows: [{ test: "HbA1c", result: "7.2", flag: "H", range: "<7.0", units: "%" }, { test: "Total cholesterol", result: "192", flag: "", range: "<200", units: "mg/dL" }] }
+      ],
+      q: "What is the preferred management for this patient's ACE inhibitor-induced cough?",
+      options: ["A) Discontinue lisinopril and switch to an ARB (e.g., losartan or valsartan) — ARBs provide equivalent reno- and cardioprotection without causing bradykinin-mediated cough", "B) Switch to a calcium channel blocker (amlodipine) as the replacement antihypertensive", "C) Add codeine-based cough suppressant and continue lisinopril indefinitely", "D) Reduce lisinopril dose to 5 mg daily to minimize the cough side effect", "E) Switch to a beta-blocker (metoprolol) for comparable renoprotective effects in diabetic nephropathy"],
+      correct: 0,
+      explanation: "ACE inhibitors cause dry cough in 5–20% of patients (more common in women and Asian patients) due to bradykinin accumulation. ARBs (angiotensin receptor blockers) block the AT1 receptor, providing equivalent BP lowering, proteinuria reduction, and renoprotection WITHOUT affecting bradykinin — and thus are cough-free. Losartan, irbesartan, and candesartan have proven benefit in diabetic nephropathy (RENAAL, IDNT trials). Calcium channel blockers alone lack antiproteinuric effects and are not equivalent for CKD. Codeine is inappropriate long-term and does not address the cause. Dose reduction does not reliably eliminate the cough — mechanism is pharmacodynamic, not dose-dependent."
+    },
+    {
+      title: "Case: Opioid Counseling — Risk Mitigation",
+      vignette: "A 45-year-old male with chronic low back pain (lumbar disc herniation, failed conservative therapy) is being started on extended-release oxycodone 10 mg every 12 hours for the first time. He has a history of prior alcohol use disorder (in remission for 4 years), is not currently on any other medications, and has no documented allergies. He lives alone, has a teenage son who visits on weekends, and works as a truck driver. He has signed a controlled substance treatment agreement. The provider wants to ensure safe opioid initiation and appropriate patient counseling before dispensing.",
+      diagnosis: "Opioid therapy initiation — chronic non-cancer pain with high-risk features",
+      labPanels: [
+        { panelName: "URINE DRUG SCREEN (at initiation)", rows: [{ test: "Opiates", result: "Negative", flag: "", range: "Negative", units: "" }, { test: "Cocaine", result: "Negative", flag: "", range: "Negative", units: "" }, { test: "Benzodiazepines", result: "Negative", flag: "", range: "Negative", units: "" }, { test: "Amphetamines", result: "Negative", flag: "", range: "Negative", units: "" }, { test: "Alcohol (EtOH)", result: "Negative", flag: "", range: "Negative", units: "" }] },
+        { panelName: "FUNCTIONAL ASSESSMENT", rows: [{ test: "ORT Score (Opioid Risk Tool)", result: "8", flag: "H", range: "≥8 = High Risk", units: "score" }, { test: "PDMP Check", result: "No prior prescriptions", flag: "", range: "Clear", units: "" }] },
+        { panelName: "BASELINE LABS", rows: [{ test: "LFTs (AST/ALT)", result: "Normal", flag: "", range: "Normal", units: "" }, { test: "Creatinine", result: "0.9", flag: "", range: "0.6-1.2", units: "mg/dL" }] }
+      ],
+      q: "Which of the following counseling points is MOST critical before dispensing the opioid prescription?",
+      options: ["A) Prescribe co-dispensing naloxone (Narcan) kit; counsel on safe storage (locked container away from children); never share medications; avoid alcohol and CNS depressants; do not operate heavy machinery (addresses CDL concerns); and provide opioid tapering expectations", "B) Advise the patient to take the medication as needed for pain, using up to 3 extra doses if pain is severe", "C) Inform the patient that opioids are completely safe with alcohol since he is in remission and that risk is low", "D) Instruct the patient to share his medication with family members who may also experience pain", "E) Tell the patient that extended-release opioids can be crushed for faster pain relief if needed"],
+      correct: 0,
+      explanation: "CDC opioid prescribing guidelines mandate co-prescribing naloxone for patients on ≥50 MME/day or with risk factors (prior SUD). This patient's history of alcohol use disorder is a high-risk feature requiring naloxone co-prescription and counseling. Safe storage (locked box) is critical with a teenage son in the home — diversion and accidental ingestion are real risks. Commercial driving (CDL) is impaired by opioids — federal law prohibits driving commercial vehicles while on schedule II-IV medications. Alcohol synergizes with opioids to cause dangerous CNS/respiratory depression even in remission. Extended-release formulations must NEVER be crushed — this destroys the extended-release mechanism and can cause fatal rapid release (dose dumping)."
+    }
+  ]
+}];

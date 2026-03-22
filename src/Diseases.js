@@ -2299,4 +2299,83 @@ export const diseasesExams = [{
   }
 ]
 }];
-export const diseasesCases = [];
+export const diseasesCases = [{
+  id: "builtin_cases_diseases",
+  title: "Medical Sciences Cases",
+  icon: "Stethoscope",
+  color: "#06b6d4",
+  isBuiltIn: true,
+  isBuiltin: true,
+  questions: [
+    {
+      title: "Case: Decompensated Heart Failure",
+      vignette: "A 72-year-old male with a history of ischemic cardiomyopathy (EF 30%), hypertension, and type 2 diabetes presents to the ED with a 4-day history of progressive dyspnea, orthopnea requiring 3 pillows, and bilateral leg swelling. He reports weight gain of 8 lbs over 1 week. Current medications include carvedilol, lisinopril, and spironolactone, but he admits to eating salty foods over the holidays and missing his furosemide for 3 days. Vital signs: BP 158/92 mmHg, HR 98 bpm, RR 24/min, O2 sat 89% on room air. Physical exam reveals bilateral crackles, JVD to the jaw, and 3+ pitting edema to the knees. CXR shows cardiomegaly, bilateral pleural effusions, and pulmonary vascular congestion.",
+      diagnosis: "Acute Decompensated Heart Failure (HFrEF)",
+      labPanels: [
+        { panelName: "COMPLETE BLOOD COUNT", rows: [{ test: "WBC", result: "8.2", flag: "", range: "4.5-11.0", units: "K/uL" }, { test: "Hemoglobin", result: "11.4", flag: "L", range: "13.5-17.5", units: "g/dL" }, { test: "Hematocrit", result: "34", flag: "L", range: "41-53", units: "%" }, { test: "Platelets", result: "210", flag: "", range: "150-400", units: "K/uL" }] },
+        { panelName: "BASIC METABOLIC PANEL", rows: [{ test: "Na", result: "134", flag: "L", range: "136-145", units: "mEq/L" }, { test: "K", result: "5.1", flag: "H", range: "3.5-5.0", units: "mEq/L" }, { test: "BUN", result: "38", flag: "H", range: "7-20", units: "mg/dL" }, { test: "Creatinine", result: "1.8", flag: "H", range: "0.6-1.2", units: "mg/dL" }, { test: "Glucose", result: "148", flag: "H", range: "70-100", units: "mg/dL" }] },
+        { panelName: "CARDIAC MARKERS", rows: [{ test: "BNP", result: "1840", flag: "H", range: "<100", units: "pg/mL" }, { test: "Troponin I", result: "0.04", flag: "", range: "<0.04", units: "ng/mL" }, { test: "Pro-BNP", result: "8200", flag: "H", range: "<300", units: "pg/mL" }] }
+      ],
+      q: "What is the most appropriate initial management for this patient?",
+      options: ["A) IV furosemide 40–80 mg and supplemental oxygen to target O2 sat ≥94%", "B) Start IV dopamine infusion immediately for cardiogenic shock", "C) Administer 1L normal saline bolus to improve renal perfusion", "D) Increase the dose of oral carvedilol to reduce heart rate", "E) Emergent coronary angiography to rule out new MI"],
+      correct: 0,
+      explanation: "Decompensated HFrEF with volume overload requires IV loop diuretics (furosemide) to relieve congestion and supplemental oxygen to correct hypoxemia. IV furosemide is far more bioavailable and faster-acting than oral in acute decompensation. IV dopamine is reserved for cardiogenic shock. NS bolus would worsen the overloaded state. Increasing beta-blocker worsens acute decompensation. Angiography is not the priority without ACS evidence."
+    },
+    {
+      title: "Case: COPD Exacerbation",
+      vignette: "A 64-year-old male with a 40 pack-year smoking history and known COPD (GOLD Stage III) presents to the clinic with worsening dyspnea, increased sputum production with yellow-green color, and new low-grade fever of 38.2°C for 3 days. He uses albuterol PRN and tiotropium daily but has not used his rescue inhaler more than twice in the last 2 days. He currently smokes half a pack per day. Vital signs: BP 130/84 mmHg, HR 104 bpm, RR 26/min, O2 sat 88% on room air, T 38.2°C. Auscultation reveals diffuse expiratory wheezing and prolonged expiratory phase. He is using accessory muscles. He has no lower extremity edema.",
+      diagnosis: "Acute Exacerbation of COPD (Bacterial Trigger)",
+      labPanels: [
+        { panelName: "COMPLETE BLOOD COUNT", rows: [{ test: "WBC", result: "13.8", flag: "H", range: "4.5-11.0", units: "K/uL" }, { test: "Neutrophils", result: "82", flag: "H", range: "50-70", units: "%" }, { test: "Hemoglobin", result: "15.2", flag: "", range: "13.5-17.5", units: "g/dL" }, { test: "Platelets", result: "285", flag: "", range: "150-400", units: "K/uL" }] },
+        { panelName: "ARTERIAL BLOOD GAS", rows: [{ test: "pH", result: "7.33", flag: "L", range: "7.35-7.45", units: "" }, { test: "pCO2", result: "58", flag: "H", range: "35-45", units: "mmHg" }, { test: "pO2", result: "52", flag: "L", range: "75-100", units: "mmHg" }, { test: "HCO3", result: "30", flag: "H", range: "22-26", units: "mEq/L" }] },
+        { panelName: "CRP / PROCALCITONIN", rows: [{ test: "CRP", result: "62", flag: "H", range: "<5", units: "mg/L" }, { test: "Procalcitonin", result: "0.42", flag: "H", range: "<0.1", units: "ng/mL" }] }
+      ],
+      q: "Which treatment regimen is most appropriate for this patient at this time?",
+      options: ["A) Short-acting bronchodilators (albuterol + ipratropium), systemic corticosteroids (prednisone 40 mg x5 days), and antibiotics (azithromycin or doxycycline)", "B) IV methylprednisolone 1g/day for 3 days plus broad-spectrum IV antibiotics", "C) Inhaled corticosteroids alone with increased albuterol PRN", "D) Start long-term oxygen therapy at 2 L/min and discharge home", "E) Intubation and mechanical ventilation immediately"],
+      correct: 0,
+      explanation: "Acute COPD exacerbation with increased purulent sputum and elevated inflammatory markers (WBC, procalcitonin >0.25) indicates a bacterial trigger requiring antibiotics. Short-acting bronchodilators (SABD) relieve acute bronchoconstriction. Systemic corticosteroids (prednisone 40 mg x5 days) are equivalent to longer courses and reduce treatment failure. IV methylprednisolone 1g is excessive and not standard of care. ICS alone do not treat acute exacerbations. LTOT requires stable assessment. Intubation is a last resort if NIV fails."
+    },
+    {
+      title: "Case: Diabetic Ketoacidosis",
+      vignette: "A 22-year-old female with known Type 1 diabetes mellitus, poorly controlled on insulin, presents to the ED with a 2-day history of nausea, vomiting, abdominal pain, and polyuria. She ran out of insulin 3 days ago and has not been able to refill her prescription. She reports no fever but has had a sore throat for 4 days. Vital signs: BP 98/62 mmHg (lying), HR 118 bpm, RR 28/min with Kussmaul breathing, O2 sat 98%, T 37.5°C. The patient appears ill, with dry mucous membranes, decreased skin turgor, and a fruity odor on her breath. She is alert and oriented but appears confused and fatigued.",
+      diagnosis: "Diabetic Ketoacidosis (DKA) - Precipitated by Infection and Insulin Omission",
+      labPanels: [
+        { panelName: "COMPLETE METABOLIC PANEL", rows: [{ test: "Glucose", result: "542", flag: "H", range: "70-100", units: "mg/dL" }, { test: "Na", result: "128", flag: "L", range: "136-145", units: "mEq/L" }, { test: "K", result: "5.8", flag: "H", range: "3.5-5.0", units: "mEq/L" }, { test: "HCO3", result: "8", flag: "L", range: "22-29", units: "mEq/L" }, { test: "BUN", result: "32", flag: "H", range: "7-20", units: "mg/dL" }, { test: "Creatinine", result: "1.6", flag: "H", range: "0.5-1.1", units: "mg/dL" }] },
+        { panelName: "KETONES & BLOOD GAS", rows: [{ test: "pH", result: "7.18", flag: "L", range: "7.35-7.45", units: "" }, { test: "pCO2", result: "22", flag: "L", range: "35-45", units: "mmHg" }, { test: "Beta-hydroxybutyrate", result: "6.8", flag: "H", range: "<0.6", units: "mmol/L" }, { test: "Anion Gap", result: "24", flag: "H", range: "8-12", units: "mEq/L" }, { test: "Urine Ketones", result: "3+", flag: "H", range: "Negative", units: "" }] },
+        { panelName: "OTHER LABS", rows: [{ test: "HbA1c", result: "11.8", flag: "H", range: "<7.0", units: "%" }, { test: "WBC", result: "16.2", flag: "H", range: "4.5-11.0", units: "K/uL" }, { test: "Phosphate", result: "1.2", flag: "L", range: "2.5-4.5", units: "mg/dL" }] }
+      ],
+      q: "What is the initial priority in managing this patient with DKA?",
+      options: ["A) IV isotonic saline (0.9% NaCl) 1-2 L/hr for volume resuscitation, followed by insulin infusion once K+ ≥3.5 mEq/L", "B) Immediately start IV insulin infusion at 0.1 units/kg/hr regardless of potassium level", "C) Administer sodium bicarbonate to correct the metabolic acidosis", "D) Give oral glucose tablets to prevent overcorrection of hypoglycemia", "E) Start subcutaneous insulin and oral fluids as the patient is alert"],
+      correct: 0,
+      explanation: "DKA management begins with aggressive IV fluid resuscitation using 0.9% NaCl at 1-2 L/hr to correct dehydration and hypotension. Insulin must NOT be started until K+ ≥3.5 mEq/L because insulin drives K+ intracellularly, worsening hypokalemia and risking cardiac arrhythmia (initial K+ of 5.8 is high due to acidosis but will drop sharply with insulin). Bicarbonate is only considered for pH <6.9 or severe hemodynamic instability. Glucose administration is for hypoglycemia prevention once glucose falls to ~200 mg/dL. Subcutaneous insulin is too slow for severe DKA."
+    },
+    {
+      title: "Case: Community-Acquired Pneumonia",
+      vignette: "A 58-year-old male with a history of hypertension and 30 pack-year smoking history presents to the ED with 4 days of productive cough with rust-colored sputum, fever to 39.1°C, rigors, pleuritic chest pain on the right side, and progressive dyspnea. He is not immunocompromised and has not been hospitalized in the last 90 days. He takes amlodipine and aspirin. Vital signs: BP 112/74 mmHg, HR 102 bpm, RR 24/min, T 39.1°C, O2 sat 92% on room air. Physical exam: right lower lobe (RLL) dullness to percussion, decreased breath sounds, and E-to-A change with egophony. CXR confirms RLL consolidation.",
+      diagnosis: "Community-Acquired Pneumonia (CAP) - Likely Streptococcus pneumoniae",
+      labPanels: [
+        { panelName: "COMPLETE BLOOD COUNT", rows: [{ test: "WBC", result: "18.4", flag: "H", range: "4.5-11.0", units: "K/uL" }, { test: "Neutrophils", result: "88", flag: "H", range: "50-70", units: "%" }, { test: "Bands", result: "12", flag: "H", range: "0-5", units: "%" }, { test: "Hemoglobin", result: "13.8", flag: "", range: "13.5-17.5", units: "g/dL" }, { test: "Platelets", result: "320", flag: "", range: "150-400", units: "K/uL" }] },
+        { panelName: "BASIC METABOLIC PANEL", rows: [{ test: "Na", result: "131", flag: "L", range: "136-145", units: "mEq/L" }, { test: "BUN", result: "28", flag: "H", range: "7-20", units: "mg/dL" }, { test: "Creatinine", result: "1.3", flag: "H", range: "0.6-1.2", units: "mg/dL" }, { test: "Glucose", result: "112", flag: "", range: "70-100", units: "mg/dL" }] },
+        { panelName: "INFLAMMATORY MARKERS", rows: [{ test: "CRP", result: "148", flag: "H", range: "<5", units: "mg/L" }, { test: "Procalcitonin", result: "2.8", flag: "H", range: "<0.1", units: "ng/mL" }, { test: "ESR", result: "88", flag: "H", range: "0-20", units: "mm/hr" }, { test: "LDH", result: "312", flag: "H", range: "140-280", units: "U/L" }] }
+      ],
+      q: "Based on PSI/PORT scoring and presentation, what is the most appropriate disposition and antibiotic regimen?",
+      options: ["A) Admit to general ward; start beta-lactam (ceftriaxone 1–2g IV daily) PLUS azithromycin 500 mg IV daily for atypical coverage", "B) Discharge home with azithromycin monotherapy 500 mg daily x5 days", "C) Admit to ICU and start vancomycin plus piperacillin-tazobactam for MRSA coverage", "D) Start levofloxacin alone as monotherapy and plan for discharge in 24 hours", "E) Withhold antibiotics until blood cultures result and sputum gram stain is finalized"],
+      correct: 0,
+      explanation: "This patient has multiple PORT risk factors: age, Na <130, BUN >20, RR ≥30, O2 sat <94%, confusion — placing him in PSI Class IV (admit). IDSA/ATS guidelines recommend combination therapy for hospitalized non-ICU CAP: a beta-lactam (ceftriaxone) + azithromycin (covering atypicals like Legionella, Mycoplasma). Home azithromycin monotherapy is only for low-risk outpatients. ICU-level care and MRSA coverage are not indicated without risk factors (aspiration, cavitation, prior MRSA). Respiratory fluoroquinolone monotherapy is an alternative but the combination is preferred for hospitalized patients. Delaying antibiotics in confirmed CAP increases mortality."
+    },
+    {
+      title: "Case: Acute Sepsis from Urinary Source",
+      vignette: "A 68-year-old female with type 2 diabetes and recurrent UTIs presents via EMS with altered mental status, confusion, and inability to care for herself for 24 hours. Her daughter reports she had burning urination 5 days ago but refused to see a doctor. She has not voided in 6 hours. She takes metformin and lisinopril. Vital signs: BP 84/50 mmHg, HR 124 bpm, RR 22/min, T 39.4°C, O2 sat 95% on 2L NC. On exam she is confused (GCS 13), has suprapubic tenderness, and no neck stiffness. Urinalysis shows large leukocyte esterase, nitrite positive, WBC >50, numerous bacteria.",
+      diagnosis: "Septic Shock - Urinary Source (Urosepsis)",
+      labPanels: [
+        { panelName: "COMPLETE BLOOD COUNT", rows: [{ test: "WBC", result: "22.6", flag: "H", range: "4.5-11.0", units: "K/uL" }, { test: "Bands", result: "18", flag: "H", range: "0-5", units: "%" }, { test: "Hemoglobin", result: "10.8", flag: "L", range: "12.0-16.0", units: "g/dL" }, { test: "Platelets", result: "88", flag: "L", range: "150-400", units: "K/uL" }] },
+        { panelName: "METABOLIC / INFECTION", rows: [{ test: "Lactate", result: "4.2", flag: "H", range: "<2.0", units: "mmol/L" }, { test: "Creatinine", result: "2.8", flag: "H", range: "0.5-1.1", units: "mg/dL" }, { test: "BUN", result: "52", flag: "H", range: "7-20", units: "mg/dL" }, { test: "Procalcitonin", result: "18.4", flag: "H", range: "<0.1", units: "ng/mL" }, { test: "CRP", result: "210", flag: "H", range: "<5", units: "mg/L" }] },
+        { panelName: "COAGULATION", rows: [{ test: "PT/INR", result: "1.6", flag: "H", range: "<1.2", units: "" }, { test: "aPTT", result: "48", flag: "H", range: "25-35", units: "sec" }, { test: "Fibrinogen", result: "120", flag: "L", range: "200-400", units: "mg/dL" }, { test: "D-Dimer", result: "8.4", flag: "H", range: "<0.5", units: "mcg/mL" }] }
+      ],
+      q: "What is the correct initial management bundle for septic shock (Surviving Sepsis Campaign Hour-1 Bundle)?",
+      options: ["A) IV fluid resuscitation 30 mL/kg crystalloid, blood cultures x2 before antibiotics, broad-spectrum antibiotics within 1 hour, vasopressors (norepinephrine) if MAP <65 mmHg, and measure lactate", "B) Administer broad-spectrum antibiotics first before drawing blood cultures to save time", "C) Give albumin 5% IV instead of crystalloid as it is superior first-line fluid in septic shock", "D) Start vasopressors immediately and withhold fluids due to risk of pulmonary edema", "E) Begin corticosteroids (hydrocortisone 200 mg/day) as first-line to reverse shock"],
+      correct: 0,
+      explanation: "The Surviving Sepsis Campaign Hour-1 Bundle requires: (1) measure lactate — this patient has 4.2 mmol/L confirming septic shock; (2) obtain blood cultures x2 BEFORE antibiotics; (3) administer broad-spectrum antibiotics within 1 hour of recognition; (4) give 30 mL/kg IV crystalloid (NS or LR) for hypoperfusion; (5) vasopressors (norepinephrine first-line) if MAP remains <65 mmHg. Culture before antibiotics minimizes yield loss. Albumin is not first-line. Withholding fluids risks organ failure. Corticosteroids are adjunctive therapy for shock refractory to vasopressors, not first-line."
+    }
+  ]
+}];

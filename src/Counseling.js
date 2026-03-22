@@ -5120,7 +5120,86 @@ export const counselingExams = [{
 ]
 }];
 
-export const counselingCases = [];
+export const counselingCases = [{
+  id: "builtin_cases_counseling",
+  title: "Patient Counseling Cases",
+  icon: "Stethoscope",
+  color: "#8b5cf6",
+  isBuiltIn: true,
+  isBuiltin: true,
+  questions: [
+    {
+      title: "Case: New Inhaler Prescription (Asthma)",
+      vignette: "A 28-year-old female with newly diagnosed moderate persistent asthma is picking up her first prescription at the pharmacy: fluticasone/salmeterol (Advair) 250/50 mcg diskus BID and albuterol metered-dose inhaler (MDI) 2 puffs q4–6h PRN. She has no prior inhaler experience and appears anxious. She asks the pharmacist: 'Are both inhalers the same? Do I use both of them every day?' She is also concerned about 'steroid side effects' and mentions she heard inhalers can cause 'infections in the mouth.' She has a history of mild lactose intolerance and occasionally uses antacids.",
+      diagnosis: "Asthma — Inhaler Counseling and Education",
+      labPanels: [
+        { panelName: "PULMONARY FUNCTION TESTS", rows: [{ test: "FEV1", result: "68", flag: "L", range: ">80% predicted", units: "% predicted" }, { test: "FEV1/FVC ratio", result: "0.72", flag: "L", range: "≥0.70", units: "" }, { test: "Post-bronchodilator FEV1 change", result: "+15", flag: "H", range: ">12% = significant", units: "%" }] },
+        { panelName: "ALLERGY & LABS", rows: [{ test: "IgE (Total)", result: "380", flag: "H", range: "<100", units: "IU/mL" }, { test: "Eosinophils", result: "0.6", flag: "H", range: "0.0-0.5", units: "K/uL" }] },
+        { panelName: "PEAK FLOW DIARY", rows: [{ test: "Best personal PEF", result: "380", flag: "", range: ">400 for age/sex", units: "L/min" }, { test: "Morning PEF variability", result: "22", flag: "H", range: "<20%", units: "%" }] }
+      ],
+      q: "Which of the following represents the MOST complete and accurate counseling for this patient?",
+      options: ["A) Fluticasone/salmeterol is the controller medication (use every day even when feeling well); albuterol is the rescue inhaler (use only for acute symptoms or before exercise). Rinse mouth and spit after each dose of the fluticasone/salmeterol diskus to prevent oral candidiasis. Track albuterol use — if needed >2 days/week (not counting pre-exercise use), call provider.", "B) Both inhalers should be used together at the same time, but only when symptoms occur", "C) Use the fluticasone/salmeterol inhaler only when symptoms occur — it works fast enough for rescue", "D) Steroids in inhalers enter the bloodstream just like systemic steroids and cause the same side effects (osteoporosis, weight gain)", "E) Albuterol MDI should be used every day (even without symptoms) to prevent bronchoconstriction"],
+      correct: 0,
+      explanation: "Controller vs. rescue distinction is the foundation of asthma counseling: ICS/LABA (fluticasone/salmeterol) is used DAILY for maintenance regardless of symptoms; albuterol is ONLY for acute relief. Salmeterol (LABA) has an irreversible BOXED WARNING — it must never be used as monotherapy without ICS. Oral candidiasis (thrush) from ICS is prevented by rinsing and spitting after each dose. ICS are inhaled with minimal systemic absorption — local side effects (thrush, hoarseness) occur, NOT systemic corticosteroid effects at standard doses. Overuse of rescue albuterol (>2 days/week) signals poor control requiring step-up therapy."
+    },
+    {
+      title: "Case: SSRI Initiation Counseling (Depression)",
+      vignette: "A 34-year-old male with newly diagnosed major depressive disorder (MDD) is being started on sertraline 50 mg daily. He has no prior psychiatric history, no suicidal ideation currently, and denies substance use. He is engaged to be married in 6 months and is concerned about sexual side effects. He asks the pharmacist: 'How long before I feel better? Can I stop it once I feel normal again? I heard these medications make you want to hurt yourself.' He also takes ibuprofen PRN for headaches and mentions he sometimes has a glass of wine on weekends.",
+      diagnosis: "Major Depressive Disorder — SSRI Initiation Counseling",
+      labPanels: [
+        { panelName: "MENTAL HEALTH SCREENING", rows: [{ test: "PHQ-9 Score (at baseline)", result: "16", flag: "H", range: "0-4: None | 5-9: Mild | 10-14: Mod | 15-19: Mod-Severe", units: "score" }] },
+        { panelName: "BASELINE LABS", rows: [{ test: "TSH", result: "1.8", flag: "", range: "0.4-4.0", units: "mIU/L" }, { test: "CBC", result: "Normal", flag: "", range: "Normal", units: "" }, { test: "BMP", result: "Normal", flag: "", range: "Normal", units: "" }] },
+        { panelName: "MEDICATION REVIEW", rows: [{ test: "Ibuprofen (PRN)", result: "Active", flag: "H", range: "Caution with SSRIs — GI bleed risk", units: "" }, { test: "Alcohol (PRN)", result: "Occasional", flag: "H", range: "Avoid during SSRI initiation", units: "" }] }
+      ],
+      q: "What is the most complete and accurate counseling response to his concerns?",
+      options: ["A) Full effect takes 4–6 weeks (anxiety may improve sooner); continue medication for ≥6–12 months after remission then taper — never stop abruptly; FDA Black Box Warning for suicidal ideation in under-25s (monitor closely first 4 weeks but risk is low in adults); avoid ibuprofen due to increased GI bleeding risk with SSRIs (use acetaminophen instead); limit alcohol (worsens depression and sedation)", "B) Sertraline works within 3–5 days so he should feel better very soon; he can stop whenever he feels normal", "C) The suicidal ideation warning applies equally to all adults on SSRIs and should frighten him to avoid the medication", "D) Ibuprofen and wine are safe to take with sertraline — just space them apart by 2 hours", "E) Sexual dysfunction with SSRIs is rare and permanent — he should not worry about it"],
+      correct: 0,
+      explanation: "SSRIs require 4–6 weeks for full antidepressant effect (anxiolytic effect may precede). Duration: first episode → treat 6–12 months post-remission; recurrent episodes → longer/indefinite. Abrupt discontinuation causes serotonin discontinuation syndrome. FDA Black Box Warning: increased suicidal ideation in children, adolescents, and adults ≤24 — requires close monitoring in first 4 weeks but the absolute risk is low and untreated depression carries higher risk. NSAIDs + SSRIs increase GI bleeding risk by 3–15x (reduced platelet aggregation) — acetaminophen is preferred. Alcohol worsens CNS depression and impairs treatment response. Sexual dysfunction (decreased libido, delayed ejaculation) affects 30–40% — this is important to discuss openly; if bothersome, bupropion or mirtazapine are alternatives."
+    },
+    {
+      title: "Case: Anticoagulation Counseling (New A-Fib)",
+      vignette: "A 76-year-old female with newly diagnosed non-valvular atrial fibrillation, hypertension, and type 2 diabetes is started on apixaban (Eliquis) 5 mg BID. Her CHA2DS2-VASc score is 5. She lives alone, has mild cognitive impairment (MMSE 22/30), and her daughter manages her medications. She asks about her new medication and expresses concerns: 'Can I take aspirin for my heart? What happens if I cut myself? Can I take my herbal supplements — fish oil and ginkgo?' She has a history of falls (2 in the last year).",
+      diagnosis: "Atrial Fibrillation — DOAC Initiation Counseling (Apixaban)",
+      labPanels: [
+        { panelName: "CARDIAC / LABS", rows: [{ test: "ECG", result: "Irregular rhythm, A-Fib", flag: "H", range: "Normal sinus rhythm", units: "" }, { test: "Creatinine", result: "1.1", flag: "", range: "0.5-1.1", units: "mg/dL" }, { test: "eGFR", result: "58", flag: "", range: ">60", units: "mL/min/1.73m²" }] },
+        { panelName: "STROKE RISK", rows: [{ test: "CHA2DS2-VASc Score", result: "5", flag: "H", range: "Anticoagulate if ≥2 (female)", units: "score" }, { test: "HAS-BLED Score", result: "2", flag: "", range: "Low-moderate bleed risk", units: "score" }] },
+        { panelName: "MEDICATION REVIEW", rows: [{ test: "Fish oil (1g/day)", result: "Active", flag: "H", range: "Antiplatelet — additive bleed risk", units: "" }, { test: "Ginkgo biloba", result: "Active", flag: "H", range: "Antiplatelet — additive bleed risk", units: "" }] }
+      ],
+      q: "What are the most important counseling points for apixaban in this patient?",
+      options: ["A) Take apixaban BID at the same times every day; do NOT take aspirin or NSAIDs (increased bleeding risk) unless prescribed; minor cuts — apply pressure; serious or unusual bleeding (blood in urine/stool, stroke symptoms) → go to ER immediately; discontinue fish oil and ginkgo (additive bleeding risk); do not skip doses but do not double-dose if missed", "B) Apixaban does not need to be taken twice daily — taking it once daily in the morning is sufficient for A-Fib", "C) It is safe to add aspirin 81 mg to apixaban for additional stroke prevention in A-Fib", "D) Taking apixaban with ginkgo biloba and fish oil is safe since these are natural products", "E) Apixaban requires routine INR monitoring every month to ensure the dose is therapeutic"],
+      correct: 0,
+      explanation: "Apixaban (Eliquis) for non-valvular A-Fib is dosed 5 mg BID (or 2.5 mg BID if ≥2 of: age ≥80, weight ≤60 kg, SCr ≥1.5). Unlike warfarin, DOACs do NOT require routine INR monitoring. Aspirin + DOAC dramatically increases major bleeding without added stroke benefit in non-valvular A-Fib. Fish oil >3g/day and ginkgo biloba have antiplatelet properties that add to DOAC bleeding risk. Serious bleeding: brain, eyes, joints, GI → immediate ED evaluation. Minor cuts: local pressure. For this cognitively impaired patient, involve the daughter in medication management and fall prevention planning (padding, non-slip mats) since falls + anticoagulation carry clinical risk."
+    },
+    {
+      title: "Case: Immunization Counseling (Zoster Vaccine)",
+      vignette: "A 68-year-old male diabetic patient is at the pharmacy for his quarterly medication refill. During a medication therapy management (MTM) session, the pharmacist notes he has not received any vaccines in 10 years. He received the older zoster vaccine (Zostavax) 12 years ago. He mentions: 'I already had the shingles shot years ago — why would I need another one? Also, I am not sure about vaccines since I had a bad reaction to the flu shot once (arm soreness lasting a week).' He has no known egg allergies, is not immunocompromised, and takes metformin and amlodipine.",
+      diagnosis: "Vaccine Counseling: Shingrix (RZV) vs. Zostavax + Influenza Vaccine Misconception",
+      labPanels: [
+        { panelName: "VACCINATION HISTORY", rows: [{ test: "Pneumococcal (PCV15/PPSV23)", result: "Never received", flag: "H", range: "Age ≥65 recommended", units: "" }, { test: "Influenza (annual)", result: "Last received 10 years ago", flag: "H", range: "Annual recommended", units: "" }, { test: "Zostavax (live zoster)", result: "Received 12 years ago", flag: "H", range: "Replace with Shingrix", units: "" }, { test: "COVID-19 updated booster", result: "Not up to date", flag: "H", range: "Recommended annually", units: "" }] },
+        { panelName: "CLINICAL RISK", rows: [{ test: "Diabetes (risk factor for VZV reactivation)", result: "Present", flag: "H", range: "Increases herpes zoster risk", units: "" }, { test: "Age (≥60 — HZ incidence rises sharply)", result: "68 years", flag: "H", range: "High risk", units: "" }] },
+        { panelName: "ALLERGY SCREENING", rows: [{ test: "Egg allergy", result: "None", flag: "", range: "No contraindication to flu vaccine", units: "" }, { test: "Gelatin allergy", result: "None", flag: "", range: "No contraindication to Shingrix", units: "" }] }
+      ],
+      q: "What is the most appropriate counseling response for this patient?",
+      options: ["A) Recommend Shingrix (recombinant zoster vaccine, RZV) 2-dose series regardless of prior Zostavax: Shingrix is non-live, >90% effective vs 51% for Zostavax, immune protection wanes faster with Zostavax. Arm soreness after flu vaccine is a normal local reaction (Grade 1 adverse event) — not an allergy or contraindication to future vaccines.", "B) Since he already received Zostavax, he does not need Shingrix — two different shingles vaccines are not recommended together", "C) His arm soreness after flu vaccine was an allergic reaction — he should avoid all vaccines in the future", "D) Shingrix is the same vaccine as Zostavax — there is no clinical difference between them", "E) Diabetes patients are not at increased risk for shingles, so he can defer the Shingrix vaccine"],
+      correct: 0,
+      explanation: "ACIP recommends Shingrix (RZV, GSK) for ALL immunocompetent adults ≥50, including those who previously received Zostavax (live attenuated). Shingrix is 90–97% effective vs. 51% for Zostavax; Zostavax efficacy falls to <30% after 5–6 years. Shingrix is administered as 2 doses (0 and 2–6 months). It is non-live (recombinant adjuvanted) and safe in immunocompromised patients. Local injection site reactions (soreness, redness, swelling) and systemic reactions (fatigue, headache) are common with Shingrix — these are expected immune responses, not allergic reactions. Arm soreness after flu vaccine is a Grade 1 injection site reaction — it does NOT contraindicate future vaccines. Diabetes increases herpes zoster risk by ~2-fold."
+    },
+    {
+      title: "Case: Oral Contraceptive Counseling",
+      vignette: "A 22-year-old female college student is starting a combined oral contraceptive pill (OCP) — ethinyl estradiol 30 mcg / levonorgestrel 150 mcg — for contraception and dysmenorrhea. She smokes half a pack per day, is healthy, and has no prior medical history. She asks the pharmacist: 'What if I forget a pill? Can I smoke while taking this? I also have antibiotics (amoxicillin) prescribed for a dental infection — will that affect the pill? I want to know about side effects.' She is not planning pregnancy.",
+      diagnosis: "Combined Oral Contraceptive Counseling — Complete Initiation Education",
+      labPanels: [
+        { panelName: "CLINICAL RISK ASSESSMENT", rows: [{ test: "Age", result: "22 years", flag: "", range: "OK for COC", units: "" }, { test: "Smoking status", result: "Smoker, < 35 years", flag: "H", range: "VTE risk — AVOID COC if ≥35 + smoking", units: "" }, { test: "BP", result: "118/74", flag: "", range: "Normal (<130/80)", units: "mmHg" }, { test: "BMI", result: "23.4", flag: "", range: "Normal (18.5-24.9)", units: "kg/m²" }] },
+        { panelName: "CONTRACEPTIVE EFFECTIVENESS", rows: [{ test: "COC typical use failure rate", result: "7", flag: "", range: "9% typical vs <1% perfect use", units: "% annually" }, { test: "Perfect use failure rate", result: "<1", flag: "", range: "<1%", units: "%" }] },
+        { panelName: "DRUG INTERACTION SCREEN", rows: [{ test: "Amoxicillin — COC interaction", result: "No significant interaction", flag: "", range: "Evidence: NOT significant (updated guidance)", units: "" }, { test: "Rifampin — COC interaction", result: "High significance", flag: "H", range: "CYP3A4 inducer — reduces COC efficacy", units: "" }] }
+      ],
+      q: "Which of the following represents the most complete and accurate counseling for this patient?",
+      options: ["A) Take the pill at the same time daily; if you miss 1 pill (<24h late), take it ASAP and continue; if 2+ pills missed, use backup contraception for 7 days; smoking increases VTE/stroke risk but is not an absolute contraindication until age 35 — strongly encourage smoking cessation; amoxicillin does NOT significantly interact with COCs per current evidence (old advice about antibiotics was not supported by clinical data); watch for: nausea, breast tenderness, spotting (usually resolve in 1–3 months)", "B) Amoxicillin significantly reduces the effectiveness of the pill — always use condoms when taking any antibiotic with the OCP", "C) Smoking while on the OCP is completely safe under age 25 — the VTE risk only applies over 35", "D) If you forget a pill, take 2 pills the next day and just continue — no backup contraception needed regardless of how many were missed", "E) Combined OCPs should never be taken by smokers regardless of age because of absolute contraindication"],
+      correct: 0,
+      explanation: "COC counseling: (1) Daily compliance is key — consistent timing minimizes hormonal variation. (2) Missed pill management: <24h late → take immediately; ≥2 consecutive missed pills → backup contraception x7 days. (3) Smoking + COC: absolute contraindication is ≥35 years + smoking; at age 22 it is a relative concern (VTE/CVD risk elevation) — counsel on cessation but it is not disqualifying. (4) Antibiotic interaction: Rifampin is a potent CYP3A4 inducer that reduces COC efficacy — backup needed. Amoxicillin/penicillins do NOT significantly reduce COC efficacy per updated pharmacokinetic and pharmacodynamic evidence (old anecdotal guidance was removed from major guidelines). (5) Common side effects: nausea (take with food), breakthrough bleeding (improves by cycle 3), breast tenderness."
+    }
+  ]
+}];
 
 
 

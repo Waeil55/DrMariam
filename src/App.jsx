@@ -1336,13 +1336,125 @@ function GlobalTaskIndicator({ onViewResult }) {
 }
 
 /* ═══════════════════════════════════════════════════════════════════
+   RANDOM MEDICAL TOPICS BANK — used by all generate modals
+═══════════════════════════════════════════════════════════════════ */
+const MEDICAL_RANDOM_TOPICS = [
+  'Acetaminophen (Tylenol) toxicity: mechanisms, NAC protocol, and liver failure',
+  'Hypertension: JNC-8 classification, lifestyle and pharmacotherapy',
+  'Type 2 diabetes mellitus: glycemic targets and stepwise drug therapy',
+  'Acute STEMI: reperfusion, antiplatelet, and anticoagulation management',
+  'Heart failure with reduced ejection fraction: GDMT and device therapy',
+  'COPD: GOLD staging, bronchodilators, and exacerbation management',
+  'Community-acquired pneumonia: CURB-65, pathogens, and antibiotics',
+  'Sepsis and septic shock: Surviving Sepsis Campaign bundle',
+  'Ischemic stroke: tPA eligibility, thrombectomy, and secondary prevention',
+  'Atrial fibrillation: CHA₂DS₂-VASc, rate vs rhythm, and anticoagulation',
+  'DVT and pulmonary embolism: Wells score, DOAC therapy, thrombolytics',
+  'Acute kidney injury: KDIGO staging, causes (prerenal/intrinsic/postrenal), management',
+  'Chronic kidney disease: GFR staging, progression prevention, dialysis criteria',
+  'Liver cirrhosis: Child-Pugh/MELD scoring, varices, SBP, hepatorenal syndrome',
+  'Upper GI bleeding: Blatchford score, endoscopy, PPIs, H. pylori',
+  'Inflammatory bowel disease: Crohn vs ulcerative colitis, aminosalicylates, biologics',
+  'Hyperthyroidism and thyroid storm: Graves disease, propylthiouracil vs methimazole',
+  'Hypothyroidism: levothyroxine dosing, TSH monitoring, myxedema coma',
+  'Iron-deficiency anemia: labs, oral vs IV iron, transfusion thresholds',
+  'Anticoagulation therapy: warfarin INR management, heparin, DOACs comparison',
+  'Asthma: GINA stepwise management, controller vs reliever, biologics',
+  'Breast cancer: screening mammography, staging, HER2/hormone receptor therapy',
+  'Lung cancer: NSCLC vs SCLC, EGFR/ALK targeted therapy, immunotherapy',
+  'Colorectal cancer: colonoscopy screening, Lynch syndrome, chemotherapy',
+  'Prostate cancer: PSA screening, androgen deprivation therapy, enzalutamide',
+  'Melanoma: ABCDE criteria, TNM staging, BRAF/MEK inhibitors, checkpoint inhibitors',
+  'Chronic pain and opioid use disorder: opioid equianalgesic doses, naloxone, buprenorphine',
+  'Generalized anxiety disorder: SSRIs, SNRIs, buspirone, benzodiazepine risks',
+  'Major depressive disorder: antidepressants, augmentation, TMS, ECT',
+  'Schizophrenia: typical vs atypical antipsychotics, metabolic monitoring',
+  'Bipolar disorder: lithium monitoring, valproate, lamotrigine, acute mania',
+  'Epilepsy: first-line AEDs by seizure type, drug interactions, teratogenicity',
+  'Parkinson disease: levodopa/carbidopa, dopamine agonists, MAO-B inhibitors',
+  'Alzheimer disease: cholinesterase inhibitors, memantine, staging',
+  'Multiple sclerosis: relapsing-remitting, interferon, natalizumab, ocrelizumab',
+  'Rheumatoid arthritis: DMARDs (methotrexate), biologics (anti-TNF), treat-to-target',
+  'Systemic lupus erythematosus: ACR criteria, hydroxychloroquine, immunosuppressants',
+  'Osteoporosis: DEXA T-score, bisphosphonates, denosumab, teriparatide',
+  'Gout: uric acid targets, colchicine/NSAIDs for acute, allopurinol prophylaxis',
+  'Infectious endocarditis: Duke criteria, empiric antibiotics, surgical indications',
+  'Tuberculosis: RIPE therapy, latent TB, MDR-TB, IGRA vs TST',
+  'HIV/AIDS: ART initiation, regimen selection, OI prophylaxis, PrEP',
+  'UTI and complicated UTI: E. coli resistance patterns, nitrofurantoin vs TMP-SMX',
+  'STIs: gonorrhea/chlamydia dual therapy, syphilis stages, HSV antivirals',
+  'Beta-blockers: receptor selectivity, indications, contraindications, toxicity',
+  'ACE inhibitors and ARBs: RAAS axis, indications, hyperkalemia monitoring',
+  'Statins: LDL targets, intensity levels, myopathy, drug interactions',
+  'Antibiotic resistance: beta-lactamase, MRSA, ESBL, VRE, CRE mechanisms',
+  'Anaphylaxis: epinephrine 0.3mg IM, antihistamines, steroids, airway management',
+  'Drug-induced QT prolongation: offending drugs list, Torsades de Pointes risk',
+  'Serotonin syndrome vs neuroleptic malignant syndrome: Hunter criteria, cyproheptadine',
+  'CYP450 drug interactions: inhibitors, inducers, and clinically significant pairs',
+  'Acetylcholine vs norepinephrine: receptor subtypes, clinical relevance',
+  'Burn management: Parkland formula, depth classification, escharotomy',
+  'Traumatic brain injury: ICP monitoring, osmotherapy, barbiturate coma',
+  'Types of shock: hemorrhagic, distributive (septic/anaphylactic), cardiogenic, obstructive',
+  'Neonatal jaundice: bilirubin thresholds, phototherapy, exchange transfusion',
+  'Gestational diabetes: GDM screening, insulin vs metformin, fetal risks',
+  'Preeclampsia and eclampsia: BP targets, magnesium sulfate protocol, delivery',
+  'Antihypertensives in pregnancy: labetalol, nifedipine, hydralazine safety',
+  'Drug-induced liver injury: RUCAM scale, hepatotoxic drugs, N-acetylcysteine',
+  'Pediatric vaccines: schedule, live vs inactivated, contraindications, catch-up',
+  'Alcohol use disorder: CAGE/AUDIT, CIWA scale, lorazepam protocol, naltrexone',
+  'Acid-base disorders: metabolic acidosis/alkalosis, respiratory compensation',
+  'Electrolyte disorders: hyponatremia correction rate, hyperkalemia management, hypomagnesemia',
+  'Thyroid nodule and cancer: TIRADS, FNA biopsy, PTC vs FTC surgery, RAI',
+];
+
+/* ═══════════════════════════════════════════════════════════════════
+   TOPIC-BASED GENERATION — generates without a file, from a topic string
+═══════════════════════════════════════════════════════════════════ */
+const runTopicGeneration = async ({ taskId, topic, taskType, count, difficultyLevel, settings, onSave }) => {
+  const batchSize = 40;
+  const numBatches = count > batchSize ? Math.ceil(count / batchSize) : 1;
+  bgStart(taskId, { type: taskType, docName: topic, msg: 'Generating from topic…', done: 0, total: numBatches });
+  try {
+    const MEDICINE_RULE = `\n\nMEDICINE RULE — MANDATORY: Write every drug as "BrandName (generic)" — e.g. "Tylenol (acetaminophen)", "Lasix (furosemide)", "Glucophage (metformin)". Apply to EVERY drug in EVERY item.`;
+    const makePrompt = (bc) => {
+      const base = `TOPIC: "${topic}"\nDIFFICULTY: ${difficultyLevel}${MEDICINE_RULE}\n\nGenerate accurate, board-exam-level ${taskType} items about this topic. Use international standards (US, UK, AUS, Middle East). Include specific numbers: doses, lab values, %, NNT, timelines.\n\n`;
+      if (taskType === 'flashcards') return `${base}Generate EXACTLY ${bc} high-yield clinical flashcards. Question: detailed, multi-sentence clinical scenario or concept. Answer: precise 3-5 sentence response with specific values, doses, and mechanisms. RETURN JSON ONLY: {"items":[{"q":"detailed clinical question","a":"accurate answer with specific data","evidence":"key supporting fact"}]}`;
+      if (taskType === 'exam') return `${base}Generate EXACTLY ${bc} board-exam MCQs. Each: 2-4 sentence clinical vignette stem, 4 plausible options (A-D), correct answer index, 4-5 sentence explanation addressing every option. RETURN JSON ONLY: {"items":[{"q":"clinical vignette stem","options":["A. option","B. option","C. option","D. option"],"correct":0,"explanation":"explanation covering all options with specific reasoning"}]}`;
+      if (taskType === 'cases') return `${base}Generate EXACTLY ${bc} realistic clinical cases about "${topic}". Each case: (1) 8-12 sentence vignette including demographics, HPI, PMH, allergies, medications, vitals, physical exam; (2) 3 lab panels with realistic abnormal values; (3) clinical question with 5 options (A-E). RETURN JSON ONLY: {"items":[{"vignette":"8-12 sentence detailed case","title":"case title","diagnosis":"diagnosis","labPanels":[{"panelName":"COMPLETE BLOOD COUNT","rows":[{"test":"WBC","result":"11.8","flag":"H","range":"4.5-11.0","units":"K/uL"},{"test":"Hgb","result":"10.2","flag":"L","range":"12-16","units":"g/dL"},{"test":"Hct","result":"30","flag":"L","range":"36-46","units":"%"},{"test":"Platelets","result":"380","flag":"","range":"150-400","units":"K/uL"},{"test":"MCV","result":"72","flag":"L","range":"80-100","units":"fL"}]},{"panelName":"BASIC METABOLIC PANEL","rows":[{"test":"Sodium","result":"138","flag":"","range":"135-145","units":"mEq/L"},{"test":"Potassium","result":"3.9","flag":"","range":"3.5-5.0","units":"mEq/L"},{"test":"Creatinine","result":"1.1","flag":"","range":"0.6-1.2","units":"mg/dL"},{"test":"BUN","result":"18","flag":"","range":"7-20","units":"mg/dL"},{"test":"Glucose","result":"95","flag":"","range":"70-100","units":"mg/dL"}]},{"panelName":"DISEASE-SPECIFIC PANEL","rows":[{"test":"relevant test","result":"abnormal value","flag":"H","range":"reference","units":"unit"},{"test":"relevant test","result":"abnormal value","flag":"L","range":"reference","units":"unit"},{"test":"relevant test","result":"value","flag":"","range":"reference","units":"unit"}]}],"examQuestion":{"q":"clinical question stem","options":["A) option","B) option","C) option","D) option","E) option"],"correct":0,"explanation":"4-6 sentence explanation with specific data"}}]}`;
+      return `${base}Analyze "${topic}" comprehensively.`;
+    };
+    const isJson = ['flashcards', 'exam', 'cases'].includes(taskType);
+    const tasks = Array.from({ length: numBatches }, (_, i) => {
+      const bc = i === numBatches - 1 ? (count % batchSize === 0 ? batchSize : count % batchSize) : batchSize;
+      return () => callAI(makePrompt(bc), isJson, false, settings, 8000);
+    });
+    let all = [];
+    const results = await runParallel(tasks, 50, (done, total) => {
+      bgUpdate(taskId, { done, total, msg: `${done}/${total} batches complete…` });
+    });
+    for (const r of results) {
+      if (r.status === 'fulfilled') {
+        try {
+          const p = parseJson(r.value);
+          all = [...all, ...(p.items || p.cases || p.questions || p.flashcards || [])];
+        } catch (e) { console.warn('Topic parse err:', e.message); }
+      }
+    }
+    if (!all.length) throw new Error('AI returned no data. Check your API key or try a different topic.');
+    const finalData = all.slice(0, count);
+    bgFinish(taskId, { type: taskType, data: finalData, pages: '', docName: topic, count: finalData.length });
+    if (onSave) onSave(finalData, taskId);
+  } catch (e) { bgFail(taskId, e.message || String(e)); }
+};
+
+/* ═══════════════════════════════════════════════════════════════════
    QUICK GENERATE MODAL — for Flashcards / Exams / Cases pages
    Lets users upload a new file or pick from their library,
    choose page range, difficulty, and count (1–1000).
 ═══════════════════════════════════════════════════════════════════ */
 function QuickGenerateModal({ type, docs, settings, onClose, onTaskStart, addToast,
   setFlashcards, setExams, setCases }) {
-  const [tab, setTab] = useState('library'); // 'library' | 'upload'
+  const [tab, setTab] = useState('library'); // 'library' | 'upload' | 'topic'
   const [selDocId, setSelDocId] = useState(docs[0]?.id || null);
   const [uploadedDoc, setUploadedDoc] = useState(null);
   const [uploading, setUploading] = useState(false);
@@ -1352,6 +1464,7 @@ function QuickGenerateModal({ type, docs, settings, onClose, onTaskStart, addToa
   const [endPage, setEndPage] = useState(1);
   const [count, setCount] = useState(20);
   const [difficulty, setDifficulty] = useState(2);
+  const [topicInput, setTopicInput] = useState('');
   const levels = ['Easy', 'Medium', 'Hard'];
   const inputRef = useRef(null);
 
@@ -1388,6 +1501,36 @@ function QuickGenerateModal({ type, docs, settings, onClose, onTaskStart, addToa
   const Icon = tc.icon;
 
   const handleGo = () => {
+    // Topic-based generation (no file needed)
+    if (tab === 'topic') {
+      const topic = topicInput.trim();
+      if (!topic) { addToast('Enter a topic or click Random Topic first.', 'error'); return; }
+      const taskId = 'task_' + Date.now();
+      const onSave = (data, tid) => {
+        const now = new Date().toISOString();
+        if (type === 'flashcards') {
+          const cards = data.map(c => ({
+            id: Date.now() + Math.random(), q: c.q, a: c.a, evidence: c.evidence || '',
+            sourcePage: 0, repetitions: 0, ef: 2.5, interval: 1, nextReview: Date.now(), lastReview: Date.now()
+          }));
+          setFlashcards(p => [...p, { id: taskId, docId: null, sourcePages: 'topic', title: `Cards — ${topic.slice(0, 30)}`, cards, createdAt: now }]);
+          addToast(`${cards.length} flashcards saved! ⚡`, 'success');
+        } else if (type === 'exam') {
+          setExams(p => [...p, { id: taskId, docId: null, sourcePages: 'topic', title: `Exam — ${topic.slice(0, 30)}`, questions: data, createdAt: now }]);
+          addToast(`${data.length} exam questions saved! ⚡`, 'success');
+        } else if (type === 'cases') {
+          setCases(p => [...p, { id: taskId, docId: null, sourcePages: 'topic', title: `Cases — ${topic.slice(0, 30)}`, questions: data, createdAt: now }]);
+          addToast(`${data.length} cases saved! ⚡`, 'success');
+        }
+        bgClear(tid);
+      };
+      runTopicGeneration({ taskId, topic, taskType: type, count, difficultyLevel: levels[difficulty - 1], settings, onSave });
+      if (onTaskStart) onTaskStart(taskId);
+      addToast(`Generating ${count} ${tc.label} on "${topic.slice(0, 25)}…" in background!`, 'info');
+      onClose();
+      return;
+    }
+    // File-based generation
     if (!activeDoc) { addToast('Select or upload a document first.', 'error'); return; }
     const sp = entireFile ? 1 : startPage;
     const ep = entireFile ? activeDoc.totalPages : endPage;
@@ -1441,7 +1584,7 @@ function QuickGenerateModal({ type, docs, settings, onClose, onTaskStart, addToa
             </div>
             <div>
               <h2 className="font-black text-sm">Generate {tc.label}</h2>
-              <p className="text-xs opacity-50 font-bold">From any document • Runs in background</p>
+              <p className="text-xs opacity-50 font-bold">From file · By topic · Random — runs in background</p>
             </div>
           </div>
           <button onClick={onClose} className="w-9 h-9 glass rounded-xl flex items-center justify-center opacity-60 hover:opacity-100"><X size={16} /></button>
@@ -1450,14 +1593,53 @@ function QuickGenerateModal({ type, docs, settings, onClose, onTaskStart, addToa
         <div className="flex-1 min-h-0 overflow-y-auto custom-scrollbar p-5 space-y-4 max-h-[70vh]">
           {/* Source tabs */}
           <div className="flex gap-1 p-1 glass rounded-2xl">
-            {[['library', 'From Library', BookOpen], ['upload', 'Upload File', FileUp]].map(([id, lbl, TIcon]) => (
+            {[['library', 'From Library', BookOpen], ['upload', 'Upload File', FileUp], ['topic', 'By Topic / Random', Sparkles]].map(([id, lbl, TIcon]) => (
               <button key={id} onClick={() => setTab(id)}
-                className={`flex-1 flex items-center justify-center gap-2 py-2.5 rounded-xl text-xs font-black transition-all
-                  ${tab === id ? 'bg-[var(--accent)] text-white shadow-md' : 'opacity-50 hover:opacity-80'}`}>
-                <TIcon size={16} />{lbl}
+                className={`flex-1 flex items-center justify-center gap-1.5 py-2.5 rounded-xl text-xs font-black transition-all
+                  ${tab === id ? 'text-white shadow-md' : 'opacity-50 hover:opacity-80'}`}
+                style={tab === id ? { background: tc.color } : {}}>
+                <TIcon size={14} />{lbl}
               </button>
             ))}
           </div>
+
+          {/* Topic / Random tab */}
+          {tab === 'topic' && (
+            <div className="space-y-3">
+              <div className="space-y-2">
+                <label className="text-xs font-black uppercase tracking-widest opacity-60 block">Topic or Condition</label>
+                <input
+                  value={topicInput}
+                  onChange={e => setTopicInput(e.target.value)}
+                  placeholder="e.g. Tylenol toxicity, hypertension management, cancer staging…"
+                  className="w-full glass rounded-2xl px-4 py-3 text-sm outline-none border border-[color:var(--border2,var(--border))] focus:border-[var(--accent)] text-[var(--text)] placeholder:opacity-40"
+                />
+              </div>
+              <div className="flex gap-2">
+                <button
+                  onClick={() => {
+                    const t = MEDICAL_RANDOM_TOPICS[Math.floor(Math.random() * MEDICAL_RANDOM_TOPICS.length)];
+                    setTopicInput(t);
+                  }}
+                  className="flex-1 flex items-center justify-center gap-2 py-2.5 rounded-2xl text-xs font-black border-2 border-dashed transition-all hover:opacity-80"
+                  style={{ borderColor: tc.color + '60', color: tc.color, background: tc.color + '10' }}>
+                  🎲 Random Medical Topic
+                </button>
+                {topicInput && (
+                  <button onClick={() => setTopicInput('')} className="px-3 py-2 rounded-xl glass text-xs font-bold opacity-50 hover:opacity-80">
+                    <X size={14} />
+                  </button>
+                )}
+              </div>
+              {topicInput && (
+                <div className="rounded-xl px-4 py-3 text-xs font-bold flex items-start gap-2"
+                  style={{ background: tc.color + '12', color: tc.color, border: `1px solid ${tc.color}30` }}>
+                  <Sparkles size={13} className="shrink-0 mt-0.5" />
+                  <span>AI will generate {count} accurate {tc.label} on: <strong>"{topicInput.slice(0, 60)}{topicInput.length > 60 ? '…' : ''}"</strong></span>
+                </div>
+              )}
+            </div>
+          )}
 
           {/* Library picker */}
           {tab === 'library' && (
@@ -1523,8 +1705,8 @@ function QuickGenerateModal({ type, docs, settings, onClose, onTaskStart, addToa
             </div>
           )}
 
-          {/* Page range */}
-          {activeDoc && (
+          {/* Page range — only for file-based tabs */}
+          {tab !== 'topic' && activeDoc && (
             <div className="glass rounded-2xl p-4 space-y-3">
               <div className="flex items-center justify-between">
                 <h3 className="text-xs font-black uppercase tracking-widest opacity-60 flex items-center gap-2"><BookOpen size={16} />Page Range</h3>
@@ -1591,10 +1773,14 @@ function QuickGenerateModal({ type, docs, settings, onClose, onTaskStart, addToa
 
         {/* Footer */}
         <div className="p-5 border-t border-[color:var(--border2,var(--border))] shrink-0">
-          <button onClick={handleGo} disabled={!activeDoc}
-            className="w-full py-4 btn-accent rounded-2xl text-sm font-black uppercase tracking-widest disabled:opacity-40 flex items-center justify-center gap-3 shadow-xl">
-            <Zap size={18} fill="currentColor" />
-            Generate {count} {tc.label} in Background
+          <button onClick={handleGo}
+            disabled={tab === 'topic' ? !topicInput.trim() : !activeDoc}
+            className="w-full py-4 btn-accent rounded-2xl text-sm font-black uppercase tracking-widest disabled:opacity-40 flex items-center justify-center gap-3 shadow-xl"
+            style={{ background: tc.color }}>
+            {tab === 'topic'
+              ? <><Sparkles size={18} /> Generate {count} {tc.label} on Topic</>
+              : <><Zap size={18} fill="currentColor" /> Generate {count} {tc.label} in Background</>
+            }
           </button>
           <p className="text-xs text-center opacity-30 font-bold mt-2">You can switch pages — generation never stops</p>
         </div>
@@ -2076,6 +2262,19 @@ const _safeArr = (raw) => {
   // e.g. { 0:{...}, 1:{...} }
   return vals;
 };
+
+/** Fisher-Yates shuffle of MCQ options, updating correct index so it follows the shuffled answer */
+const shuffleOptions = (questions) => (questions || []).map(q => {
+  if (!Array.isArray(q.options) || q.options.length < 2) return q;
+  const correctText = q.options[typeof q.correct === 'number' ? q.correct : 0];
+  const shuffled = [...q.options];
+  for (let i = shuffled.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+  }
+  const newCorrect = shuffled.indexOf(correctText);
+  return { ...q, options: shuffled, correct: newCorrect >= 0 ? newCorrect : 0 };
+});
 
 const _makeBuiltinFC = (id, title, icon, color, rawData) => {
   const cards = _safeArr(rawData).map(_toCard).filter(Boolean);
@@ -3156,25 +3355,29 @@ function AiTutorPanel({ settings, context, onClose, width, onDragStart, alwaysOp
     setMsgs(newMsgs); setLoading(true);
     try {
       const hist = newMsgs.slice(-8, -1).map(m => `${m.role === 'user' ? 'STUDENT' : 'TUTOR'}: ${m.content}`).join('\n');
-      const prompt = `You are an expert pharmacy/medical AI tutor. Answer ONLY about the EXACT content in CONTEXT below.
+      const prompt = `You are an expert medical/pharmacy/nursing AI tutor with encyclopedic knowledge. Answer any medical or clinical question — whether about the current card context or any related topic the student raises.
 
-RULES:
-- Be SHORT but VERY detailed and accurate. Use 4-6 concise bullet points max.
-- Every bullet must be a specific, high-yield fact — no filler or generic statements.
-- For drugs: always state BrandName (generic), Class, Indication, and 3-4 key counseling points.
-- Drug format: "Tylenol (acetaminophen)" — brand first, generic in parentheses, EVERY time.
-- NEVER discuss content from other cards/pages/questions. Stay on THIS card only.
-- If student asks "Explain this in detail" → give the mechanism of action, clinical use, key side effects, and most important counseling points in tight bullet points.
-- If student asks "Why is this the correct answer?" → explain exactly why this answer is right and why other options are wrong, with specific pharmacological reasoning.
-- If student asks "What are common mistakes here?" → list the 3-4 most common exam errors students make on this exact topic, with why each is wrong.
-- If student asks "Give me a mnemonic" → create a memorable, clever mnemonic specifically for this drug/topic that covers the most testable facts.
-- If student asks "What else should I know?" → give 3-4 additional high-yield facts about this exact topic that are commonly tested but not in the card.
-- If student asks "Create a practice question" → write one realistic multiple-choice question (4 options, A-D) with the correct answer and a brief explanation.
+RESPONSE FORMAT RULES:
+- Prefer TABLES when comparing drugs, conditions, side effects, mechanisms, or dosing — tables are clearer than prose for lists.
+- Use bullet points (–) for step-by-step processes, criteria lists, or clinical decision trees.
+- Keep answers MEDIUM LENGTH: precise and accurate, not padded. 4-8 bullet points or 1-2 tables max per response.
+- Always include SPECIFIC data: doses, lab cutoffs, %, timelines — never vague statements.
+- For every drug: write "BrandName (generic)" — e.g. "Tylenol (acetaminophen)", "Lasix (furosemide)".
+- End with 1 high-yield board exam tip when relevant.
 
-CONTEXT (discuss ONLY this):
-${context || 'General study session'}
+RESPONSE TYPES:
+- "Explain in detail" → mechanism + clinical use + key AEs + monitoring in a table if comparing ≥2 drugs.
+- "Why is this correct?" → explain why right answer is right + why each wrong option is wrong, bullet by option.
+- "Common mistakes" → table: Mistake | Why It's Wrong | What's Actually True.
+- "Give a mnemonic" → create a memorable acronym with clinical coverage, explain each letter.
+- "What else should I know?" → 3-4 additional HY facts not in the card, with specific values.
+- "Practice question" → write a full 4-option MCQ vignette, mark correct answer, explain all options.
+- Any free question → answer it accurately using best current guidelines (AHA/ACC/WHO/ASHP).
 
-${hist ? 'Conversation:\n' + hist + '\n' : ''}STUDENT: ${msg}
+CURRENT CONTEXT (may be referenced but not required):
+${context || 'General medical study session — answer any clinical question.'}
+
+${hist ? 'CONVERSATION HISTORY:\n' + hist + '\n' : ''}STUDENT: ${msg}
 
 TUTOR:`;
       await callAIStreaming(prompt, chunk => { setMsgs(p => [...p.slice(0, -1), { role: 'assistant', content: chunk }]); }, settings, 4000);
@@ -3185,10 +3388,12 @@ TUTOR:`;
   const QUICK = [
     'Explain this in detail',
     'Why is this the correct answer?',
+    'Show me a comparison table',
     'What are common mistakes here?',
     'Give me a mnemonic',
     'What else should I know?',
     'Create a practice question',
+    'Show me the mechanism of action',
   ];
 
   return (
@@ -3299,6 +3504,8 @@ function FlashcardsView({ flashcards, setFlashcards, settings, addToast, docs, s
   const [mobileTutorOpen, setMobileTutorOpen] = useState(false);
   const [showResumePrompt, setShowResumePrompt] = useState(false);
   const [savedProgress, setSavedProgress] = useState(null);
+  const [inlineCount, setInlineCount] = useState(20);
+  const [inlineDiff, setInlineDiff] = useState('Medium');
 
   const rateCard = useCallback(q => {
     trackStudy('flashcard');
@@ -3515,12 +3722,58 @@ function FlashcardsView({ flashcards, setFlashcards, settings, addToast, docs, s
         />
       )}
       <div className="w-full p-6 lg:p-8 space-y-6">
-        <div className="flex items-center justify-between">
-          <h1 className="text-2xl lg:text-3xl font-black flex items-center gap-3"><Layers size={26} className="opacity-40" /> Flashcards</h1>
-          <button onClick={() => setShowModal(true)}
-            className="btn-accent px-4 py-2.5 rounded-xl text-xs font-black flex items-center gap-2 shadow-lg">
-            <FilePlus size={18} /> New from File
-          </button>
+        <div className="flex flex-col gap-3">
+          <div className="flex items-center justify-between">
+            <h1 className="text-2xl lg:text-3xl font-black flex items-center gap-3"><Layers size={26} className="opacity-40" /> Flashcards</h1>
+            <button onClick={() => setShowModal(true)}
+              className="btn-accent px-4 py-2.5 rounded-xl text-xs font-black flex items-center gap-2 shadow-lg">
+              <FilePlus size={18} /> From File
+            </button>
+          </div>
+          {/* Inline generate bar */}
+          <div className="flex gap-2 items-center flex-wrap">
+            <div className="flex-1 flex items-center gap-2 glass rounded-2xl px-4 py-2.5 border border-[color:var(--border2,var(--border))]" style={{ minWidth: 200 }}>
+              <Search size={15} className="opacity-30 shrink-0" />
+              <input
+                placeholder="Type a topic… e.g. 'Tylenol toxicity', 'sepsis' — then press Enter"
+                className="flex-1 bg-transparent text-sm outline-none placeholder:opacity-40 text-[var(--text)]"
+                onKeyDown={e => {
+                  if (e.key === 'Enter') {
+                    const val = e.target.value.trim(); if (!val) return;
+                    const taskId = 'task_' + Date.now();
+                    runTopicGeneration({ taskId, topic: val, taskType: 'flashcards', count: inlineCount, difficultyLevel: inlineDiff, settings,
+                      onSave: (data, tid) => { const now = new Date().toISOString(); const cards = data.map(c => ({ id: Date.now() + Math.random(), q: c.q, a: c.a, evidence: c.evidence || '', sourcePage: 0, repetitions: 0, ef: 2.5, interval: 1, nextReview: Date.now(), lastReview: Date.now() })); setFlashcards(p => [...p, { id: taskId, docId: null, sourcePages: 'topic', title: `Cards — ${val.slice(0,30)}`, cards, createdAt: now }]); addToast(`${cards.length} flashcards saved! ⚡`, 'success'); bgClear(tid); } });
+                    addToast(`Generating ${inlineCount} ${inlineDiff} cards on "${val.slice(0,25)}…"`, 'info'); e.target.value = '';
+                  }
+                }}
+              />
+            </div>
+            <button onClick={() => { const topic = MEDICAL_RANDOM_TOPICS[Math.floor(Math.random() * MEDICAL_RANDOM_TOPICS.length)]; const taskId = 'task_' + Date.now(); runTopicGeneration({ taskId, topic, taskType: 'flashcards', count: inlineCount, difficultyLevel: inlineDiff, settings, onSave: (data, tid) => { const now = new Date().toISOString(); const cards = data.map(c => ({ id: Date.now() + Math.random(), q: c.q, a: c.a, evidence: c.evidence || '', sourcePage: 0, repetitions: 0, ef: 2.5, interval: 1, nextReview: Date.now(), lastReview: Date.now() })); setFlashcards(p => [...p, { id: taskId, docId: null, sourcePages: 'topic', title: `Cards — ${topic.split(':')[0].trim().slice(0,30)}`, cards, createdAt: now }]); addToast(`${cards.length} flashcards saved! ⚡`, 'success'); bgClear(tid); } }); addToast('🎲 Generating random topic cards…', 'info'); }}
+              className="flex items-center gap-2 px-4 py-2.5 rounded-2xl text-xs font-black border-2 border-dashed transition-all hover:opacity-80 whitespace-nowrap"
+              style={{ borderColor: '#6366f160', color: '#6366f1', background: '#6366f110' }}>🎲 Random
+            </button>
+            <button onClick={() => setShowModal(true)} className="flex items-center gap-2 px-3 py-2.5 rounded-2xl text-xs font-black glass border border-[color:var(--border2,var(--border))] hover:opacity-80 whitespace-nowrap opacity-60"><FilePlus size={13} /> From File</button>
+          </div>
+          {/* Count + Difficulty controls */}
+          <div className="flex gap-3 items-center flex-wrap">
+            <div className="flex items-center gap-1.5">
+              <span className="text-[11px] font-black uppercase tracking-widest opacity-40 shrink-0">Count:</span>
+              {[5, 10, 20, 50, 100].map(n => (
+                <button key={n} onClick={() => setInlineCount(n)}
+                  className="px-2.5 py-1 rounded-lg text-xs font-black transition-all"
+                  style={{ background: inlineCount === n ? '#6366f1' : '#6366f118', color: inlineCount === n ? '#fff' : '#6366f1' }}>{n}</button>
+              ))}
+            </div>
+            <div className="w-px h-4 opacity-20" style={{ background: 'var(--border)' }} />
+            <div className="flex items-center gap-1.5">
+              <span className="text-[11px] font-black uppercase tracking-widest opacity-40 shrink-0">Level:</span>
+              {[['Easy','#10b981'],['Medium','#f59e0b'],['Hard','#ef4444'],['Board','#7c3aed']].map(([d,col]) => (
+                <button key={d} onClick={() => setInlineDiff(d)}
+                  className="px-2.5 py-1 rounded-lg text-xs font-black transition-all"
+                  style={{ background: inlineDiff === d ? col : col + '18', color: inlineDiff === d ? '#fff' : col }}>{d}</button>
+              ))}
+            </div>
+          </div>
         </div>
 
         {flashcards.length > 0 && (
@@ -3609,20 +3862,24 @@ function ExamsView({ exams, setExams, settings, addToast, docs, setFlashcards, s
   const [examMobileOpen, setExamMobileOpen] = useState(false);
   const [showResumePrompt, setShowResumePrompt] = useState(false);
   const [savedProgress, setSavedProgress] = useState(null);
+  const [inlineCount, setInlineCount] = useState(20);
+  const [inlineDiff, setInlineDiff] = useState('Medium');
 
   const startExamWithResumeCheck = async (ex) => {
+    const shuffledEx = { ...ex, questions: shuffleOptions(ex.questions) };
     const saved = await getSessionProgress(ex.id);
     if (saved && saved.type === 'exam' && saved.index < ex.questions.length) {
       setSavedProgress(saved);
       setShowResumePrompt(true);
     } else {
-      // No saved progress, start fresh
-      setSelEx(ex); setQi(0); setSelected(null); setSubmitted(false); setScore(null); setAnswers([]); setReviewMode(false);
+      // No saved progress, start fresh with shuffled options
+      setSelEx(shuffledEx); setQi(0); setSelected(null); setSubmitted(false); setScore(null); setAnswers([]); setReviewMode(false);
     }
   };
 
   const handleResume = () => {
-    setSelEx(exams.find(e => e.id === savedProgress.setId));
+    const foundEx = exams.find(e => e.id === savedProgress.setId);
+    if (foundEx) setSelEx({ ...foundEx, questions: shuffleOptions(foundEx.questions) });
     setQi(savedProgress.index);
     setSelected(null);
     setSubmitted(false);
@@ -3634,7 +3891,8 @@ function ExamsView({ exams, setExams, settings, addToast, docs, setFlashcards, s
   };
 
   const handleStartFresh = () => {
-    setSelEx(exams.find(e => e.id === savedProgress.setId));
+    const foundEx = exams.find(e => e.id === savedProgress.setId);
+    if (foundEx) setSelEx({ ...foundEx, questions: shuffleOptions(foundEx.questions) });
     setQi(0);
     setSelected(null);
     setSubmitted(false);
@@ -3727,15 +3985,15 @@ function ExamsView({ exams, setExams, settings, addToast, docs, setFlashcards, s
                         selected === oi ? 'bg-[var(--accent)] border-[var(--accent)] text-white' : 'border-[color:var(--border2,var(--border))] opacity-50'}`}>
                     {String.fromCharCode(65 + oi)}
                   </span>
-                  <span className="flex-1">{opt}</span>
+                  <span className="flex-1">{opt.replace(/^[A-E][).]\s+/i, '')}</span>
                   {submitted && oi === q.correct && <CheckCircle2 size={15} className="text-emerald-500 shrink-0" />}
                 </button>
               ))}
             </div>
-            {submitted && q.explanation && (
+            {submitted && (q.explanation || q.options?.[q.correct]) && (
               <div className="glass p-5 rounded-2xl border-l-4 border-[var(--accent)] bg-[var(--accent)]/5">
-                <p className="text-xs font-black opacity-60 mb-2 uppercase tracking-widest">Explanation</p>
-                <p className="text-sm leading-relaxed">{q.explanation}</p>
+                <p className="text-xs font-black opacity-60 mb-2 uppercase tracking-widest">{q.explanation ? 'Explanation' : 'Correct Answer'}</p>
+                <p className="text-sm leading-relaxed">{q.explanation || q.options?.[q.correct]}</p>
                 {q.evidence && <p className="text-xs opacity-40 italic mt-3 pt-3 border-t border-[color:var(--border2,var(--border))]">"{q.evidence}"</p>}
               </div>
             )}
@@ -3851,11 +4109,57 @@ function ExamsView({ exams, setExams, settings, addToast, docs, setFlashcards, s
         onClose={() => setShowModal(false)} addToast={addToast}
         setFlashcards={setFlashcards || ((fn) => { })} setExams={setExams} setCases={setCases || ((fn) => { })} />}
       <div className="w-full p-6 lg:p-8 space-y-6">
-        <div className="flex items-center justify-between">
-          <h1 className="text-2xl lg:text-3xl font-black flex items-center gap-3"><CheckSquare size={26} className="opacity-40" /> Exams</h1>
-          <button onClick={() => setShowModal(true)} className="btn-accent px-4 py-2.5 rounded-xl text-xs font-black flex items-center gap-2 shadow-lg">
-            <FilePlus size={18} /> New from File
-          </button>
+        <div className="flex flex-col gap-3">
+          <div className="flex items-center justify-between">
+            <h1 className="text-2xl lg:text-3xl font-black flex items-center gap-3"><CheckSquare size={26} className="opacity-40" /> Exams</h1>
+            <button onClick={() => setShowModal(true)} className="btn-accent px-4 py-2.5 rounded-xl text-xs font-black flex items-center gap-2 shadow-lg">
+              <FilePlus size={18} /> From File
+            </button>
+          </div>
+          {/* Inline generate bar */}
+          <div className="flex gap-2 items-center flex-wrap">
+            <div className="flex-1 flex items-center gap-2 glass rounded-2xl px-4 py-2.5 border border-[color:var(--border2,var(--border))]" style={{ minWidth: 200 }}>
+              <Search size={15} className="opacity-30 shrink-0" />
+              <input
+                placeholder="Type a topic… e.g. 'cancer staging', 'diabetes management' — then press Enter"
+                className="flex-1 bg-transparent text-sm outline-none placeholder:opacity-40 text-[var(--text)]"
+                onKeyDown={e => {
+                  if (e.key === 'Enter') {
+                    const val = e.target.value.trim(); if (!val) return;
+                    const taskId = 'task_' + Date.now();
+                    runTopicGeneration({ taskId, topic: val, taskType: 'exam', count: inlineCount, difficultyLevel: inlineDiff, settings,
+                      onSave: (data, tid) => { setExams(p => [...p, { id: taskId, docId: null, sourcePages: 'topic', title: `Exam — ${val.slice(0,30)}`, questions: data, createdAt: new Date().toISOString() }]); addToast(`${data.length} exam questions saved! ⚡`, 'success'); bgClear(tid); } });
+                    addToast(`Generating ${inlineCount} ${inlineDiff} questions on "${val.slice(0,25)}…"`, 'info'); e.target.value = '';
+                  }
+                }}
+              />
+            </div>
+            <button onClick={() => { const topic = MEDICAL_RANDOM_TOPICS[Math.floor(Math.random() * MEDICAL_RANDOM_TOPICS.length)]; const taskId = 'task_' + Date.now(); runTopicGeneration({ taskId, topic, taskType: 'exam', count: inlineCount, difficultyLevel: inlineDiff, settings, onSave: (data, tid) => { setExams(p => [...p, { id: taskId, docId: null, sourcePages: 'topic', title: `Exam — ${topic.split(':')[0].trim().slice(0,30)}`, questions: data, createdAt: new Date().toISOString() }]); addToast(`${data.length} exam questions saved! ⚡`, 'success'); bgClear(tid); } }); addToast('🎲 Generating random exam…', 'info'); }}
+              className="flex items-center gap-2 px-4 py-2.5 rounded-2xl text-xs font-black border-2 border-dashed transition-all hover:opacity-80 whitespace-nowrap"
+              style={{ borderColor: '#3b82f660', color: '#3b82f6', background: '#3b82f610' }}>🎲 Random
+            </button>
+            <button onClick={() => setShowModal(true)} className="flex items-center gap-2 px-3 py-2.5 rounded-2xl text-xs font-black glass border border-[color:var(--border2,var(--border))] hover:opacity-80 whitespace-nowrap opacity-60"><FilePlus size={13} /> From File</button>
+          </div>
+          {/* Count + Difficulty controls */}
+          <div className="flex gap-3 items-center flex-wrap">
+            <div className="flex items-center gap-1.5">
+              <span className="text-[11px] font-black uppercase tracking-widest opacity-40 shrink-0">Count:</span>
+              {[5, 10, 20, 50, 100].map(n => (
+                <button key={n} onClick={() => setInlineCount(n)}
+                  className="px-2.5 py-1 rounded-lg text-xs font-black transition-all"
+                  style={{ background: inlineCount === n ? '#3b82f6' : '#3b82f618', color: inlineCount === n ? '#fff' : '#3b82f6' }}>{n}</button>
+              ))}
+            </div>
+            <div className="w-px h-4 opacity-20" style={{ background: 'var(--border)' }} />
+            <div className="flex items-center gap-1.5">
+              <span className="text-[11px] font-black uppercase tracking-widest opacity-40 shrink-0">Level:</span>
+              {[['Easy','#10b981'],['Medium','#f59e0b'],['Hard','#ef4444'],['Board','#7c3aed']].map(([d,col]) => (
+                <button key={d} onClick={() => setInlineDiff(d)}
+                  className="px-2.5 py-1 rounded-lg text-xs font-black transition-all"
+                  style={{ background: inlineDiff === d ? col : col + '18', color: inlineDiff === d ? '#fff' : col }}>{d}</button>
+              ))}
+            </div>
+          </div>
         </div>
 
         {exams.length > 0 && (
@@ -3921,7 +4225,7 @@ function ExamsView({ exams, setExams, settings, addToast, docs, setFlashcards, s
                   className="w-9 h-9 glass rounded-xl flex items-center justify-center hover:bg-[var(--accent)]/10 hover:text-[var(--accent)] transition-colors">
                   <Eye size={18} />
                 </button>
-                <button onClick={() => startExam(ex)} className="btn-accent px-4 py-2 rounded-xl text-xs font-black shadow-md flex items-center gap-2"><Target size={18} /> Start</button>
+                <button onClick={() => startExamWithResumeCheck(ex)} className="btn-accent px-4 py-2 rounded-xl text-xs font-black shadow-md flex items-center gap-2"><Target size={18} /> Start</button>
                 {!(ex.isBuiltin || ex.isBuiltIn) && <button onClick={() => setExams(p => p.filter(f => f.id !== ex.id))} className="w-9 h-9 glass rounded-xl flex items-center justify-center hover:bg-red-500/10 hover:text-red-500 transition-colors" style={{ display: ex.isBuiltin ? 'none' : 'flex' }}><Trash2 size={14} /></button>}
               </div>
             </div>
@@ -3942,6 +4246,8 @@ function CasesView({ cases, setCases, settings, addToast, docs, setFlashcards, s
   const [stage, setStage] = useState('vignette'); const [selOpt, setSelOpt] = useState(null); const [submitted, setSubmitted] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [exporting, setExporting] = useState(null);
+  const [inlineCount, setInlineCount] = useState(5);
+  const [inlineDiff, setInlineDiff] = useState('Medium');
 
   const handleExport = async (set) => {
     setExporting(set.id);
@@ -4020,7 +4326,7 @@ function CasesView({ cases, setCases, settings, addToast, docs, setFlashcards, s
                         selOpt === oi ? 'bg-[var(--accent)] border-[var(--accent)] text-white' : 'border-[color:var(--border2,var(--border))] opacity-50'}`}>
                     {String.fromCharCode(65 + oi)}
                   </span>
-                  <span className="flex-1">{opt}</span>
+                  <span className="flex-1">{opt.replace(/^[A-E][).]\s+/i, '')}</span>
                   {submitted && oi === q.correct && <CheckCircle2 size={16} className="text-emerald-500 shrink-0" />}
                 </button>
               ))}
@@ -4030,7 +4336,7 @@ function CasesView({ cases, setCases, settings, addToast, docs, setFlashcards, s
             {submitted && (
               <div className="glass p-5 rounded-2xl border-l-4 border-emerald-500 bg-emerald-500/5 space-y-2">
                 {cas.diagnosis && <p className="text-sm font-black text-emerald-600 dark:text-emerald-400 flex items-center gap-2"><CheckCircle2 size={15} />Diagnosis: {cas.diagnosis}</p>}
-                {q.explanation && <p className="text-sm leading-relaxed">{q.explanation}</p>}
+                {(q.explanation || q.options?.[q.correct]) && <p className="text-sm leading-relaxed">{q.explanation || `Correct answer: ${(q.options?.[q.correct] || '').replace(/^[A-E][).]\s+/i, '')}`}</p>}
                 {q.evidence && <p className="text-xs opacity-40 italic pt-3 border-t border-[color:var(--border2,var(--border))]">"{q.evidence}" — p.{q.sourcePage}</p>}
               </div>
             )}
@@ -4191,11 +4497,57 @@ function CasesView({ cases, setCases, settings, addToast, docs, setFlashcards, s
         onClose={() => setShowModal(false)} addToast={addToast}
         setFlashcards={setFlashcards || ((fn) => { })} setExams={setExams || ((fn) => { })} setCases={setCases} />}
       <div className="w-full p-6 lg:p-8 space-y-6">
-        <div className="flex items-center justify-between">
-          <h1 className="text-2xl lg:text-3xl font-black flex items-center gap-3"><Activity size={26} className="opacity-40" /> Clinical Cases</h1>
-          <button onClick={() => setShowModal(true)} className="btn-accent px-4 py-2.5 rounded-xl text-xs font-black flex items-center gap-2 shadow-lg">
-            <FilePlus size={18} /> New from File
-          </button>
+        <div className="flex flex-col gap-3">
+          <div className="flex items-center justify-between">
+            <h1 className="text-2xl lg:text-3xl font-black flex items-center gap-3"><Activity size={26} className="opacity-40" /> Clinical Cases</h1>
+            <button onClick={() => setShowModal(true)} className="btn-accent px-4 py-2.5 rounded-xl text-xs font-black flex items-center gap-2 shadow-lg">
+              <FilePlus size={18} /> From File
+            </button>
+          </div>
+          {/* Inline generate bar */}
+          <div className="flex gap-2 items-center flex-wrap">
+            <div className="flex-1 flex items-center gap-2 glass rounded-2xl px-4 py-2.5 border border-[color:var(--border2,var(--border))]" style={{ minWidth: 200 }}>
+              <Search size={15} className="opacity-30 shrink-0" />
+              <input
+                placeholder="Type a topic… e.g. 'septic shock', 'Tylenol OD' — then press Enter"
+                className="flex-1 bg-transparent text-sm outline-none placeholder:opacity-40 text-[var(--text)]"
+                onKeyDown={e => {
+                  if (e.key === 'Enter') {
+                    const val = e.target.value.trim(); if (!val) return;
+                    const taskId = 'task_' + Date.now();
+                    runTopicGeneration({ taskId, topic: val, taskType: 'cases', count: inlineCount, difficultyLevel: inlineDiff, settings,
+                      onSave: (data, tid) => { setCases(p => [...p, { id: taskId, docId: null, sourcePages: 'topic', title: `Cases — ${val.slice(0,30)}`, questions: data, createdAt: new Date().toISOString() }]); addToast(`${data.length} cases saved! ⚡`, 'success'); bgClear(tid); } });
+                    addToast(`Generating ${inlineCount} ${inlineDiff} cases on "${val.slice(0,25)}…"`, 'info'); e.target.value = '';
+                  }
+                }}
+              />
+            </div>
+            <button onClick={() => { const topic = MEDICAL_RANDOM_TOPICS[Math.floor(Math.random() * MEDICAL_RANDOM_TOPICS.length)]; const taskId = 'task_' + Date.now(); runTopicGeneration({ taskId, topic, taskType: 'cases', count: inlineCount, difficultyLevel: inlineDiff, settings, onSave: (data, tid) => { setCases(p => [...p, { id: taskId, docId: null, sourcePages: 'topic', title: `Cases — ${topic.split(':')[0].trim().slice(0,30)}`, questions: data, createdAt: new Date().toISOString() }]); addToast(`${data.length} cases saved! ⚡`, 'success'); bgClear(tid); } }); addToast('🎲 Generating random cases…', 'info'); }}
+              className="flex items-center gap-2 px-4 py-2.5 rounded-2xl text-xs font-black border-2 border-dashed transition-all hover:opacity-80 whitespace-nowrap"
+              style={{ borderColor: '#8b5cf660', color: '#8b5cf6', background: '#8b5cf610' }}>🎲 Random
+            </button>
+            <button onClick={() => setShowModal(true)} className="flex items-center gap-2 px-3 py-2.5 rounded-2xl text-xs font-black glass border border-[color:var(--border2,var(--border))] hover:opacity-80 whitespace-nowrap opacity-60"><FilePlus size={13} /> From File</button>
+          </div>
+          {/* Count + Difficulty controls */}
+          <div className="flex gap-3 items-center flex-wrap">
+            <div className="flex items-center gap-1.5">
+              <span className="text-[11px] font-black uppercase tracking-widest opacity-40 shrink-0">Cases:</span>
+              {[1, 3, 5, 10, 20].map(n => (
+                <button key={n} onClick={() => setInlineCount(n)}
+                  className="px-2.5 py-1 rounded-lg text-xs font-black transition-all"
+                  style={{ background: inlineCount === n ? '#8b5cf6' : '#8b5cf618', color: inlineCount === n ? '#fff' : '#8b5cf6' }}>{n}</button>
+              ))}
+            </div>
+            <div className="w-px h-4 opacity-20" style={{ background: 'var(--border)' }} />
+            <div className="flex items-center gap-1.5">
+              <span className="text-[11px] font-black uppercase tracking-widest opacity-40 shrink-0">Level:</span>
+              {[['Easy','#10b981'],['Medium','#f59e0b'],['Hard','#ef4444'],['Board','#7c3aed']].map(([d,col]) => (
+                <button key={d} onClick={() => setInlineDiff(d)}
+                  className="px-2.5 py-1 rounded-lg text-xs font-black transition-all"
+                  style={{ background: inlineDiff === d ? col : col + '18', color: inlineDiff === d ? '#fff' : col }}>{d}</button>
+              ))}
+            </div>
+          </div>
         </div>
         {cases.length > 0 && (
           <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
@@ -4235,7 +4587,7 @@ function CasesView({ cases, setCases, settings, addToast, docs, setFlashcards, s
                   className="w-9 h-9 glass rounded-xl flex items-center justify-center hover:bg-blue-500/10 hover:text-blue-500 transition-colors">
                   {exporting === set.id ? <Loader2 size={14} className="animate-spin" /> : <Printer size={18} />}
                 </button>
-                <button onClick={() => { setSelSet(set); setCi(0); setSelOpt(null); setSubmitted(false); }}
+                <button onClick={() => { const shuffledSet = { ...set, questions: shuffleOptions(set.questions.map(c => c.examQuestion ? { ...c, examQuestion: shuffleOptions([c.examQuestion])[0] } : c)) }; setSelSet(shuffledSet); setCi(0); setSelOpt(null); setSubmitted(false); }}
                   className="btn-accent px-4 py-2 rounded-xl text-xs font-black shadow-md flex items-center gap-2"><Stethoscope size={18} />Practice</button>
                 {!(set.isBuiltin || set.isBuiltIn) && <button onClick={() => setCases(p => p.filter(x => x.id !== set.id))} className="w-9 h-9 glass rounded-xl flex items-center justify-center hover:bg-red-500/10 hover:text-red-500 transition-colors" style={{ display: set.isBuiltin ? 'none' : 'flex' }}><Trash2 size={14} /></button>}
               </div>
@@ -5084,6 +5436,7 @@ const ENCYCLOPEDIA_CATEGORIES = [
       { id: 'internal-med', label: 'Internal Medicine', desc: 'Clinical medicine: diagnosis and management' },
       { id: 'surgery-basics', label: 'Surgery Basics', desc: 'Preoperative care, common surgeries, post-op complications' },
       { id: 'radiology', label: 'Radiology Basics', desc: 'CXR, CT, MRI, ultrasound interpretation basics' },
+      { id: 'sbar-practice', label: 'SBAR Practice', desc: 'Generate patient cases, fill SBAR communication forms, and get AI evaluation of your clinical reasoning' },
       { id: 'nutrition-med', label: 'Clinical Nutrition', desc: 'Malnutrition, TPN, enteral feeds, vitamins' },
     ]
   },
@@ -5106,6 +5459,7 @@ const ENCYCLOPEDIA_CATEGORIES = [
       { id: 'osce-psychiatric', label: 'Psychiatric OSCE', desc: 'Mental state exam, risk assessment, cognitive testing' },
       { id: 'osce-pediatric', label: 'Pediatric OSCE', desc: 'Child examination, developmental milestones, vaccination' },
       { id: 'osce-scenarios', label: 'Practice Scenarios', desc: '50+ fully worked OSCE station scenarios with marking' },
+      { id: 'sbar-practice', label: 'SBAR Practice', desc: 'Generate patient cases, fill SBAR communication forms, and get AI evaluation of your clinical reasoning' },
     ]
   },
 
@@ -6779,20 +7133,29 @@ RULES:
 
       const raw = await callAI(prompt, true, false, settings, Math.min(4000 + practiceCount * 400, 10000));
       const parsed = parseJson(raw);
-      setPracticeQs(Array.isArray(parsed) ? parsed : parsed.questions || []);
+      const qs = Array.isArray(parsed) ? parsed : parsed.questions || [];
+      setPracticeQs(qs);
+      // Persist so they are never lost on navigation or refresh
+      try { localStorage.setItem(QS_CACHE_KEY, JSON.stringify(qs)); } catch {}
     } catch (e) {
       setPracticeQs({ error: e.message });
     } finally { setLoadingQs(false); }
   };
 
   const topicKey = `${category.id}::${subcategory.id}`;
+  const QS_CACHE_KEY = `practiceQs:${topicKey}`;
 
   // Load from cache on mount / topic change; only call AI if not cached
   useEffect(() => {
     let cancelled = false;
     setContent(null); setFromCache(false); setLoading(true);
     setSearchQ(''); setSortCol(null); setSortDir('asc'); setTablePage(0); setActiveTab('overview');
-    setPracticeQs(null); setRevealedAnswers({});
+    // Restore cached practice Qs for this topic
+    try {
+      const savedQs = localStorage.getItem(QS_CACHE_KEY);
+      if (savedQs) { setPracticeQs(JSON.parse(savedQs)); } else { setPracticeQs(null); }
+    } catch { setPracticeQs(null); }
+    setRevealedAnswers({});
     (async () => {
       try {
         const cached = await getTopicCache(topicKey);
@@ -7488,6 +7851,29 @@ function MedicalEncyclopediaView({ settings }) {
 
   // Back to category list
   if (selectedSub && selectedCategory) {
+    // SBAR Practice gets a full-bleed layout (no max-width constraint)
+    if (selectedSub.id === 'sbar-practice') {
+      return (
+        <div className="flex-1 min-h-0 flex flex-col overflow-hidden scroll-content">
+          {/* Compact breadcrumb bar */}
+          <div className="shrink-0 flex items-center gap-2 px-4 py-2.5 border-b text-xs flex-wrap"
+            style={{ borderColor: 'var(--border)', background: 'var(--surface)' }}>
+            <button onClick={() => { setSelectedSub(null); setSelectedCategory(null); }}
+              className="font-bold opacity-60 hover:opacity-100 transition-opacity">Encyclopedia</button>
+            <ChevronRight size={12} className="opacity-30" />
+            <button onClick={() => setSelectedSub(null)}
+              className="font-bold opacity-60 hover:opacity-100 transition-opacity flex items-center gap-1">
+              <selectedCategory.icon size={11} style={{ color: selectedCategory.color }} />
+              {selectedCategory.label}
+            </button>
+            <ChevronRight size={12} className="opacity-30" />
+            <span className="font-black" style={{ color: '#06b6d4' }}>SBAR Practice</span>
+          </div>
+          <SbarPageView settings={settings} />
+        </div>
+      );
+    }
+
     return (
       <div className="flex-1 min-h-0 overflow-y-auto custom-scrollbar scroll-content">
         <div className="max-w-4xl mx-auto p-4 lg:p-6 space-y-5">
@@ -7881,13 +8267,22 @@ function SbarPageView({ settings }) {
             style={{ background: 'linear-gradient(135deg,#06b6d4,#0891b2)' }}>
             <Plus size={13} /> New Session
           </button>
+          <button
+            onClick={() => {
+              const t = MEDICAL_RANDOM_TOPICS[Math.floor(Math.random() * MEDICAL_RANDOM_TOPICS.length)];
+              setNewName(t.split(':')[0].trim()); setShowNewForm(true);
+            }}
+            className="w-full flex items-center justify-center gap-2 py-2 rounded-xl text-xs font-black border-2 border-dashed transition-all hover:opacity-80"
+            style={{ borderColor: '#06b6d440', color: '#06b6d4', background: '#06b6d408' }}>
+            🎲 Random Topic
+          </button>
           {showNewForm && (
             <div className="space-y-2">
               <input
                 value={newName}
                 onChange={e => setNewName(e.target.value)}
                 onKeyDown={e => { if (e.key === 'Enter') createSession(); if (e.key === 'Escape') { setShowNewForm(false); setNewName(''); } }}
-                placeholder="Topic: e.g. Warfarin, HTN…"
+                placeholder="Topic: e.g. Warfarin, HTN, sepsis…"
                 autoFocus
                 className="glass-input rounded-xl px-3 py-2 text-xs outline-none w-full"
                 style={{ border: '1.5px solid #06b6d430', background: 'var(--card)', color: 'var(--text)' }}
@@ -7963,12 +8358,38 @@ function SbarPageView({ settings }) {
                 </div>
               ))}
             </div>
-            <button
-              onClick={() => setShowNewForm(true)}
-              className="flex items-center gap-2 px-6 py-3 rounded-2xl text-sm font-black text-white"
-              style={{ background: 'linear-gradient(135deg,#06b6d4,#0891b2)' }}>
-              <Plus size={15} /> Start New SBAR Session
-            </button>
+            <div className="flex flex-col sm:flex-row gap-3">
+              <button
+                onClick={() => setShowNewForm(true)}
+                className="flex items-center gap-2 px-6 py-3 rounded-2xl text-sm font-black text-white"
+                style={{ background: 'linear-gradient(135deg,#06b6d4,#0891b2)' }}>
+                <Plus size={15} /> Start New SBAR Session
+              </button>
+              <button
+                onClick={() => {
+                  const t = MEDICAL_RANDOM_TOPICS[Math.floor(Math.random() * MEDICAL_RANDOM_TOPICS.length)];
+                  const name = t.split(':')[0].trim();
+                  setSessions(prev => [{ id: name, savedAt: null }, ...prev.filter(s => s.id !== name)]);
+                  setActiveSession({ id: name, topicKey: `sbar-standalone::${name}` });
+                }}
+                className="flex items-center gap-2 px-6 py-3 rounded-2xl text-sm font-black border-2 border-dashed transition-all hover:opacity-80"
+                style={{ borderColor: '#06b6d460', color: '#06b6d4', background: '#06b6d410' }}>
+                🎲 Random Patient Case
+              </button>
+            </div>
+            <div className="flex flex-wrap gap-2 justify-center max-w-lg">
+              {['Sepsis', 'ACS / STEMI', 'DKA', 'Stroke', 'GI Bleed', 'PE', 'Hypertensive Crisis'].map(topic => (
+                <button key={topic}
+                  onClick={() => {
+                    setSessions(prev => [{ id: topic, savedAt: null }, ...prev.filter(s => s.id !== topic)]);
+                    setActiveSession({ id: topic, topicKey: `sbar-standalone::${topic}` });
+                  }}
+                  className="px-3 py-1.5 rounded-xl text-xs font-black transition-all hover:opacity-80"
+                  style={{ background: '#06b6d415', color: '#06b6d4', border: '1px solid #06b6d430' }}>
+                  {topic}
+                </button>
+              ))}
+            </div>
           </div>
         ) : (
           <OsceCommunicationForm
@@ -8613,7 +9034,6 @@ function App() {
     { icon: Activity, label: 'Cases', v: 'cases' },
     { icon: CheckSquare, label: 'Exams', v: 'exams' },
     { icon: Globe, label: 'Encyclo', v: 'encyclopedia' },
-    { icon: FileText, label: 'SBAR', v: 'sbar' },
     { icon: MessageSquare, label: 'Chat', v: 'chat' },
     { icon: Settings, label: 'Settings', v: 'settings' },
   ];
@@ -8838,9 +9258,6 @@ function App() {
           </ViewWrapper>
           <ViewWrapper active={view === 'encyclopedia'}>
             <MedicalEncyclopediaView settings={settings} />
-          </ViewWrapper>
-          <ViewWrapper active={view === 'sbar'}>
-            <SbarPageView settings={settings} />
           </ViewWrapper>
           <ViewWrapper active={view === 'settings'}>
             <SettingsView settings={settings} setSettings={setSettings} installPrompt={installPrompt} onInstall={onInstall} />
