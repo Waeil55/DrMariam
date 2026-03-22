@@ -62,11 +62,18 @@ const drugDetailLookup = (() => {
       };
       // Index by generic name
       map[name] = detail;
+      // Also index by base/short generic name (first word before space/paren/slash)
+      // e.g. "albuterol sulfate (hfa)" → also key "albuterol"
+      const baseName = name.split(/[\s(/,]/)[0];
+      if (baseName.length > 3 && !map[baseName]) map[baseName] = detail;
       // Also index by brand names (may be comma-separated)
       if (detail.brand) {
         const brands = detail.brand.split(',').map(b => b.trim()).filter(Boolean);
         for (const b of brands) {
           map[b.toLowerCase()] = detail;
+          // base brand name too
+          const baseBrand = b.toLowerCase().split(/[\s(/,]/)[0];
+          if (baseBrand.length > 3 && !map[baseBrand]) map[baseBrand] = detail;
         }
       }
     }
@@ -3591,7 +3598,9 @@ function FlashcardsView({ flashcards, setFlashcards, settings, addToast, docs, s
   if (selSet) {
     const card = selSet.cards[idx];
     const progress = ((idx + 1) / selSet.cards.length) * 100;
-    const cardDetail = drugDetailLookup[(card?.q || '').trim().toLowerCase()];
+    // Also search answer text for drug names (helps disease/law cards that mention drugs)
+    const cardDetail = drugDetailLookup[(card?.q || '').trim().toLowerCase()] ||
+      findDrugDetail(card?.q, (card?.a || '').split(/[;\n]+/).map(s => s.trim()).filter(Boolean), null);
     const detailBlock = cardDetail ? `\nDrug Details:\n  Brand: ${cardDetail.brand || 'N/A'}\n  Generic: ${cardDetail.generic}\n  Class: ${cardDetail.drugClass || 'N/A'}\n  Indication: ${cardDetail.indication || 'N/A'}\n  Key Counseling Points:\n${cardDetail.counselingPoints.map(p => '  - ' + p).join('\n')}` : '';
     const tutorCtx = `Flashcard study session — FOCUS ONLY ON THIS CARD.\nSet: ${selSet.title}\nCard ${idx + 1}/${selSet.cards.length}\n\n--- CURRENT CARD (answer ONLY about this) ---\nQuestion: ${card?.q}\nAnswer: ${card?.a}\nEvidence: ${card?.evidence || 'N/A'}${detailBlock}\n--- END OF CURRENT CARD ---\nDo NOT discuss other cards or topics outside this card.`;
     return (
@@ -3665,7 +3674,7 @@ function FlashcardsView({ flashcards, setFlashcards, settings, addToast, docs, s
               </button>
             )}
             {/* ── Auto Drug Detail Panel — always visible below card ── */}
-            <DrugQuickRef detail={drugDetailLookup[(card.q || '').trim().toLowerCase()]} />
+            <DrugQuickRef detail={cardDetail} />
             {/* Inline AI Tutor Trigger */}
             <div className="lg:hidden mt-2 flex-shrink-0">
               <button onClick={() => setMobileTutorOpen(true)} className="w-full glass py-3.5 rounded-2xl flex items-center justify-center gap-2 font-bold text-[var(--accent)] border border-[var(--accent)]/30 hover:bg-[var(--accent)]/10 transition-colors">
