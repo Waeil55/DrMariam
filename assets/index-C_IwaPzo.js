@@ -1,5 +1,5 @@
-import { r as reactExports, R as React, L as Loader2, A as AlertCircle, X, S as Search, G as GripVertical, a as Sparkles, Z as Zap, M as MessageSquare, D as Database, F as FolderOpen, B as BookMarked, b as Layers, c as Activity, C as CheckSquare, d as Globe, e as Settings, f as CheckCircle2, I as Info, g as FileText, P as PenLine, h as FileUp, i as Grid3x3, j as List, k as ChevronLeft, l as Printer, m as RefreshCw, n as FilePlus, T as Trash2, E as Eye, o as Target, p as Stethoscope, q as ChevronRight, s as Thermometer, t as ChevronDown, u as Pin, v as Copy, w as Plus, x as Brain, H as History, y as CircleUserRound, z as MicOff, J as Mic, K as Send, N as Pill, O as Heart, Q as GraduationCap, U as Award, V as Clipboard, W as Star, Y as Network, _ as Leaf, $ as Flame, a0 as Monitor, a1 as FlaskConical, a2 as BookA, a3 as BookOpen, a4 as BotMessageSquare, a5 as Smartphone, a6 as Download, a7 as KeyRound, a8 as Palette, a9 as Sun, aa as CloudSun, ab as Moon, ac as MoonStar, ad as PanelsTopLeft, ae as FileCode, af as Image, ag as Table, ah as ZoomOut, ai as Maximize, aj as ZoomIn, ak as Save, al as AlignLeft, am as Lightbulb, an as Baby, ao as Tag, ap as Clock, aq as Languages, ar as Wand2, as as Code, at as ListChecks, au as Hash, av as MoreVertical, aw as Layers3, ax as ChevronUp } from './icons-rhjKRDBe.js';
-import { r as reactDomExports } from './react-B3gX-WmV.js';
+import { r as reactExports, R as React, L as Loader2, A as AlertCircle, X, S as Search, F as FolderOpen, B as BookMarked, a as Layers, b as Activity, C as CheckSquare, G as Globe, M as MessageSquare, c as Settings, d as Sparkles, e as GripVertical, Z as Zap, D as Database, f as CheckCircle2, I as Info, g as FileText, P as PenLine, h as FileUp, i as Grid3x3, j as List, k as ChevronLeft, l as Printer, m as RefreshCw, n as FilePlus, T as Trash2, E as Eye, o as Target, p as Stethoscope, q as ChevronRight, s as Thermometer, t as ChevronDown, u as Pin, v as Copy, w as Plus, x as Brain, H as History, y as CircleUserRound, z as MicOff, J as Mic, K as Send, N as Pill, O as Heart, Q as GraduationCap, U as Award, V as Clipboard, W as Star, Y as Network, _ as Leaf, $ as Flame, a0 as Monitor, a1 as FlaskConical, a2 as BookA, a3 as BookOpen, a4 as BotMessageSquare, a5 as Smartphone, a6 as Download, a7 as KeyRound, a8 as Palette, a9 as Sun, aa as CloudSun, ab as Moon, ac as MoonStar, ad as PanelsTopLeft, ae as FileCode, af as Image, ag as Table, ah as ZoomOut, ai as Maximize, aj as ZoomIn, ak as Save, al as AlignLeft, am as Lightbulb, an as Baby, ao as Tag, ap as Clock, aq as Languages, ar as Wand2, as as Code, at as ListChecks, au as Hash, av as MoreVertical, aw as Layers3, ax as ChevronUp } from './icons-CwPTqmbQ.js';
+import { r as reactDomExports } from './react-B1AwND7L.js';
 
 true&&(function polyfill() {
   const relList = document.createElement("link").relList;
@@ -17021,7 +17021,7 @@ const CONFIG = Object.freeze({
   MAX_TOKENS: 8e3,
   // default AI response ceiling
   DB_NAME: "MariamProDB_v70",
-  DB_VERSION: 9,
+  DB_VERSION: 10,
   PDF_CDN: "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105",
   MAMMOTH_CDN: "https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js",
   XLSX_CDN: "https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js",
@@ -17051,6 +17051,9 @@ const openDB = () => new Promise((resolve, reject) => {
     }
     if (oldV < 10) {
       if (!db.objectStoreNames.contains("sessionProgress")) db.createObjectStore("sessionProgress");
+    }
+    if (oldV < 10) {
+      if (!db.objectStoreNames.contains("encyclopediaCache")) db.createObjectStore("encyclopediaCache");
     }
   };
   request.onsuccess = () => resolve(request.result);
@@ -17108,6 +17111,10 @@ const getSessionProgress = (setId) => dbOp("sessionProgress", "readonly", (s) =>
 const deleteSessionProgress = (setId) => dbOp("sessionProgress", "readwrite", (s) => {
   s.delete(setId);
 });
+const saveTopicCache = (key, data) => dbOp("encyclopediaCache", "readwrite", (s) => {
+  s.put({ data, savedAt: Date.now() }, key);
+});
+const getTopicCache = (key) => dbOp("encyclopediaCache", "readonly", (s) => s.get(key));
 const loadPdfJs = async () => {
   if (window.pdfjsLib) return window.pdfjsLib;
   const base = CONFIG.PDF_CDN;
@@ -20755,6 +20762,7 @@ function ChatView({ settings, sessions, setSessions }) {
   const [selProject, setSelProject] = reactExports.useState(null);
   const [showNewProject, setShowNewProject] = reactExports.useState(false);
   const [newProjectName, setNewProjectName] = reactExports.useState("");
+  const [newProjectInstructions, setNewProjectInstructions] = reactExports.useState("");
   const [sidebarTab, setSidebarTab] = reactExports.useState("chats");
   const [inputRows, setInputRows] = reactExports.useState(1);
   const [hasStarted, setHasStarted] = reactExports.useState(false);
@@ -20838,9 +20846,10 @@ function ChatView({ settings, sessions, setSessions }) {
   };
   const createProject = () => {
     if (!newProjectName.trim()) return;
-    const p = { id: Date.now().toString(), name: newProjectName.trim(), color: ["#6366f1", "#8b5cf6", "#3b82f6", "#10b981", "#f59e0b", "#ef4444"][Math.floor(Math.random() * 6)], createdAt: (/* @__PURE__ */ new Date()).toISOString() };
+    const p = { id: Date.now().toString(), name: newProjectName.trim(), instructions: newProjectInstructions.trim(), color: ["#6366f1", "#8b5cf6", "#3b82f6", "#10b981", "#f59e0b", "#ef4444"][Math.floor(Math.random() * 6)], createdAt: (/* @__PURE__ */ new Date()).toISOString() };
     setProjects((prev) => [...prev, p]);
     setNewProjectName("");
+    setNewProjectInstructions("");
     setShowNewProject(false);
   };
   const send = async (overrideMsg) => {
@@ -20856,9 +20865,11 @@ function ChatView({ settings, sessions, setSessions }) {
     setLoading(true);
     try {
       const hist = newMsgs.slice(-12, -1).map((m) => `${m.role === "user" ? "USER" : "MARIAM"}: ${m.content}`).join("\n");
-      const projCtx = selProject ? `
+      const proj = selProject ? projects.find((p) => p.id === selProject) : null;
+      const projCtx = proj ? `
 
-Project context: ${projects.find((p) => p.id === selProject)?.name || ""}` : "";
+Project: ${proj.name}${proj.instructions ? `
+Project instructions: ${proj.instructions}` : ""}` : "";
       const sysPrompt = `You are MARIAM, a brilliant, warm, and knowledgeable AI study assistant specialized in medicine and academia. You help students understand complex topics, create study materials, explain clinical concepts, and achieve their academic goals.${projCtx}
 
 Formatting rules:
@@ -20989,164 +21000,188 @@ MARIAM:`;
     sidebarOpen && /* @__PURE__ */ jsxRuntimeExports.jsx(
       "div",
       {
-        className: "lg:hidden fixed inset-0 bg-black/40 z-[40] backdrop-blur-sm",
+        className: "lg:hidden fixed inset-0 z-[40]",
+        style: { background: "rgba(0,0,0,0.55)" },
         onClick: () => setSidebarOpen(false)
       }
     ),
-    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: `flex flex-col bg-[var(--surface,var(--card))] border-r border-[color:var(--border2,var(--border))] transition-all duration-300 shrink-0 z-[41]
+    /* @__PURE__ */ jsxRuntimeExports.jsxs(
+      "div",
+      {
+        className: `flex flex-col border-r border-[color:var(--border2,var(--border))] transition-all duration-300 shrink-0 z-[41]
         ${sidebarOpen ? "w-72" : "w-0 overflow-hidden"}
-        lg:relative absolute inset-y-0 left-0`, children: [
-      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center justify-between px-4 py-3 border-b border-[color:var(--border2,var(--border))] shrink-0", children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-base font-black", children: "MARIAM Chat" }),
-        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center gap-1", children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsx(
-            "button",
-            {
-              onClick: newSession,
-              className: "w-8 h-8 btn-accent rounded-xl flex items-center justify-center shadow-sm",
-              title: "New chat",
-              children: /* @__PURE__ */ jsxRuntimeExports.jsx(Plus, { size: 18 })
-            }
-          ),
-          /* @__PURE__ */ jsxRuntimeExports.jsx(
-            "button",
-            {
-              onClick: () => setSidebarOpen(false),
-              className: "lg:hidden w-8 h-8 glass rounded-xl flex items-center justify-center opacity-60",
-              children: /* @__PURE__ */ jsxRuntimeExports.jsx(X, { size: 18 })
-            }
-          )
-        ] })
-      ] }),
-      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "px-3 py-2 shrink-0", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "relative", children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsx(Search, { size: 14, className: "absolute left-3 top-1/2 -translate-y-1/2 opacity-40" }),
-        /* @__PURE__ */ jsxRuntimeExports.jsx(
-          "input",
-          {
-            value: sessSearch,
-            onChange: (e) => setSessSearch(e.target.value),
-            placeholder: "Search conversations…",
-            className: "w-full bg-black/5 dark:bg-white/5 rounded-xl pl-9 pr-3 py-2.5 text-sm outline-none border border-transparent focus:border-[var(--accent)]/40 text-[var(--text)]"
-          }
-        )
-      ] }) }),
-      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "flex border-b border-[color:var(--border2,var(--border))] shrink-0 px-3 gap-1", children: [["chats", "Chats", MessageSquare], ["projects", "Projects", FolderOpen]].map(([id, lbl, Icon]) => /* @__PURE__ */ jsxRuntimeExports.jsxs(
-        "button",
-        {
-          onClick: () => setSidebarTab(id),
-          className: `flex items-center gap-1.5 px-3 py-2.5 text-xs font-black uppercase tracking-widest border-b-2 transition-colors -mb-px
-                ${sidebarTab === id ? "border-[var(--accent)] text-[var(--accent)]" : "border-transparent opacity-50 hover:opacity-80"}`,
-          children: [
-            /* @__PURE__ */ jsxRuntimeExports.jsx(Icon, { size: 14 }),
-            lbl
-          ]
-        },
-        id
-      )) }),
-      sidebarTab === "chats" && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex-1 min-h-0 overflow-y-auto custom-scrollbar py-2", children: [
-        pinned.length > 0 && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mb-2", children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { className: "text-xs font-black uppercase tracking-widest opacity-30 px-4 py-1.5 flex items-center gap-1.5", children: [
-            /* @__PURE__ */ jsxRuntimeExports.jsx(Pin, { size: 10 }),
-            "Pinned"
-          ] }),
-          pinned.map((s) => /* @__PURE__ */ jsxRuntimeExports.jsx(SessionItem, { s }, s.id)),
-          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "mx-3 my-2 border-t border-[color:var(--border2,var(--border))]" })
-        ] }),
-        Object.entries(grouped).map(([grp, items]) => items.length > 0 && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mb-3", children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-xs font-black uppercase tracking-widest opacity-30 px-4 py-1.5", children: grp }),
-          items.map((s) => /* @__PURE__ */ jsxRuntimeExports.jsx(SessionItem, { s }, s.id))
-        ] }, grp)),
-        !sessions.length && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "text-center py-16 px-4 opacity-30", children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsx(MessageSquare, { size: 32, className: "mx-auto mb-3" }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-sm font-bold", children: "No chats yet" }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-xs mt-1", children: "Start a conversation below" })
-        ] })
-      ] }),
-      sidebarTab === "projects" && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex-1 min-h-0 overflow-y-auto custom-scrollbar py-2", children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsxs(
-          "button",
-          {
-            onClick: () => setShowNewProject(true),
-            className: "w-full flex items-center gap-2.5 px-4 py-2.5 text-sm font-bold text-[var(--accent)] hover:bg-[var(--accent)]/5 transition-colors",
-            children: [
-              /* @__PURE__ */ jsxRuntimeExports.jsx(Plus, { size: 16 }),
-              "New Project"
-            ]
-          }
-        ),
-        showNewProject && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mx-3 mb-3 p-3 glass rounded-xl border border-[color:var(--border2,var(--border))] space-y-2", children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsx(
-            "input",
-            {
-              value: newProjectName,
-              onChange: (e) => setNewProjectName(e.target.value),
-              onKeyDown: (e) => e.key === "Enter" && createProject(),
-              placeholder: "Project name…",
-              autoFocus: true,
-              className: "w-full text-sm bg-transparent outline-none border-b border-[color:var(--border2,var(--border))] pb-1 text-[var(--text)]"
-            }
-          ),
-          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex gap-2", children: [
-            /* @__PURE__ */ jsxRuntimeExports.jsx("button", { onClick: createProject, className: "flex-1 py-1.5 btn-accent rounded-lg text-xs font-black", children: "Create" }),
-            /* @__PURE__ */ jsxRuntimeExports.jsx("button", { onClick: () => setShowNewProject(false), className: "flex-1 py-1.5 glass rounded-lg text-xs font-black opacity-60", children: "Cancel" })
-          ] })
-        ] }),
-        projects.length === 0 && !showNewProject && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "text-center py-12 px-4 opacity-30", children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsx(FolderOpen, { size: 32, className: "mx-auto mb-3" }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-sm font-bold", children: "No projects yet" }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-xs mt-1", children: "Organize chats into projects" })
-        ] }),
-        [{ id: null, name: "All Chats", color: "#6366f1" }, ...projects].map((p) => /* @__PURE__ */ jsxRuntimeExports.jsxs(
-          "button",
-          {
-            onClick: () => {
-              setSelProject(p.id);
-              setSidebarTab(p.id ? "projects" : "chats");
-            },
-            className: `w-full flex items-center gap-3 px-4 py-2.5 rounded-xl text-left transition-all mx-0
-                  ${selProject === p.id ? "bg-[var(--accent)]/10" : "hover:bg-black/5 dark:hover:bg-white/5"}`,
-            children: [
-              /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "w-3 h-3 rounded-full shrink-0", style: { backgroundColor: p.color } }),
-              /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex-1 min-w-0", children: [
-                /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-sm font-bold truncate", children: p.name }),
-                /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { className: "text-xs opacity-40", children: [
-                  sessions.filter((s) => s.projectId === p.id).length,
-                  " chats"
-                ] })
-              ] }),
-              p.id && /* @__PURE__ */ jsxRuntimeExports.jsx(
+        lg:relative absolute inset-y-0 left-0`,
+        style: { background: "var(--bg, #f8fafc)" },
+        children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center justify-between px-4 py-3 border-b border-[color:var(--border2,var(--border))] shrink-0", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-base font-black", children: "MARIAM Chat" }),
+            /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center gap-1", children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx(
                 "button",
                 {
-                  onClick: (e) => {
-                    e.stopPropagation();
-                    setProjects((prev) => prev.filter((x) => x.id !== p.id));
-                  },
-                  className: "opacity-0 group-hover:opacity-60 hover:!opacity-100 w-6 h-6 rounded-lg hover:bg-red-500/10 flex items-center justify-center",
-                  children: /* @__PURE__ */ jsxRuntimeExports.jsx(Trash2, { size: 12, className: "text-red-500" })
+                  onClick: newSession,
+                  className: "w-8 h-8 btn-accent rounded-xl flex items-center justify-center shadow-sm",
+                  title: "New chat",
+                  children: /* @__PURE__ */ jsxRuntimeExports.jsx(Plus, { size: 18 })
+                }
+              ),
+              /* @__PURE__ */ jsxRuntimeExports.jsx(
+                "button",
+                {
+                  onClick: () => setSidebarOpen(false),
+                  className: "lg:hidden w-8 h-8 glass rounded-xl flex items-center justify-center opacity-60",
+                  children: /* @__PURE__ */ jsxRuntimeExports.jsx(X, { size: 18 })
                 }
               )
-            ]
-          },
-          p.id || "all"
-        )),
-        selProject && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "border-t border-[color:var(--border2,var(--border))] mt-2 pt-2", children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-xs font-black uppercase tracking-widest opacity-30 px-4 py-1.5", children: "Chats in project" }),
-          filteredSessions.map((s) => /* @__PURE__ */ jsxRuntimeExports.jsx(SessionItem, { s }, s.id)),
-          filteredSessions.length === 0 && /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-xs opacity-30 text-center py-4", children: "No chats in this project" })
-        ] })
-      ] }),
-      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "shrink-0 p-3 border-t border-[color:var(--border2,var(--border))]", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center gap-2 px-2 py-2 text-xs opacity-40", children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsx(Brain, { size: 14 }),
-        /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { className: "font-bold", children: [
-          sessions.length,
-          " conversations · ",
-          sessions.reduce((a, s) => a + (s.msgCount || 0), 0),
-          " messages"
-        ] })
-      ] }) })
-    ] }),
+            ] })
+          ] }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "px-3 py-2 shrink-0", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "relative", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx(Search, { size: 14, className: "absolute left-3 top-1/2 -translate-y-1/2 opacity-40" }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx(
+              "input",
+              {
+                value: sessSearch,
+                onChange: (e) => setSessSearch(e.target.value),
+                placeholder: "Search conversations…",
+                className: "w-full bg-black/5 dark:bg-white/5 rounded-xl pl-9 pr-3 py-2.5 text-sm outline-none border border-transparent focus:border-[var(--accent)]/40 text-[var(--text)]"
+              }
+            )
+          ] }) }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "flex border-b border-[color:var(--border2,var(--border))] shrink-0 px-3 gap-1", children: [["chats", "Chats", MessageSquare], ["projects", "Projects", FolderOpen]].map(([id, lbl, Icon]) => /* @__PURE__ */ jsxRuntimeExports.jsxs(
+            "button",
+            {
+              onClick: () => setSidebarTab(id),
+              className: `flex items-center gap-1.5 px-3 py-2.5 text-xs font-black uppercase tracking-widest border-b-2 transition-colors -mb-px
+                ${sidebarTab === id ? "border-[var(--accent)] text-[var(--accent)]" : "border-transparent opacity-50 hover:opacity-80"}`,
+              children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsx(Icon, { size: 14 }),
+                lbl
+              ]
+            },
+            id
+          )) }),
+          sidebarTab === "chats" && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex-1 min-h-0 overflow-y-auto custom-scrollbar py-2", children: [
+            pinned.length > 0 && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mb-2", children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { className: "text-xs font-black uppercase tracking-widest opacity-30 px-4 py-1.5 flex items-center gap-1.5", children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsx(Pin, { size: 10 }),
+                "Pinned"
+              ] }),
+              pinned.map((s) => /* @__PURE__ */ jsxRuntimeExports.jsx(SessionItem, { s }, s.id)),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "mx-3 my-2 border-t border-[color:var(--border2,var(--border))]" })
+            ] }),
+            Object.entries(grouped).map(([grp, items]) => items.length > 0 && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mb-3", children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-xs font-black uppercase tracking-widest opacity-30 px-4 py-1.5", children: grp }),
+              items.map((s) => /* @__PURE__ */ jsxRuntimeExports.jsx(SessionItem, { s }, s.id))
+            ] }, grp)),
+            !sessions.length && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "text-center py-16 px-4 opacity-30", children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx(MessageSquare, { size: 32, className: "mx-auto mb-3" }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-sm font-bold", children: "No chats yet" }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-xs mt-1", children: "Start a conversation below" })
+            ] })
+          ] }),
+          sidebarTab === "projects" && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex-1 min-h-0 overflow-y-auto custom-scrollbar py-2", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsxs(
+              "button",
+              {
+                onClick: () => setShowNewProject(true),
+                className: "w-full flex items-center gap-2.5 px-4 py-2.5 text-sm font-bold text-[var(--accent)] hover:bg-[var(--accent)]/5 transition-colors",
+                children: [
+                  /* @__PURE__ */ jsxRuntimeExports.jsx(Plus, { size: 16 }),
+                  "New Project"
+                ]
+              }
+            ),
+            showNewProject && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mx-3 mb-3 p-3 rounded-xl border border-[color:var(--border2,var(--border))] space-y-2.5", style: { background: "var(--surface, rgba(255,255,255,0.95))" }, children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-xs font-black uppercase tracking-widest opacity-40", children: "New Project" }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx(
+                "input",
+                {
+                  value: newProjectName,
+                  onChange: (e) => setNewProjectName(e.target.value),
+                  onKeyDown: (e) => e.key === "Enter" && e.shiftKey === false && !newProjectInstructions && createProject(),
+                  placeholder: "Project name…",
+                  autoFocus: true,
+                  className: "w-full text-sm bg-transparent outline-none border-b border-[color:var(--border2,var(--border))] pb-1.5 font-bold text-[var(--text)] placeholder:font-normal placeholder:opacity-40"
+                }
+              ),
+              /* @__PURE__ */ jsxRuntimeExports.jsx(
+                "textarea",
+                {
+                  value: newProjectInstructions,
+                  onChange: (e) => setNewProjectInstructions(e.target.value),
+                  placeholder: "Custom instructions (optional) — e.g. Always answer in Arabic, focus on USMLE Step 1, treat me as a 3rd year med student…",
+                  rows: 3,
+                  className: "w-full text-xs bg-black/5 dark:bg-white/5 rounded-lg px-2.5 py-2 outline-none resize-none border border-[color:var(--border2,var(--border))] focus:border-[var(--accent)]/50 text-[var(--text)] placeholder:opacity-40"
+                }
+              ),
+              /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex gap-2", children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsx("button", { onClick: createProject, className: "flex-1 py-2 btn-accent rounded-lg text-xs font-black", children: "Create" }),
+                /* @__PURE__ */ jsxRuntimeExports.jsx("button", { onClick: () => {
+                  setShowNewProject(false);
+                  setNewProjectName("");
+                  setNewProjectInstructions("");
+                }, className: "flex-1 py-2 rounded-lg text-xs font-black border border-[color:var(--border2,var(--border))] opacity-60 hover:opacity-100", style: { background: "transparent" }, children: "Cancel" })
+              ] })
+            ] }),
+            projects.length === 0 && !showNewProject && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "text-center py-12 px-4 opacity-30", children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx(FolderOpen, { size: 32, className: "mx-auto mb-3" }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-sm font-bold", children: "No projects yet" }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-xs mt-1", children: "Organize chats into projects" })
+            ] }),
+            [{ id: null, name: "All Chats", color: "#6366f1" }, ...projects].map((p) => /* @__PURE__ */ jsxRuntimeExports.jsxs(
+              "button",
+              {
+                onClick: () => {
+                  setSelProject(p.id);
+                  setSidebarTab(p.id ? "projects" : "chats");
+                },
+                className: `w-full flex items-center gap-3 px-4 py-2.5 rounded-xl text-left transition-all mx-0
+                  ${selProject === p.id ? "bg-[var(--accent)]/10" : "hover:bg-black/5 dark:hover:bg-white/5"}`,
+                children: [
+                  /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "w-3 h-3 rounded-full shrink-0", style: { backgroundColor: p.color } }),
+                  /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex-1 min-w-0", children: [
+                    /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-sm font-bold truncate", children: p.name }),
+                    /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { className: "text-xs opacity-40", children: [
+                      p.instructions ? "📋 Custom instructions · " : "",
+                      sessions.filter((s) => s.projectId === p.id).length,
+                      " chats"
+                    ] })
+                  ] }),
+                  p.id && /* @__PURE__ */ jsxRuntimeExports.jsx(
+                    "button",
+                    {
+                      onClick: (e) => {
+                        e.stopPropagation();
+                        setProjects((prev) => prev.filter((x) => x.id !== p.id));
+                      },
+                      className: "opacity-0 group-hover:opacity-60 hover:!opacity-100 w-6 h-6 rounded-lg hover:bg-red-500/10 flex items-center justify-center",
+                      children: /* @__PURE__ */ jsxRuntimeExports.jsx(Trash2, { size: 12, className: "text-red-500" })
+                    }
+                  )
+                ]
+              },
+              p.id || "all"
+            )),
+            selProject && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "border-t border-[color:var(--border2,var(--border))] mt-2 pt-2", children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-xs font-black uppercase tracking-widest opacity-30 px-4 py-1.5", children: "Chats in project" }),
+              filteredSessions.map((s) => /* @__PURE__ */ jsxRuntimeExports.jsx(SessionItem, { s }, s.id)),
+              filteredSessions.length === 0 && /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-xs opacity-30 text-center py-4", children: "No chats in this project" })
+            ] })
+          ] }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "shrink-0 p-3 border-t border-[color:var(--border2,var(--border))]", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center gap-2 px-2 py-2 text-xs opacity-40", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx(Brain, { size: 14 }),
+            /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { className: "font-bold", children: [
+              sessions.length,
+              " conversations · ",
+              sessions.reduce((a, s) => a + (s.msgCount || 0), 0),
+              " messages"
+            ] })
+          ] }) })
+        ]
+      }
+    ),
     /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex-1 flex flex-col min-h-0 min-w-0 relative", children: [
-      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center gap-3 px-4 py-3 border-b border-[color:var(--border2,var(--border))] bg-[var(--surface,var(--card))]/80 backdrop-blur-sm shrink-0", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center gap-3 px-4 py-3 border-b border-[color:var(--border2,var(--border))] shrink-0", style: { background: "var(--surface, var(--card))", backdropFilter: "blur(20px)" }, children: [
         /* @__PURE__ */ jsxRuntimeExports.jsx(
           "button",
           {
@@ -21242,7 +21277,7 @@ MARIAM:`;
         ] }),
         /* @__PURE__ */ jsxRuntimeExports.jsx("div", { ref: endRef })
       ] }) }),
-      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "shrink-0 px-4 py-4 border-t border-[color:var(--border2,var(--border))] bg-[var(--surface,var(--card))]/80 backdrop-blur-sm", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "max-w-3xl mx-auto", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "shrink-0 px-4 py-4 border-t border-[color:var(--border2,var(--border))]", style: { background: "var(--surface, var(--card))", backdropFilter: "blur(20px)" }, children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "max-w-3xl mx-auto", children: [
         selProject && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center gap-2 mb-2 px-1", children: [
           /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "w-2 h-2 rounded-full", style: { backgroundColor: projects.find((p) => p.id === selProject)?.color } }),
           /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-xs font-bold opacity-60", children: projects.find((p) => p.id === selProject)?.name }),
@@ -22264,6 +22299,334 @@ const ENCYCLOPEDIA_CATEGORIES = [
       { id: "reading-ecg-guide", label: "ECG Reading Guide", desc: "Step-by-step systematic ECG reading for beginners to advanced" },
       { id: "case-based-learning", label: "Case-Based Learning", desc: "PBL approach, SNAPPS framework, clinical case analysis" }
     ]
+  },
+  // ──────────────── GLOBAL DRUG DATABASE (Section 1) ────────────────
+  {
+    id: "global-drug-db",
+    label: "Global Drug Database",
+    icon: Database,
+    color: "#1e40af",
+    subcategories: [
+      { id: "fda-approved-all", label: "All FDA-Approved Drugs A–Z", desc: "Complete A–Z database: generic name, brand, drug class, indication, DEA schedule, approval year — 20,000+ entries" },
+      { id: "generic-brand-equivalents", label: "Generic ↔ Brand Equivalents", desc: "Comprehensive generic-to-brand and brand-to-generic cross-reference for all approved medications worldwide" },
+      { id: "biologics-biosimilars", label: "All Biologics & Biosimilars", desc: "FDA-approved biologics and biosimilar equivalents with interchangeability status, reference product, and savings data" },
+      { id: "monoclonal-antibodies", label: "All Monoclonal Antibodies", desc: "Complete mAb reference with suffix guide (-mab, -zumab, -ximab, -umab, -lumab), targets, indications, and immune adverse events" },
+      { id: "vaccines-worldwide", label: "All Vaccines Worldwide", desc: "Childhood, adult, travel, and occupational vaccines with global immunization schedules — CDC, WHO, ACIP, PHE, AIIMS" },
+      { id: "controlled-substances", label: "All Controlled Substances", desc: "DEA Schedules I–V complete drug lists with abuse potential, medical use, prescribing rules, and international equivalents" },
+      { id: "black-box-warnings", label: "All Black Box Warning Drugs", desc: "Complete FDA Black Box Warning reference organized by organ system, warning type, and monitoring requirements" },
+      { id: "orphan-drugs", label: "All Orphan Drugs", desc: "FDA-designated orphan drugs and rare disease medications with prevalence thresholds, designations, and patient assistance programs" },
+      { id: "chemotherapy-agents", label: "All Cancer Chemotherapy Agents", desc: "Alkylating agents, antimetabolites, taxanes, vinca alkaloids, platinum compounds, anthracyclines, topoisomerase inhibitors — full reference" },
+      { id: "targeted-cancer-therapies", label: "All Targeted Cancer Therapies", desc: "TKIs, CDK4/6 inhibitors, PARP inhibitors, VEGF inhibitors, BCR-ABL, EGFR, ALK, KRAS, HER2 targeted agents with resistance mechanisms" },
+      { id: "immunotherapy-checkpoint", label: "All Immunotherapy & Checkpoint Inhibitors", desc: "PD-1, PD-L1, CTLA-4, LAG-3, TIM-3 inhibitors with cancer indications, combinations, and irAE management" },
+      { id: "car-t-cell", label: "All CAR-T Cell Therapies", desc: "FDA-approved CAR-T therapies with indications, manufacturing process, toxicity management (CRS, ICANS), and eligibility criteria" },
+      { id: "gene-therapies", label: "All Gene Therapies", desc: "FDA-approved gene therapies with vector types, indications, one-time dosing, and long-term safety monitoring requirements" },
+      { id: "mrna-therapies", label: "All mRNA-Based Therapies", desc: "mRNA therapeutics including vaccines, cancer vaccines, and protein replacement therapies — pipeline and approved agents" },
+      { id: "antibiotics-all-classes", label: "All Antibiotic Classes — Full List", desc: "Penicillins, cephalosporins (gen 1–5), carbapenems, monobactams, aminoglycosides, macrolides, tetracyclines, fluoroquinolones, glycopeptides, lipopeptides, polymyxins, oxazolidinones" },
+      { id: "antifungals-all", label: "All Antifungal Drugs", desc: "Azoles, echinocandins, polyenes, allylamines, flucytosine — mechanisms, spectra, clinical uses, resistance, and dosing" },
+      { id: "antivirals-all", label: "All Antiviral Drugs", desc: "HIV, HBV, HCV, HSV, CMV, influenza, RSV, COVID-19, monkeypox, EBV, VZV antivirals — complete mechanisms and regimens" },
+      { id: "antiparasitics-all", label: "All Antiparasitic Drugs", desc: "Antimalarials (all species), anthelmintics, antiprotozoals — mechanisms, dosing, resistance patterns, and prophylaxis worldwide" },
+      { id: "cardiovascular-drugs-all", label: "All Cardiovascular Drugs", desc: "ACEi, ARBs, ARNIs, beta-blockers, CCBs, diuretics, nitrates, antiarrhythmics, antilipemics, anticoagulants, antiplatelets, fibrinolytics, inotropes, vasopressors" },
+      { id: "cns-drugs-all", label: "All CNS Drugs", desc: "Antidepressants, antipsychotics, anxiolytics, hypnotics, mood stabilizers, anticonvulsants, antiparkinsonian, dementia drugs, opioids, stimulants, anesthetics, migraine medications" },
+      { id: "respiratory-drugs-all", label: "All Respiratory Drugs", desc: "SABAs, LABAs, SAMAs, LAMAs, ICS, combination inhalers, leukotriene modifiers, biologics for asthma/COPD, antitussives, mucolytics, pulmonary vasodilators, surfactants" },
+      { id: "gi-drugs-all", label: "All GI Drugs", desc: "PPIs, H2 blockers, antacids, prokinetics, antiemetics, laxatives, antidiarrheals, IBD biologics, GI antispasmodics, pancreatic enzymes, bile acid sequestrants, GLP-1 agonists" },
+      { id: "endocrine-drugs-all", label: "All Endocrine & Metabolic Drugs", desc: "All insulins (all types/brands), oral antidiabetics (9 classes), thyroid drugs, corticosteroids, sex hormones, contraceptives, fertility drugs, osteoporosis, gout, obesity medications" },
+      { id: "renal-drugs-all", label: "All Renal Drugs", desc: "All diuretics by class, potassium binders, phosphate binders, erythropoiesis-stimulating agents, calcimimetics, urologic drugs — dosing in CKD" },
+      { id: "immunology-rheum-drugs-all", label: "All Immunology & Rheumatology Drugs", desc: "All DMARDs, biologics, JAK inhibitors, IL inhibitors, TNF inhibitors, B-cell depleting agents, complement inhibitors, immunosuppressants — complete reference" },
+      { id: "dermatology-drugs-all", label: "All Dermatology Drugs", desc: "Topical corticosteroids (all 7 potency classes), retinoids, calcineurin inhibitors, biologics for psoriasis/eczema/rosacea, acne drugs, wound care agents" },
+      { id: "ophthalmology-drugs-all", label: "All Ophthalmology Drugs", desc: "Glaucoma drops (all 5 classes), anti-VEGF intravitreal agents, mydriatics, miotics, lubricants, anti-infective eye drops — mechanisms and clinical use" },
+      { id: "ent-drugs-all", label: "All ENT Drugs", desc: "Nasal corticosteroids, decongestants, antihistamines (all generations), ear drops, salivary stimulants, local anesthetics for ENT procedures" },
+      { id: "hematology-drugs-all", label: "All Hematology Drugs", desc: "Anticoagulants (all classes), antiplatelets, thrombolytics, factor concentrates, iron supplements, G-CSF, EPO, hemophilia drugs, sickle cell, ITP treatments" },
+      { id: "neurology-drugs-all", label: "All Neurology-Specific Drugs", desc: "MS drugs (injectable/oral/infusion), epilepsy drugs by mechanism, migraine drugs, ALS drugs, SMA therapies, MG drugs, Huntington's, vertigo drugs" },
+      { id: "psychiatry-drugs-all", label: "All Psychiatry Drugs", desc: "SSRIs, SNRIs, TCAs, MAOIs, atypicals; all antipsychotics (typical/atypical); mood stabilizers; anxiolytics; ADHD drugs; addiction medicine; sleep drugs; eating disorder drugs" },
+      { id: "obgyn-drugs-all", label: "All OB/GYN & Reproductive Drugs", desc: "All contraceptives by type, tocolytics, uterotonics, fertility drugs, drug safety in pregnancy (FDA categories), lactation safety (LactMed), PPH drugs, cervical ripening" },
+      { id: "pediatric-drugs-all", label: "All Pediatric Drugs", desc: "Weight-based dosing for all pediatric conditions, neonatal drug formulary, off-label pediatric drugs, pediatric immunization schedule — global (CDC, WHO, AIIMS)" },
+      { id: "emergency-drugs-all", label: "All Emergency & Critical Care Drugs", desc: "ACLS drugs, RSI agents, vasopressors, ICU sedation/analgesia, antidotes, reversal agents, antiepileptic IV drugs, hypertensive emergency, eclampsia drugs" },
+      { id: "iv-parenteral-drugs", label: "All IV & Parenteral Drugs", desc: "Compatibility charts, reconstitution guides, stability data, infusion rates, and extravasation management for all IV medications" },
+      { id: "contrast-imaging-agents", label: "All Contrast & Imaging Agents", desc: "Iodinated contrast (ionic/non-ionic), gadolinium MRI agents, ultrasound contrast agents, nuclear medicine radiopharmaceuticals — safety and premedication" },
+      { id: "anesthesia-drugs-all", label: "All Surgical & Anesthesia Drugs", desc: "General anesthetics, regional anesthetics, neuromuscular blocking agents, reversal agents, pre-op medications, post-op pain management protocols" },
+      { id: "drug-antidotes-all", label: "All Drug Antidotes & Toxin Reversal", desc: "Complete toxin → antidote → dose → mechanism reference table for all poisonings, overdoses, and toxidromes" },
+      { id: "high-alert-meds", label: "All High-Alert Medications", desc: "ISMP complete high-alert medication list with look-alike/sound-alike pairs, safety measures, and error prevention strategies" },
+      { id: "who-essential-meds", label: "All WHO Essential Medicines", desc: "Complete WHO Essential Medicines List organized by therapeutic category with global access information and biosimilar availability" },
+      { id: "fda-approvals-tracker", label: "FDA Drug Approvals Tracker 2020–2025", desc: "New FDA drug approvals by year: drug name, indication, mechanism, manufacturer, approval date, and pivotal trial data" },
+      { id: "international-drug-names", label: "International Drug Names", desc: "US vs UK vs Australia vs Canada vs WHO INN naming conventions, proprietary name differences, and international prescribing/importing rules" }
+    ]
+  },
+  // ──────────────── GLOBAL DISEASE DATABASE (Section 2) ────────────────
+  {
+    id: "global-disease-db",
+    label: "Global Disease Database",
+    icon: Thermometer,
+    color: "#b91c1c",
+    subcategories: [
+      // ── INFECTIOUS DISEASES ──
+      { id: "bacterial-diseases-all", label: "All Bacterial Diseases", desc: "Gram-positive and gram-negative organisms, atypical bacteria, spirochetes, mycobacteria — tuberculosis, leprosy, NTM — with pathogenesis, diagnosis, and treatment" },
+      { id: "viral-diseases-all", label: "All Viral Diseases", desc: "RNA and DNA viruses, retroviruses (HIV/AIDS full management), arboviruses, hemorrhagic fevers, emerging viruses, respiratory, enteric, and neurotropic viruses" },
+      { id: "fungal-diseases-all", label: "All Fungal Diseases", desc: "Superficial, cutaneous, subcutaneous, and systemic fungal infections — Candida, Aspergillus, Cryptococcus, Histoplasma, Blastomyces, Coccidioides, Mucor, PCP" },
+      { id: "parasitic-diseases-all", label: "All Parasitic Diseases", desc: "Protozoa (malaria all species, Toxoplasma, Giardia, Leishmania, Trypanosoma), helminths (roundworms, tapeworms, flukes), ectoparasites (scabies, lice, ticks)" },
+      { id: "prion-diseases", label: "All Prion Diseases", desc: "CJD (sporadic, familial, iatrogenic), vCJD, fatal familial insomnia, Gerstmann-Sträussler-Scheinker syndrome, kuru — diagnosis, progression, biosafety" },
+      { id: "sti-cdc-guidelines", label: "All Sexually Transmitted Infections", desc: "Complete STI reference with CDC 2021 treatment guidelines: gonorrhea, chlamydia, syphilis all stages, HSV, HPV, HIV, trichomoniasis, BV, PID, LGV, chancroid" },
+      { id: "tropical-ntd-who", label: "All Tropical & Neglected Tropical Diseases", desc: "WHO NTD full list: dengue, Zika, chikungunya, yellow fever, rabies, leishmaniasis, Chagas, sleeping sickness, river blindness, lymphatic filariasis, schistosomiasis" },
+      { id: "hai-hcai", label: "All Healthcare-Associated Infections", desc: "MRSA, VRE, ESBL-producing organisms, CRE, C. difficile, CRAB, CRPA — epidemiology, prevention bundles, infection control, antibiotic stewardship" },
+      { id: "bioterrorism-agents", label: "All Bioterrorism Agents (Cat A/B/C)", desc: "Category A (anthrax, smallpox, plague, botulism, tularemia, viral hemorrhagic fevers), B, and C agents — clinical features, diagnosis, treatment, decontamination" },
+      { id: "zoonotic-diseases", label: "All Zoonotic Diseases", desc: "Animal-to-human transmission: brucellosis, leptospirosis, Q fever, toxoplasmosis, rabies, hantavirus, monkeypox, MERS, SARS, avian influenza — reservoir, vector, treatment" },
+      { id: "foodborne-illnesses", label: "All Food-Borne Illnesses", desc: "Complete reference: organism, implicated food, incubation period, symptoms, toxin mechanism, diagnosis, treatment — including Salmonella, Listeria, E. coli, Staph, Bacillus" },
+      { id: "waterborne-diseases", label: "All Water-Borne Diseases", desc: "Cholera, typhoid, cryptosporidiosis, giardiasis, hepatitis A/E, leptospirosis, amoebic dysentery, schistosomiasis — transmission, global burden, prevention, treatment" },
+      { id: "vector-borne-diseases", label: "All Vector-Borne Diseases", desc: "Mosquito (malaria, dengue, Zika, West Nile, yellow fever), tick (Lyme, RMSF, ehrlichiosis, babesiosis), flea (plague, typhus), fly (leishmaniasis, sleeping sickness), sandfly" },
+      // ── CARDIOVASCULAR ──
+      { id: "heart-failure-types", label: "All Heart Failure Types", desc: "HFrEF, HFpEF, HFmrEF, acute vs chronic HF, biventricular, isolated right heart failure, cardiogenic shock — definitions, staging (NYHA/ACC/AHA), evidence-based treatment" },
+      { id: "cad-presentations", label: "All Coronary Artery Disease Presentations", desc: "Stable angina, unstable angina, NSTEMI, STEMI, silent ischemia, variant angina (Prinzmetal), microvascular angina — risk stratification, workup, revascularization" },
+      { id: "arrhythmias-all", label: "All Cardiac Arrhythmias", desc: "SVT all types (AVNRT, AVRT, AT, AFL, AF), VT all types, WPW, bradyarrhythmias, sinus node dysfunction, heart blocks (all degrees), Brugada, long QT, short QT" },
+      { id: "valvular-heart-disease", label: "All Valvular Heart Diseases", desc: "Aortic/mitral/tricuspid/pulmonary stenosis and regurgitation — etiology, murmur characteristics, echocardiography findings, surgery/TAVR/TEER indications, prosthetic valve complications" },
+      { id: "cardiomyopathies-all", label: "All Cardiomyopathies", desc: "Dilated, hypertrophic (obstructive/non-obstructive), restrictive (all causes), arrhythmogenic RV cardiomyopathy, Takotsubo, peripartum, ischemic, alcoholic, toxic, Chagas" },
+      { id: "pericardial-diseases", label: "All Pericardial Diseases", desc: "Acute pericarditis, recurrent pericarditis, pericardial effusion, cardiac tamponade (diagnosis and pericardiocentesis), constrictive pericarditis — etiology, Echo findings, management" },
+      { id: "vascular-diseases-all", label: "All Vascular Diseases", desc: "PAD (Fontaine/Rutherford staging), aortic aneurysm, aortic dissection (DeBakey/Stanford), mesenteric ischemia, renal artery stenosis, DVT, PE, chronic venous insufficiency, lymphedema" },
+      { id: "congenital-heart-disease", label: "All Congenital Heart Diseases", desc: "ASD, VSD, PDA, tetralogy of Fallot, TGA (d-TGA, l-TGA), coarctation, Eisenmenger, AVSD, truncus arteriosus, TAPVR, HLHS, Ebstein — anatomy, physiology, surgical repair" },
+      { id: "hypertension-all", label: "All Hypertension & Secondary Causes", desc: "Primary hypertension stages, secondary HTN (renal, endocrine, vascular, drug-induced), hypertensive urgency vs emergency, resistant HTN, white-coat, masked, ambulatory BP" },
+      { id: "pulmonary-hypertension", label: "Pulmonary Hypertension — All WHO Groups", desc: "Group 1 (PAH all subtypes), Group 2 (left heart disease), Group 3 (lung disease/hypoxia), Group 4 (CTEPH), Group 5 (unclear/multifactorial) — hemodynamics, RHC, targeted therapies" },
+      // ── NEUROLOGY ──
+      { id: "stroke-syndromes", label: "All Stroke Syndromes", desc: "Anterior circulation (MCA, ACA, ICA), posterior circulation (PICA, AICA, basilar), lacunar infarcts, watershed, cerebral venous sinus thrombosis, TIA — NIHSS, imaging, tPA, thrombectomy" },
+      { id: "epilepsy-seizures", label: "All Epilepsy & Seizure Disorders", desc: "ILAE 2017 classification — all seizure types (focal, generalized, unknown), all epilepsy syndromes (absence, juvenile myoclonic, Lennox-Gastaut, ESES, Rasmussen), status epilepticus" },
+      { id: "dementia-all", label: "All Dementia Types", desc: "Alzheimer's (all stages, biomarkers, lecanemab/donanemab), Lewy body, FTD (all variants — bvFTD, PPA, PSP, CBD), vascular dementia, NPH, prion, reversible causes — neuropsychological testing" },
+      { id: "movement-disorders", label: "All Movement Disorders", desc: "Parkinson's (all stages, motor/non-motor), atypical parkinsonisms (PSP, MSA, CBD, DLB), essential tremor, dystonia (all types), Huntington's, chorea, myoclonus, tics, RLS, FMD" },
+      { id: "headache-disorders", label: "All Headache Disorders (ICHD-3)", desc: "Migraine (all subtypes including hemiplegic, vestibular, retinal), cluster, tension-type, trigeminal autonomic cephalalgias, new daily persistent headache, secondary headaches — red flags, CGRP therapies" },
+      { id: "ms-demyelinating", label: "Multiple Sclerosis & Demyelinating Diseases", desc: "RRMS, SPMS, PPMS, CIS, NMOSD (AQP4, MOG), ADEM, transverse myelitis — McDonald criteria, MRI phenotypes, disease-modifying therapies, progressive MS management" },
+      { id: "neuropathies-all", label: "All Neuropathies", desc: "GBS (all subtypes — AIDP, AMAN, AMSAN, MFS), CIDP, mononeuropathies (carpal tunnel, ulnar, peroneal), plexopathies, small fiber neuropathy, diabetic, alcoholic, hereditary (CMT, HSAN)" },
+      { id: "neuromuscular-junction", label: "All Neuromuscular Junction Disorders", desc: "Myasthenia gravis (all subtypes, AChR/MuSK/LRP4, thymic pathology), Lambert-Eaton, congenital MG, botulism (wound/foodborne/infant), organophosphate toxicity — SFEMG, treatment" },
+      { id: "myopathies-all", label: "All Myopathies & Muscular Dystrophies", desc: "Inflammatory myopathies (DM, PM, IBM, IMNM, antisynthetase), metabolic myopathies, mitochondrial, DMD, BMD, FSHD, LGMD all subtypes, myotonic dystrophy 1 and 2, congenital myopathies" },
+      { id: "cns-tumors-who2021", label: "All CNS Tumors (WHO 2021)", desc: "Glioblastoma, IDH-mutant gliomas all grades, oligodendroglioma, meningioma (all grades), pituitary tumors, acoustic neuroma, metastases, CNS lymphoma, medulloblastoma (all groups), ependymoma" },
+      { id: "spinal-cord-diseases", label: "All Spinal Cord Diseases", desc: "Cervical/thoracic/lumbar myelopathy, ALS, SMA (all types, nusinersen, onasemnogene, risdiplam), syringomyelia, Brown-Séquard, anterior cord, central cord syndrome, transverse myelitis" },
+      { id: "cns-infections-dis", label: "All CNS Infections", desc: "Bacterial meningitis (all organisms by age), viral meningitis/encephalitis (HSV, CMV, EBV, arboviruses), brain abscess, TB meningitis, cryptococcal, neurocysticercosis, cerebral malaria, prion" },
+      { id: "neurogenetic-diseases", label: "All Neurogenetic Diseases", desc: "Wilson's disease, Huntington's, Friedreich's ataxia, spinocerebellar ataxias (all SCAs), neurofibromatosis 1 and 2, tuberous sclerosis, Sturge-Weber, von Hippel-Lindau, phakomatoses" },
+      { id: "sleep-disorders-neuro", label: "All Sleep Disorders", desc: "Insomnia disorders, hypersomnia (idiopathic hypersomnia, Kleine-Levin), narcolepsy types 1 and 2, REM behavior disorder, sleepwalking, night terrors, circadian disorders, OSA, CSA, UARS" },
+      { id: "neurodevelopmental", label: "All Neurodevelopmental Disorders", desc: "Autism spectrum disorder (DSM-5 levels), ADHD (all presentations), intellectual disability (all causes), learning disorders, DCD, Tourette, Rett syndrome, Fragile X, Angelman, Prader-Willi" },
+      { id: "autonomic-disorders", label: "All Autonomic Disorders", desc: "POTS (all subtypes), multiple system atrophy, pure autonomic failure, familial dysautonomia, diabetic autonomic neuropathy, orthostatic hypotension, vasovagal syncope, autoimmune autonomic ganglionopathy" },
+      // ── RESPIRATORY ──
+      { id: "ild-interstitial", label: "All Interstitial Lung Diseases", desc: "UIP/IPF, NSIP, COP, AIP (Hamman-Rich), DIP, RB-ILD, LIP, sarcoidosis, hypersensitivity pneumonitis (acute/chronic), pneumoconioses (asbestosis, silicosis, CWP, berylliosis) — HRCT patterns, PFT interpretation" },
+      { id: "pleural-airway-diseases", label: "All Pleural & Airway Diseases", desc: "Pleural effusion (transudate vs exudate, Light's criteria), pneumothorax types, mesothelioma, all airway diseases (bronchiectasis, tracheomalacia, tracheal stenosis), obstructive lung patterns" },
+      { id: "pulmonary-infections", label: "All Pulmonary Infections", desc: "CAP, HAP, VAP, aspiration pneumonia (all organisms), lung abscess, empyema, pulmonary TB (primary, post-primary, miliary), fungal pneumonias, viral pneumonias including COVID-19, PCP" },
+      { id: "lung-cancer-all", label: "All Lung Cancers", desc: "NSCLC (adenocarcinoma, SCC, LCLC), SCLC (limited/extensive), carcinoid tumors, mesothelioma — TNM staging, driver mutations (EGFR, ALK, ROS1, KRAS, BRAF, MET, RET, NTRK), immunotherapy eligibility" },
+      { id: "resp-failure-ards", label: "Respiratory Failure & ARDS", desc: "Type 1 (hypoxemic) and Type 2 (hypercapnic) respiratory failure, ARDS (Berlin definition all severity grades), high altitude illness, diving-related conditions, ventilator management principles" },
+      { id: "occupational-lung", label: "All Occupational Lung Diseases", desc: "Pneumoconioses (all types), occupational asthma (all agents), hypersensitivity pneumonitis (occupational), RADS, byssinosis, hard metal disease, flock worker's lung, office-related lung conditions" },
+      // ── GASTROENTEROLOGY ──
+      { id: "esophageal-gastric-dis", label: "All Esophageal & Gastric Diseases", desc: "GERD, Barrett's esophagus, esophageal cancer (SCC and adenocarcinoma), achalasia, esophageal motility disorders, eosinophilic esophagitis, PUD, H. pylori, gastric cancer, gastroparesis" },
+      { id: "small-bowel-diseases", label: "All Small Bowel Diseases", desc: "Celiac disease, Crohn's disease (all phenotypes), SIBO, short bowel syndrome, intestinal obstruction, Meckel's diverticulum, small bowel tumors, malabsorption syndromes, tropical sprue, giardiasis" },
+      { id: "colon-diseases", label: "All Colon Diseases", desc: "Ulcerative colitis (all extents), Crohn's colitis, IBS (all subtypes), microscopic colitis, diverticular disease (diverticulosis/diverticulitis), colorectal cancer staging, polyp types, familial polyposis syndromes" },
+      { id: "liver-diseases-all", label: "All Liver Diseases", desc: "MASLD/MASH, cirrhosis (all causes), portal hypertension, hepatitis A–E, autoimmune hepatitis, PBC, PSC, alcoholic liver disease, genetic liver diseases (Wilson's, hemochromatosis, A1AT), HCC, ALF, DILI" },
+      { id: "biliary-pancreatic", label: "All Biliary & Pancreatic Diseases", desc: "Cholelithiasis, cholecystitis, cholangitis (acute and primary sclerosing), choledocholithiasis, biliary strictures, cholangiocarcinoma, acute/chronic pancreatitis, pancreatic cancer, cystic pancreatic lesions, exocrine pancreatic insufficiency" },
+      { id: "gi-bleeding-motility", label: "GI Bleeding, Motility & Functional Disorders", desc: "Upper and lower GI bleeding (all causes), obscure GI bleeding, GI motility disorders (achalasia, gastroparesis, Hirschsprung's), functional GI disorders (Rome IV: IBS, functional dyspepsia, functional constipation, anorectal disorders)" },
+      // ── ENDOCRINOLOGY ──
+      { id: "diabetes-all-types", label: "All Diabetes Types & Complications", desc: "T1DM, T2DM, LADA, MODY 1–14, neonatal DM, secondary DM, steroid-induced DM — all diabetic complications (DKA, HHS, retinopathy, nephropathy, neuropathy, foot, macrovascular), ADA standards" },
+      { id: "thyroid-parathyroid-dis", label: "All Thyroid & Parathyroid Disorders", desc: "All hypothyroidism causes, all hyperthyroidism causes (Graves', toxic MNG, toxic adenoma), thyroid cancers (papillary, follicular, medullary, anaplastic), thyroiditis all types, primary/secondary/tertiary hyper- and hypoparathyroidism" },
+      { id: "adrenal-pituitary-dis", label: "All Adrenal & Pituitary Disorders", desc: "Cushing's (all causes), Addison's disease, congenital adrenal hyperplasia, primary hyperaldosteronism, pheochromocytoma, paraganglioma; all pituitary adenomas, hypopituitarism, DI, SIADH, craniopharyngioma" },
+      { id: "metabolic-obesity-men", label: "Metabolic, MEN Syndromes & Neuroendocrine Tumors", desc: "Metabolic syndrome, all lipid disorders (primary and secondary), obesity-related conditions, all MEN syndromes (MEN1, MEN2A, MEN2B, MEN4), carcinoid, gastrinoma, insulinoma, glucagonoma, VIPoma, all NET classifications" },
+      // ── NEPHROLOGY ──
+      { id: "aki-ckd-all", label: "All AKI & CKD Causes & Management", desc: "AKI (prerenal, intrinsic — ATN, AIN, GN, vascular; postrenal), CKD staging (KDIGO), CKD complications, cardiorenal syndrome, hepatorenal syndrome, CRRT vs IHD, dialysis access types" },
+      { id: "glomerular-tubular-dis", label: "All Glomerular & Tubular Diseases", desc: "Nephrotic syndromes (MCNS, FSGS, MN, amyloidosis), nephritic syndromes (IgAN, MPGN, ANCA vasculitis, anti-GBM, lupus nephritis), tubular disorders (RTA all types), Fanconi syndrome, interstitial nephritis" },
+      { id: "inherited-renal-dis", label: "All Inherited Renal Disorders", desc: "ADPKD, ARPKD, Alport syndrome, Fabry disease, cystinuria, Bartter syndrome (all variants), Gitelman syndrome, MCKD, nephronophthisis, congenital anomalies of kidney and urinary tract (CAKUT)" },
+      { id: "electrolytes-acid-base", label: "All Electrolyte & Acid-Base Disorders", desc: "All sodium disorders (hypo/hypernatremia — all types), potassium (hypo/hyperkalemia), calcium, magnesium, phosphate; all 8 primary acid-base disorders with Winter's formula, compensation rules, anion gap, delta-delta" },
+      // ── HEMATOLOGY / ONCOLOGY ──
+      { id: "anemias-all", label: "All Anemias", desc: "Microcytic (iron deficiency, thalassemias all types, sideroblastic, ACD), macrocytic (B12, folate, hemolytic), normocytic; all hemolytic anemias (hereditary, acquired — AIHA warm/cold, microangiopathic); bone marrow failure" },
+      { id: "leukemia-lymphoma-all", label: "All Leukemias & Lymphomas", desc: "ALL, AML (all WHO subtypes, ELN risk), CLL (Rai/Binet), CML (phases), MPNs (PV, ET, MF, SM); Hodgkin lymphoma (all subtypes), all NHL (DLBCL, FL, MCL, MZL, BL, AITL, PTCL) — WHO 2022 classification" },
+      { id: "plasma-cell-bleeding-dis", label: "All Plasma Cell & Bleeding Disorders", desc: "Multiple myeloma (ISS/R-ISS), Waldenström's, AL amyloidosis, MGUS, SMM; hemophilia A/B (all severity), vWD (all types 1/2A/2B/2M/2N/3), platelet disorders (ITP, TTP, HUS, HIT, GT, BSS)" },
+      { id: "solid-tumors-all", label: "All Solid Tumors by Organ", desc: "Breast (molecular subtypes, staging, HER2, BRCA), lung, colorectal, prostate, bladder, renal, pancreatic, hepatic, gastric, esophageal, ovarian, cervical, endometrial, thyroid, head and neck cancers — TNM staging, biomarkers, treatment" },
+      { id: "oncologic-emergencies", label: "All Oncologic Emergencies & HSCT", desc: "SVC syndrome, tumor lysis syndrome, febrile neutropenia, hypercalcemia of malignancy, MSCC, DIC, CAR-T complications (CRS, ICANS, HLH); allogeneic and autologous HSCT — GVHD (acute/chronic), VOD, engraftment failure" },
+      // ── RHEUMATOLOGY ──
+      { id: "inflammatory-arthritis", label: "All Inflammatory Arthritides", desc: "Rheumatoid arthritis (DAS28, treat-to-target), all spondyloarthropathies (AS/nr-axSpA, PsA, reactive arthritis, IBD-associated, undifferentiated SpA), JIA (all subtypes, ILAR classification)" },
+      { id: "connective-tissue-dis", label: "All Connective Tissue Diseases", desc: "SLE (SLICC/EULAR criteria, all organ manifestations), Sjögren's (primary/secondary), systemic sclerosis (limited/diffuse, SSc-PAH, SSc-ILD), MCTD, overlap syndromes; inflammatory myopathies (DM, PM, IBM, IMNM, antisynthetase)" },
+      { id: "vasculitides-all", label: "All Vasculitides", desc: "Large vessel (GCA, Takayasu), medium vessel (polyarteritis nodosa, Kawasaki disease), small vessel ANCA-associated (GPA, MPA, EGPA), small vessel immune complex (IgA vasculitis, cryoglobulinemic, urticarial vasculitis, anti-GBM)" },
+      { id: "crystal-bone-dis", label: "Crystal Arthropathies & Bone Disease", desc: "Gout (all stages, urate-lowering therapy, febuxostat vs allopurinol), pseudogout (CPPD disease), basic calcium phosphate arthropathy; osteoporosis (FRAX scoring, all treatments), Paget's disease, AVN — all sites" },
+      // ── DERMATOLOGY ──
+      { id: "inflammatory-skin-dis", label: "All Inflammatory Skin Diseases", desc: "Psoriasis (all types: plaque, guttate, inverse, pustular, erythrodermic), atopic dermatitis, seborrheic dermatitis, contact dermatitis (allergic/irritant), lichen planus, pityriasis rosea, urticaria, angioedema, bullous pemphigoid, pemphigus" },
+      { id: "skin-infections-parasites", label: "All Skin Infections & Infestations", desc: "Bacterial (impetigo, cellulitis, erysipelas, MRSA, necrotizing fasciitis, SSSS), viral (HSV, VZV, molluscum, warts, orf, hand-foot-mouth), fungal (tinea all types, candidiasis, sporotrichosis), parasitic (scabies, pediculosis, cutaneous larva migrans)" },
+      { id: "skin-cancers", label: "All Skin Cancers & Precancers", desc: "Melanoma (all subtypes: superficial spreading, nodular, lentigo maligna, acral lentiginous) — AJCC staging, sentinel node; BCC (all subtypes), cSCC and precancers (AK, Bowen's), MCC, DFSP, angiosarcoma, CTCL (MF/SS), CBCL" },
+      { id: "drug-reactions-genetic-skin", label: "Drug Reactions & Genetic Skin Disorders", desc: "DRESS, SJS/TEN (SCORTEN), AGEP, morbilliform drug eruption, fixed drug eruption, serum sickness, phototoxic/photoallergic; genetic: all ichthyoses, epidermolysis bullosa types, keratodermas, phakomatoses, Darier's disease" },
+      // ── PSYCHIATRY ──
+      { id: "mood-anxiety-disorders", label: "All Mood & Anxiety Disorders", desc: "MDD, persistent depressive disorder, PMDD, seasonal, postpartum depression; BD-I, BD-II, cyclothymia, mixed features, rapid cycling; GAD, panic disorder, social anxiety, specific phobias, separation anxiety; all OCD spectrum; all trauma/PTSD disorders" },
+      { id: "psychotic-personality-dis", label: "All Psychotic & Personality Disorders", desc: "Schizophrenia (all subtypes, positive/negative symptoms, prodrome), schizoaffective, schizophreniform, brief psychotic, delusional disorder, substance-induced psychosis; all 10 personality disorders (clusters A/B/C) — DSM-5-TR criteria and treatment" },
+      { id: "substance-use-dis", label: "All Substance Use Disorders", desc: "Alcohol (AUDIT, CIWA, withdrawal, Wernicke's, Korsakoff's, treatment — naltrexone, acamprosate, disulfiram), opioids (COWS, buprenorphine, methadone, naloxone), stimulants, cannabis, benzodiazepines, hallucinogens, tobacco, gambling disorder" },
+      { id: "psychiatric-emergencies", label: "All Psychiatric Emergencies & Special Populations", desc: "Suicidality (C-SSRS, safety planning), acute agitation, NMS (diagnosis, bromocriptine, dantrolene), serotonin syndrome (Hunter criteria), lithium toxicity, anticholinergic toxidrome, acute psychosis; child/adolescent, geriatric, perinatal psychiatry" },
+      // ── PEDIATRICS ──
+      { id: "neonatal-diseases", label: "All Neonatal Conditions", desc: "RDS, TTN, MAS, PPHN, NEC (Bell staging), ROP (ICROP3), IVH (Papile grading), PVL, neonatal sepsis, neonatal jaundice (Bhutani nomogram), metabolic emergencies, TORCH infections — management and outcomes" },
+      { id: "metabolic-genetic-peds", label: "All Inborn Errors & Pediatric Genetic Syndromes", desc: "Amino acid disorders (PKU, MSUD, homocystinuria), OA, FAO disorders, lysosomal storage diseases, peroxisomal diseases, glycogen storage diseases, mitochondrial diseases, urea cycle disorders; Down, Turner, Klinefelter, Williams, DiGeorge, Angelman syndromes" },
+      { id: "pediatric-systemic-dis", label: "All Pediatric Systemic Diseases by Organ", desc: "Pediatric respiratory (croup, bronchiolitis, cystic fibrosis), cardiac (congenital heart disease), GI (intussusception, pyloric stenosis, Hirschsprung's), kidney (nephrotic, HSP, HUS), hematology (SCD, thalassemia, ITP), oncology (ALL, Wilm's, neuroblastoma, medulloblastoma)" },
+      { id: "pediatric-dev-behavioral", label: "Pediatric Developmental & Behavioral Disorders", desc: "Autism spectrum (all severity levels, intervention strategies), ADHD (presentations, stimulant vs non-stimulant treatment), intellectual disability, learning disorders, developmental coordination disorder, Tourette, Rett syndrome, selective mutism, eating disorders in youth" },
+      // ── OB/GYN ──
+      { id: "obstetric-complications", label: "All Obstetric Complications", desc: "Early pregnancy (ectopic all locations, miscarriage types, molar pregnancy, hyperemesis gravidarum), antepartum (preeclampsia/eclampsia/HELLP, GDM, placenta previa, abruption, PPROM, IUGR, oligohydramnios, polyhydramnios, multiple gestation), intrapartum and postpartum complications" },
+      { id: "gynecologic-conditions", label: "All Gynecologic Conditions", desc: "All menstrual disorders (amenorrhea, AUB-PALM-COEIN, dysmenorrhea, PMS), all ovarian conditions (PCOS, ovarian cysts, POI), uterine conditions (fibroids, adenomyosis, endometriosis, Asherman's), cervical conditions, vulvovaginal conditions, pelvic floor disorders, all contraception methods and complications" },
+      { id: "gynecologic-cancers", label: "All Gynecologic Cancers & Reproductive Endocrinology", desc: "Cervical cancer (FIGO staging, HPV association, treatment), endometrial cancer (all histotypes, molecular classification), ovarian cancer (all subtypes), vulvar/vaginal cancer, GTD; infertility (male/female causes, all ART procedures), menopause management, HRT evidence" },
+      // ── OPHTHALMOLOGY ──
+      { id: "external-corneal-glaucoma", label: "All External Eye, Cornea & Glaucoma Diseases", desc: "Blepharitis, chalazion, conjunctivitis (bacterial/viral/allergic), keratitis (HSV, fungal, Acanthamoeba, contact lens), corneal dystrophies, keratoconus, pterygium, scleritis, uveitis; POAG, PACG, normal tension, secondary glaucoma (all types)" },
+      { id: "retinal-diseases-all", label: "All Retinal Diseases", desc: "Diabetic retinopathy (ETDRS staging), AMD (drusen, atrophic, neovascular), CRVO, BRVO, CRAO, sickle cell retinopathy, retinal detachment (rhegmatogenous/tractional/exudative), all retinal dystrophies (RP, Stargardt, Best), macular hole" },
+      { id: "neuro-orbital-ophthal", label: "All Neuro-Ophthalmic & Orbital Diseases", desc: "Optic neuritis, NAION, papilledema from raised ICP, Horner's syndrome, all CN III/IV/VI palsies, nystagmus types, thyroid eye disease, orbital cellulitis, orbital tumors (capillary hemangioma, rhabdomyosarcoma, lymphoma), ocular manifestations of systemic diseases" },
+      // ── ENT / HEAD & NECK ──
+      { id: "ear-vestibular-disorders", label: "All Ear & Vestibular Disorders", desc: "Otitis externa (including malignant), AOM, OME, chronic suppurative OM, cholesteatoma, otosclerosis; all sensorineural and conductive hearing loss causes; vestibular neuritis, Meniere's disease, BPPV all canal variants, labyrinthitis, acoustic neuroma" },
+      { id: "nasal-oral-pharyngeal", label: "All Nasal, Oral, Pharyngeal & Laryngeal Diseases", desc: "All rhinitis types, CRS with/without polyps, inverted papilloma, nasopharyngeal carcinoma; aphthous ulcers, leukoplakia, erythroplakia, oral cancer; tonsillitis, peritonsillar abscess, Ludwig's angina, oropharyngeal cancer; vocal cord polyps, nodules, cancer, laryngomalacia, epiglottitis" },
+      { id: "head-neck-cancers", label: "All Head & Neck Cancers", desc: "Oral cavity SCC, oropharyngeal (HPV+ vs HPV-), hypopharyngeal, laryngeal, nasopharyngeal, nasal/paranasal sinus cancers, salivary gland tumors (all histotypes: pleomorphic adenoma, Warthin, MEC, ACC), thyroid cancer (all subtypes), neck dissection levels, staging, treatment" },
+      // ── ORTHOPEDICS ──
+      { id: "fractures-dislocations", label: "All Fractures & Dislocations", desc: "All fracture classifications by bone (AO/OTA, Salter-Harris for pediatric), dislocations by joint (shoulder, elbow, hip, knee, ankle), ligament injuries (ACL/PCL/MCL/LCL), tendon injuries (Achilles, rotator cuff, quadriceps), ORIF vs conservative indications" },
+      { id: "spine-soft-tissue", label: "All Spine & Soft Tissue Disorders", desc: "Disc herniation (all levels), cervical/lumbar spondylosis, spinal stenosis, spondylolisthesis (Meyerding grades), ankylosing spondylitis from orthopedic perspective; compartment syndrome, overuse injuries by sport, bursitis, tendinopathy, carpal/cubital/tarsal tunnel syndromes" },
+      { id: "bone-tumors-pediatric-ortho", label: "All Bone Tumors & Pediatric Orthopedics", desc: "Benign bone tumors (osteochondroma, giant cell tumor, enchondroma, ABC, UBC, osteoid osteoma), malignant (osteosarcoma, Ewing's, chondrosarcoma) — Enneking staging; pediatric ortho (DDH, Perthes, SCFE, club foot, scoliosis, osteogenesis imperfecta)" },
+      // ── UROLOGY ──
+      { id: "kidney-bladder-prostate", label: "All Kidney, Bladder & Prostate Conditions", desc: "Urolithiasis (all stone types, ESWL vs URS vs PCNL), all bladder cancers (urothelial — NMIBC/MIBC, treatment pathways), all neurogenic bladder types, BPH (IPSS, medical/surgical management), prostatitis (all NIH categories), prostate cancer (Gleason/Grade Group, active surveillance, treatments)" },
+      { id: "urologic-oncology", label: "All Urologic Oncology", desc: "Renal cell carcinoma (clear cell, papillary, chromophobe, oncocytoma — IMDC risk, targeted therapy/immunotherapy), urothelial cancers (upper tract and bladder), penile cancer (Jackson staging), testicular cancer (non-seminomatous vs seminoma, IGCCCG risk, retroperitoneal LND)" },
+      { id: "male-female-urology", label: "Male & Female Urology", desc: "Erectile dysfunction (organic vs psychogenic, PDE5 inhibitors, ICI, implants), male hypogonadism, male infertility (azoospermia work-up, varicocele), epididymo-orchitis; female urinary incontinence (stress, urgency, mixed, overflow), pelvic organ prolapse (POP-Q staging), interstitial cystitis/bladder pain syndrome, urodynamics" }
+    ]
+  },
+  // ──────────────── MEDICAL SPECIALTIES & SUBSPECIALTIES (Section 3) ────────────────
+  {
+    id: "specialties-db",
+    label: "All Medical Specialties",
+    icon: Stethoscope,
+    color: "#0f766e",
+    subcategories: [
+      // ── INTERNAL MEDICINE SUBSPECIALTIES ──
+      { id: "allergy-immunology", label: "Allergy & Immunology", desc: "All allergic diseases (allergic rhinitis, asthma, food allergy, drug allergy, venom allergy), all primary and secondary immunodeficiencies, all hypersensitivity reactions (Type I–IV), allergen immunotherapy (SCIT/SLIT), biologics, anaphylaxis management — epinephrine protocols" },
+      { id: "clinical-pharmacology", label: "Clinical Pharmacology & PK/PD", desc: "All PK/PD equations with worked examples: PK/PD parameters (Vd, CL, half-life, AUC, Cmax), bioavailability, first-pass effect, hepatic clearance, renal clearance, therapeutic drug monitoring (vancomycin, aminoglycosides, lithium, digoxin, phenytoin, tacrolimus, cyclosporine, warfarin)" },
+      { id: "toxicology-all", label: "Clinical Toxicology — All Poisonings", desc: "All toxidromes (cholinergic, anticholinergic, sympathomimetic, opioid, sedative-hypnotic, serotonin, NMS), all drug overdoses (acetaminophen — NAC protocol, TCAs, salicylates, opioids, benzodiazepines, digoxin, iron, lithium), all envenomations, heavy metals, all antidotes reference table" },
+      { id: "palliative-medicine", label: "Palliative Medicine & End-of-Life Care", desc: "WHO analgesic ladder (Steps 1–3), complete opioid conversion table (morphine equivalents), symptom management (pain, dyspnea, nausea, delirium, secretions), palliative sedation, advance directives/POLST, prognostication, hospice eligibility, family communication" },
+      { id: "geriatrics-all", label: "Geriatrics — All Geriatric Syndromes", desc: "Frailty (Fried criteria, CFS), falls (risk factors, prevention, assessment), delirium (CAM, hyperactive/hypoactive/mixed, management), dementia care, polypharmacy, Beers Criteria 2023 full list, STOPP/START criteria, pressure injuries (NPUAP staging), urinary incontinence, malnutrition (MNA), elder abuse" },
+      { id: "travel-medicine", label: "Travel Medicine", desc: "Pre-travel vaccine schedule by destination (yellow fever, typhoid, JE, rabies, meningococcal, cholera, hepatitis A/B), malaria prophylaxis by region (chloroquine, atovaquone/proguanil, doxycycline, mefloquine), traveler's diarrhea, altitude sickness (AMS/HACE/HAPE), jet lag, heat illness, diving medicine, DEET safety" },
+      { id: "occupational-medicine", label: "Occupational Medicine", desc: "All occupational lung diseases (pneumoconioses, occupational asthma, RADS, HP), all occupational skin diseases (contact dermatitis, occupational acne, chrome ulcers), all occupational cancers (mesothelioma, bladder, sinonasal, angiosarcoma), all musculoskeletal occupational disorders, fitness-for-duty assessments, OSHA standards" },
+      { id: "sports-medicine", label: "Sports Medicine", desc: "All sports injuries by region (shoulder, knee, ankle, spine), concussion management (SCAT5, return-to-play protocol, CTE), overuse injuries (stress fractures, tendinopathies), performance optimization, sports cardiology (ECG criteria, sudden cardiac death prevention), WADA 2024 prohibited substances full list" },
+      { id: "sleep-medicine", label: "Sleep Medicine — Complete Reference", desc: "All sleep disorders (ICSD-3: insomnia, hypersomnia, parasomnias, circadian disorders, sleep-related movement disorders), polysomnography interpretation (AHI, arousal index, all sleep stages), CPAP/BiPAP/ASV settings, OSA treatment algorithm, all sleep medications (dosing, mechanism, tolerance, dependence)" },
+      { id: "pain-medicine", label: "Pain Medicine — Complete Reference", desc: "All pain types (nociceptive, neuropathic, nociplastic, mixed), pain assessment tools (NRS, VAS, FACS, BPI, Brief Fatigue Inventory), all analgesic classes (NSAIDs, COX-2, opioids, SNRIs, gabapentinoids, TCAs, ketamine), interventional procedures (epidurals, nerve blocks, neuromodulation), opioid prescribing guidelines (CDC 2022 revised)" },
+      { id: "pmr-rehabilitation", label: "Physical Medicine & Rehabilitation", desc: "All neurological rehab (post-stroke, TBI, SCI — ASIA classification, autonomic dysreflexia), all orthopedic rehab (joint replacement, fracture, amputation — prosthetics), cardiac rehab (all phases), pulmonary rehab (exercise prescription, dyspnea management), vocational rehab, assistive technology" },
+      { id: "addiction-medicine", label: "Addiction Medicine", desc: "All substance use disorders (DSM-5-TR criteria), all withdrawal syndromes (AWS — CIWA, opioid — COWS, benzodiazepines, stimulants), all MAT protocols (buprenorphine/naloxone — X-waiver, methadone OBOT, naltrexone IM), harm reduction strategies, SBIRT framework, all addiction medications with dosing" },
+      // ── SURGERY SPECIALTIES ──
+      { id: "general-surgery", label: "General Surgery — Complete Reference", desc: "All abdominal emergencies (appendicitis — Alvarado, cholecystitis — Tokyo guidelines, bowel obstruction, perforation, mesenteric ischemia), all laparoscopic procedures, all hernia types (inguinal — Nyhus/Gilbert classification, femoral, umbilical, incisional, parastomal), all breast surgery, all thyroid/parathyroid surgery, trauma surgery, surgical nutrition" },
+      { id: "cardiothoracic-surgery", label: "Cardiothoracic Surgery", desc: "All cardiac procedures (CABG all grafts, valve repair/replacement, TAVR, TEER, LVAD, total artificial heart, heart transplant), all thoracic procedures (lobectomy, pneumonectomy, VATS, esophagectomy, thymectomy), ECMO (VA and VV), IABP, all MCS devices, lung transplant, heart-lung transplant" },
+      { id: "vascular-surgery", label: "Vascular Surgery", desc: "All open and endovascular procedures (EVAR, TEVAR, carotid endarterectomy vs stenting, fem-pop bypass, fem-distal bypass, mesenteric revascularization), AV fistula and graft creation, AAA all approaches, venous interventions (phlebectomy, EVLA, sclerotherapy, venoplasty), hemodialysis access complications" },
+      { id: "neurosurgery", label: "Neurosurgery", desc: "All cranial procedures (craniotomy, craniectomy, EVD, VP shunt, stereotactic biopsy, endoscopic procedures), all spinal procedures (ACDF, PCDF, lumbar fusion, laminectomy, discectomy), all neuro-oncology surgery (glioma resection principles, awake craniotomy, fluorescence-guided surgery), DBS targets by disease, epilepsy surgery (lesionectomy, temporal lobectomy, corpus callosotomy, RNS, VNS)" },
+      { id: "plastic-surgery", label: "Plastic Surgery & Burns", desc: "All reconstructive procedures (wound reconstruction ladder — primary, secondary, skin graft, local flap, regional flap, free flap), all flap types (TRAM, DIEP, latissimus dorsi, ALT, fibular free flap), all cosmet procedures, all burns management (Lund-Browder chart, Parkland formula, escharotomy, skin substitutes, Integra), all hand surgery (tendon repairs, Dupuytren's, replantation)" },
+      { id: "transplant-surgery", label: "Transplant Surgery — All Organs", desc: "All organ transplants (deceased and living donor): kidney (KDRI, KDPI), liver (MELD, split liver), heart (HCT, pVAD bridge), lung (LAS), pancreas (SPK, PAK), intestine, multivisceral; all rejection types (hyperacute, acute cellular, acute antibody-mediated, chronic); all immunosuppression protocols (triple therapy, CNI monitoring, DSA)" },
+      { id: "pediatric-surgery", label: "Pediatric Surgery", desc: "All congenital anomalies (CDH — ECMO bridge, EA/TEF all types, gastroschisis vs omphalocele, duodenal/jejunal atresia, malrotation, Meckel's, Hirschsprung's, anorectal malformations — Krickenbeck classification, biliary atresia, choledochal cyst, all neonatal masses), all pediatric surgical emergencies" },
+      { id: "surgical-oncology", label: "Surgical Oncology", desc: "Oncologic resection principles (R0/R1/R2, adequate margins by cancer type), all lymph node dissection techniques, sentinel lymph node biopsy (all cancer types), cytoreductive surgery (CRS+HIPEC for peritoneal malignancies), all surgical staging procedures, reconstructive oncology, immediate vs delayed reconstruction, neoadjuvant vs adjuvant surgery" },
+      { id: "trauma-surgery", label: "Trauma Surgery — ATLS", desc: "All trauma primary/secondary survey (ATLS 10th edition), ABCDE approach, all FAST/EFAST findings, damage control surgery (DCS1/2/3), damage control resuscitation (MTP 1:1:1), all trauma scoring systems (ISS, TRISS, RTS, GCS, NISS), all massive transfusion protocols (MTP activation criteria), all thoracic/abdominal/pelvic injuries management" },
+      { id: "bariatric-surgery", label: "Bariatric Surgery", desc: "All bariatric procedures (RYGB — mechanism, LSG, LAGB — complications, BPD-DS, SADI-S, endoscopic procedures), eligibility criteria (BMI cutoffs, comorbidities), operative weight loss mechanism for each procedure, nutritional deficiencies by procedure (iron, B12, vitamin D, thiamine, zinc, copper), dumping syndrome, short-term and long-term complications, weight regain management" }
+    ]
+  },
+  // ──────────────── DIAGNOSTIC TOOLS & LABS (Section 4) ────────────────
+  {
+    id: "diagnostics-labs",
+    label: "Diagnostics & Labs",
+    icon: FlaskConical,
+    color: "#0369a1",
+    subcategories: [
+      { id: "lab-reference-complete", label: "Complete Lab Reference", desc: "All CBC components (WBC with differential, RBC indices, platelets), BMP/CMP all electrolytes and metabolic markers, LFTs, coagulation panel (PT/INR/aPTT/TT/fibrinogen/D-dimer), thyroid panel, inflammatory markers (CRP, ESR, ferritin, procalcitonin), cardiac markers (troponin I/T, BNP, NT-proBNP, CK-MB), tumor markers — all normal ranges by age and sex" },
+      { id: "body-fluids-labs", label: "Body Fluids & Specialized Labs", desc: "CSF analysis (all meningitis patterns: bacterial/viral/fungal/TB/malignant), synovial fluid analysis (all arthritis types: gout/pseudogout/septic/inflammatory/OA), pleural fluid (Light's criteria, all exudate causes), peritoneal fluid (SAAG calculation, SBP diagnosis), pericardial fluid, urine studies (UA, ACR, urine electrolytes, urine osmolality, FENa, FEUrea), ABG all patterns" },
+      { id: "hormonal-assays", label: "All Hormonal Assays & Endocrine Labs", desc: "Thyroid: TSH, free T4, free T3, TPO-Ab, TRAb, thyroglobulin; adrenal: cortisol (AM/PM, 1mg DST, 8mg DST, CRH stim), ACTH, aldosterone/renin ratio, 24h urine metanephrines, DHEA-S; pituitary: prolactin, GH, IGF-1, LH/FSH, GnRH stim; gonadal: testosterone, estradiol, progesterone, AMH — all interpretation guides" },
+      { id: "diagnostic-imaging-all", label: "All Diagnostic Imaging", desc: "X-ray findings by disease (chest X-ray patterns: all consolidation types, pneumothorax, effusion, cardiomegaly, interstitial patterns; abdominal X-ray signs; skeletal X-ray findings); CT chest/abdomen/pelvis/head findings by disease; MRI brain/spine/MSK findings; ultrasound by organ; nuclear medicine (V/Q, bone scan, thyroid scan, MIBG); PET-CT; radiation dose comparison; contrast safety (iodinated and gadolinium); imaging in pregnancy" },
+      { id: "ecg-complete", label: "All Electrocardiography (ECG)", desc: "Systematic ECG reading framework (rate, rhythm, axis, intervals, morphology, ischemia); all arrhythmia ECG patterns (AF, AFL, SVT types, WPW, VT, VF, heart blocks all degrees, BBBs); all STEMI patterns by territory (LAD, RCA, LCx, posterior, right-sided leads); all electrolyte ECG changes (hypo/hyperkalemia, hypo/hypercalcemia, hypomagnesemia); all drug effects on ECG (QTc prolongation, digoxin, TCA); Brugada/LQT/ARVC ECG criteria" },
+      { id: "pulmonary-function-tests", label: "All Pulmonary Function Tests", desc: "Spirometry interpretation (obstructive vs restrictive vs mixed — all diseases); all key PFT values (FEV1, FVC, FEV1/FVC, TLC, RV, FRC, ERV, IRV, IC, VC); DLCO significance (decreased in emphysema, ILD, pulmonary vascular disease; increased in asthma, polycythemia, intrapulmonary hemorrhage); bronchodilator response criteria; methacholine challenge; cardiopulmonary exercise test (CPET) interpretation; PSG all sleep stages and indices" },
+      { id: "pathology-histology", label: "All Pathology & Histology", desc: "All core biopsy and cytology findings by organ system; all cancer histological types (adenocarcinoma, SCC, TCC, RCC subtypes, sarcomas all histotypes, lymphoma histology, leukemia morphology); all special stains (PAS, Congo red, GMS, Ziehl-Neelsen, Giemsa, trichrome, reticulin); all immunohistochemistry panels by cancer type (ER/PR/HER2, TTF-1, CDX2, PSA, synaptophysin, chromogranin); flow cytometry panels for hematologic malignancies; Bethesda/Gleason/Fuhrman/Elston-Ellis grading systems" },
+      { id: "microbiology-techniques", label: "All Microbiology Techniques", desc: "All culture media and their organisms (blood agar, chocolate agar, MacConkey, BCYE, Thayer-Martin, Löwenstein-Jensen, Sabouraud); all staining techniques (Gram stain all morphologies, acid-fast, India ink, KOH prep, Giemsa, Tzanck, DFA); antimicrobial sensitivity testing (Kirby-Bauer, MIC, EUCAST vs CLSI breakpoints, E-test); all molecular methods (PCR, multiplex PCR, WGS, NAAT for STIs); all serology interpretation (IgM vs IgG, window period, false positives); all rapid tests and POCT; MALDI-TOF identification" },
+      { id: "poct-bedside-testing", label: "All Point-of-Care Testing", desc: "Bedside POCT devices: capillary blood glucose, urinalysis dipstick (all parameters, false positive/negatives), urine pregnancy test (hCG sensitivity), rapid strep A, rapid influenza, rapid RSV, rapid COVID-19 (antigen vs NAAT), rapid HIV, rapid hepatitis B/C, rapid malaria RDTs (all species), rapid STEMI cardiac troponin, BNP-POC, ABG machines (all analytes), coagulation POC (INR, ACT, thromboelastography — TEG/ROTEM interpretation)" },
+      { id: "genetic-testing-pgx", label: "Genetic Testing & Pharmacogenomics", desc: "All genetic testing types (karyotype, FISH, chromosomal microarray, targeted gene sequencing, gene panel, whole exome sequencing, whole genome sequencing, cell-free DNA/NIPT); all chromosomal disorders with karyotype (trisomies, monosomies, translocations, deletions, duplications); pharmacogenomics: CYP2D6 (codeine, tamoxifen, antidepressants), CYP2C19 (clopidogrel, PPIs, SSRIs), CYP2C9 (warfarin, NSAIDs, phenytoin), TPMT (azathioprine, 6-MP), DPYD (5-FU, capecitabine), UGT1A1 (irinotecan), HLA-B*5701 (abacavir), HLA-B*1502 (carbamazepine), G6PD (primaquine, rasburicase)" },
+      { id: "scoring-systems-all", label: "All Clinical Scoring Systems & Scales", desc: "Cardiology: CHADS₂-VASc, HAS-BLED, GRACE, TIMI (UA/NSTEMI and STEMI), HEART, Framingham, ASCVD, NYHA, ACC/AHA HF staging; Critical care: APACHE II/III/IV, SOFA, qSOFA, NEWS2, MEWS, SAPS; Neurology: GCS, NIHSS, mRS, Barthel, ABCD2, Hunt-Hess, WFNS, ICH score; Pulmonary: CURB-65, PSI/PORT, Wells DVT/PE, Geneva; Psychiatry: PHQ-9, GAD-7, CAGE, AUDIT-C, CIWA-Ar, COWS, Columbia Suicide Severity; GI: MELD-Na, Child-Pugh, ABIC, Rockall, Blatchford; Renal: Cockcroft-Gault, CKD-EPI, MDRD, FIB-4; Nutrition: NRS-2002, MUST, SGA, MNA; Scoring in OB: Bishop, APGAR, Silverman-Anderson, Ballard; Surgical/Anesthesia: ASA, Mallampati, Caprini; Wound: Braden, Norton, Waterlow; all cancer staging (TNM all cancers); all pain scales (NRS, FACS, Abbey, BPI); all functional scales" }
+    ]
+  },
+  // ──────────────── ALL PHARMACY PRACTICE DOMAINS (Section 5) ────────────────
+  {
+    id: "pharmacy-practice",
+    label: "Pharmacy Practice Domains",
+    icon: Pill,
+    color: "#7c3aed",
+    subcategories: [
+      { id: "pharmacokinetics-complete", label: "Complete Pharmacokinetics (PK)", desc: "All PK equations with worked examples: zero-order vs first-order kinetics, linear vs nonlinear; one/two/three-compartment models; all PK parameters (Vd, CL, t½, AUC, Cmax, Cmin, Css); all bioavailability calculations (F, absolute vs relative BA); protein binding clinical significance; all loading dose, maintenance dose, infusion rate, and Css calculations; population PK; TDM interpretation (vancomycin AUC/MIC, aminoglycosides, phenytoin, lithium, digoxin, cyclosporine, tacrolimus)" },
+      { id: "pharmacodynamics-complete", label: "Complete Pharmacodynamics (PD)", desc: "All receptor types (GPCRs, ionotropic, tyrosine kinase, nuclear receptors) with full signaling pathways; all dose-response curves (Emax, EC50, Hill equation); full agonist vs partial agonist vs antagonist vs inverse agonist; competitive vs non-competitive antagonism; allosteric modulators; all tolerance mechanisms (receptor downregulation, desensitization, tachyphylaxis); therapeutic index/therapeutic window; all synergy and antagonism types (Loewe additivity, Bliss independence, Chou-Talalay)" },
+      { id: "compounding-usp", label: "Complete Compounding — USP 795, 797, 800", desc: "USP 797 sterile compounding: all CSP risk levels (low, medium, high — with beyond-use dating), all ISO cleanroom classifications (ISO 5/7/8), all primary engineering controls (BSC, CAI, CACI, LAFW), all garbing requirements, all environmental monitoring, all sterility testing; USP 795 non-sterile: all dosage form preparation, all beyond-use dating, all stability testing; USP 800 hazardous drugs: all NIOSH classification, all engineering controls, all PPE, all spill management" },
+      { id: "dispensing-rx-processing", label: "Complete Dispensing & Prescription Processing", desc: "All Rx components (valid prescription elements, forgery detection), all Latin abbreviations and sig codes, all days supply calculations (insulin, inhalers, eye drops, creams — with worked examples), all quantity calculations, all refill regulations by DEA schedule (C-II through C-V), all e-prescribing requirements (EPCS), all PDMP requirements by state, all DUR (prospective, retrospective, concurrent), all pharmacy dispensing workflows, medication error prevention" },
+      { id: "patient-counseling", label: "Complete Patient Counseling", desc: "Counseling scripts for every major drug class (what to say, how to take, storage, common side effects, serious adverse effects, monitoring parameters, drug interactions, what to avoid, pregnancy/lactation safety, when to call provider); all written medication information standards; all REMS programs complete list (iPLEDGE, THALOMID REMS, TIRF REMS, clozapine REMS, opioid REMS, ADDYI REMS, MAKENA REMS) — drug, risk, REMS requirement, counseling; motivational interviewing in pharmacy" },
+      { id: "drug-information-ebm", label: "Complete Drug Information & Evidence-Based Medicine", desc: "All primary literature study designs (RCT, cohort, case-control, cross-sectional, case series, systematic review, meta-analysis — hierarchy of evidence); all bias types (selection, performance, detection, attrition, reporting); all statistical concepts (NNT, NNH, ARR, RRR, OR, RR, HR, CI, p-value, type I/II error, power, sensitivity/specificity, PPV/NPV, LR+/LR-); all drug information databases (Lexicomp, Micromedex, Clinical Pharmacology, PubMed, UpToDate, Cochrane, DailyMed); all EBM frameworks (GRADE, PICO, critical appraisal tools)" },
+      { id: "pharmacy-law-federal", label: "Complete Pharmacy Law — Federal", desc: "All major pharmacy acts: Durham-Humphrey Amendment (Rx vs OTC), Kefauver-Harris Amendment, PPPA (childproof packaging), HIPAA (all 18 PHI identifiers, permitted disclosures, HITECH), OBRA-90 (drug counseling mandate), Drug Quality and Security Act (DSCSA track and trace), SUPPORT Act (opioid prescribing), Ryan Haight Act (telemedicine prescribing), Combat Methamphetamine Epidemic Act (pseudoephedrine limits); all DEA regulations (Schedules I–V, DEA Form 222, 106, 107, 222a); all FDA regulations (NDA, ANDA, BLA, OTC monographs); all Medicare Part D MTM requirements" },
+      { id: "pharmacy-management", label: "Complete Pharmacy Management & Pharmacoeconomics", desc: "MTM all components: CMR (comprehensive medication review) vs TMR (targeted medication review) — billing codes (CPT 99605/99606/99607), documentation standards; all quality metrics: PDC (proportion of days covered) calculation, MPR (medication possession ratio), all CMS Star Rating domains and measures; pharmacoeconomics: CEA (cost-effectiveness analysis), CBA (cost-benefit), CUA (cost-utility — QALYs/DALYs), CMA (cost-minimization); pharmacoepidemiology methods; pharmacy informatics (EHR, CPOE, CDS systems); medication reconciliation all settings" },
+      { id: "sterile-products-iv", label: "Complete Sterile Products & IV Therapy", desc: "All IV fluids: isotonic (NS, LR, D5W), hypotonic (0.45% NS, D5W at rest), hypertonic (3% NS, D10W, D50W, concentrated electrolytes) — tonicity, osmolarity, and clinical use; all TPN components and calculations (dextrose, amino acids, lipid, electrolytes, vitamins, trace elements — kcal/g calculations, GIR, protein goals); all electrolyte replacement protocols IV (potassium, magnesium, phosphate, calcium); all IV push drugs with rates; all continuous infusion titration protocols (vasopressors, insulin, heparin, nicardipine); all IV compatibility references (Y-site, admixture); all aseptic technique requirements" },
+      { id: "geriatric-pharmacy", label: "Complete Geriatric Pharmacy", desc: "Beers Criteria 2023 complete list (all drugs to avoid or use with caution in ≥65 — with rationale, severity, quality of evidence); STOPP/START criteria version 3 full list; all polypharmacy assessment tools (Medication Appropriateness Index, ARMOR tool); all renal dosing adjustments for common drugs in CrCl <60, <30, <15 mL/min; all hepatic dosing adjustments (Child-Pugh A/B/C); all medications causing cognitive impairment; all fall-risk medications; all anticholinergic burden scales (ARS, ACB, DBI) and high-risk drugs" },
+      { id: "pediatric-pharmacy", label: "Complete Pediatric Pharmacy", desc: "Weight-based dosing reference for all common pediatric conditions (loading doses, maintenance doses, max doses by age/weight); neonatal formulary (all drugs with gestational age and postnatal age dosing adjustments, renal/hepatic maturation effects); all off-label pediatric drug use (evidence levels); all excipients to avoid in neonates and infants (benzyl alcohol, propylene glycol, polysorbate 80); all PK differences by age (Vd changes, protein binding, CYP enzyme ontogeny); all pediatric compounding guidelines" },
+      { id: "oncology-pharmacy", label: "Complete Oncology Pharmacy", desc: "All chemotherapy preparation safety (USP 800 hazardous drug handling, BSC/CACI, PPE tiers, spill management, closed system transfer devices); all BSA calculation methods (Mosteller, DuBois); all AUC-based dosing (carboplatin Calvert formula, busulfan therapeutic drug monitoring); all dose capping controversies by drug; complete emetogenicity classification (HEC/MEC/LEC/minimal — all agents); all antiemetic protocols (ASCO/NCCN guidelines); all growth factor protocols (pegfilgrastim, filgrastim — primary/secondary prophylaxis criteria); mucositis protocols, oral chemotherapy counseling, extravasation management by vesicant vs irritant" }
+    ]
+  },
+  {
+    id: "nursing-complete",
+    label: "Complete Nursing Reference",
+    icon: Heart,
+    color: "#be185d",
+    subcategories: [
+      { id: "medsurg-nursing", label: "Complete Med-Surg Nursing", desc: "All conditions by organ system with full nursing process: nursing assessment (subjective/objective data, focused physical exam); all NANDA-I nursing diagnoses with defining characteristics and related factors; all nursing interventions (independent, dependent, collaborative) with rationales; all expected outcomes (NOC) and evaluation criteria; patient education for every major medical-surgical condition; all IV therapy nursing (line care, infusion monitoring, complication management); all wound care nursing (staging, dressing selection, debridement, negative pressure wound therapy); all ostomy nursing; all drain management; all urinary catheter care; post-surgical nursing by procedure type" },
+      { id: "critical-care-nursing", label: "Complete Critical Care Nursing", desc: "All hemodynamic monitoring parameters (arterial lines, CVP, PAC — PCWP/CO/CI/SVR/PVR/SvO2); all waveform interpretation; all vasopressor protocols (norepinephrine, epinephrine, vasopressin, phenylephrine, dopamine — dosing tiers, receptor selectivity, titration endpoints); all inotrope protocols (dobutamine, milrinone); complete mechanical ventilation nursing (all modes — AC/VC, AC/PC, PRVC, SIMV, PSV, APRV, HFOV; all settings — FiO2, PEEP, tidal volume, RR, I:E ratio; all weaning protocols; spontaneous awakening trials/spontaneous breathing trials — SAT/SBT bundle; all extubation criteria); RASS sedation scale (all levels −5 to +4 with clinical descriptors); CAM-ICU delirium assessment (all 4 features, RASS precondition, positive criteria); all sedation protocols (propofol, midazolam, dexmedetomidine, ketamine — ICU use); all ICU analgesia (fentanyl, morphine, hydromorphone, remifentanil — continuous vs PRN); all ICU procedures nursing (central line insertion assist, arterial line, bronchoscopy, CRRT, plasmapheresis, IABP, ECMO); rapid response criteria (MEWS/NEWS2, all early warning signs); complete ACLS nursing role; all code blue team nursing responsibilities; SEPSIS-3 nursing recognition (qSOFA, SOFA, Sepsis Bundle Hour-1)" },
+      { id: "pediatric-nursing", label: "Complete Pediatric Nursing", desc: "All growth and development milestones (Erikson, Piaget, Kohlberg — all stages with nursing implications); all pediatric vital sign normals by age group (neonate, infant, toddler, preschool, school-age, adolescent); all pediatric assessment tools (PEWS — Pediatric Early Warning Score, FLACC pain scale, Wong-Baker FACES, Oucher, CRIES, NIPS); all pediatric physical assessment (fontanelles, sutures, head circumference, developmental reflexes); all pediatric IV considerations (weight-based dosing calculations, maximum volume guidelines, osmolarity limits, scalp vein IVs); all pediatric dosing calculations (mg/kg and BSA methods, safe dose range verification); all pediatric fluid management (maintenance — Holliday-Segar, deficit, replacement); all child abuse assessment (physical indicators, behavioral indicators, Shaken Baby syndrome, mandatory reporting protocols); all immunization schedules (CDC ACIP — birth through 18 years); all pediatric respiratory emergencies (croup nursing, epiglottitis, RSV bronchiolitis, asthma exacerbation, foreign body aspiration); neonatal resuscitation nursing; all pediatric sepsis criteria (SIRS vs Sepsis-3); all congenital heart disease nursing implications; pediatric medication safety — 6 rights, smart pump use, high-alert meds" },
+      { id: "maternal-newborn-nursing", label: "Complete Maternal-Newborn Nursing", desc: "Complete antepartum nursing (all prenatal visit content, all prenatal labs and screening, all pregnancy discomforts and nursing interventions, all high-risk pregnancy conditions — gestational diabetes, preeclampsia/eclampsia/HELLP, placenta previa/abruption, preterm labor, PROM, multiple gestation); all fetal assessment nursing (NST interpretation, BPP scoring, contraction stress test, kick counts); all intrapartum nursing (all stages of labor nursing care, Leopold's maneuvers, all fetal heart rate monitoring — baseline, variability, all accelerations and decelerations NICHD classification, Category I/II/III); all labor support nursing (positioning, breathing techniques, hydrotherapy); all induction/augmentation nursing (oxytocin protocols, cervical ripening agents, amniotomy); all labor analgesia nursing (epidural care, spinal block, IV opioids); all complications of labor nursing (shoulder dystocia HELPERR, cord prolapse, uterine rupture, amniotic fluid embolism, fetal distress interventions); complete postpartum nursing (uterine involution assessment — BUBBLE-HE, lochia progression, perineal care, breastfeeding support — LATCH score, all breastfeeding problems, postpartum depression Edinburgh scale, postpartum hemorrhage nursing including uterotonic drug administration); complete newborn assessment (APGAR scoring 1/5 minutes, gestational age assessment — Ballard score, all newborn physical assessment, all newborn reflexes, newborn metabolic screening, hearing screening, all newborn thermoregulation)" },
+      { id: "mental-health-nursing", label: "Complete Mental Health Nursing", desc: "All therapeutic communication techniques (active listening, open-ended questions, reflection, clarification, confrontation, silence, summarizing — all with examples and contraindications); all non-therapeutic communication to avoid (false reassurance, giving advice, changing subject, clichés); complete mental status examination (appearance, behavior, speech, mood, affect, thought process, thought content, perceptions, cognition, insight, judgment — all with psychiatric descriptors); all milieu therapy principles (therapeutic environment components, limit-setting, group therapy nursing role, token economy); all psychiatric emergency nursing (acute agitation management — verbal de-escalation techniques, STAMP warning signs, CPI nonviolent crisis intervention); all seclusion and restraint nursing (indications, contraindications, 1:1 monitoring requirements, circulation/ROM checks q15 min, physician order requirements, documentation); all safety assessment tools (Columbia Suicide Severity Rating Scale C-SSRS, SAD PERSONS, violence risk assessment); all psychiatric disorders nursing care (schizophrenia, bipolar I/II, major depression, anxiety disorders, PTSD, OCD, eating disorders, personality disorders — borderline, antisocial); all psychotropic medication nursing implications (antipsychotics — EPS, tardive dyskinesia, NMS; lithium toxicity monitoring; SSRI/SNRI serotonin syndrome; MAOI dietary restrictions; benzodiazepine dependence); all mental health legislation nursing implications (involuntary holds, competency, informed consent)" },
+      { id: "community-public-health-nursing", label: "Complete Community & Public Health Nursing", desc: "All epidemiological concepts (incidence vs prevalence, attack rate, case fatality rate, R0/Rt, epidemic curve shapes, herd immunity thresholds, modes of transmission); all levels of prevention (primary/secondary/tertiary — specific examples by condition); all population health assessment frameworks (community needs assessment, windshield survey, community-as-client model); all health promotion models (Pender Health Promotion Model, Transtheoretical Model/Stages of Change, Health Belief Model, Social Cognitive Theory — nursing application); all communicable disease reporting requirements (notifiable diseases, chain of infection, isolation precautions by transmission type — contact/droplet/airborne/protective); all outbreak investigation steps (CDC 10-step epidemiological investigation); all disaster nursing (ICS — Incident Command System, ESF-8, Mass Casualty Incident nursing, shelter nursing, community emergency response); all environmental health nursing (toxicant exposure assessment, lead poisoning screening, occupational health screening); all home health nursing (OASIS assessment, Medicare home health criteria, telehealth nursing); all school nursing (IHP — individualized health plan, 504 plans, communicable disease exclusion criteria); all correctional nursing; all faith community nursing; vulnerable population care (homeless, migrant workers, refugees, human trafficking victims)" },
+      { id: "geriatric-nursing", label: "Complete Geriatric Nursing", desc: "All geriatric assessment tools (Mini-Cog, MMSE, MoCA — dementia screening; GDS-15 — geriatric depression; SPMSQ; Katz ADL index; Lawton IADL; Barthel index; Timed Up and Go — fall risk; Morse Fall Scale; Berg Balance Scale; PUSH tool — pressure injury; Braden Scale — pressure injury risk; MNA — malnutrition screening; AMTS); all dementia nursing care (person-centered care, reality orientation vs validation therapy, sundowning management, wandering prevention, behavioral symptoms management — non-pharmacological first); all delirium prevention and management (HELP protocol — Hospital Elder Life Program, ABCDEF bundle, identifying precipitating vs predisposing factors, pharmacological vs non-pharmacological management); complete fall prevention program (fall risk stratification, environmental modifications, hip protectors, bed alarms, safe patient handling); complete pressure injury prevention/management (turning schedules, support surfaces — foam/air/gel/low-air-loss/alternating pressure, moisture management, nutrition optimization); all polypharmacy nursing (Beers Criteria — all inappropriate medications in elderly, START/STOPP criteria, medication reconciliation, pill burden reduction); all end-of-life nursing (advance directives — living will/DPOA/POLST, goals of care conversations, comfort-focused care, symptom management in dying patient, signs of impending death, post-mortem care, grief support for family)" },
+      { id: "oncology-nursing", label: "Complete Oncology Nursing", desc: "Complete chemotherapy administration nursing (all routes — IV bolus, IV infusion, intrathecal, intraperitoneal, intravesical, topical; all IV access — PIV, PICC, implanted port, tunneled catheter; all pre-medication protocols; all infusion rate monitoring); all chemotherapy safe handling (USP 800, PPE requirements, closed system drug transfer devices, spill kit use, waste disposal); all cancer nursing symptom management (chemotherapy-induced nausea/vomiting — all antiemetic protocols ASCO/NCCN; mucositis — WHO grading, nursing interventions; alopecia; fatigue — Piper Fatigue Scale; peripheral neuropathy — nursing assessment and management; bone marrow suppression — neutropenia nursing — febrile neutropenia recognition and emergency response, thrombocytopenia — bleeding precautions, anemia — fatigue management, transfusion nursing); all oncologic emergencies nursing recognition (SVCS assessment, spinal cord compression — motor assessment priority, TLS monitoring — all labs, hypercalcemia of malignancy, DIC — all clotting labs, septic shock in immunocompromised); all palliative nursing (pain assessment tools — NRS/VAS/FACES/CPOT; all opioid equianalgesic conversions; all non-pharmacological pain strategies; dyspnea management; 10 principles of palliative nursing); all radiation therapy nursing (skin care — radiation dermatitis grading and management, fatigue, mucositis by radiation field, sexual health effects); all clinical trial nursing (IRB informed consent process, AE/SAE reporting, protocol adherence); all cancer screening nursing education (mammography, colonoscopy, Pap/HPV, PSA, lung CT — all USPSTF/ACS guidelines)" },
+      { id: "perioperative-nursing", label: "Complete Perioperative Nursing", desc: "Complete pre-operative nursing assessment (all pre-op labs and diagnostics by procedure type, ASA physical status classification I-VI with nursing implications, NPO guidelines — ASA 2017, all pre-op medication management — which to hold and which to continue, all pre-op teaching content, all surgical consent components, all pre-op skin preparation, surgical site infection prevention bundle); all intraoperative nursing roles (scrub nurse vs circulating nurse — all responsibilities, sterile field maintenance, surgical count procedures — all sharps/instruments/sponges — all time-outs WHO Surgical Safety Checklist, specimen handling, all positioning-related injury prevention — all surgical positions with associated nerve injury risks, all fire hazard prevention in OR, all electrosurgery nursing safety, anesthesia induction nursing role); complete PACU nursing (all Phase I recovery criteria — Aldrete/Modified Aldrete score, all Phase II discharge criteria — PADSS/PADDS; all post-anesthesia complications — PONV management, respiratory depression, emergence delirium, malignant hyperthermia recognition and nursing response — MH crisis protocol, all pain assessment and management in PACU); all surgical complication early detection nursing (wound dehiscence, evisceration, anastomotic leak, pulmonary embolism, DVT, ileus, infection — SSI, urinary retention, bleeding — classic early shock signs)" },
+      { id: "emergency-nursing", label: "Complete Emergency Nursing", desc: "Complete ESI triage system (all 5 levels with decision algorithm, all vital sign danger zones by level, all high-risk presentations mandating ESI Level 1/2, all resources-prediction decision point for ESI 3-5); all trauma nursing (primary survey ABCDE with nursing interventions at each step, secondary survey — head-to-toe with trauma-specific assessments, all massive hemorrhage control — tourniquet, hemostatic dressings, wound packing; all damage control resuscitation; permissive hypotension — targets by injury type; all trauma transfusion — 1:1:1 MTP; all trauma radiographic series; all focused assessment with sonography for trauma — FAST exam interpretation); all disaster triage nursing (START triage — all assessment steps RPM criteria; SALT triage — Sort-Assess-Lifesaving Interventions-Treatment/Transport; JumpSTART for pediatrics; all triage tag colors with criteria; all expectant category criteria); all toxicology nursing (all toxidrome recognition — anticholinergic/cholinergic/opioid/sedative-hypnotic/sympathomimetic — all classic signs/symptoms; all antidote nursing (naloxone, flumazenil, N-acetylcysteine, physostigmine, atropine, pralidoxime, activated charcoal — all indications/contraindications/dosing); all poisoning decontamination nursing; all overdose monitoring priorities); all psychiatric emergency nursing (acute psychosis, homicidal ideation, suicidal crisis — all nursing safety interventions, chemical restraint options); all stroke nursing (acute stroke recognition — BE-FAST, all NIHSS assessment, thrombolysis eligibility nursing screen, door-to-needle time targets, post-tPA monitoring — hemorrhagic transformation signs)" },
+      { id: "nclex-complete-ng", label: "NCLEX Complete — RN & PN + NGN", desc: "Complete NCLEX-RN content coverage (all 8 client needs categories: Safe/Effective Care Environment — Management of Care 17-23%, Infection Control 9-15%; Health Promotion 6-12%; Psychosocial Integrity 6-12%; Physiological Integrity — Basic Care 6-12%, Pharmacological Therapies 12-18%, Reduction of Risk 9-15%, Physiological Adaptation 11-17%); complete NCLEX-PN content by distribution; all Next Generation NCLEX (NGN) item types — Extended Multiple Response (select all, select N), Extended Drag and Drop, Cloze/Drop-Down (in table/rationale/in sentence), Enhanced Hot Spot, Matrix/Grid; all Clinical Judgment Measurement Model (CJMM) Layer 1–4 competencies (recognize cues, analyze cues, prioritize hypotheses, generate solutions, take actions, evaluate outcomes); all unfolding case study nursing (6-item case cluster structure, CJMM application across case progression); all SATA strategies (negative option elimination, 2+3 validation approach, absolute terms avoidance); all priority nursing questions frameworks (Maslow's hierarchy — physiological-safety-love-esteem-self-actualization, ABCs — airway beats breathing beats circulation, safety-first rule, acute vs chronic, unstable vs stable); all delegation/assignment frameworks (RN vs LPN/LVN scope, RN to UAP delegation 5 rights, charge nurse prioritization); all NCLEX test-taking strategies (positively worded vs negatively worded items, all-of-the-above avoidance, option comparison strategies)" },
+      { id: "nursing-pharmacology", label: "Complete Nursing Pharmacology", desc: "All high-alert medications with complete nursing implications (insulin — all types with onset/peak/duration, hypoglycemia protocol, pen vs vial safety; anticoagulants — heparin aPTT monitoring and reversal protamine, warfarin INR monitoring and vitamin K reversal, all DOACs with reversal agents; concentrated electrolytes — potassium chloride IV never undiluted, magnesium sulfate toxicity monitoring — respiratory rate/urine output/reflexes, calcium gluconate antidote; opioids — respiratory depression monitoring, naloxone dosing; neuromuscular blocking agents — must be intubated first, paralysis vs sedation distinction); all drug-laboratory interactions (what drugs alter which lab values — lithium affects thyroid, thiazides affect glucose/uric acid/potassium, steroids affect glucose/WBC, statins affect CK, antiepileptics affect folate/CBC); all drug-food interactions (warfarin-vitamin K foods, MAOIs-tyramine, tetracyclines-dairy, fluoroquinolones-divalent cations, grapefruit-CYP3A4 substrates list); all nursing-specific drug monitoring parameters (therapeutic ranges — digoxin 0.5-0.9 ng/mL HF, 0.8-2 ng/mL afib; lithium 0.6-1.2 mEq/L maintenance; phenytoin 10-20 mcg/mL; theophylline 10-20 mcg/mL; vancomycin AUC/MIC-guided 400-600 or trough 15-20 mcg/mL); all antidotes the nurse must know (acetaminophen — N-acetylcysteine Rumack-Matthew nomogram; opioids — naloxone; benzodiazepines — flumazenil; organophosphates — atropine + pralidoxime; digoxin — digoxin immune Fab; beta-blockers — glucagon; calcium channel blockers — calcium + glucagon + high-dose insulin; iron — deferoxamine; lead — dimercaprol/succimer; cyanide — hydroxocobalamin/sodium thiosulfate; methanol/ethylene glycol — fomepizole)" }
+    ]
+  },
+  {
+    id: "med-school-complete",
+    label: "Complete Medical School Reference",
+    icon: GraduationCap,
+    color: "#0c4a6e",
+    subcategories: [
+      { id: "anatomy-complete", label: "Complete Anatomy", desc: "All regional anatomy — head and neck (all cranial nerves with origin/course/branches/function/clinical testing/lesion effects; all skull foramina with contents; all triangles of neck with boundaries/contents; all fascial spaces; all carotid/vertebral artery supply; all venous drainage/dural sinuses; all lymphatic drainage head/neck); thorax (all mediastinal compartments/contents; heart anatomy — all chambers/valves/papillary muscles/chordae/coronary anatomy with dominance; all great vessels; all thoracic outlet anatomy; all breast anatomy lymphatic drainage); abdomen and pelvis (all peritoneal reflections; all retroperitoneal organs; all mesenteries and omenta; all abdominal wall layers; all inguinal canal anatomy; all pelvic floor muscles; all pelvic organ relationships; all perineal anatomy; all pelvic vasculature/innervation); upper limb (all brachial plexus — roots/trunks/divisions/cords/branches; all muscle compartments with nerve supply; all dermatomes; all common nerve injury patterns at specific sites — radial nerve Saturday night palsy, ulnar nerve claw hand, median nerve ape hand/carpal tunnel); lower limb (all lumbar/sacral plexus; all muscle compartments; all dermatomes; all hip/knee/ankle ligaments; all common nerve injuries — femoral, obturator, sciatic, common peroneal, tibial); all surface anatomy landmarks; all radiological anatomy (CXR, CT chest/abdomen/pelvis, MRI brain, plain radiograph landmarks); all anatomical variations with clinical significance; all embryology (all germ layer derivatives; all pharyngeal arch/pouch/groove/membrane derivatives; all congenital anomalies with embryological basis — VSD, ToF, TGA, CDH, TEF, omphalocele/gastroschisis, neural tube defects, cleft lip/palate, horseshoe kidney, Meckel diverticulum); all histology by organ system (epithelial types, glandular types, all specialized cells by organ)" },
+      { id: "physiology-complete", label: "Complete Physiology", desc: "All cardiovascular physiology (cardiac output = HR x SV; all determinants of SV — preload/afterload/contractility; Frank-Starling law with curve shifts; Fick principle for CO measurement; all pressure-volume loops; all cardiac cycle phases — all pressure/volume/sound events; all vascular resistance equations; all Starling forces for fluid exchange; all baroreceptor/chemoreceptor reflex arcs; all cardiac action potentials by cell type — phases 0-4 with ion channels; all ECG wave genesis); all renal physiology (GFR = Kf x net filtration pressure; all tubular transport maximums; all renal handling of specific substances — glucose, amino acids, urea, PAH, inulin clearance; all concentration/dilution mechanism — countercurrent multiplier/exchanger; all renin-angiotensin-aldosterone axis; all ADH/aquaporin physiology; all acid-base — Henderson-Hasselbalch, all compensatory responses, all anion gap/non-anion gap causes); all pulmonary physiology (all lung volumes and capacities with equations; all V/Q ratios — zones 1/2/3, all V/Q mismatch effects; all shunts — anatomical vs physiological; all compliance — static vs dynamic, hysteresis; all surfactant — type II pneumocytes, DPPC; all oxygen-hemoglobin dissociation curve — all shifting factors Bohr/Haldane; all CO2 transport; all Fick's law of diffusion); all GI physiology (all GI hormones — gastrin/CCK/secretin/GIP/motilin/VIP/somatostatin — stimulus/source/target/action; all digestive enzymes with activation; all GI motility patterns; all absorption sites by nutrient; all liver physiology — bile acid enterohepatic circulation, conjugation reactions); all endocrine physiology (all hypothalamic-pituitary axes; all feedback loop diagrams; all steroid hormone synthesis pathways; all thyroid hormone synthesis/secretion/action; all calcium-phosphate regulation — PTH/calcitonin/vitamin D axis); all neurophysiology (resting membrane potential — Goldman equation; action potential phases — all ion conductances; all synaptic transmission — all neurotransmitters with synthesis/degradation; all receptor types with signal transduction; all sensory physiology — all receptor adaptation; all motor physiology — UMN vs LMN signs; all cerebellar circuits; all basal ganglia direct/indirect pathways); all reproductive physiology (menstrual cycle all hormones day by day; all spermatogenesis stages; all pregnancy physiology changes by system); all exercise physiology; all high-altitude physiology; all diving physiology" },
+      { id: "biochemistry-complete", label: "Complete Biochemistry", desc: "All carbohydrate metabolism (glycolysis — all 10 steps with enzymes/cofactors/energy yield/regulation; TCA cycle — all 8 steps; oxidative phosphorylation — all complexes I-V; all electron carriers; all ATP yield calculations per glucose; glycogen synthesis/degradation — all enzymes and hormonal regulation; gluconeogenesis — all substrates/enzymes/regulation; pentose phosphate pathway — G6PD deficiency; all carbohydrate disorders — galactosemia, fructose intolerance, GLUT deficiency); all lipid metabolism (beta-oxidation — all steps per fatty acid type; fatty acid synthesis — all steps, all enzymes, all cofactors; ketogenesis and ketolysis; lipoprotein metabolism — all classes LDL/HDL/VLDL/IDL/chylomicrons with apo-proteins; all familial dyslipidemias; cholesterol synthesis — all steps, rate-limiting enzyme HMG-CoA reductase, all statin mechanism); all amino acid metabolism (all essential vs non-essential; all amino acid catabolism — transamination, deamination; urea cycle — all 6 steps with enzymes; all amino acid derivatives — dopamine/serotonin/histamine/GABA/NO/heme/creatine; all amino acid disorders — PKU, alkaptonuria, homocystinuria, maple syrup urine disease, albinism); all nucleotide metabolism (purine synthesis de novo and salvage — HGPRT deficiency causing Lesch-Nyhan; pyrimidine synthesis; all nucleotide antimetabolites mechanism); all vitamins complete (fat-soluble A/D/E/K — sources/functions/deficiency/toxicity; all water-soluble B1 thiamine/B2 riboflavin/B3 niacin/B5 pantothenic acid/B6 pyridoxine/B7 biotin/B9 folate/B12 cobalamin/C ascorbic acid — all coenzyme roles/deficiency syndromes/specific tests); all minerals; all enzyme kinetics (Michaelis-Menten — Km/Vmax interpretation; Lineweaver-Burk plot — competitive/non-competitive/uncompetitive/mixed inhibition patterns); all molecular biology (DNA replication — all enzymes/origins/Okazaki fragments; all DNA repair mechanisms — BER/NER/MMR/DSBR; all RNA types and functions; all transcription initiation/elongation/termination; all translation — all codons/anticodons/reading frame mutations; all mutation types — silent/missense/nonsense/frameshift/splice site; all genetic regulation — promoters/enhancers/silencers/operons); all inborn errors of metabolism" },
+      { id: "microbiology-complete", label: "Complete Medical Microbiology", desc: "All bacteria complete (all Gram-positive cocci — Staph aureus virulence factors/toxins/MRSA/MSSA/diseases; Strep pyogenes — M protein/emm typing/diseases/sequelae; Strep pneumoniae — capsule/quelling/diseases; Enterococci; all Gram-positive rods — Bacillus anthracis spores/toxin, Clostridium perfringens/tetani/botulinum/difficile all toxins and mechanisms; Listeria monocytogenes; Corynebacterium diphtheriae; all Gram-negative cocci — Neisseria gonorrhoeae/meningitidis; all Gram-negative rods — Enterobacteriaceae all species/virulence; Pseudomonas aeruginosa; Haemophilus influenzae; Legionella; Bordetella; Brucella; Francisella; Yersinia; all anaerobes; all spirochetes — Treponema/Borrelia/Leptospira; all mycobacteria — TB all stages/pathology, leprosy; all Rickettsia/Ehrlichia/Anaplasma; all Chlamydia/Mycoplasma); all viruses complete (all DNA viruses — poxvirus/herpesvirus/adenovirus/papovavirus/parvovirus/hepadnavirus with genome type/envelope/diseases/latency sites; all RNA viruses — orthomyxovirus/paramyxovirus/rhabdovirus/togavirus/flavivirus/coronavirus/retrovirus/reovirus/picornavirus all diseases/transmission/vaccine availability; all HIV virology — genome/replication cycle/CD4 count thresholds/all OIs/all ART drug classes); all fungi (all candida/aspergillus/cryptococcus/mucor/pneumocystis/histoplasma/blastomyces/coccidioides/sporothrix/dermatophytes — morphology/culture/antigen tests/treatment); all parasites (all protozoa — Plasmodium all species life cycle/morphology/treatment; Trypanosoma; Leishmania; Toxoplasma; Cryptosporidium; Giardia; Entamoeba; all helminths — all nematodes/trematodes/cestodes life cycle/clinical/treatment); all prions; all antimicrobial resistance mechanisms (all beta-lactamases — ESBLs/carbapenemases/AmpC; all efflux pumps; all target modifications; all enzymatic inactivation); all diagnostic microbiology (all culture media; all selective/differential agars; all serology tests; all molecular diagnostics)" },
+      { id: "immunology-complete", label: "Complete Immunology", desc: "All innate immunity (all pattern recognition receptors — all TLRs with ligands/signaling; all NLRs/RLRs/CLRs; all complement pathways — classical/lectin/alternative — all components C1-C9, all regulatory proteins, all complement deficiency diseases; all natural killer cell mechanisms — missing self hypothesis, all activating/inhibitory receptors; all innate immune cells — neutrophil, macrophage, DC, mast cell, basophil, eosinophil — all functions/activation/mediators; all physical/chemical barriers); all adaptive immunity (all T cell development — all thymic selection positive/negative; all T cell subsets — Th1/Th2/Th17/Treg/Tfh/Tc — all cytokines produced/function; all B cell development — all stages; all B cell activation — T-dependent/T-independent; all antibody class switching — all cytokines driving each isotype; all germinal center reaction; all somatic hypermutation/affinity maturation); all antibody structure/function (all Ig classes IgM/IgG/IgA/IgE/IgD — structure/serum levels/half-life/placental transfer/function); all MHC/HLA (all MHC I vs II genes/structure/expression/antigen presentation pathway; all HLA disease associations — HLA-B27 diseases, HLA-DR3/DR4, HLA-B5701 abacavir); all cytokines complete (IL-1 through IL-38, TNF-alpha, IFN-alpha/beta/gamma, TGF-beta, M-CSF, G-CSF — all with source/target/major action/therapeutic targeting); all vaccines immunology (live attenuated vs inactivated vs subunit vs conjugate vs mRNA vs viral vector — all mechanisms/advantages/contraindications; all adjuvants); all primary immunodeficiencies (all B cell defects including XLA/CVID; all T cell defects including DiGeorge/SCID; all combined; all phagocyte defects CGD/LAD; all complement deficiencies); all hypersensitivity types I-IV (all with mechanism/examples/mediators/timing/treatment); all autoimmunity mechanisms; all transplant immunology (HvGD, GvHD, all rejection types, all immunosuppression); all tumor immunology" },
+      { id: "pathology-complete", label: "Complete Pathology", desc: "All cellular pathology (all cell injury mechanisms — ATP depletion, free radical injury, calcium influx, membrane damage; all reversible vs irreversible injury markers — cellular swelling/eosinophilia/nuclear changes; all forms of necrosis — coagulative/liquefactive/caseous/fat/fibrinoid/gangrenous — all with classic examples; all forms of apoptosis — intrinsic/extrinsic pathways, all caspases, Bcl-2 family; all cell adaptations — hypertrophy/hyperplasia/atrophy/metaplasia/dysplasia with all classic examples); all inflammation (all acute inflammation — vascular changes, cellular events, all chemical mediators — histamine/serotonin/prostanoids/leukotrienes/PAF/complement/kinins/cytokines; all neutrophil recruitment steps — rolling/adhesion/transmigration; all patterns of acute inflammation; all sequelae; all chronic inflammation — all granuloma types caseating vs non-caseating with diseases; all giant cell types; all fibrosis mediators — TGF-beta); all healing and repair (all wound healing phases; all growth factors; all factors affecting wound healing); all thrombosis/embolism/infarction (Virchow triad; all thrombus types; all emboli types; all infarct types — red vs white with examples); all neoplasia (all hallmarks of cancer — Hanahan and Weinberg; all oncogenes vs tumor suppressors — all examples with associated cancers; all carcinogenesis — chemical/radiation/viral/genetic; all tumor staging vs grading; all paraneoplastic syndromes; all cancer epidemiology by type); all systemic pathology by organ (gross and microscopic findings for all major diseases of each organ system including cardiovascular/pulmonary/GI/hepatobiliary/renal/reproductive/endocrine/hematological/neurological/musculoskeletal/skin); all forensic pathology basics (manner vs cause of death, all asphyxia types, time of death estimation)" },
+      { id: "pharmacology-med-school", label: "Complete Medical School Pharmacology", desc: "All autonomic pharmacology (all parasympathomimetics — direct/indirect muscarinic agonists with all receptor subtypes M1-M5 and tissue effects; all parasympatholytics — all anticholinergics; all sympathomimetics — all alpha-1/2 and beta-1/2/3 agonists with tissue effects and clinical uses; all sympatholytics — all alpha-blockers/beta-blockers with selectivity; all ganglionic agents; all NMJ agents — depolarizing/non-depolarizing NMBs, reversal agents); all cardiovascular pharmacology (all antiarrhythmics — Vaughan Williams Classes I-IV with all drugs/ion channels/ECG effects; all antihypertensives — all classes with MOA/indications/contraindications/side effects; all heart failure pharmacology — all RAAS agents/diuretics/digoxin/ARNI/SGLT2i/hydralazine-nitrate; all antianginal drugs; all antiplatelet/anticoagulant/thrombolytic agents; all lipid-lowering drugs); all CNS pharmacology (all general anesthetics — mechanisms/MAC values; all local anesthetics — ester vs amide/mechanism/toxicity; all opioids — receptor types/all drugs/clinical uses/adverse effects; all sedative-hypnotics — benzodiazepines/barbiturates/Z-drugs/buspirone; all antiepileptics — mechanism/spectrum/drug interactions/teratogenicity; all antipsychotics — typical vs atypical/receptor profile/EPS/metabolic; all antidepressants — SSRIs/SNRIs/TCAs/MAOIs/atypicals; all mood stabilizers; all antidementia; all stimulants; all antiparkinson drugs); all anti-infective pharmacology (all antibiotic classes — mechanism/spectrum/resistance/adverse effects/clinical use; all antivirals; all antifungals; all antiparasitics); all cancer pharmacology (all alkylating agents/antimetabolites/antitumor antibiotics/topoisomerase inhibitors/mitotic spindle agents/targeted therapies/immunotherapy); all anti-inflammatory drugs (all NSAIDs/steroids/DMARDs/biologics MOA and adverse effects); all hormonal pharmacology (all thyroid/antithyroid/insulin/oral antidiabetics/steroid hormones/contraceptives); all toxicology (all antidotes; all drug overdose presentations)" },
+      { id: "epidemiology-biostatistics", label: "Complete Epidemiology & Biostatistics", desc: "All study designs (case report/case series; cross-sectional — prevalence; case-control — OR; cohort prospective/retrospective — RR/incidence; RCT — gold standard features: randomization/blinding/allocation concealment/ITT analysis; systematic review/meta-analysis — PRISMA; all quasi-experimental designs); all bias types (selection bias — Berkson bias/loss to follow-up/volunteer bias; information bias — recall bias/interviewer bias/reporting bias/misclassification; detection bias; lead-time bias; length-time bias; all with specific examples and how to minimize); all confounding (definition, how confounding differs from effect modification/interaction, all methods to control — randomization/restriction/matching/stratification/multivariable regression/propensity score); all statistical tests and when to use (chi-square test — 2 categorical; Fisher exact — small cells; t-test — 2 means; paired t-test — before/after; ANOVA — 3+ means; Mann-Whitney/Wilcoxon — non-parametric; Pearson/Spearman correlation; all regression types — linear/logistic/Cox proportional hazards; all survival analysis — Kaplan-Meier curves, log-rank test); all measures of association (OR, RR, HR, AR, ARR, NNT=1/ARR, NNH=1/ARI, PAR, PAR%); all screening concepts (sensitivity = TP/(TP+FN); specificity = TN/(TN+FP); PPV = TP/(TP+FP) — affected by prevalence; NPV = TN/(TN+FN); all 2x2 table calculations; LR+ = sensitivity/(1-specificity); LR- = (1-sensitivity)/specificity; pre-test probability → post-test probability via Fagan nomogram; ROC curves — AUC interpretation); all epidemiological measures (incidence rate; prevalence = incidence x duration; attack rate; secondary attack rate; case fatality rate vs mortality rate; all crude vs adjusted rates — direct/indirect standardization); all clinical trial phases I-IV with objectives; all meta-analysis concepts (forest plot reading — all components, heterogeneity I2 statistic, fixed vs random effects model, funnel plot asymmetry — publication bias); Bayesian statistics (prior/posterior probability, Bayes theorem application in clinical diagnosis)" },
+      { id: "ethics-medical-law", label: "Complete Medical Ethics & Law", desc: "All principlism (Beauchamp and Childress four principles — autonomy: self-determination, informed consent, truth-telling, confidentiality; beneficence: best interest standard, clinical equipoise; non-maleficence: do no harm, risk-benefit analysis, double effect doctrine; justice: distributive justice, resource allocation, healthcare equity); all informed consent (all elements — disclosure/understanding/voluntariness/decision-making capacity/authorization; all exceptions — emergency/waiver/therapeutic privilege/incompetence; all specific consent issues — consent for minors/mature minor doctrine/emancipated minor; consent for research); all capacity assessment (all 4 criteria — understanding/appreciation/reasoning/expression of choice; capacity vs competency distinction; all tools — ACE/MacCAT-T; all decision-making surrogates hierarchy; best interest vs substituted judgment standards); all advance directives (living will/durable power of attorney for healthcare/POLST/DNR/DNI orders — legal validity and clinical use; all physician obligations at end of life); all end-of-life ethics (withholding vs withdrawing treatment — ethical equivalence; all forms of euthanasia — active/passive/voluntary/involuntary/physician-assisted death/aid in dying — legal status by jurisdiction; all palliative sedation ethics; brain death criteria and declaration); all research ethics (Belmont Report — all 3 principles: respect for persons/beneficence/justice; all 3 applications: informed consent/risk-benefit/subject selection; Declaration of Helsinki — all key amendments; Tuskegee study ethical violations; all IRB functions and categories of review — exempt/expedited/full; all equipoise definition; all conflict of interest); all confidentiality (Tarasoff duty to warn; HIV confidentiality; all mandatory reporting obligations — child abuse/elder abuse/domestic violence/gunshot wounds/communicable diseases; all HIPAA — PHI/18 identifiers/all exceptions to minimum necessary; all HITECH); all malpractice (all 4 elements — duty/breach/causation/damages; res ipsa loquitur; respondeat superior; all defenses); all prescribing liability; all cultural competence frameworks (LEARN/ETHNIC/RESPECT models)" }
+    ]
+  },
+  {
+    id: "board-exams-complete",
+    label: "Complete Board Exam Prep",
+    icon: Award,
+    color: "#92400e",
+    subcategories: [
+      { id: "naplex-complete", label: "NAPLEX Complete Prep", desc: "Full NAPLEX blueprint coverage (all NABP competency areas: Area 1 — obtain/interpret/assess patient/medication information 35%; Area 2 — formulate/evaluate/implement/monitor pharmacotherapeutic plans 50%; Area 3 — compound/prepare/dispense/administer/deliver medications 15%); all calculation types with fully worked examples (doses by weight/BSA, IV flow rates, drip rates, dosing intervals, PK calculations, alligation, dilutions, powder volume, milliequivalents, osmolarity, percentage strength/ratio strength/proof conversions, beyond-use dating); all sterile/non-sterile compounding calculations; all patient case questions styled on NAPLEX format with full rationale; all drug counseling scenarios (all OTC medications, all high-alert medications, all common chronic disease state counseling); all drug information evaluation questions; all pharmacoeconomic calculations (cost-effectiveness, CER, ICER, NNT, NNH, budget impact); all NAPLEX-style SATA and select-all questions; scoring criteria (passing scaled score 75; all testing accommodations available; pass/fail policy); complete study timeline (12-week plan by content area); all high-yield NAPLEX drug classes with key points per class; all high-yield calculations with step-by-step solutions; all common NAPLEX mistakes to avoid" },
+      { id: "mpje-complete", label: "MPJE Complete Prep", desc: "Complete MPJE blueprint (federal pharmacy law 57%, state pharmacy law principles 43%); all federal law topics (all CSA — all 5 schedules with examples, all DEA forms 41/106/222/224/225/363, all emergency dispensing, all partial filling rules, all record-keeping requirements, all reverse distributor regulations, all in-office use regulations, all DEA registrant requirements, all quota system; all FDCA — all drug approval pathways NDA/ANDA/BLA/505(b)(2), all labeling requirements, all OTC vs Rx product criteria, all MedGuide requirements, all REMS requirements, all drug recall classes I-II-III, all FDCA violations; all HIPAA pharmacy provisions; all Plan 9 — all mailing rules; all Combat Methamphetamine Epidemic Act; all DSCSA drug supply chain); all state pharmacy law principles (all pharmacy practice act framework, all pharmacist-patient relationship duties, all collaborative practice agreement requirements, all pharmacist prescribing authority states, all prescription requirements — all elements, Schedule II vs III-V requirements; all drug product selection counseling laws; all patient records requirements; all pharmacy permit/license requirements; all disciplinary action processes; all impaired pharmacist programs; all pharmacy technician ratios and supervision); all professional standards (standard of care, good faith dispensing, drug utilization review); MPJE scoring (passing scaled score 75); complete MPJE question bank strategies" },
+      { id: "usmle-step1-complete", label: "USMLE Step 1 Complete Prep", desc: "Full Step 1 blueprint by discipline (Biochemistry/Genetics 14-24%; Immunology 6-11%; Microbiology 10-15%; Pathology 44-52%; Pharmacology 16-22%; Physiology 25-35%; Anatomy 3-7%; Behavioral Sciences 8-13%); all organ system integration content; all high-yield biochemistry (all metabolic pathways with rate-limiting enzymes, all vitamin deficiency syndromes, all enzyme kinetics, all molecular biology, all inborn errors of metabolism, all pharmacogenomics); all high-yield microbiology (all bacteria/virus/fungi/parasite rapid-fire facts, all antimicrobial mechanisms, all vaccine schedules immunology); all high-yield immunology (all complement, all cytokines, all immunodeficiencies, all hypersensitivity); all high-yield pathology (all necrosis types, all inflammation, all neoplasia hallmarks, all organ-specific pathological findings); all high-yield pharmacology (all autonomic drugs, all cardiovascular, all CNS, all antibiotics, all antiepileptics, all antipsychotics, all antidepressants); all high-yield anatomy (all nerve injuries, all hernia types, all embryological defects); all high-yield physiology (all cardiovascular equations, all renal equations, all pulmonary equations); Step 1 exam format (280 questions, 7 blocks of 40, 45-minute blocks, 45 minutes break; all question stem dissection strategies; all distractor-elimination techniques; all 2-step and 3-step question approaches); Step 1 scoring (Pass/Fail since January 2022; all remediation pathways); complete study timeline" },
+      { id: "usmle-step2-complete", label: "USMLE Step 2 CK Complete Prep", desc: "Full Step 2 CK blueprint by clinical domain (Internal Medicine 25-30%; Surgery 11-16%; Pediatrics 15-20%; OB/GYN 10-15%; Psychiatry 8-12%; Preventive Medicine/Ethics 6-10%; Emergency Medicine 6-8%; Dermatology/Ophthalmology/ENT/Orthopedics 8-10%); all next-best-step question frameworks (most likely diagnosis → best initial test → best confirmatory test → next best step in management — all in sequence); all clinical vignette dissection strategies (underline key findings, identify time frame, identify patient demographics, identify chief complaint, identify all abnormal labs/imaging); all high-yield internal medicine presentations for Step 2 (all diagnosis and management); all high-yield surgery (all pre-op/intra-op/post-op questions, all acute abdomen, all trauma); all high-yield pediatrics (all developmental milestone questions, all peds vaccinations, all growth disorders); all high-yield OB/GYN (all prenatal care, all labor complications, all postpartum complications, all contraception counseling steps); all ethics questions frameworks (all 4-principles application, all capacity scenario, all substitute decision-maker hierarchy, all research ethics); all biostatistics high-yield (sensitivity/specificity, NNT, OR vs RR in vignette context, how to read a forest plot in clinical question format); all emergency medicine high-yield (all immediate stabilization questions); Step 2 CK format (318 questions, 9 blocks of 40, 40 minutes each; all strategies); Step 2 CK scoring (3-digit score 1-300, mean ~247)" },
+      { id: "usmle-step3-complete", label: "USMLE Step 3 Complete Prep", desc: "Full Step 3 blueprint (Foundations of Independent Practice Day 1 — 232 MCQ: Applying Foundational Science 18%, Diagnosis 28%, Prognosis/Outcome 5%, Pharmacotherapy 28%, Clinical Interventions 12%, Mixed 9%; Advanced Clinical Medicine Day 2 — 180 MCQ + 13 CCS cases); all CCS case strategies (case management framework: stabilize → diagnose → treat → monitor → follow up; all order writing in CCS — how to order labs/imaging/medications/consultations/procedures in proper sequence; all time advancement strategies — know when to advance clock; all location changes — ER to ICU to floor to outpatient); all high-yield CCS diagnoses and management sequences; all ambulatory medicine content (all preventive care USPSTF Grade A/B recommendations by age/sex; all chronic disease management guidelines — hypertension/diabetes/hyperlipidemia/asthma/COPD/heart failure); all inpatient management (all hospitalist medicine high-yield); all epidemiology/biostatistics for Step 3 (all study design questions, all 2x2 table calculations, all screening test calculations in vignette format); all ethics for Step 3 (all clinical ethics scenarios with correct answers); all health promotion/disease prevention content; Step 3 format and scoring (two-day exam; score 1-300; passing 196; all IMGs Step 3 timing considerations)" },
+      { id: "comlex-complete", label: "COMLEX Levels 1/2/3 Complete Prep", desc: "Full COMLEX Level 1 blueprint (same basic science content as USMLE Step 1 plus Osteopathic Principles and Practice — OPP accounts for approximately 12-18% of exam); all osteopathic principles (all 4 osteopathic tenets — body unity, self-regulation, structure-function interrelationship, rational treatment; all osteopathic medical history milestones); all OMT techniques complete (HVLA — high-velocity low-amplitude thrust technique with indications/contraindications/all somatic dysfunction diagnosis; muscle energy technique — all principles and applications; counterstrain — all tender point locations by region; myofascial release; still technique; craniosacral therapy; lymphatic techniques — pedal pump/effleurage/thoracic pump; articulatory techniques; all OMT for specific conditions — lumbar, cervical, thoracic, rib, sacral, innominate); all somatic dysfunction diagnosis (all TART criteria — Tissue texture/Asymmetry/Restriction/Tenderness; all Chapman reflex points; all viscerosomatic reflexes; all segmental levels of viscerosomatic reflexes); COMLEX Level 2 CE clinical content (all clinical presentations matching USMLE Step 2 plus OMT clinical application by organ system); COMLEX Level 3 (all clinical management plus CCS equivalent case management plus OMT for acute and chronic conditions); all COMLEX question format strategies (clinical presentation format — chief complaint in bold, all OMT question distractors); scoring (pass level 400 for all levels); all COMLEX-USA vs USMLE dual exam strategy" },
+      { id: "mcat-complete", label: "MCAT Complete Prep", desc: "Full MCAT blueprint by section (Chemical and Physical Foundations of Biological Systems — 59 questions 95 min; Critical Analysis and Reasoning Skills CARS — 53 questions 90 min; Biological and Biochemical Foundations of Living Systems — 59 questions 95 min; Psychological, Social, and Biological Foundations of Behavior — 59 questions 95 min); all chemistry content (all general chemistry — periodic table trends, all bonding, all thermodynamics, all kinetics, all equilibrium, all electrochemistry, all acid-base; all organic chemistry — all functional groups, all reaction mechanisms SN1/SN2/E1/E2, all spectroscopy NMR/IR/MS, all carbohydrate chemistry, all amino acid chemistry, all lipid chemistry; all biochemistry — all metabolic pathways, all enzyme kinetics, all molecular biology); all biology content (all cell biology — all organelles/functions, all cell cycle/mitosis/meiosis, all signal transduction; all genetics — all Mendelian, all non-Mendelian, all molecular genetics, all hardy-Weinberg; all evolution concepts; all organ systems physiology); all psychology and sociology content (all learning theories — classical conditioning/operant conditioning/observational learning; all memory models; all personality theories; all social psychology — all concepts including attitude/stereotypes/prejudice/discrimination/social influence; all Sociological theories — structural functionalism/conflict theory/symbolic interactionism; all health disparities/social determinants of health; all research methods psychology); all CARS strategies (all passage types, all question types, all elimination strategies, tone/attitude identification); MCAT scoring (472-528 range, each section 118-132, total mean 511; CARS strategies for non-native English speakers; all test day logistics)" },
+      { id: "pance-panre-complete", label: "PANCE/PANRE Complete Prep", desc: "Full PANCE blueprint (all 5 clinical tasks — History Taking 16%, Physical Examination 16%, Using Diagnostic Studies 18%, Formulating Most Likely Diagnosis 18%, Health Maintenance/Patient Education 10%, Clinical Intervention 14%, Pharmaceutical Therapeutics 18% — wait, actual 2024 blueprint: Medical Knowledge application across all organ systems); all organ system content for PA boards (Cardiology 16%; Pulmonology 12%; GI/Nutrition 10%; Musculoskeletal 10%; EENT 9%; Reproductive 8%; Neurology 7%; Psychiatry/Behavioral 6%; Dermatology 6%; Hematology 6%; Infectious Disease 5%; Endocrine 5%; Genitourinary 5%; Emergency Medicine specialty questions); all PA-specific scope of practice questions (all states' PA supervision requirements, all prescriptive authority PA regulations, all collaborative agreements); all high-yield PANCE diagnoses by organ system with most likely diagnosis/best initial test/best treatment pattern; all PANRE (recertification exam) differences from PANCE (10-year cycle, same blueprint format); all PA clinical year preparation; all PACKRAT exam (PA clinical rotation assessment); PANCE format (300 questions, 5 blocks of 60, 60 minutes each; scoring 800-person-specific mean — minimum passing 350 on each attempt); all PANCE study strategies (SmartyPANCE approach, all blueprint-weighted study plan); all common PANCE pitfalls" },
+      { id: "abim-boards-complete", label: "ABIM & Specialty Boards Complete Prep", desc: "Complete ABIM Internal Medicine Certification Exam (all blueprint content areas: Cardiovascular Disease 14%; Gastroenterology 9%; Pulmonary Disease 9%; Rheumatology 8%; Oncology/Hematology 8%; Infectious Disease 8%; Endocrinology/Metabolism/Diabetes 8%; Nephrology & Urology 7%; Neurology 6%; Psychiatry 4%; Dermatology; Ophthalmology; Allergy/Immunology 5% combined; General IM/Preventive/Geriatrics/Palliative 14%); all high-yield ABIM clinical management algorithms; all ABIM-style clinical vignettes with answer rationale; ABIM MOC requirements (10-year cycle, Knowledge Check-In every 2 years — 30 questions, all MOC activities points); complete ABEM Emergency Medicine Boards (all core EM content areas — resuscitation/obstetrics/pediatrics/toxicology/trauma/environmental/infectious disease/cardiology/neurology/orthopedics; all EM-specific procedures; all ABEM format — 305 questions, 5 hours); complete ABP Pediatrics Boards (all organ systems peds, all developmental peds, all neonatology, all peds subspecialties high-yield); complete ABOG OB/GYN Boards (all written exam content — reproductive endocrinology/infertility, maternal-fetal medicine, gynecology oncology, urogynecology, general OB/GYN, all oral exam simulation); complete ABN Neurology Boards (all neurological conditions, all neuro-imaging interpretation, all EEG interpretation, all EMG/NCS interpretation); complete ABS General Surgery Boards (all surgical knowledge, all anatomy, all pathophysiology, all operative techniques, all surgical complications); complete ABFM Family Medicine Boards (all life-span medicine, all IM content breadth, all preventive medicine, all behavioral health for FM)" },
+      { id: "osce-complete", label: "OSCE Complete Prep", desc: "All OSCE station types with full preparation (History-taking stations — all 15 systems systematic history approach: PC/HPC/PMH/DH/Allergies/FH/SH/ROS all mnemonics; all disease-specific history mnemonics — SOCRATES for pain, all cardiac/respiratory/GI/neuro specific histories; all Calgary-Cambridge communication model stages — initiating/gathering information/physical exam/explanation/closing; all ICE — Ideas/Concerns/Expectations elicitation; all agenda-setting; all active listening skills; all red flag recognition in history); all physical examination stations (all general examination techniques; all cardiovascular exam — all murmur grading/radiation/timing; all respiratory — all breath sound types; all abdominal — all organomegaly/ascites tests; all neurological — all power/sensation/coordination/reflexes; all MSK — all GALS screen; all ophthalmoscopy/otoscopy technique; all peripheral vascular exam; all thyroid exam; all lymph node exam); all communication skills stations (breaking bad news — SPIKES protocol all 6 steps; all angry patient de-escalation; all non-English speaker scenarios; all mental health history — risk assessment; all capacity assessment; all informed consent; all alcohol/drug history CAGE/AUDIT; all sexual history); all data interpretation stations (all ECG interpretation systematic approach — rate/rhythm/axis/intervals/morphology; all CXR systematic approach; all ABG interpretation; all basic blood results interpretation; all urinalysis; all imaging interpretation basics); all procedural skills stations (all CPR technique; all IV access; all urinary catheterization; all wound suturing; all nasogastric tube; all NG feed calculation; all peak flow; all inhaler technique); all prescribing safety stations; all ethics stations" }
+    ]
+  },
+  {
+    id: "clinical-decision-support",
+    label: "Clinical Decision Support",
+    icon: Network,
+    color: "#065f46",
+    subcategories: [
+      { id: "ddx-generator", label: "Differential Diagnosis Generator", desc: "AI-powered differential diagnosis tool: enter any combination of symptoms, signs, labs, and imaging findings to generate a ranked differential diagnosis list with probability estimates, key distinguishing features for each diagnosis, and next diagnostic steps; all common symptom-based differentials organized by chief complaint (chest pain — all 12 life-threatening causes first, then common causes; dyspnea — all cardiac vs pulmonary vs other; headache — all primary vs secondary with red flag recognition; abdominal pain by quadrant; altered mental status; fever of unknown origin; syncope; dizziness; weight loss; fatigue; edema; hematuria; hemoptysis; dysphagia; jaundice; back pain; joint pain; rash with fever); all age-specific differentials (pediatric vs adult vs geriatric differing presentations); all sex-specific differentials; all immune-compromised host differentials; complete probabilistic reasoning framework (prior probability + likelihood ratio → post-test probability); all must-not-miss diagnoses by symptom; all common mimics; complete diagnostic algorithm tables for all major presentations; all validated clinical decision rules integrated (Wells score for DVT/PE, HEART score, TIMI score, CURB-65, pneumonia severity index, Ottawa ankle/knee rules, PECARN pediatric head CT rules, Canadian CT head rule, Calgary syncope score, GRACE score, ABCD2 TIA score)" },
+      { id: "clinical-algorithms", label: "Complete Clinical Algorithms", desc: "All major clinical management algorithms with step-by-step decision trees: all ACLS algorithms (cardiac arrest — shockable VF/VT vs non-shockable PEA/asystole; all post-cardiac arrest care; bradycardia algorithm with AV block decision points; tachycardia algorithm — stable vs unstable, narrow vs wide complex; all peri-arrest arrhythmia algorithms; all pediatric BLS/PALS algorithms; all neonatal resuscitation NRP algorithm); all ATLS algorithms (primary survey ABCDE with concurrent interventions; all secondary survey; all massive hemorrhage — damage control; all trauma imaging decision trees; all specific injury algorithms — traumatic brain injury ICP management, spinal cord injury, penetrating chest, hemothorax/pneumothorax needle decompression/chest tube); all sepsis/shock algorithms (Sepsis-3 recognition → Hour-1 Bundle → reassessment; all shock type identification — distributive/obstructive/cardiogenic/hypovolemic; all vasopressor escalation algorithms; all ARDS Berlin criteria → lung-protective ventilation → prone positioning → VV-ECMO decision); all metabolic emergency algorithms (DKA — all fluid/insulin/electrolyte steps with hourly monitoring; HHS management; hyperosmolar crisis; hyperkalemia 7-step management; hyponatremia correction rate — all ODS prevention; hyper/hypo-calcemia; hypo/hyper-magnesemia; thyroid storm Burch-Wartofsky scoring → management; adrenal crisis; myxedema coma); all neurological emergency algorithms (status epilepticus — benzodiazepine → 2nd line → 3rd line → RSI; ischemic stroke — thrombolysis eligibility checklist → alteplase dosing → thrombectomy decision; hemorrhagic stroke — BP management, reversal; elevated ICP management — all tiers; bacterial meningitis — antibiotic choice by age/immune status, dexamethasone timing); all AHA/ACC cardiovascular guidelines algorithms (STEMI — door-to-balloon, fibrinolysis decision; NSTEMI/UA — GRACE score risk stratification; heart failure — GDMT initiation sequence; new-onset AF — rate vs rhythm, anticoagulation CHA2DS2-VASc/HAS-BLED); all IDSA infectious disease treatment algorithms (CAP, HAP/VAP, skin/soft tissue, bone/joint, CNS, endocarditis, UTI all spectra); all anaphylaxis treatment (epinephrine first → all adjuncts → all post-anaphylaxis monitoring)" },
+      { id: "drug-dosing-calculator", label: "Drug Dosing Calculator & Reference", desc: "Complete drug dosing reference with all major dose adjustment frameworks: all weight-based dosing (actual body weight vs ideal body weight vs adjusted body weight — which to use for which drug and why; all ABW calculation = IBW + 0.4 x (TBW-IBW); all IBW formulae Devine/Robinson/Miller/Hamwi); all renal dosing adjustments (all drugs requiring CrCl-based dose reduction — aminoglycosides/vancomycin/beta-lactams/quinolones/antivirals/antifungals/anticoagulants/direct oral anticoagulants/metformin/digoxin; all Cockcroft-Gault CrCl equation with all caveats for extremes of weight/age; all MDRD vs CKD-EPI eGFR equations; all dialysis dosing — all hemodialysis vs CRRT vs peritoneal dialysis supplemental dosing); all hepatic dosing adjustments (Child-Pugh score A/B/C implications for drug dosing; all hepatically metabolized drugs with dose adjustment guidance; all drugs contraindicated in severe hepatic impairment); all geriatric dosing (all Beers Criteria dose reductions; all START/STOPP criteria; all age-related PK changes applied to dosing — reduced CrCl/reduced volume of distribution/reduced protein binding/altered absorption); all pediatric dosing (all mg/kg dosing by age group; all maximum safe doses; all BSA-based dosing — Mosteller equation; all neonatal dosing — gestational age adjusted); all ICU-specific dosing (all continuous infusion protocols with concentration standards — norepinephrine/epinephrine/vasopressin/dobutamine/milrinone/dopamine/heparin/insulin/propofol/midazolam/dexmedetomidine/fentanyl/ketamine; all target-driven dosing — AUC/MIC vancomycin, aminoglycoside peak/trough, therapeutic drug monitoring table for all monitored drugs); all pregnancy dosing (all FDA pregnancy categories legacy + PLLR format; all safe vs contraindicated drugs in pregnancy and lactation — LactMed summary)" },
+      { id: "drug-interaction-checker", label: "Drug Interaction Checker", desc: "Complete drug-drug interaction reference: all major pharmacokinetic interactions (all CYP450 enzyme interactions — CYP1A2 inhibitors/inducers/substrates; CYP2C9 interactions; CYP2C19 interactions; CYP2D6 interactions — all poor metabolizer-relevant drugs; CYP3A4 interactions — the most common enzyme; all P-glycoprotein/ABCB1 interactions; all UGT interactions; all plasma protein binding displacement interactions — highly protein-bound drug list); all major pharmacodynamic interactions (all additive CNS depression combinations; all additive QT-prolonging combinations — all drugs with QTc prolongation risk CredibleMeds Risk Categories Known/Conditional/Possible; all additive bleeding risk combinations — anticoagulants + antiplatelets + NSAIDs + SSRIs/SNRIs; all additive hypotensive combinations; all additive serotonin syndrome risk — all serotonergic agents; all additive nephrotoxicity combinations; all additive ototoxicity; all additive bone marrow suppression); all high-severity interaction pairs (warfarin + all interacting drugs with direction of INR effect; digoxin + amiodarone/quinidine/verapamil; lithium + NSAIDs/thiazides/ACEi/ARBs; methotrexate + NSAIDs/PCN/sulfonamides; all MAOI combinations — all contraindicated foods and drugs; linezolid serotonin interactions; all contraindicated combinations); all drug-food interactions (all grapefruit CYP3A4 interactions with drug list; all tyramine-MAOI foods; all vitamin K-warfarin foods; all dairy-antibiotic chelation; all alcohol-drug combinations; all St. John's Wort interactions); all drug-lab test interactions (all drugs that falsely alter lab values); all drug-disease state interactions (contraindications by disease — beta-blockers in COPD/asthma/Raynaud's; NSAIDs in CKD/CHF/peptic ulcer; fluoroquinolones in tendinopathy; metformin in AKI/contrast dye; all absolute vs relative contraindications)" },
+      { id: "lab-interpretation-guide", label: "Lab Interpretation & Next Steps", desc: "Complete laboratory interpretation reference with clinical decision pathways: all CBC interpretation (all anemia workup — MCV-based approach: microcytic iron studies algorithm, normocytic reticulocyte count algorithm, macrocytic B12/folate algorithm; all neutropenia workup — absolute neutrophil count thresholds, all causes, all management by severity; all thrombocytopenia workup — all causes by mechanism, all urgency thresholds, HIT 4T score; all leukocytosis differential; all pancytopenia workup); all CMP/BMP interpretation (all sodium disorders — hyponatremia urine osmolality algorithm, hypernatremia free water deficit calculation; all potassium disorders — ECG changes per level, all causes, all treatment stepwise; all chloride/bicarbonate — all acid-base disorders stepwise — primary disorder → anion gap → compensation check Winter's formula/expected PCO2; all BUN/creatinine ratio interpretation; all hypocalcemia/hypercalcemia complete workup); all liver function test interpretation (all patterns — hepatocellular vs cholestatic vs mixed; all causes by pattern; R factor calculation; all synthetic function — PT/INR/albumin interpretation; all bilirubin — conjugated vs unconjugated differential); all coagulation panel interpretation (PT/aPTT/fibrinogen/D-dimer/thrombin time — all mixing studies; all factor deficiency patterns; all DIC diagnosis); all cardiac biomarkers (troponin I vs T — hs-cTn serial measurement algorithm; all delta troponin protocols; all BNP/NT-proBNP HF thresholds by age; all CK-MB timing); all urinalysis interpretation (all microscopy — all casts with diagnoses; dipstick interpretation — all false positives/negatives); all CSF interpretation (all opening pressure/appearance/cell count/glucose/protein — all diagnosis tables for meningitis/encephalitis/SAH/GBS); all body fluid interpretations (pleural — Light's criteria; ascites — SAAG; pericardial; synovial — all crystal identification); all thyroid function interpretation algorithms; all endocrine labs — aldosterone/renin/cortisol/ACTH interpretation algorithms; all tumor marker interpretation and limitations" }
+    ]
+  },
+  {
+    id: "global-public-health",
+    label: "Global Health & Public Health",
+    icon: Globe,
+    color: "#166534",
+    subcategories: [
+      { id: "who-disease-priorities", label: "WHO Disease Priorities & Programs", desc: "All WHO priority diseases and global health programs: all WHO R&D Blueprint priority pathogens (COVID-19, Ebola/Marburg, Lassa fever, MERS-CoV, Nipah/Henipavirus, Rift Valley fever, CCHF, Disease X — all with outbreak history/transmission/clinical features/current countermeasures status); all WHO essential medicines list 23rd edition — all categories and specific drugs; all WHO Expanded Programme on Immunization (EPI) — all vaccines in global schedule with coverage targets; all WHO health goals (all UN Sustainable Development Goals SDGs — SDG 3 health targets in detail: end AIDS/TB/malaria/NTDs, reduce maternal mortality to <70/100,000, reduce under-5 mortality to <25/1,000, reduce NCD premature mortality by one-third, all other SDG 3.x targets); Universal Health Coverage (UHC) — all 3 dimensions: population/services/financial protection; UHC service coverage index; all WHO frameworks — International Health Regulations 2005 all core capacities, all PHEIC declarations history, all one health framework components; all WHO FCTC tobacco control; all WHO global action plans (AMR global action plan 5 objectives; NCD global action plan 9 voluntary targets; mental health action plan); all WHO Patient Safety Global Challenges (medication safety — High 5s; surgical safety — surgical checklist; infection prevention — Clean Care is Safer Care); all WHO definitions and terminology (health/disease/disability/QALY/DALY/YLL/YLD)" },
+      { id: "global-disease-burden", label: "Global Disease Burden & Statistics", desc: "Complete Global Burden of Disease (GBD) study data and methodology: all disability-adjusted life years (DALY) calculations (DALY = YLL + YLD; YLL = number of deaths x standard life expectancy at age of death; YLD = prevalence x disability weight; all disability weights for major conditions); all GBD cause hierarchy (Level 1: communicable/maternal/neonatal/nutritional vs non-communicable vs injuries; all Level 2 and Level 3 causes with global ranking); all top 10 global causes of death by income group (high/upper-middle/lower-middle/low income — all disease rankings differ significantly); all top causes of DALYs globally and by region; all major epidemiological transitions by country income; all global mortality statistics (all-cause mortality rates by age/sex/region; under-5 mortality causes — pneumonia/diarrhea/malaria/neonatal causes; maternal mortality ratio by country; all MDG/SDG progress metrics); all global morbidity statistics (all prevalence estimates for major chronic diseases — hypertension 1.28 billion, diabetes 537 million, COPD, mental disorders 1 billion+; all global infectious disease burden — TB 10 million cases/year, malaria 240 million cases, HIV 38 million PLHIV, all NTDs); all global disability statistics (all WHO World Report on Disability — 1.3 billion people with disability; all ICF classification framework — body functions/structures/activities/participation/environmental factors); all health inequity data — all social determinants of health (CSDH framework — structural determinants/intermediary determinants); all global health financing — all DAH development assistance for health trends; all ODA official development assistance" },
+      { id: "epidemiology-outbreak", label: "Epidemiology & Outbreak Investigation", desc: "Complete outbreak investigation methodology and epidemiological methods: all 10 CDC steps for outbreak investigation (1-verify diagnosis; 2-confirm outbreak exists; 3-define case; 4-find cases systematically — case finding; 5-describe by person/place/time; 6-develop hypotheses; 7-evaluate hypotheses — analytical studies; 8-refine hypotheses with additional studies; 9-implement control and prevention; 10-communicate findings); all epidemic curve types (point source — bell-shaped with incubation period estimates; propagated — successive waves; continuous common source — plateau shape; mixed — all interpretation); all attack rate calculations (AR = cases/exposed x 100; food-specific attack rate tables; relative risk from case-control studies in outbreak settings); all herd immunity thresholds by disease (measles 92-95%, polio 80-85%, mumps 75-86%, rubella 83-85%, diphtheria 83-85%, smallpox 80-85%, COVID-19 variable); all R-naught values by pathogen (measles 12-18; mumps 4-7; rubella 5-7; influenza 2-3; COVID-19 original 2-3, Omicron 8-15; polio 5-7; diphtheria 6-7; pertussis 12-17); all surveillance types (passive/active/sentinel/syndromic/integrated disease surveillance); all screening program evaluation (Wilson-Jungner criteria all 10; all USPSTF evidence-grading framework A/B/C/D/I; all screening test evaluation — all sensitivity/specificity/PPV/NPV calculations with prevalence impact); all contact tracing methods; all quarantine vs isolation definitions and legal authority; all One Health surveillance framework; all molecular epidemiology methods (whole genome sequencing for outbreak investigation, phylogenetic analysis interpretation)" },
+      { id: "preventive-medicine-complete", label: "Complete Preventive Medicine", desc: "All levels of prevention with specific examples: primary prevention (all immunizations — complete ACIP adult and pediatric schedules; all chemoprophylaxis — aspirin primary prevention, statins primary prevention, PrEP HIV, isoniazid LTBI; all behavioral counseling — 5As framework smoking cessation, alcohol brief intervention AUDIT-C/FRAMES, physical activity counseling; all environmental prevention — fluoridation, lead abatement, UV protection, food safety); secondary prevention — all USPSTF Grade A and B screening recommendations 2022-2026 (colorectal cancer — colonoscopy/FIT/CT colonography with intervals; breast cancer — mammography all age/risk thresholds debate; cervical cancer — Pap/co-test/primary HPV intervals; lung cancer — annual LDCT criteria age 50-80, 20 pack-year; abdominal aortic aneurysm — one-time ultrasound men 65-75 who ever smoked; hypertension — all adults 18+ BP screening; diabetes — prediabetes screening criteria; HIV — all adults 15-65 at least once; HBV/HCV — birth cohort and risk-based screening; STI — chlamydia/gonorrhea/syphilis/HIV by risk group; depression — adults and adolescents; obesity — BMI screening and referral to intensive counseling; all lipid screening recommendations; all vision/hearing screening ages); tertiary prevention — all chronic disease management guidelines (all JNC/ACC/AHA hypertension; all ADA/AACE diabetes management; all GOLD COPD guidelines stages; all GINA asthma guidelines; all ACC/AHA heart failure GDMT); all quaternary prevention concepts (avoiding medicalization/overdiagnosis — all examples); complete immunization reference (all vaccine types, all schedules, all contraindications, all catch-up schedules, all special populations — immunocompromised/pregnancy/travel/occupational)" },
+      { id: "tropical-medicine-complete", label: "Complete Tropical & Travel Medicine", desc: "All 20 WHO neglected tropical diseases with complete clinical profiles (Buruli ulcer — Mycobacterium ulcerans, painless necrotizing skin ulcer; Chagas disease — Trypanosoma cruzi, all stages acute/indeterminate/chronic including cardiomyopathy/megacolon; dengue — all 4 serotypes, all phases febrile/critical/recovery, dengue warning signs, DHF/DSS criteria; dracunculiasis — Guinea worm eradication campaign; echinococcosis — cystic/alveolar, PAIR treatment; foodborne trematodes — clonorchiasis/opisthorchiasis/paragonimiasis; HAT — Human African Trypanosomiasis — T. brucei gambiense/rhodesiense, all stages; leishmaniasis — cutaneous/mucocutaneous/visceral kala-azar with all clinical features/diagnosis/treatment; leprosy — PB vs MB, all skin lesions, all nerve involvement, WHO MDT regimens; lymphatic filariasis — Wuchereria/Brugia, all stages, lymphedema management; mycetoma/chromoblastomycosis/sporotrichosis; onchocerciasis — river blindness; rabies — all exposure categories, all PEP protocols; scabies; schistosomiasis — all species and organ systems; soil-transmitted helminths — ascariasis/hookworm/trichuriasis/strongyloidiasis; taeniasis/cysticercosis; trachoma; yaws); all major tropical infectious diseases (malaria — all Plasmodium species, all clinical presentations, all diagnostic methods thick/thin smear, RDT, PCR, all treatment by species and severity, all chemoprophylaxis options for all regions; typhoid fever; cholera; yellow fever; leptospirosis; rickettsial diseases); complete travel medicine (all pre-travel assessment — destination risk stratification, all required vs recommended vaccines by destination, all malaria chemoprophylaxis by region, all traveler's diarrhea prevention and treatment, all altitude sickness prevention/treatment, all jet lag management, all travel health kit contents); immigration medicine (all immigrant health screening recommendations CDC); all geographic disease distribution maps by region" },
+      { id: "disaster-medicine-complete", label: "Complete Disaster & Humanitarian Medicine", desc: "All disaster types with complete medical response frameworks: natural disasters (earthquake medical response — crush injury/compartment syndrome/rhabdomyolysis management, field surgery priorities; flood — all waterborne disease risks, water purification methods; hurricane/tornado — trauma surge; tsunami — drowning management, infectious disease surge; volcanic — respiratory ash injury management; wildfire — all burn management field protocols); all mass casualty incident (MCI) management (all ICS roles — Incident Commander/Medical Branch Director/Triage Unit Leadership/Treatment Unit Leadership/Transport Unit Leadership; all NIMS framework; all HEICS hospital incident command; all MCI resource management — all SALT/START/JumpSTART/CESIRA/SIEVE triage integration; all patient tracking systems — all disaster tags/barcoding); chemical disaster medicine (all nerve agent toxidromes and field antidotes — CHEMPACK program; all vesicant/blister agents mustard/lewisite management; all pulmonary agents phosgene/chlorine; all blood agents cyanide; all riot control agents; all CBRN decontamination protocols — all 3 zones hot/warm/cold; all PPE levels A/B/C/D); biological disaster medicine (all Category A/B/C bioterrorism agents — anthrax inhalational/cutaneous presentation and post-exposure prophylaxis; smallpox recognition and ring vaccination; plague pneumonic presentation and prophylaxis; botulism wound/foodborne/inhalational; tularemia; viral hemorrhagic fevers; all SNS Strategic National Stockpile activation); radiation emergency medicine (all radiation types and penetrating power; all acute radiation syndrome ARS — all 4 phases/all 4 syndromes hematopoietic/GI/cardiovascular/CNS; all dose thresholds; all initial treatment priorities; potassium iodide — thyroid protection; all radiological dispersal device dirty bomb response); humanitarian medicine (all Sphere Standards minimum standards in health action; all UNHCR health guidelines; all MSF field medicine protocols; all refugee camp health priorities — all WASH/nutrition/shelter/health service integration)" }
+    ]
   }
 ];
 function MiniAITutor({ context, settings, placeholder, chips }) {
@@ -22371,17 +22734,38 @@ Format with clear sections. Be thorough but concise.`;
 function TopicContentPanel({ category, subcategory, settings }) {
   const [content, setContent] = reactExports.useState(null);
   const [loading, setLoading] = reactExports.useState(false);
+  const [fromCache, setFromCache] = reactExports.useState(false);
   const [searchQ, setSearchQ] = reactExports.useState("");
   const [activeTab, setActiveTab] = reactExports.useState("overview");
   const [practiceQs, setPracticeQs] = reactExports.useState(null);
   const [loadingQs, setLoadingQs] = reactExports.useState(false);
   const [revealedAnswers, setRevealedAnswers] = reactExports.useState({});
+  const [sortCol, setSortCol] = reactExports.useState(null);
+  const [sortDir, setSortDir] = reactExports.useState("asc");
+  const [practiceDifficulty, setPracticeDifficulty] = reactExports.useState("mixed");
+  const [practiceCount, setPracticeCount] = reactExports.useState(10);
+  const [rapidIdx, setRapidIdx] = reactExports.useState(0);
+  const [rapidFlipped, setRapidFlipped] = reactExports.useState(false);
+  const [tablePage, setTablePage] = reactExports.useState(0);
+  const TABLE_PAGE_SIZE = 50;
+  const exportCSV = () => {
+    if (!content?.tableData) return;
+    const hdr = content.tableData.headers?.join(",") || "";
+    const rows = (content.tableData.rows || []).map((r) => r.map((c) => `"${String(c).replace(/"/g, '""')}"`).join(",")).join("\n");
+    const blob = new Blob([`${hdr}
+${rows}`], { type: "text/csv" });
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = `${subcategory.label.replace(/[^a-z0-9]/gi, "_")}.csv`;
+    a.click();
+  };
   const generateQuestions = async () => {
     setLoadingQs(true);
     setPracticeQs(null);
     setRevealedAnswers({});
     try {
-      const prompt = `You are a world-class medical exam author. Generate 10 high-yield board-exam style multiple choice questions for:
+      const diffRule = practiceDifficulty === "easy" ? "All Easy — straightforward recall and recognition" : practiceDifficulty === "medium" ? "All Medium — application and analysis level" : practiceDifficulty === "hard" ? "All Hard — synthesis and evaluation level" : practiceDifficulty === "board" ? "All Board-Level — complex clinical reasoning matching real USMLE/NAPLEX/NCLEX difficulty" : `Mixed: ${Math.max(1, Math.round(practiceCount * 0.2))} Easy, ${Math.max(1, Math.round(practiceCount * 0.5))} Medium, ${Math.max(1, Math.round(practiceCount * 0.3))} Hard`;
+      const prompt = `You are a world-class medical exam author. Generate ${practiceCount} high-yield board-exam style multiple choice questions for:
 
 CATEGORY: ${category.label}
 TOPIC: ${subcategory.label}
@@ -22398,19 +22782,19 @@ Return ONLY valid JSON array:
     ],
     "answer": "B",
     "explanation": "Detailed explanation of why B is correct and why others are wrong. Include clinical reasoning, mechanism, and exam tip.",
-    "difficulty": "Easy|Medium|Hard",
+    "difficulty": "Easy|Medium|Hard|Board",
     "examContext": "USMLE Step 1|NCLEX|NAPLEX|PLAB|DHA|AMC|General"
   }
 ]
 
 RULES:
-1. Generate exactly 10 questions
-2. Mix difficulties: 2 Easy, 5 Medium, 3 Hard
+1. Generate exactly ${practiceCount} questions
+2. Difficulty: ${diffRule}
 3. Questions must be clinical-scenario based (vignette style)
 4. Each explanation must be comprehensive (3-5 sentences) and teach the concept
-5. Cover different aspects of ${subcategory.label} across the 10 questions
+5. Cover different aspects of ${subcategory.label} across the ${practiceCount} questions
 6. Make globally relevant — suitable for USMLE, PLAB, NCLEX, NAPLEX, DHA, AMC exam takers`;
-      const raw = await callAI(prompt, true, false, settings, 6e3);
+      const raw = await callAI(prompt, true, false, settings, Math.min(4e3 + practiceCount * 400, 1e4));
       const parsed = parseJson(raw);
       setPracticeQs(Array.isArray(parsed) ? parsed : parsed.questions || []);
     } catch (e) {
@@ -22419,12 +22803,43 @@ RULES:
       setLoadingQs(false);
     }
   };
-  const topicKey = `${category.id}:${subcategory.id}`;
-  const generate = async () => {
+  const topicKey = `${category.id}::${subcategory.id}`;
+  reactExports.useEffect(() => {
+    let cancelled = false;
+    setContent(null);
+    setFromCache(false);
+    setLoading(true);
+    setSearchQ("");
+    setSortCol(null);
+    setSortDir("asc");
+    setTablePage(0);
+    setActiveTab("overview");
+    setPracticeQs(null);
+    setRevealedAnswers({});
+    (async () => {
+      try {
+        const cached = await getTopicCache(topicKey);
+        if (cancelled) return;
+        if (cached?.data) {
+          setContent(cached.data);
+          setFromCache(true);
+          setLoading(false);
+          return;
+        }
+      } catch {
+      }
+      if (!cancelled) generateAndCache();
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, [topicKey]);
+  const generateAndCache = async (forceRefresh = false) => {
     setLoading(true);
     setContent(null);
+    setFromCache(false);
     try {
-      const prompt = `You are a world-class medical and healthcare education AI with expert knowledge across all health professions globally. Generate a COMPLETE, comprehensive, board-exam-level reference for:
+      const prompt = `You are a world-class medical and healthcare education AI. Your task is to generate the MOST COMPLETE, A-to-Z, exhaustive global reference for the topic below — as if writing the definitive international textbook chapter on it.
 
 CATEGORY: ${category.label}
 TOPIC: ${subcategory.label}
@@ -22432,56 +22847,104 @@ DESCRIPTION: ${subcategory.desc}
 
 Return ONLY valid JSON with this exact structure:
 {
-  "overview": "4-6 paragraph COMPREHENSIVE overview covering definition, epidemiology/global context, pathophysiology/mechanism, clinical significance, and relevance to healthcare students worldwide",
-  "keyPoints": ["HY point 1","HY point 2","HY point 3","HY point 4","HY point 5","HY point 6","HY point 7","HY point 8","HY point 9","HY point 10"],
+  "overview": "6-8 paragraph EXHAUSTIVE overview covering: precise definition, global epidemiology with statistics, complete pathophysiology/mechanism of action, ALL clinical presentations and variants, ALL diagnostic criteria and gold-standard workup, ALL management guidelines (US/UK/AUS/Middle East/India/Canada), prognosis, and board-exam relevance",
+  "keyPoints": [
+    "High-yield point — must include specific numbers, doses, thresholds, or percentages",
+    "...continue for EVERY high-yield fact that exists on this topic — do not stop until exhausted"
+  ],
   "tableData": {
     "headers": ["Column1","Column2","Column3","Column4","Column5"],
     "rows": [
-      ["row1col1","row1col2","row1col3","row1col4","row1col5"],
-      ["row2col1","row2col2","row2col3","row2col4","row2col5"]
+      ["data","data","data","data","data"]
     ]
   },
-  "clinicalPearls": ["pearl1","pearl2","pearl3","pearl4","pearl5","pearl6","pearl7"],
-  "mnemonics": [
-    {"mnemonic":"ACRONYM","meaning":"A=..., C=..., R=..., O=..., N=..., Y=..., M=...","topic":"what it helps remember"},
-    {"mnemonic":"SECOND","meaning":"S=..., E=..., C=..., O=..., N=..., D=...","topic":"another key concept"}
+  "clinicalPearls": [
+    "Pearl — specific, actionable, exam-tested",
+    "...include EVERY pearl that exists for this topic worldwide"
   ],
-  "commonMistakes": ["mistake1","mistake2","mistake3","mistake4","mistake5"],
-  "examTips": ["tip1","tip2","tip3","tip4","tip5","tip6"],
+  "mnemonics": [
+    {"mnemonic":"ACRONYM","meaning":"A=First, C=Second, R=Third, O=Fourth, N=Fifth, Y=Sixth, M=Seventh","topic":"what concept this helps memorize"},
+    {"mnemonic":"SECOND","meaning":"S=..., E=..., C=..., O=..., N=..., D=...","topic":"another concept"}
+  ],
+  "commonMistakes": [
+    "Mistake — why students get this wrong on exams",
+    "...include every known misconception on this topic"
+  ],
+  "examTips": [
+    "Tip — specific strategy for USMLE/NAPLEX/NCLEX/PLAB/DHA",
+    "...include every exam strategy relevant to this topic"
+  ],
   "subtopics": [
-    {"name":"subtopic name","summary":"2-3 sentence comprehensive summary","keyFact":"the single most important high-yield fact"}
+    {"name":"Subtopic Name","summary":"3-4 sentence comprehensive clinical summary with specific facts, values, and management steps","keyFact":"The single most HY testable fact about this subtopic"}
   ]
 }
 
-CRITICAL RULES — follow exactly:
-1. tableData MUST have 20-35 rows minimum with REAL, accurate, detailed medical data
-2. For DRUGS: columns = Drug Name (Brand/Generic) | Drug Class | Mechanism of Action | Key Indications | Major Side Effects / Monitoring
-3. For DISEASES: columns = Disease | Pathophysiology | Key Symptoms | Diagnosis | First-Line Treatment
-4. For EXAMS: columns = Topic/Domain | High-Yield Content | Question Type | Key Strategy | Common Pitfalls
-5. For PROCEDURES: columns = Procedure | Indication | Key Steps | Complications | Pearls
-6. For NURSING: columns = Topic | Assessment Findings | Nursing Interventions | Patient Education | Priority Actions
-7. subtopics MUST have 12-20 entries covering ALL important aspects of the topic comprehensively
-8. keyPoints MUST have 10+ board-exam-level high-yield points
-9. clinicalPearls MUST have 7+ real clinical pearls used in exams worldwide (USMLE, PLAB, AMC, DHA, NAPLEX, NCLEX)
-10. mnemonics MUST have 2+ actual exam mnemonics used by medical students globally
-11. All content must be GLOBALLY relevant — reflect US, UK, Australia, Middle East, India, Canada exam standards
-12. commonMistakes MUST reflect real errors students make in board exams internationally
-13. examTips MUST be actionable strategies for the specific exam context (NAPLEX, NCLEX, USMLE, PLAB, DHA, AMC, etc.)`;
-      const raw = await callAI(prompt, true, false, settings, 8e3);
+═══════════════════════════════════════════════════════
+IRON-CLAD CONTENT RULES — violation is not permitted:
+═══════════════════════════════════════════════════════
+
+RULE 1 — tableData: GENERATE EVERY ROW THAT EXISTS IN THE REAL WORLD.
+Do NOT impose any row limit. If the topic has 200 drugs, list all 200. If there are 150 diseases, list all 150. If there are 80 lab tests, list all 80.
+Think: "What is the complete, unabridged global list for this topic?" — then generate that list in full, from A to Z, leaving nothing out.
+Every cell must contain REAL, accurate, specific medical data — no placeholders, no "see above", no "etc.".
+Choose the correct column schema based on the topic:
+   • DRUGS/PHARMACOLOGY → Drug Name (Brand® / generic) | Drug Class | Mechanism of Action | Key Indications | Side Effects, Monitoring & Antidote
+   • DISEASES/CONDITIONS → Disease / Condition | Pathophysiology | Classic Presentation | Gold-Standard Diagnosis | First-Line Treatment (US/UK)
+   • NURSING TOPICS → Topic | Assessment Findings | Priority Nursing Interventions | Patient Education Points | Delegation & Safety Notes
+   • EXAMS/BOARDS → Domain/Topic | High-Yield Facts | Typical Question Stem | Key Test-Taking Strategy | Most Common Wrong Answer & Why
+   • PROCEDURES/SKILLS → Procedure | Indication | Critical Steps | Complications | Clinical Pearl
+   • PHARMACOKINETICS/PHARMACODYNAMICS → Drug | Route/Bioavailability | Half-Life | Metabolism (enzyme) | Renal/Hepatic Dose Adjustment
+   • LAB/DIAGNOSTICS → Test Name | Normal Range (SI + conventional) | Clinical Significance | When to Order | Interpretation & Pitfalls
+   • ANATOMY/PHYSIOLOGY → Structure/Concept | Location/Description | Function | Clinical Relevance | Board-Exam Fact
+   • MICROBIOLOGY/INFECTIOUS → Pathogen | Gram/Type | Virulence Factors | Disease Caused | Treatment of Choice
+   • PATHOLOGY → Disease | Gross Finding | Microscopic Finding | Immunostain/Marker | Classic Boards Buzzword
+
+RULE 2 — keyPoints: List EVERY high-yield fact for this topic — do not stop at any number. Each must include specific values, drugs, doses, or diagnostic criteria.
+
+RULE 3 — clinicalPearls: List EVERY real clinical pearl used in USMLE, PLAB, AMC, DHA, HAAD, SCFHS, NAPLEX, or NCLEX for this topic.
+
+RULE 4 — subtopics: Cover EVERY distinct sub-area of this topic from A to Z. Do not stop at any fixed number — keep going until the topic is fully exhausted.
+
+RULE 5 — mnemonics: Include EVERY well-known international mnemonic used by medical, nursing, and pharmacy students for this topic.
+
+RULE 6 — commonMistakes: List every known misconception or exam trap related to this topic. Include the reason each one is wrong.
+
+RULE 7 — examTips: Provide every actionable test-taking strategy for relevant exams (USMLE Step 1/2/3, NAPLEX, NCLEX-RN/PN, PLAB 1/2, AMC, DHA, HAAD, MCCQE, NEET-PG).
+
+RULE 8 — ALL content must reflect INTERNATIONAL standards: US, UK, Australia, Middle East, India, Canada.
+
+RULE 9 — For ALL drugs: always write Brand® (generic). Include both US and international brand names where they differ.
+
+RULE 10 — Include specific quantitative data everywhere: exact doses, lab cutoffs, sensitivity/specificity %, survival rates, NNT, NNH, p-values where standard.`;
+      const raw = await callAI(prompt, true, false, settings, 16e3);
       const parsed = parseJson(raw);
+      if (!parsed || parsed.error) throw new Error(parsed?.error || "AI returned no data");
       setContent(parsed);
+      setFromCache(false);
+      try {
+        await saveTopicCache(topicKey, parsed);
+      } catch {
+      }
     } catch (e) {
       setContent({ error: e.message });
     } finally {
       setLoading(false);
     }
   };
-  reactExports.useEffect(() => {
-    generate();
-  }, [topicKey]);
-  const filteredRows = content?.tableData?.rows?.filter(
-    (row) => !searchQ || row.some((cell) => String(cell).toLowerCase().includes(searchQ.toLowerCase()))
-  ) || [];
+  const filteredRows = reactExports.useMemo(() => {
+    let rows = content?.tableData?.rows || [];
+    if (searchQ) rows = rows.filter((row) => row.some((cell) => String(cell).toLowerCase().includes(searchQ.toLowerCase())));
+    if (sortCol !== null) {
+      rows = [...rows].sort((a, b) => {
+        const av = String(a[sortCol] ?? "").toLowerCase();
+        const bv = String(b[sortCol] ?? "").toLowerCase();
+        return sortDir === "asc" ? av.localeCompare(bv) : bv.localeCompare(av);
+      });
+    }
+    return rows;
+  }, [content, searchQ, sortCol, sortDir]);
+  const totalTablePages = Math.ceil(filteredRows.length / TABLE_PAGE_SIZE);
+  const pagedRows = filteredRows.slice(tablePage * TABLE_PAGE_SIZE, (tablePage + 1) * TABLE_PAGE_SIZE);
   if (loading) return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex flex-col items-center justify-center py-20 gap-4", children: [
     /* @__PURE__ */ jsxRuntimeExports.jsx(
       "div",
@@ -22496,21 +22959,22 @@ CRITICAL RULES — follow exactly:
       subcategory.label,
       "…"
     ] }),
-    /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-xs opacity-40", children: "Building comprehensive reference tables" })
+    /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-xs opacity-40", children: "Generating exhaustive A-to-Z reference — this may take up to a minute" })
   ] });
   if (content?.error) return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "p-6 text-center space-y-4", children: [
     /* @__PURE__ */ jsxRuntimeExports.jsx(AlertCircle, { size: 32, className: "mx-auto text-red-400" }),
     /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-sm font-bold text-red-400", children: content.error }),
     /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-xs opacity-50", children: "Add an API key in Settings to use the AI tutor" }),
-    /* @__PURE__ */ jsxRuntimeExports.jsx("button", { onClick: generate, className: "btn-accent px-4 py-2 rounded-xl text-sm font-black", children: "Retry" })
+    /* @__PURE__ */ jsxRuntimeExports.jsx("button", { onClick: () => generateAndCache(false), className: "btn-accent px-4 py-2 rounded-xl text-sm font-black", children: "Retry" })
   ] });
   if (!content) return null;
   const tabs = [
     { id: "overview", label: "Overview", icon: BookOpen },
-    { id: "table", label: "Reference Table", icon: Table },
+    { id: "table", label: `Reference Table${content?.tableData?.rows?.length ? ` (${content.tableData.rows.length})` : ""}`, icon: Table },
     { id: "subtopics", label: "Subtopics", icon: Layers3 },
     { id: "pearls", label: "Pearls & Tips", icon: Sparkles },
-    { id: "questions", label: "Practice Qs", icon: CheckCircle2 }
+    { id: "questions", label: "Practice Qs", icon: CheckCircle2 },
+    { id: "rapid", label: "Rapid Review", icon: Zap }
   ];
   return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "space-y-4", children: [
     /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex gap-1 p-1 glass rounded-2xl overflow-x-auto custom-scrollbar", children: [
@@ -22528,7 +22992,18 @@ CRITICAL RULES — follow exactly:
         },
         id
       )),
-      /* @__PURE__ */ jsxRuntimeExports.jsxs("button", { onClick: generate, className: "ml-auto flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-black opacity-40 hover:opacity-80 whitespace-nowrap", children: [
+      fromCache && /* @__PURE__ */ jsxRuntimeExports.jsxs(
+        "span",
+        {
+          className: "ml-2 flex items-center gap-1 px-2 py-1 rounded-xl text-[10px] font-black",
+          style: { background: "var(--surface)", color: "var(--accent)", border: "1px solid var(--accent)22", opacity: 0.85 },
+          children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx(Database, { size: 10 }),
+            " Cached"
+          ]
+        }
+      ),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("button", { onClick: () => generateAndCache(true), className: "ml-auto flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-black opacity-40 hover:opacity-80 whitespace-nowrap", children: [
         /* @__PURE__ */ jsxRuntimeExports.jsx(RefreshCw, { size: 13 }),
         " Regenerate"
       ] })
@@ -22594,36 +23069,80 @@ CRITICAL RULES — follow exactly:
       ] })
     ] }),
     activeTab === "table" && content.tableData && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "card-lined rounded-2xl overflow-hidden", style: { borderTopColor: category.color + "60" }, children: [
-      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "p-4 border-b border-[color:var(--border2,var(--border))] flex items-center gap-3", children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex-1 flex items-center gap-2 glass-input rounded-xl px-3 py-2", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "p-4 border-b border-[color:var(--border2,var(--border))] flex items-center gap-3 flex-wrap", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex-1 flex items-center gap-2 glass-input rounded-xl px-3 py-2", style: { minWidth: 140 }, children: [
           /* @__PURE__ */ jsxRuntimeExports.jsx(Search, { size: 14, className: "opacity-40 shrink-0" }),
           /* @__PURE__ */ jsxRuntimeExports.jsx(
             "input",
             {
               value: searchQ,
-              onChange: (e) => setSearchQ(e.target.value),
-              placeholder: "Search table…",
+              onChange: (e) => {
+                setSearchQ(e.target.value);
+                setTablePage(0);
+              },
+              placeholder: `Search ${filteredRows.length} rows…`,
               className: "flex-1 bg-transparent text-sm outline-none"
             }
-          )
+          ),
+          searchQ && /* @__PURE__ */ jsxRuntimeExports.jsx("button", { onClick: () => {
+            setSearchQ("");
+            setTablePage(0);
+          }, className: "opacity-40 hover:opacity-80", children: /* @__PURE__ */ jsxRuntimeExports.jsx(X, { size: 13 }) })
         ] }),
         /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { className: "text-xs font-black opacity-40", children: [
           filteredRows.length,
-          " rows"
-        ] })
+          " rows total"
+        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs(
+          "button",
+          {
+            onClick: exportCSV,
+            title: "Export as CSV",
+            className: "flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-black transition-all hover:opacity-80",
+            style: { background: category.color + "15", color: category.color },
+            children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx(Download, { size: 13 }),
+              " CSV"
+            ]
+          }
+        ),
+        sortCol !== null && /* @__PURE__ */ jsxRuntimeExports.jsxs(
+          "button",
+          {
+            onClick: () => {
+              setSortCol(null);
+              setSortDir("asc");
+            },
+            className: "flex items-center gap-1 px-2.5 py-2 rounded-xl text-xs font-bold opacity-60 hover:opacity-100 glass",
+            children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx(X, { size: 11 }),
+              " Sort"
+            ]
+          }
+        )
       ] }),
       /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "overflow-x-auto", children: [
         /* @__PURE__ */ jsxRuntimeExports.jsxs("table", { className: "w-full text-sm", children: [
           /* @__PURE__ */ jsxRuntimeExports.jsx("thead", { children: /* @__PURE__ */ jsxRuntimeExports.jsx("tr", { style: { background: category.color + "15", borderBottom: `2px solid ${category.color}30` }, children: content.tableData.headers?.map((h, i) => /* @__PURE__ */ jsxRuntimeExports.jsx(
             "th",
             {
-              className: "px-4 py-3 text-left text-xs font-black uppercase tracking-wider",
+              className: "px-4 py-3 text-left text-xs font-black uppercase tracking-wider cursor-pointer select-none hover:opacity-80 transition-opacity",
               style: { color: category.color },
-              children: h
+              onClick: () => {
+                if (sortCol === i) setSortDir((d) => d === "asc" ? "desc" : "asc");
+                else {
+                  setSortCol(i);
+                  setSortDir("asc");
+                }
+              },
+              children: /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { className: "flex items-center gap-1", children: [
+                h,
+                /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-[10px] opacity-60", children: sortCol === i ? sortDir === "asc" ? "↑" : "↓" : "⇅" })
+              ] })
             },
             i
           )) }) }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx("tbody", { children: filteredRows.map((row, ri) => /* @__PURE__ */ jsxRuntimeExports.jsx("tr", { className: "border-b border-[color:var(--border2,var(--border))] hover:bg-[var(--accent)]/5 transition-colors", children: row.map((cell, ci) => /* @__PURE__ */ jsxRuntimeExports.jsx("td", { className: "px-4 py-2.5 text-sm", style: { color: ci === 0 ? "var(--text)" : "var(--text2)" }, children: ci === 0 ? /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "font-semibold", children: cell }) : cell }, ci)) }, ri)) })
+          /* @__PURE__ */ jsxRuntimeExports.jsx("tbody", { children: pagedRows.map((row, ri) => /* @__PURE__ */ jsxRuntimeExports.jsx("tr", { className: "border-b border-[color:var(--border2,var(--border))] hover:bg-[var(--accent)]/5 transition-colors", children: row.map((cell, ci) => /* @__PURE__ */ jsxRuntimeExports.jsx("td", { className: "px-4 py-2.5 text-sm", style: { color: ci === 0 ? "var(--text)" : "var(--text2)" }, children: ci === 0 ? /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "font-semibold", children: cell }) : cell }, ci)) }, ri)) })
         ] }),
         filteredRows.length === 0 && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "py-12 text-center opacity-40", children: [
           /* @__PURE__ */ jsxRuntimeExports.jsx(Search, { size: 24, className: "mx-auto mb-2" }),
@@ -22632,6 +23151,68 @@ CRITICAL RULES — follow exactly:
             searchQ,
             '"'
           ] })
+        ] })
+      ] }),
+      totalTablePages > 1 && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center justify-between gap-3 px-4 py-3 border-t", style: { borderColor: "var(--border)" }, children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { className: "text-xs font-black opacity-40", children: [
+          "Rows ",
+          tablePage * TABLE_PAGE_SIZE + 1,
+          "–",
+          Math.min((tablePage + 1) * TABLE_PAGE_SIZE, filteredRows.length),
+          " of ",
+          filteredRows.length
+        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center gap-1", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx(
+            "button",
+            {
+              onClick: () => setTablePage(0),
+              disabled: tablePage === 0,
+              className: "px-2 py-1.5 rounded-lg text-xs font-black glass opacity-60 hover:opacity-100 disabled:opacity-20",
+              children: "«"
+            }
+          ),
+          /* @__PURE__ */ jsxRuntimeExports.jsx(
+            "button",
+            {
+              onClick: () => setTablePage((p) => Math.max(0, p - 1)),
+              disabled: tablePage === 0,
+              className: "px-3 py-1.5 rounded-lg text-xs font-black glass opacity-60 hover:opacity-100 disabled:opacity-20",
+              children: "‹ Prev"
+            }
+          ),
+          Array.from({ length: Math.min(5, totalTablePages) }, (_, i) => {
+            const start = Math.max(0, Math.min(tablePage - 2, totalTablePages - 5));
+            const pg = start + i;
+            return /* @__PURE__ */ jsxRuntimeExports.jsx(
+              "button",
+              {
+                onClick: () => setTablePage(pg),
+                className: "w-8 h-8 rounded-lg text-xs font-black transition-all",
+                style: { background: pg === tablePage ? category.color : "transparent", color: pg === tablePage ? "#fff" : "var(--text2)", opacity: pg === tablePage ? 1 : 0.5 },
+                children: pg + 1
+              },
+              pg
+            );
+          }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx(
+            "button",
+            {
+              onClick: () => setTablePage((p) => Math.min(totalTablePages - 1, p + 1)),
+              disabled: tablePage === totalTablePages - 1,
+              className: "px-3 py-1.5 rounded-lg text-xs font-black glass opacity-60 hover:opacity-100 disabled:opacity-20",
+              children: "Next ›"
+            }
+          ),
+          /* @__PURE__ */ jsxRuntimeExports.jsx(
+            "button",
+            {
+              onClick: () => setTablePage(totalTablePages - 1),
+              disabled: tablePage === totalTablePages - 1,
+              className: "px-2 py-1.5 rounded-lg text-xs font-black glass opacity-60 hover:opacity-100 disabled:opacity-20",
+              children: "»"
+            }
+          )
         ] })
       ] })
     ] }),
@@ -22710,29 +23291,59 @@ CRITICAL RULES — follow exactly:
       ] })
     ] }),
     activeTab === "questions" && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "space-y-4", children: [
-      !practiceQs && !loadingQs && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "card-lined rounded-2xl p-8 text-center space-y-4", children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsx(
-          "div",
-          {
-            className: "w-16 h-16 rounded-2xl flex items-center justify-center mx-auto",
-            style: { background: category.color + "20" },
-            children: /* @__PURE__ */ jsxRuntimeExports.jsx(CheckCircle2, { size: 30, style: { color: category.color } })
-          }
-        ),
-        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { className: "text-lg font-black mb-1", children: "Practice Questions" }),
+      !practiceQs && !loadingQs && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "card-lined rounded-2xl p-6 space-y-5", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "text-center space-y-2", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx(
+            "div",
+            {
+              className: "w-14 h-14 rounded-2xl flex items-center justify-center mx-auto",
+              style: { background: category.color + "20" },
+              children: /* @__PURE__ */ jsxRuntimeExports.jsx(CheckCircle2, { size: 26, style: { color: category.color } })
+            }
+          ),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { className: "text-lg font-black", children: "Practice Mode" }),
           /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { className: "text-sm opacity-50", children: [
-            "Generate 10 AI-powered board-exam style MCQs for ",
+            "AI-powered board-exam MCQs for ",
             subcategory.label
           ] })
         ] }),
-        /* @__PURE__ */ jsxRuntimeExports.jsx(
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-xs font-black uppercase tracking-widest opacity-50 mb-2", children: "Difficulty" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "flex flex-wrap gap-2", children: [["mixed", "Mixed", "#6366f1"], ["easy", "Easy", "#10b981"], ["medium", "Medium", "#f59e0b"], ["hard", "Hard", "#ef4444"], ["board", "Board Level", "#7c3aed"]].map(([val, lbl, col]) => /* @__PURE__ */ jsxRuntimeExports.jsx(
+            "button",
+            {
+              onClick: () => setPracticeDifficulty(val),
+              className: "px-3 py-1.5 rounded-xl text-xs font-black transition-all",
+              style: { background: practiceDifficulty === val ? col : col + "18", color: practiceDifficulty === val ? "#fff" : col },
+              children: lbl
+            },
+            val
+          )) })
+        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-xs font-black uppercase tracking-widest opacity-50 mb-2", children: "Number of Questions" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "flex gap-2", children: [5, 10, 15, 20].map((n) => /* @__PURE__ */ jsxRuntimeExports.jsx(
+            "button",
+            {
+              onClick: () => setPracticeCount(n),
+              className: "px-4 py-1.5 rounded-xl text-xs font-black transition-all",
+              style: { background: practiceCount === n ? category.color : category.color + "15", color: practiceCount === n ? "#fff" : category.color },
+              children: n
+            },
+            n
+          )) })
+        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs(
           "button",
           {
             onClick: generateQuestions,
-            className: "btn-accent px-6 py-3 rounded-2xl text-sm font-black",
-            style: { background: `linear-gradient(135deg,${category.color},${category.color}cc)` },
-            children: "Generate 10 Questions ✨"
+            className: "w-full px-6 py-3 rounded-2xl text-sm font-black",
+            style: { background: `linear-gradient(135deg,${category.color},${category.color}cc)`, color: "#fff" },
+            children: [
+              "Generate ",
+              practiceCount,
+              " Questions ✨"
+            ]
           }
         )
       ] }),
@@ -22760,18 +23371,32 @@ CRITICAL RULES — follow exactly:
             " Questions — ",
             subcategory.label
           ] }),
-          /* @__PURE__ */ jsxRuntimeExports.jsxs(
-            "button",
-            {
-              onClick: generateQuestions,
-              className: "flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-black opacity-50 hover:opacity-80",
-              style: { background: category.color + "15", color: category.color },
-              children: [
-                /* @__PURE__ */ jsxRuntimeExports.jsx(RefreshCw, { size: 11 }),
-                " New Set"
-              ]
-            }
-          )
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex gap-2", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx(
+              "button",
+              {
+                onClick: () => {
+                  setPracticeQs(null);
+                  setRevealedAnswers({});
+                },
+                className: "flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-black opacity-50 hover:opacity-80",
+                style: { background: category.color + "15", color: category.color },
+                children: "⚙ Settings"
+              }
+            ),
+            /* @__PURE__ */ jsxRuntimeExports.jsxs(
+              "button",
+              {
+                onClick: generateQuestions,
+                className: "flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-black opacity-50 hover:opacity-80",
+                style: { background: category.color + "15", color: category.color },
+                children: [
+                  /* @__PURE__ */ jsxRuntimeExports.jsx(RefreshCw, { size: 11 }),
+                  " New Set"
+                ]
+              }
+            )
+          ] })
         ] }),
         practiceQs.map((q, qi) => {
           const revealed = revealedAnswers[qi];
@@ -22859,7 +23484,7 @@ CRITICAL RULES — follow exactly:
             ) })
           ] }, qi);
         }),
-        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "card-lined rounded-2xl p-4 text-center", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "card-lined rounded-2xl p-4 text-center space-y-2", children: [
           /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { className: "text-sm font-black opacity-60", children: [
             "Score: ",
             Object.values(revealedAnswers).filter((r) => r?.isCorrect).length,
@@ -22867,18 +23492,121 @@ CRITICAL RULES — follow exactly:
             Object.keys(revealedAnswers).length,
             " answered"
           ] }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx(
-            "button",
-            {
-              onClick: generateQuestions,
-              className: "mt-3 px-5 py-2 rounded-xl text-xs font-black",
-              style: { background: category.color + "20", color: category.color },
-              children: "Generate New Questions"
-            }
-          )
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex gap-2 justify-center", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx(
+              "button",
+              {
+                onClick: () => {
+                  setPracticeQs(null);
+                  setRevealedAnswers({});
+                },
+                className: "px-4 py-2 rounded-xl text-xs font-black",
+                style: { background: category.color + "15", color: category.color },
+                children: "⚙ Change Settings"
+              }
+            ),
+            /* @__PURE__ */ jsxRuntimeExports.jsx(
+              "button",
+              {
+                onClick: generateQuestions,
+                className: "px-4 py-2 rounded-xl text-xs font-black",
+                style: { background: category.color + "20", color: category.color },
+                children: "New Set"
+              }
+            )
+          ] })
         ] })
       ] })
-    ] })
+    ] }),
+    activeTab === "rapid" && /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "space-y-4", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "card-lined rounded-2xl p-5", style: { borderTopColor: category.color + "60" }, children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("h3", { className: "text-xs font-black uppercase tracking-widest mb-1 flex items-center gap-2", style: { color: category.color }, children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx(Zap, { size: 13 }),
+        " Rapid Review — Flashcard Mode"
+      ] }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-xs opacity-50 mb-4", children: "Tap card to flip. Navigate with arrows. Works from your loaded Overview content." }),
+      (() => {
+        const cards = [
+          ...(content?.keyPoints || []).map((pt, i) => ({ q: `High-Yield Point #${i + 1}`, a: pt })),
+          ...(content?.subtopics || []).map((s) => ({ q: `Key fact: ${s.name}`, a: s.keyFact || s.summary })),
+          ...(content?.clinicalPearls || []).map((p, i) => ({ q: `Clinical Pearl #${i + 1}`, a: p })),
+          ...(content?.examTips || []).map((t, i) => ({ q: `Exam Tip #${i + 1}`, a: t }))
+        ];
+        if (cards.length === 0) return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "text-center py-10 space-y-3", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx(Zap, { size: 28, className: "mx-auto opacity-20", style: { color: category.color } }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-sm opacity-40", children: "Load the Overview tab first — flashcards are built from your generated content." }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("button", { onClick: () => setActiveTab("overview"), className: "px-4 py-2 rounded-xl text-xs font-black", style: { background: category.color + "20", color: category.color }, children: "Go to Overview →" })
+        ] });
+        const idx = rapidIdx % cards.length;
+        const card = cards[idx];
+        return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "space-y-4", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center gap-2 text-xs font-black opacity-50", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { children: [
+              idx + 1,
+              " / ",
+              cards.length
+            ] }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "flex-1 h-1.5 rounded-full", style: { background: "var(--border)" }, children: /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "h-1.5 rounded-full transition-all", style: { width: `${(idx + 1) / cards.length * 100}%`, background: category.color } }) }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("button", { onClick: () => {
+              setRapidIdx(0);
+              setRapidFlipped(false);
+            }, className: "opacity-40 hover:opacity-80 text-[10px]", children: "Reset" })
+          ] }),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs(
+            "button",
+            {
+              onClick: () => setRapidFlipped((f) => !f),
+              className: "w-full rounded-2xl p-6 min-h-[180px] flex flex-col items-center justify-center gap-3 transition-all text-center",
+              style: { background: rapidFlipped ? category.color + "18" : "var(--card)", border: `2px solid ${category.color}${rapidFlipped ? "50" : "18"}`, cursor: "pointer" },
+              children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-xs font-black uppercase tracking-widest opacity-40", children: rapidFlipped ? "✓ Answer" : `${card.q} — tap to flip` }),
+                /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-sm font-bold leading-relaxed max-w-lg", style: { color: rapidFlipped ? category.color : "var(--text)" }, children: rapidFlipped ? card.a : card.q }),
+                !rapidFlipped && /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-xs opacity-25", children: "👆 tap card to reveal" })
+              ]
+            }
+          ),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center gap-2", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx(
+              "button",
+              {
+                onClick: () => {
+                  setRapidIdx((i) => (i - 1 + cards.length) % cards.length);
+                  setRapidFlipped(false);
+                },
+                className: "px-4 py-2.5 rounded-xl text-xs font-black glass opacity-60 hover:opacity-100 transition-opacity",
+                children: "← Prev"
+              }
+            ),
+            /* @__PURE__ */ jsxRuntimeExports.jsx(
+              "button",
+              {
+                onClick: () => {
+                  if (!rapidFlipped) {
+                    setRapidFlipped(true);
+                  } else {
+                    setRapidIdx((i) => (i + 1) % cards.length);
+                    setRapidFlipped(false);
+                  }
+                },
+                className: "flex-1 py-2.5 rounded-xl text-sm font-black text-white transition-all",
+                style: { background: category.color },
+                children: rapidFlipped ? "Next Card →" : "Flip / Reveal"
+              }
+            ),
+            /* @__PURE__ */ jsxRuntimeExports.jsx(
+              "button",
+              {
+                onClick: () => {
+                  setRapidIdx((i) => (i + 1) % cards.length);
+                  setRapidFlipped(false);
+                },
+                className: "px-4 py-2.5 rounded-xl text-xs font-black glass opacity-60 hover:opacity-100 transition-opacity",
+                children: "Skip →"
+              }
+            )
+          ] })
+        ] });
+      })()
+    ] }) })
   ] });
 }
 function MedicalEncyclopediaView({ settings }) {
@@ -23053,27 +23781,29 @@ function MedicalEncyclopediaView({ settings }) {
           placeholder: `Ask anything about ${cat.label}…`
         }
       ),
-      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "grid grid-cols-1 sm:grid-cols-2 gap-3", children: cat.subcategories.map((sub) => /* @__PURE__ */ jsxRuntimeExports.jsx(
+      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2.5", children: cat.subcategories.map((sub) => /* @__PURE__ */ jsxRuntimeExports.jsxs(
         "button",
         {
           onClick: () => navigateToTopic(selectedCategory, sub),
-          className: "card-lined rounded-2xl p-4 text-left hover:scale-[1.01] transition-all group",
-          style: { borderTopColor: cat.color + "40" },
-          children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-start gap-3", children: [
+          className: "flex items-center gap-3 px-4 py-3.5 text-left hover:scale-[1.02] active:scale-[0.98] transition-all duration-150",
+          style: {
+            background: "var(--card, rgba(255,255,255,0.82))",
+            border: `1.5px solid ${cat.color}22`,
+            borderRadius: 999,
+            backdropFilter: "blur(14px)",
+            boxShadow: "0 2px 10px rgba(0,0,0,0.06)"
+          },
+          children: [
             /* @__PURE__ */ jsxRuntimeExports.jsx(
               "div",
               {
-                className: "w-9 h-9 rounded-xl flex items-center justify-center shrink-0 mt-0.5",
-                style: { background: cat.color + "15" },
-                children: /* @__PURE__ */ jsxRuntimeExports.jsx(cat.icon, { size: 16, style: { color: cat.color } })
+                className: "w-7 h-7 rounded-full flex items-center justify-center shrink-0",
+                style: { background: cat.color + "18" },
+                children: /* @__PURE__ */ jsxRuntimeExports.jsx(cat.icon, { size: 14, style: { color: cat.color } })
               }
             ),
-            /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex-1 min-w-0", children: [
-              /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "font-black text-sm group-hover:text-[var(--accent)] transition-colors", children: sub.label }),
-              /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-xs opacity-50 mt-0.5 line-clamp-2", children: sub.desc })
-            ] }),
-            /* @__PURE__ */ jsxRuntimeExports.jsx(ChevronRight, { size: 14, className: "opacity-0 group-hover:opacity-60 transition-opacity shrink-0 mt-1", style: { color: cat.color } })
-          ] })
+            /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "font-black leading-snug truncate", style: { color: cat.color, fontSize: 15 }, children: sub.label })
+          ]
         },
         sub.id
       )) })
@@ -23117,33 +23847,54 @@ function MedicalEncyclopediaView({ settings }) {
         ),
         globalSearch && /* @__PURE__ */ jsxRuntimeExports.jsx("button", { onClick: () => setGlobalSearch(""), className: "opacity-40 hover:opacity-80", children: /* @__PURE__ */ jsxRuntimeExports.jsx(X, { size: 16 }) })
       ] }),
-      searchResults.length > 0 && /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "absolute top-full left-0 right-0 mt-2 glass rounded-2xl shadow-2xl z-50 overflow-hidden border border-[color:var(--border2,var(--border))]", style: { maxHeight: "60vh", overflowY: "auto" }, children: searchResults.map((s, i) => /* @__PURE__ */ jsxRuntimeExports.jsxs(
-        "button",
-        {
-          onClick: () => navigateToTopic(s.category, s),
-          className: "w-full flex items-center gap-3 px-4 py-3 hover:bg-[var(--accent)]/5 transition-colors text-left border-b border-[color:var(--border2,var(--border))]/50 last:border-0",
-          children: [
-            /* @__PURE__ */ jsxRuntimeExports.jsx(
-              "div",
-              {
-                className: "w-8 h-8 rounded-xl flex items-center justify-center shrink-0",
-                style: { background: s.category.color + "20" },
-                children: /* @__PURE__ */ jsxRuntimeExports.jsx(s.category.icon, { size: 14, style: { color: s.category.color } })
-              }
-            ),
-            /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex-1 min-w-0", children: [
-              /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-sm font-bold truncate", children: s.label }),
-              /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { className: "text-xs opacity-40 truncate", children: [
-                s.category.label,
-                " · ",
-                s.desc
-              ] })
+      globalSearch.length >= 2 && (searchResults.length > 0 || globalSearch.length >= 3) && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "absolute top-full left-0 right-0 mt-2 glass rounded-2xl shadow-2xl z-50 overflow-hidden border border-[color:var(--border2,var(--border))]", style: { maxHeight: "60vh", overflowY: "auto" }, children: [
+        searchResults.map((s, i) => /* @__PURE__ */ jsxRuntimeExports.jsxs(
+          "button",
+          {
+            onClick: () => navigateToTopic(s.category, s),
+            className: "w-full flex items-center gap-3 px-4 py-3 hover:bg-[var(--accent)]/5 transition-colors text-left border-b border-[color:var(--border2,var(--border))]/50 last:border-0",
+            children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx(
+                "div",
+                {
+                  className: "w-8 h-8 rounded-xl flex items-center justify-center shrink-0",
+                  style: { background: s.category.color + "20" },
+                  children: /* @__PURE__ */ jsxRuntimeExports.jsx(s.category.icon, { size: 14, style: { color: s.category.color } })
+                }
+              ),
+              /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex-1 min-w-0", children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-sm font-bold truncate", children: s.label }),
+                /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { className: "text-xs opacity-40 truncate", children: [
+                  s.category.label,
+                  " · ",
+                  s.desc
+                ] })
+              ] }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx(ChevronRight, { size: 12, className: "opacity-30 shrink-0" })
+            ]
+          },
+          i
+        )),
+        searchResults.length === 0 && globalSearch.length >= 3 && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "px-4 py-3 text-center border-b border-[color:var(--border2,var(--border))]/50", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { className: "text-xs font-bold opacity-40", children: [
+            'No encyclopedia topics found for "',
+            globalSearch,
+            '"'
+          ] }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-xs opacity-25 mt-0.5", children: "↓ Use the AI Tutor below to ask any medical question" })
+        ] }),
+        globalSearch.length >= 3 && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "px-4 py-3 flex items-center gap-3", style: { background: "rgba(99,102,241,0.04)" }, children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "w-8 h-8 rounded-xl flex items-center justify-center shrink-0", style: { background: "#6366f115" }, children: /* @__PURE__ */ jsxRuntimeExports.jsx(BotMessageSquare, { size: 14, style: { color: "#6366f1" } }) }),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex-1 min-w-0", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { className: "text-sm font-bold", style: { color: "#6366f1" }, children: [
+              'Ask AI: "',
+              globalSearch,
+              '"'
             ] }),
-            /* @__PURE__ */ jsxRuntimeExports.jsx(ChevronRight, { size: 12, className: "opacity-30 shrink-0" })
-          ]
-        },
-        i
-      )) })
+            /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-xs opacity-40", children: "Scroll down to the AI Tutor for a full answer" })
+          ] })
+        ] })
+      ] })
     ] }),
     /* @__PURE__ */ jsxRuntimeExports.jsx(
       MiniAITutor,
@@ -23198,82 +23949,99 @@ function MedicalEncyclopediaView({ settings }) {
     ] }),
     /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
       /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-xs font-black uppercase tracking-widest opacity-40 mb-3", children: "Popular Topics" }),
-      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3", children: [
-        { cat: "pharmacy", sub: "top200-drugs", label: "💊 Top 200 Drugs", col: "#6366f1" },
-        { cat: "diseases", sub: "cardiovascular", label: "❤️ Cardiology", col: "#ef4444" },
-        { cat: "nclex", sub: "nclex-priority", label: "✅ NCLEX Priority", col: "#10b981" },
-        { cat: "usmle", sub: "step1-micro", label: "🧫 USMLE Micro", col: "#7c3aed" },
-        { cat: "naplex", sub: "naplex-calculations", label: "🔢 Pharm Calc", col: "#f59e0b" },
-        { cat: "global-exams", sub: "dha", label: "🇦🇪 DHA Exam", col: "#0891b2" },
-        { cat: "global-exams", sub: "plab", label: "🇬🇧 PLAB (UK)", col: "#0891b2" },
-        { cat: "osce", sub: "osce-scenarios", label: "🩺 OSCE Scenarios", col: "#06b6d4" },
-        { cat: "diseases", sub: "infectious-dis", label: "🔬 Infectious Dis.", col: "#ef4444" },
-        { cat: "clinical-skills", sub: "ecg", label: "📊 ECG Reading", col: "#f43f5e" },
-        { cat: "nursing", sub: "critical-care", label: "🏥 ICU Nursing", col: "#ec4899" },
-        { cat: "pharmacy", sub: "drug-interactions", label: "⚠️ Drug Interactions", col: "#6366f1" }
-      ].map(({ cat, sub, label, col }) => {
+      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2.5", children: [
+        { cat: "pharmacy", sub: "top200-drugs", emoji: "💊", label: "Top 200 Drugs", col: "#6366f1" },
+        { cat: "diseases", sub: "cardiovascular", emoji: "❤️", label: "Cardiology", col: "#ef4444" },
+        { cat: "nclex", sub: "nclex-priority", emoji: "✅", label: "NCLEX Priority", col: "#10b981" },
+        { cat: "usmle", sub: "step1-micro", emoji: "🧫", label: "USMLE Micro", col: "#7c3aed" },
+        { cat: "naplex", sub: "naplex-calculations", emoji: "🔢", label: "Pharm Calc", col: "#f59e0b" },
+        { cat: "global-exams", sub: "dha", emoji: "🇦🇪", label: "DHA Exam", col: "#0891b2" },
+        { cat: "global-exams", sub: "plab", emoji: "🇬🇧", label: "PLAB (UK)", col: "#0891b2" },
+        { cat: "osce", sub: "osce-scenarios", emoji: "🩺", label: "OSCE Scenarios", col: "#06b6d4" },
+        { cat: "diseases", sub: "infectious-dis", emoji: "🔬", label: "Infectious Dis.", col: "#ef4444" },
+        { cat: "clinical-skills", sub: "ecg", emoji: "📊", label: "ECG Reading", col: "#f43f5e" },
+        { cat: "nursing", sub: "critical-care", emoji: "🏥", label: "ICU Nursing", col: "#ec4899" },
+        { cat: "pharmacy", sub: "drug-interactions", emoji: "⚠️", label: "Drug Interactions", col: "#6366f1" }
+      ].map(({ cat, sub, emoji, label, col }) => {
         const catObj = ENCYCLOPEDIA_CATEGORIES.find((c) => c.id === cat);
         const subObj = catObj?.subcategories.find((s) => s.id === sub);
         if (!catObj || !subObj) return null;
-        return /* @__PURE__ */ jsxRuntimeExports.jsx(
+        return /* @__PURE__ */ jsxRuntimeExports.jsxs(
           "button",
           {
             onClick: () => navigateToTopic(catObj, subObj),
-            className: "card-lined rounded-xl p-3 text-left hover:scale-[1.02] transition-all text-xs font-bold",
-            style: { borderTopColor: col + "50", color: col },
-            children: label
+            className: "flex items-center gap-3 px-4 py-3.5 text-left hover:scale-[1.02] active:scale-[0.98] transition-all duration-150",
+            style: {
+              background: "var(--card, rgba(255,255,255,0.82))",
+              border: `1.5px solid ${col}22`,
+              borderRadius: 999,
+              backdropFilter: "blur(16px)",
+              boxShadow: "0 2px 14px rgba(0,0,0,0.07)"
+            },
+            children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-[22px] leading-none shrink-0", children: emoji }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "font-black leading-snug", style: { color: col, fontSize: 15 }, children: label })
+            ]
           },
           sub
         );
       }) })
     ] }),
-    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "space-y-3", children: [
+    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "space-y-4", children: [
       /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-xs font-black uppercase tracking-widest opacity-40", children: "All Categories" }),
-      filteredCategories.map((cat, ci) => /* @__PURE__ */ jsxRuntimeExports.jsxs(
-        "div",
-        {
-          className: "card-lined rounded-2xl overflow-hidden animate-slide-up",
-          style: { borderTopColor: cat.color + "50", animationDelay: `${ci * 0.04}s` },
-          children: [
-            /* @__PURE__ */ jsxRuntimeExports.jsxs(
-              "button",
-              {
-                className: "w-full flex items-center gap-4 p-4 hover:bg-[var(--accent)]/3 transition-colors text-left",
-                onClick: () => setSelectedCategory(cat),
-                children: [
-                  /* @__PURE__ */ jsxRuntimeExports.jsx(
-                    "div",
-                    {
-                      className: "w-11 h-11 rounded-2xl flex items-center justify-center shrink-0",
-                      style: { background: cat.color + "20" },
-                      children: /* @__PURE__ */ jsxRuntimeExports.jsx(cat.icon, { size: 20, style: { color: cat.color } })
-                    }
-                  ),
-                  /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex-1 min-w-0", children: [
-                    /* @__PURE__ */ jsxRuntimeExports.jsx("h2", { className: "font-black text-sm", children: cat.label }),
-                    /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { className: "text-xs opacity-40 mt-0.5", children: [
-                      cat.subcategories.length,
-                      " topics"
-                    ] })
-                  ] }),
-                  /* @__PURE__ */ jsxRuntimeExports.jsx(ChevronRight, { size: 15, className: "opacity-30 shrink-0", style: { color: cat.color } })
-                ]
-              }
-            ),
-            /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "px-4 pb-4 flex flex-wrap gap-1.5", children: cat.subcategories.map((sub) => /* @__PURE__ */ jsxRuntimeExports.jsx(
-              "button",
-              {
-                onClick: () => navigateToTopic(cat, sub),
-                className: "flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-semibold transition-all hover:scale-105",
-                style: { background: cat.color + "10", color: cat.color, border: `1px solid ${cat.color}20` },
-                children: sub.label
-              },
-              sub.id
-            )) })
-          ]
-        },
-        cat.id
-      ))
+      filteredCategories.map((cat, ci) => /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "animate-slide-up", style: { animationDelay: `${ci * 0.03}s` }, children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsxs(
+          "button",
+          {
+            className: "w-full flex items-center gap-3 mb-2.5 text-left group",
+            onClick: () => setSelectedCategory(cat),
+            children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx(
+                "div",
+                {
+                  className: "w-10 h-10 rounded-2xl flex items-center justify-center shrink-0 shadow-sm",
+                  style: { background: `linear-gradient(135deg,${cat.color}22,${cat.color}12)`, border: `1.5px solid ${cat.color}30` },
+                  children: /* @__PURE__ */ jsxRuntimeExports.jsx(cat.icon, { size: 18, style: { color: cat.color } })
+                }
+              ),
+              /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex-1 min-w-0", children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsx("h2", { className: "font-black text-sm", style: { color: cat.color }, children: cat.label }),
+                /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { className: "text-xs opacity-40 mt-0.5", children: [
+                  cat.subcategories.length,
+                  " topics"
+                ] })
+              ] }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx(ChevronRight, { size: 14, className: "opacity-25 group-hover:opacity-60 transition-opacity shrink-0", style: { color: cat.color } })
+            ]
+          }
+        ),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2", children: cat.subcategories.map((sub) => /* @__PURE__ */ jsxRuntimeExports.jsxs(
+          "button",
+          {
+            onClick: () => navigateToTopic(cat, sub),
+            className: "flex items-center gap-3 px-4 py-3.5 text-left hover:scale-[1.02] active:scale-[0.98] transition-all duration-150",
+            style: {
+              background: "var(--card, rgba(255,255,255,0.82))",
+              border: `1.5px solid ${cat.color}22`,
+              borderRadius: 999,
+              backdropFilter: "blur(14px)",
+              boxShadow: "0 2px 10px rgba(0,0,0,0.06)"
+            },
+            children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx(
+                "div",
+                {
+                  className: "w-7 h-7 rounded-full flex items-center justify-center shrink-0",
+                  style: { background: cat.color + "18" },
+                  children: /* @__PURE__ */ jsxRuntimeExports.jsx(cat.icon, { size: 14, style: { color: cat.color } })
+                }
+              ),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "font-black leading-snug truncate", style: { color: cat.color, fontSize: 15 }, children: sub.label })
+            ]
+          },
+          sub.id
+        )) })
+      ] }, cat.id))
     ] })
   ] }) });
 }
@@ -24117,14 +24885,60 @@ Provide a detailed analysis of this content.`;
         ] }),
         /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "design-top-glass", "aria-hidden": "true" }),
         /* @__PURE__ */ jsxRuntimeExports.jsxs("header", { className: "design-header shrink-0 relative", children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center justify-center gap-2", children: [
-            /* @__PURE__ */ jsxRuntimeExports.jsx("img", { src: MARIAM_IMG, alt: "", className: "w-9 h-9 rounded-xl object-cover" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mobile-nav-only items-center justify-center gap-2 absolute left-0 right-0", style: { pointerEvents: "none" }, children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx("img", { src: MARIAM_IMG, alt: "", className: "w-9 h-9 rounded-xl object-cover", style: { pointerEvents: "auto" } }),
             /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "font-bold text-[1.5rem]", children: "MARIAM" })
           ] }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx("button", { onClick: () => setShowGlobalSearch(true), className: "absolute right-4 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full flex items-center justify-center", style: { background: "rgba(255,255,255,0.15)" }, children: /* @__PURE__ */ jsxRuntimeExports.jsx(Search, { size: 18 }) })
+          /* @__PURE__ */ jsxRuntimeExports.jsx(
+            "button",
+            {
+              onClick: () => setShowGlobalSearch(true),
+              className: "mobile-nav-only absolute right-4 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full items-center justify-center",
+              style: { background: "rgba(255,255,255,0.15)" },
+              children: /* @__PURE__ */ jsxRuntimeExports.jsx(Search, { size: 18 })
+            }
+          ),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "desktop-only items-center gap-2 shrink-0", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx("img", { src: MARIAM_IMG, alt: "", className: "w-8 h-8 rounded-xl object-cover" }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "font-bold text-base whitespace-nowrap", children: "MARIAM" }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx(
+              "span",
+              {
+                className: "text-[10px] font-black px-2 py-0.5 rounded-full text-white ml-0.5",
+                style: { background: "linear-gradient(135deg,#10b981,#059669)" },
+                children: "PRO"
+              }
+            )
+          ] }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("nav", { className: "desktop-top-nav desktop-only", children: NAV_ITEMS2.map(({ icon: Icon, label, v, dis }) => /* @__PURE__ */ jsxRuntimeExports.jsxs(
+            "button",
+            {
+              disabled: dis,
+              onClick: () => {
+                if (!dis) {
+                  if (v === "reader" && activeId) setView("reader");
+                  else if (v !== "reader") setView(v);
+                }
+              },
+              className: `desktop-top-nav-btn${view === v ? " nav-active" : ""}`,
+              title: label,
+              children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsx(Icon, { size: 14, strokeWidth: view === v ? 2.5 : 2 }),
+                label
+              ]
+            },
+            v
+          )) }),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "desktop-top-right desktop-only", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx("button", { onClick: () => setShowGlobalSearch(true), className: "desktop-icon-btn", title: "Search (Ctrl+K)", children: /* @__PURE__ */ jsxRuntimeExports.jsx(Search, { size: 15 }) }),
+            /* @__PURE__ */ jsxRuntimeExports.jsxs("button", { onClick: () => setView("chat"), className: "desktop-ai-btn", children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx(Sparkles, { size: 13 }),
+              "AI Studio"
+            ] })
+          ] })
         ] }),
         /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "design-body flex flex-1 min-h-0 overflow-hidden", children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsxs("main", { className: "design-main flex-1 flex flex-col min-h-0 overflow-hidden overflow-y-auto relative", style: { paddingBottom: 120 }, children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("main", { className: "design-main flex-1 flex flex-col min-h-0 overflow-hidden overflow-y-auto relative", style: { paddingBottom: isMobile ? 120 : 24 }, children: [
             uploading && /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "absolute top-0 left-0 right-0 h-1.5 bg-[var(--border)] z-50", children: /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "h-full bg-gradient-to-r from-[var(--accent)] to-[var(--accent2,var(--accent))] transition-all duration-300 animate-pulse", style: { width: `${uploadPct}%` } }) }),
             /* @__PURE__ */ jsxRuntimeExports.jsx(ViewWrapper, { active: view === "library", children: /* @__PURE__ */ jsxRuntimeExports.jsx(
               LibraryMergedView,
