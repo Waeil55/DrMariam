@@ -13555,10 +13555,14 @@ const drugDetailLookup = (() => {
         counselingPoints: points
       };
       map[name] = detail;
+      const baseName = name.split(/[\s(/,]/)[0];
+      if (baseName.length > 3 && !map[baseName]) map[baseName] = detail;
       if (detail.brand) {
         const brands = detail.brand.split(",").map((b) => b.trim()).filter(Boolean);
         for (const b of brands) {
           map[b.toLowerCase()] = detail;
+          const baseBrand = b.toLowerCase().split(/[\s(/,]/)[0];
+          if (baseBrand.length > 3 && !map[baseBrand]) map[baseBrand] = detail;
         }
       }
     }
@@ -16624,7 +16628,7 @@ function FlashcardsView({ flashcards, setFlashcards, settings, addToast, docs, s
   if (selSet) {
     const card = selSet.cards[idx];
     const progress = (idx + 1) / selSet.cards.length * 100;
-    const cardDetail = drugDetailLookup[(card?.q || "").trim().toLowerCase()];
+    const cardDetail = drugDetailLookup[(card?.q || "").trim().toLowerCase()] || findDrugDetail(card?.q, (card?.a || "").split(/[;\n]+/).map((s) => s.trim()).filter(Boolean), null);
     const detailBlock = cardDetail ? `
 Drug Details:
   Brand: ${cardDetail.brand || "N/A"}
@@ -16741,7 +16745,7 @@ Do NOT discuss other cards or topics outside this card.`;
             },
             l
           )) }) : /* @__PURE__ */ jsxRuntimeExports.jsx("button", { onClick: () => setFlipped(true), className: "w-full py-4 btn-accent rounded-2xl text-base font-black shadow-xl", children: "Show Answer" }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx(DrugQuickRef, { detail: drugDetailLookup[(card.q || "").trim().toLowerCase()] }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx(DrugQuickRef, { detail: cardDetail }),
           /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "lg:hidden mt-2 flex-shrink-0", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("button", { onClick: () => setMobileTutorOpen(true), className: "w-full glass py-3.5 rounded-2xl flex items-center justify-center gap-2 font-bold text-[var(--accent)] border border-[var(--accent)]/30 hover:bg-[var(--accent)]/10 transition-colors", children: [
             /* @__PURE__ */ jsxRuntimeExports.jsx(MessageSquare, { size: 18 }),
             " Ask AI Tutor"
