@@ -1,5 +1,5 @@
-import { r as reactExports, R as React, L as Loader2, A as AlertCircle, X, S as Search, G as GripVertical, a as Sparkles, Z as Zap, M as MessageSquare, D as Database, F as FolderOpen, B as BookMarked, b as Layers, c as Activity, C as CheckSquare, d as Settings, e as CheckCircle2, I as Info, f as FileText, P as PenLine, g as FileUp, h as Grid3x3, i as List, j as ChevronLeft, k as Printer, l as RefreshCw, m as FilePlus, T as Trash2, E as Eye, n as Target, o as Stethoscope, p as ChevronRight, q as Thermometer, s as ChevronDown, t as Pin, u as Copy, v as Plus, w as Brain, H as History, x as CircleUserRound, y as MicOff, z as Mic, J as Send, K as Smartphone, N as Download, O as Globe, Q as KeyRound, U as Palette, V as Sun, W as CloudSun, Y as Flame, _ as Heart, $ as Leaf, a0 as Moon, a1 as MoonStar, a2 as PanelsTopLeft, a3 as FileCode, a4 as Image, a5 as Table, a6 as ZoomOut, a7 as Maximize, a8 as ZoomIn, a9 as Save, aa as BookOpen, ab as AlignLeft, ac as Pill, ad as Lightbulb, ae as Baby, af as Network, ag as Tag, ah as Clock, ai as Languages, aj as Wand2, ak as FlaskConical, al as Code, am as ListChecks, an as Clipboard, ao as GraduationCap, ap as Hash, aq as MoreVertical, ar as ChevronUp } from './icons-CYnqH1c0.js';
-import { r as reactDomExports } from './react-Dv1lV7Nv.js';
+import { r as reactExports, R as React, L as Loader2, A as AlertCircle, X, S as Search, G as GripVertical, a as Sparkles, Z as Zap, M as MessageSquare, D as Database, F as FolderOpen, B as BookMarked, b as Layers, c as Activity, C as CheckSquare, d as Globe, e as Settings, f as CheckCircle2, I as Info, g as FileText, P as PenLine, h as FileUp, i as Grid3x3, j as List, k as ChevronLeft, l as Printer, m as RefreshCw, n as FilePlus, T as Trash2, E as Eye, o as Target, p as Stethoscope, q as ChevronRight, s as Thermometer, t as ChevronDown, u as Pin, v as Copy, w as Plus, x as Brain, H as History, y as CircleUserRound, z as MicOff, J as Mic, K as Send, N as Pill, O as Heart, Q as GraduationCap, U as Award, V as Clipboard, W as Star, Y as Network, _ as Leaf, $ as Flame, a0 as Monitor, a1 as FlaskConical, a2 as BookA, a3 as BookOpen, a4 as BotMessageSquare, a5 as Smartphone, a6 as Download, a7 as KeyRound, a8 as Palette, a9 as Sun, aa as CloudSun, ab as Moon, ac as MoonStar, ad as PanelsTopLeft, ae as FileCode, af as Image, ag as Table, ah as ZoomOut, ai as Maximize, aj as ZoomIn, ak as Save, al as AlignLeft, am as Lightbulb, an as Baby, ao as Tag, ap as Clock, aq as Languages, ar as Wand2, as as Code, at as ListChecks, au as Hash, av as MoreVertical, aw as Layers3, ax as ChevronUp } from './icons-rhjKRDBe.js';
+import { r as reactDomExports } from './react-B3gX-WmV.js';
 
 true&&(function polyfill() {
   const relList = document.createElement("link").relList;
@@ -16903,13 +16903,20 @@ const drugDetailLookup = (() => {
       const indicationMatch = a.match(/Indication:\s*(.+?)\n/);
       const pointsMatch = a.match(/Counseling Points:\s*\n([\s\S]*)/);
       const points = pointsMatch ? pointsMatch[1].split("\n").map((l) => l.replace(/^\s*-\s*/, "").trim()).filter(Boolean).slice(0, 4) : [];
-      map[name] = {
+      const detail = {
         brand: brandMatch ? brandMatch[1].trim() : "",
         generic: c.q.trim(),
         drugClass: classMatch ? classMatch[1].trim() : "",
         indication: indicationMatch ? indicationMatch[1].trim() : "",
         counselingPoints: points
       };
+      map[name] = detail;
+      if (detail.brand) {
+        const brands = detail.brand.split(",").map((b) => b.trim()).filter(Boolean);
+        for (const b of brands) {
+          map[b.toLowerCase()] = detail;
+        }
+      }
     }
   } catch (e) {
     console.warn("[MARIAM] Drug detail lookup build failed:", e.message);
@@ -16959,14 +16966,14 @@ function DrugQuickRef({ detail, compact }) {
         /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "font-semibold", children: detail.drugClass || "N/A" })
       ] }),
       /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "opacity-50 text-[11px] font-bold uppercase", children: "Indication" }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "opacity-50 text-[11px] font-bold uppercase", children: "Use Cases" }),
         /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "font-semibold", children: detail.indication || "N/A" })
       ] })
     ] }),
     detail.counselingPoints.length > 0 && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "border-t border-[var(--accent)]/20 pt-2 mt-1", children: [
       /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { className: `opacity-60 ${compact ? "text-[10px]" : "text-xs"} font-bold flex items-center gap-1.5 mb-1`, children: [
         /* @__PURE__ */ jsxRuntimeExports.jsx(Clipboard, { size: compact ? 10 : 12 }),
-        " Key Counseling Points"
+        " Top 4 Key Points"
       ] }),
       /* @__PURE__ */ jsxRuntimeExports.jsx("ul", { className: "space-y-0.5", children: detail.counselingPoints.map((pt, i) => /* @__PURE__ */ jsxRuntimeExports.jsxs("li", { className: `${compact ? "text-xs" : "text-sm"} flex items-start gap-2`, children: [
         /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "mt-1.5 w-1.5 h-1.5 rounded-full bg-[var(--accent)] shrink-0" }),
@@ -17042,6 +17049,9 @@ const openDB = () => new Promise((resolve, reject) => {
       if (!db.objectStoreNames.contains("files")) db.createObjectStore("files");
       if (!db.objectStoreNames.contains("appState")) db.createObjectStore("appState");
     }
+    if (oldV < 10) {
+      if (!db.objectStoreNames.contains("sessionProgress")) db.createObjectStore("sessionProgress");
+    }
   };
   request.onsuccess = () => resolve(request.result);
   request.onerror = () => {
@@ -17091,6 +17101,13 @@ const saveState = (key, val) => dbOp("appState", "readwrite", (s) => {
   s.put(val, key);
 });
 const getState = (key) => dbOp("appState", "readonly", (s) => s.get(key));
+const saveSessionProgress = (setId, type, index) => dbOp("sessionProgress", "readwrite", (s) => {
+  s.put({ setId, type, index, timestamp: Date.now() }, setId);
+});
+const getSessionProgress = (setId) => dbOp("sessionProgress", "readonly", (s) => s.get(setId));
+const deleteSessionProgress = (setId) => dbOp("sessionProgress", "readwrite", (s) => {
+  s.delete(setId);
+});
 const loadPdfJs = async () => {
   if (window.pdfjsLib) return window.pdfjsLib;
   const base = CONFIG.PDF_CDN;
@@ -17772,7 +17789,7 @@ function GlobalSearch({ docs, flashcards, exams, cases, notes, onNavigate, onClo
               },
               i
             )) }),
-            !q && /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "p-5 grid grid-cols-2 sm:grid-cols-4 gap-2", children: [["Documents", "doc", FileText, "#6366f1"], ["Flashcards", "flashcards", Layers, "#8b5cf6"], ["Exams", "exams", CheckSquare, "#3b82f6"], ["Cases", "cases", Activity, "#06b6d4"]].map(([lbl, v, Icon, col]) => /* @__PURE__ */ jsxRuntimeExports.jsxs(
+            !q && /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "p-5 grid grid-cols-2 sm:grid-cols-4 gap-2", children: [["Documents", "doc", FileText, "#6366f1"], ["Flashcards", "flashcards", Layers, "#8b5cf6"], ["Exams", "exams", CheckSquare, "#3b82f6"], ["Cases", "cases", Activity, "#06b6d4"], ["Encyclopedia", "encyclopedia", Globe, "#f59e0b"]].map(([lbl, v, Icon, col]) => /* @__PURE__ */ jsxRuntimeExports.jsxs(
               "button",
               {
                 onClick: () => {
@@ -19445,6 +19462,53 @@ function VaultPanel({ activeDocId, flashcards, setFlashcards, exams, setExams, c
     ] }, t.id)) })
   ] });
 }
+function ResumePrompt({ setId, type, savedIndex, totalItems, onResume, onStartFresh, onCancel }) {
+  return /* @__PURE__ */ jsxRuntimeExports.jsx(
+    "div",
+    {
+      className: "fixed inset-0 z-[9999] flex items-center justify-center p-4",
+      style: { background: "rgba(0,0,0,0.7)", backdropFilter: "blur(12px)" },
+      children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "glass rounded-3xl p-6 max-w-sm w-full border border-[var(--accent)]/30 animate-slide-up", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center gap-3 mb-4", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "w-10 h-10 rounded-2xl flex items-center justify-center bg-[var(--accent)]/15", children: /* @__PURE__ */ jsxRuntimeExports.jsx(History, { size: 20, className: "text-[var(--accent)]" }) }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("h2", { className: "font-black text-sm", children: "Resume Session?" })
+        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { className: "text-sm opacity-70 mb-4", children: [
+          "You previously completed ",
+          savedIndex,
+          " out of ",
+          totalItems,
+          " items. Would you like to resume from where you left off?"
+        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "grid grid-cols-2 gap-3", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsxs(
+            "button",
+            {
+              onClick: onResume,
+              className: "btn-accent py-3 rounded-xl text-sm font-black flex items-center justify-center gap-2",
+              children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsx(Play, { size: 16 }),
+                " Resume"
+              ]
+            }
+          ),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs(
+            "button",
+            {
+              onClick: onStartFresh,
+              className: "glass py-3 rounded-xl text-sm font-black border border-[color:var(--border2,var(--border))] hover:border-[var(--accent)]/40",
+              children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsx(RefreshCw, { size: 16 }),
+                " Start Fresh"
+              ]
+            }
+          )
+        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("button", { onClick: onCancel, className: "w-full mt-3 py-2.5 glass rounded-xl text-xs font-bold opacity-50 hover:opacity-80", children: "Cancel" })
+      ] })
+    }
+  );
+}
 function AiTutorPanel({ settings, context, onClose, width, onDragStart, alwaysOpen = false }) {
   const [msgs, setMsgs] = reactExports.useState([{ role: "assistant", content: "Hi! I'm your AI Tutor 🎓\nAsk me anything about this question, the diagnosis, the explanation, or related concepts. I'm here to help you learn!" }]);
   const [input, setInput] = reactExports.useState("");
@@ -19583,6 +19647,8 @@ function FlashcardsView({ flashcards, setFlashcards, settings, addToast, docs, s
   const [exporting, setExporting] = reactExports.useState(null);
   const [filterDocId, setFilterDocId] = reactExports.useState("all");
   const [mobileTutorOpen, setMobileTutorOpen] = reactExports.useState(false);
+  const [showResumePrompt, setShowResumePrompt] = reactExports.useState(false);
+  const [savedProgress, setSavedProgress] = reactExports.useState(null);
   const rateCard = reactExports.useCallback((q) => {
     trackStudy("flashcard");
     setFlashcards((p) => p.map((set) => {
@@ -19623,6 +19689,7 @@ function FlashcardsView({ flashcards, setFlashcards, settings, addToast, docs, s
       setSelSet(null);
       setIdx(0);
     }
+    saveSessionProgress(selSet.id, "flashcards", idx);
   }, [selSet, idx, setFlashcards, addToast]);
   const handleExport = async (set) => {
     setExporting(set.id);
@@ -19633,6 +19700,36 @@ function FlashcardsView({ flashcards, setFlashcards, settings, addToast, docs, s
     if (filterDocId === "all") return flashcards;
     return flashcards.filter((f) => f.docId === filterDocId);
   }, [flashcards, filterDocId]);
+  const startSetWithResumeCheck = async (set) => {
+    const saved = await getSessionProgress(set.id);
+    if (saved && saved.type === "flashcards" && saved.index < set.cards.length) {
+      setSavedProgress(saved);
+      setShowResumePrompt(true);
+    } else {
+      setSelSet(set);
+      setIdx(0);
+      setFlipped(false);
+    }
+  };
+  const handleResume = () => {
+    setSelSet(flashcards.find((f) => f.id === savedProgress.setId));
+    setIdx(savedProgress.index);
+    setFlipped(false);
+    setShowResumePrompt(false);
+    setSavedProgress(null);
+  };
+  const handleStartFresh = () => {
+    setSelSet(flashcards.find((f) => f.id === savedProgress.setId));
+    setIdx(0);
+    setFlipped(false);
+    deleteSessionProgress(savedProgress.setId);
+    setShowResumePrompt(false);
+    setSavedProgress(null);
+  };
+  const handleCancelResume = () => {
+    setShowResumePrompt(false);
+    setSavedProgress(null);
+  };
   const [fcTutorW, setFcTutorW] = reactExports.useState(380);
   const handleFcTutorDrag = reactExports.useCallback((x) => {
     setFcTutorW(Math.max(280, Math.min(560, window.innerWidth - x)));
@@ -19807,6 +19904,18 @@ Do NOT discuss other cards or topics outside this card.`;
         setCases
       }
     ),
+    showResumePrompt && savedProgress && /* @__PURE__ */ jsxRuntimeExports.jsx(
+      ResumePrompt,
+      {
+        setId: savedProgress.setId,
+        type: savedProgress.type,
+        savedIndex: savedProgress.index,
+        totalItems: flashcards.find((f) => f.id === savedProgress.setId)?.cards?.length || 0,
+        onResume: handleResume,
+        onStartFresh: handleStartFresh,
+        onCancel: handleCancelResume
+      }
+    ),
     /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "w-full p-6 lg:p-8 space-y-6", children: [
       /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center justify-between", children: [
         /* @__PURE__ */ jsxRuntimeExports.jsxs("h1", { className: "text-2xl lg:text-3xl font-black flex items-center gap-3", children: [
@@ -19892,11 +20001,7 @@ Do NOT discuss other cards or topics outside this card.`;
           /* @__PURE__ */ jsxRuntimeExports.jsxs(
             "button",
             {
-              onClick: () => {
-                setSelSet(set);
-                setIdx(0);
-                setFlipped(false);
-              },
+              onClick: () => startSetWithResumeCheck(set),
               className: "btn-accent px-4 py-2 rounded-xl text-xs font-black shadow-md flex items-center gap-2",
               children: [
                 /* @__PURE__ */ jsxRuntimeExports.jsx(Layers, { size: 16 }),
@@ -19923,15 +20028,8 @@ function ExamsView({ exams, setExams, settings, addToast, docs, setFlashcards, s
   const [filterDocId, setFilterDocId] = reactExports.useState("all");
   const [sortMode, setSortMode] = reactExports.useState("newest");
   const [examMobileOpen, setExamMobileOpen] = reactExports.useState(false);
-  const startExam = (ex) => {
-    setSelEx(ex);
-    setQi(0);
-    setSelected(null);
-    setSubmitted(false);
-    setScore(null);
-    setAnswers([]);
-    setReviewMode(false);
-  };
+  const [showResumePrompt, setShowResumePrompt] = reactExports.useState(false);
+  const [savedProgress, setSavedProgress] = reactExports.useState(null);
   const submit = () => {
     if (selected === null) return;
     const correct = selEx.questions[qi].correct === selected;
@@ -19943,6 +20041,7 @@ function ExamsView({ exams, setExams, settings, addToast, docs, setFlashcards, s
       setScore(sc);
       trackStudy("exam", sc, selEx.questions.length);
     }
+    saveSessionProgress(selEx.id, "exam", qi);
   };
   const next = () => {
     if (qi < selEx.questions.length - 1) {
@@ -21498,6 +21597,1686 @@ function SettingsView({ settings, setSettings, installPrompt, onInstall }) {
     ] })
   ] }) });
 }
+const ENCYCLOPEDIA_CATEGORIES = [
+  // ──────────────── PHARMACY ────────────────
+  {
+    id: "pharmacy",
+    label: "Pharmacy",
+    icon: Pill,
+    color: "#6366f1",
+    subcategories: [
+      { id: "drug-classes", label: "Drug Classes A–Z", desc: "All major pharmacological drug classes with MOA" },
+      { id: "top200-drugs", label: "Top 200 Drugs", desc: "NAPLEX/board-exam top 200 drugs reference" },
+      { id: "otc-drugs", label: "OTC Medications", desc: "Over-the-counter medications full guide" },
+      { id: "rx-drugs", label: "Rx Medications", desc: "Prescription drug reference with dosing" },
+      { id: "controlled", label: "Controlled Substances", desc: "DEA schedules I–V with regulations" },
+      { id: "antibiotics", label: "Antibiotics", desc: "All antibiotic classes, spectrum, resistance" },
+      { id: "antihypertensives", label: "Antihypertensives", desc: "All BP drug classes, JNC guidelines" },
+      { id: "antidiabetics", label: "Antidiabetics", desc: "Insulin, oral agents, injectables — full table" },
+      { id: "cardiovascular-drugs", label: "Cardiovascular Drugs", desc: "Anticoagulants, antiarrhythmics, statins" },
+      { id: "cns-drugs", label: "CNS Drugs", desc: "Antidepressants, antipsychotics, anxiolytics" },
+      { id: "respiratory-drugs", label: "Respiratory Drugs", desc: "Inhalers, bronchodilators, corticosteroids" },
+      { id: "gi-drugs", label: "GI Drugs", desc: "PPIs, antiemetics, laxatives, IBD agents" },
+      { id: "oncology-drugs", label: "Oncology Drugs", desc: "Chemotherapy, targeted therapy, immunotherapy" },
+      { id: "immunosuppressants", label: "Immunosuppressants", desc: "Transplant, autoimmune, biologics" },
+      { id: "drug-interactions", label: "Drug Interactions", desc: "Major and critical drug-drug interactions" },
+      { id: "drug-food", label: "Drug–Food Interactions", desc: "Food, alcohol, grapefruit interactions" },
+      { id: "counseling-tips", label: "Patient Counseling", desc: "Counseling points for top prescribed drugs" },
+      { id: "compounding", label: "Compounding", desc: "Sterile & non-sterile compounding, USP 797/800" },
+      { id: "pharmacokinetics", label: "Pharmacokinetics", desc: "ADME, half-life, bioavailability, Vd" },
+      { id: "pharmacodynamics", label: "Pharmacodynamics", desc: "MOA, receptor theory, ED50, TI" },
+      { id: "toxicology", label: "Toxicology & Antidotes", desc: "Antidotes, overdose management, poison control" },
+      { id: "herbal-supplements", label: "Herbal & Supplements", desc: "Evidence-based herbs, drug-herb interactions" },
+      { id: "drug-calculations", label: "Drug Calculations", desc: "IV rates, dosing, renal adjustments, conversions" },
+      { id: "pregnancy-drugs", label: "Drugs in Pregnancy", desc: "Safety categories, teratogens, lactation" },
+      { id: "pediatric-drugs", label: "Pediatric Dosing", desc: "Weight-based dosing, age restrictions, safety" },
+      { id: "geriatric-drugs", label: "Geriatric Pharmacology", desc: "Beers Criteria, polypharmacy, dose adjustments" },
+      { id: "narrow-ti", label: "Narrow Therapeutic Index", desc: "Monitoring, toxicity signs, safe ranges" },
+      { id: "biosimilars", label: "Biosimilars & Biologics", desc: "FDA approval, interchangeability, coding" },
+      { id: "vaccines", label: "Vaccines & Immunizations", desc: "CDC schedule, types, storage, contraindications" },
+      { id: "ophthalmic-drugs", label: "Ophthalmic Drugs", desc: "Eye drops, glaucoma agents, mydriatics" },
+      { id: "derma-drugs", label: "Dermatological Drugs", desc: "Topical steroids, retinoids, antifungals" },
+      { id: "endocrine-drugs", label: "Endocrine Drugs", desc: "Thyroid, steroid, hormone replacement" },
+      { id: "renal-drugs", label: "Renal Pharmacology", desc: "Dose adjustments in CKD, dialysis drugs" },
+      { id: "mpje-law", label: "Pharmacy Law (MPJE)", desc: "Federal & state pharmacy law, DEA, HIPAA, OBRA" }
+    ]
+  },
+  // ──────────────── DISEASES & CONDITIONS ────────────────
+  {
+    id: "diseases",
+    label: "Diseases & Conditions",
+    icon: Thermometer,
+    color: "#ef4444",
+    subcategories: [
+      { id: "cardiovascular", label: "Cardiovascular", desc: "HF, MI, HTN, arrhythmias, valve disease" },
+      { id: "respiratory", label: "Respiratory", desc: "COPD, asthma, pneumonia, TB, lung cancer" },
+      { id: "endocrine", label: "Endocrine", desc: "Diabetes, thyroid, adrenal, pituitary disorders" },
+      { id: "gastrointestinal", label: "Gastrointestinal", desc: "GERD, IBD, liver cirrhosis, pancreatitis, IBS" },
+      { id: "neurological", label: "Neurological", desc: "Stroke, epilepsy, Parkinson, Alzheimer, MS" },
+      { id: "infectious-dis", label: "Infectious Diseases", desc: "Bacterial, viral, fungal, parasitic, HIV/AIDS" },
+      { id: "musculoskeletal", label: "Musculoskeletal", desc: "Arthritis, osteoporosis, fractures, gout" },
+      { id: "renal", label: "Renal / Urological", desc: "CKD, AKI, nephrotic syndrome, UTI, stones" },
+      { id: "hematology-dis", label: "Hematology", desc: "Anemia, DVT, leukemia, hemophilia, sickle cell" },
+      { id: "oncology-dis", label: "Oncology", desc: "All cancer types: staging, screening, treatment" },
+      { id: "dermatology-dis", label: "Dermatology", desc: "Eczema, psoriasis, acne, skin cancer, rashes" },
+      { id: "psychiatry-dis", label: "Psychiatry", desc: "Depression, anxiety, schizophrenia, bipolar, PTSD" },
+      { id: "rheumatology-dis", label: "Rheumatology", desc: "Lupus, RA, vasculitis, spondylitis, Sjögren" },
+      { id: "ophthalmology-dis", label: "Ophthalmology", desc: "Glaucoma, diabetic retinopathy, cataracts, AMD" },
+      { id: "ent-dis", label: "ENT Disorders", desc: "Sinusitis, otitis media, vertigo, tonsillitis" },
+      { id: "obstetrics-dis", label: "Obstetrics", desc: "Preeclampsia, gestational diabetes, ectopic, PPROM" },
+      { id: "gynecology-dis", label: "Gynecology", desc: "PCOS, endometriosis, fibroids, cervical cancer" },
+      { id: "pediatric-dis", label: "Pediatric Diseases", desc: "Asthma, RSV, ADHD, congenital, febrile illness" },
+      { id: "geriatric-dis", label: "Geriatric Conditions", desc: "Falls, dementia, delirium, polypharmacy, frailty" },
+      { id: "immunology-dis", label: "Immunological", desc: "Primary immunodeficiencies, allergy, anaphylaxis" },
+      { id: "tropical-dis", label: "Tropical Diseases", desc: "Malaria, dengue, cholera, typhoid, Schistosomiasis" },
+      { id: "genetic-dis", label: "Genetic Disorders", desc: "Down syndrome, CF, PKU, Marfan, Wilson disease" },
+      { id: "sleep-dis", label: "Sleep Disorders", desc: "Insomnia, sleep apnea, narcolepsy, RLS" },
+      { id: "addiction", label: "Addiction Medicine", desc: "Alcohol, opioids, nicotine, substance use disorders" },
+      { id: "emergency-dis", label: "Emergency Medicine", desc: "Sepsis, shock, anaphylaxis, trauma, burns" },
+      { id: "rare-diseases", label: "Rare Diseases", desc: "Orphan diseases, genetic syndromes, lysosomal" },
+      { id: "sports-medicine", label: "Sports Medicine", desc: "Sprains, stress fractures, concussion, exercise" },
+      { id: "occupational", label: "Occupational Diseases", desc: "Asbestosis, silicosis, mesothelioma, noise-induced" },
+      { id: "environmental", label: "Environmental Medicine", desc: "Carbon monoxide, heat stroke, hypothermia, altitude" }
+    ]
+  },
+  // ──────────────── NURSING ────────────────
+  {
+    id: "nursing",
+    label: "Nursing",
+    icon: Heart,
+    color: "#ec4899",
+    subcategories: [
+      { id: "fundamentals", label: "Nursing Fundamentals", desc: "Nursing process, safety, documentation, ethics" },
+      { id: "med-surg", label: "Med-Surg Nursing", desc: "Systems-based adult medical-surgical care" },
+      { id: "critical-care", label: "Critical Care / ICU", desc: "Ventilators, hemodynamics, vasopressors, CRRT" },
+      { id: "pediatric-nursing", label: "Pediatric Nursing", desc: "Child development, pediatric assessments, care" },
+      { id: "ob-nursing", label: "OB/Maternity Nursing", desc: "Prenatal, labor, delivery, postpartum, newborn" },
+      { id: "psych-nursing", label: "Psychiatric Nursing", desc: "Mental health interventions, therapeutic communication" },
+      { id: "community-nursing", label: "Community Nursing", desc: "Public health, school nursing, home health" },
+      { id: "nursing-pharm", label: "Nursing Pharmacology", desc: "Six rights, high-alert meds, patient teaching" },
+      { id: "nursing-procedures", label: "Nursing Procedures", desc: "IV, Foley, NG tube, wound care, suctioning" },
+      { id: "nursing-labs", label: "Lab Values", desc: "Complete reference: CBC, CMP, coagulation, cultures" },
+      { id: "nursing-vitals", label: "Vital Signs", desc: "Normal ranges by age, abnormal findings, monitoring" },
+      { id: "nursing-assessment", label: "Physical Assessment", desc: "Head-to-toe assessment, systems review" },
+      { id: "oncology-nursing", label: "Oncology Nursing", desc: "Chemo administration, side effects, supportive care" },
+      { id: "neuro-nursing", label: "Neuro Nursing", desc: "GCS, neuro checks, stroke protocol, ICP" },
+      { id: "cardiac-nursing", label: "Cardiac Nursing", desc: "Telemetry, dysrhythmias, post-cath care, LVAD" },
+      { id: "renal-nursing", label: "Renal Nursing", desc: "Dialysis types, fistula care, fluid management" },
+      { id: "surgical-nursing", label: "Perioperative Nursing", desc: "Pre-op, intra-op, post-op (PACU) nursing care" },
+      { id: "emergency-nursing", label: "Emergency Nursing", desc: "Triage, trauma, code blue, rapid assessment" },
+      { id: "gerontology-nursing", label: "Gerontology Nursing", desc: "Aging changes, falls prevention, dementia care" },
+      { id: "nursing-leadership", label: "Nursing Leadership", desc: "Delegation, conflict resolution, quality improvement" },
+      { id: "infection-control", label: "Infection Control", desc: "PPE, isolation precautions, HAI prevention" },
+      { id: "palliative-nursing", label: "Palliative Care", desc: "End-of-life, pain management, hospice principles" },
+      { id: "float-pool", label: "Float Pool Competencies", desc: "Multi-unit skills, cross-training essentials" },
+      { id: "travel-nursing", label: "Travel Nursing", desc: "Licensure, compact states, agency, tips for success" }
+    ]
+  },
+  // ──────────────── MEDICAL SCHOOL ────────────────
+  {
+    id: "medical-school",
+    label: "Medical School",
+    icon: GraduationCap,
+    color: "#8b5cf6",
+    subcategories: [
+      { id: "anatomy", label: "Gross Anatomy", desc: "Regional anatomy: head, neck, thorax, abdomen, limbs" },
+      { id: "neuroanatomy", label: "Neuroanatomy", desc: "Brain, spinal cord, cranial nerves, pathways" },
+      { id: "physiology", label: "Physiology", desc: "Cardiac, renal, respiratory, neurological physiology" },
+      { id: "biochemistry", label: "Biochemistry", desc: "Metabolism, enzymes, molecular biology, genetics" },
+      { id: "histology", label: "Histology", desc: "Tissue types, cell biology, microscopy findings" },
+      { id: "pathology", label: "Pathology", desc: "General & systemic pathology, disease mechanisms" },
+      { id: "microbiology", label: "Microbiology", desc: "Bacteria, viruses, fungi, parasites, virology" },
+      { id: "immunology", label: "Immunology", desc: "Immune system, hypersensitivity, autoimmunity, vaccines" },
+      { id: "embryology", label: "Embryology", desc: "Germ layers, organogenesis, congenital anomalies" },
+      { id: "genetics-school", label: "Medical Genetics", desc: "Mendelian, chromosomal, molecular genetics in medicine" },
+      { id: "pharmacology-school", label: "Pharmacology", desc: "Drug mechanisms, receptors, kPK/PD, autonomic drugs" },
+      { id: "clinical-skills", label: "Clinical Skills", desc: "H&P, physical examination, clinical reasoning, SOAP" },
+      { id: "evidence-medicine", label: "Evidence-Based Medicine", desc: "Study design, statistics, NNT, bias, meta-analysis" },
+      { id: "biostatistics", label: "Biostatistics", desc: "Sensitivity, specificity, PPV, NPV, p-value, CI" },
+      { id: "medical-ethics", label: "Medical Ethics", desc: "Autonomy, beneficence, justice, informed consent" },
+      { id: "internal-med", label: "Internal Medicine", desc: "Clinical medicine: diagnosis and management" },
+      { id: "surgery-basics", label: "Surgery Basics", desc: "Preoperative care, common surgeries, post-op complications" },
+      { id: "radiology", label: "Radiology Basics", desc: "CXR, CT, MRI, ultrasound interpretation basics" },
+      { id: "nutrition-med", label: "Clinical Nutrition", desc: "Malnutrition, TPN, enteral feeds, vitamins" }
+    ]
+  },
+  // ──────────────── OSCE ────────────────
+  {
+    id: "osce",
+    label: "OSCE",
+    icon: Stethoscope,
+    color: "#06b6d4",
+    subcategories: [
+      { id: "osce-history", label: "History Taking", desc: "SOCRATES, ICE, systems-based structured history" },
+      { id: "osce-exam", label: "Physical Examination", desc: "Cardiovascular, respiratory, abdominal, neuro exam" },
+      { id: "osce-communication", label: "Communication Skills", desc: "Breaking bad news, consent, angry patient, empathy" },
+      { id: "osce-procedures", label: "Clinical Procedures", desc: "ECG, venipuncture, suturing, catheter, CPR" },
+      { id: "osce-emergency", label: "Emergency Scenarios", desc: "ABCDE, acute chest pain, anaphylaxis, seizure" },
+      { id: "osce-data", label: "Data Interpretation", desc: "ECG, CXR, ABG, bloods, MRI, ultrasound" },
+      { id: "osce-prescribing", label: "Prescribing", desc: "Drug charts, dose calculations, safe prescribing" },
+      { id: "osce-marking", label: "Marking Criteria", desc: "Domain-based OSCE marking schemes by station type" },
+      { id: "osce-counseling", label: "Patient Counseling", desc: "Lifestyle, contraception, smoking cessation, diet" },
+      { id: "osce-surgical", label: "Surgical OSCE", desc: "Wound assessment, suturing, instrument identification" },
+      { id: "osce-obstetric", label: "Obstetric OSCE", desc: "Antenatal, postnatal, fetal monitoring, CTG" },
+      { id: "osce-psychiatric", label: "Psychiatric OSCE", desc: "Mental state exam, risk assessment, cognitive testing" },
+      { id: "osce-pediatric", label: "Pediatric OSCE", desc: "Child examination, developmental milestones, vaccination" },
+      { id: "osce-scenarios", label: "Practice Scenarios", desc: "50+ fully worked OSCE station scenarios with marking" }
+    ]
+  },
+  // ──────────────── NAPLEX / US PHARMACY EXAMS ────────────────
+  {
+    id: "naplex",
+    label: "NAPLEX",
+    icon: Award,
+    color: "#f59e0b",
+    subcategories: [
+      { id: "naplex-therapeutics", label: "Pharmacotherapy", desc: "Disease state management: all NAPLEX domains" },
+      { id: "naplex-calculations", label: "Pharmacy Calculations", desc: "Dosing, IV, compounding, alligation, conversions" },
+      { id: "naplex-law", label: "Federal Pharmacy Law", desc: "OBRA, DSCSA, DEA, CSA, HIPAA, REMS, PPPA" },
+      { id: "naplex-sterile", label: "Sterile Compounding", desc: "USP 797/800, CSTD, BUD, aseptic technique" },
+      { id: "naplex-counseling", label: "Patient Counseling", desc: "MTM, adherence, AIMS, patient education scripts" },
+      { id: "naplex-clinical", label: "Clinical Pharmacy", desc: "Labs, monitoring, adverse effects, therapeutic monitoring" },
+      { id: "naplex-top200", label: "Top 200 Drugs", desc: "Brand/generic, indication, class, counseling — full table" },
+      { id: "naplex-cardio", label: "Cardiovascular Rx", desc: "HTN, HF, CAD, dyslipidemia pharmacotherapy" },
+      { id: "naplex-infectious", label: "Infectious Disease Rx", desc: "Antibitics, antivirals, antifungals for NAPLEX" },
+      { id: "naplex-endo", label: "Endocrine Rx", desc: "Diabetes, thyroid, steroids for NAPLEX" },
+      { id: "naplex-cns", label: "CNS Pharmacotherapy", desc: "Depression, anxiety, seizures, Parkinson for NAPLEX" },
+      { id: "naplex-strategy", label: "Exam Strategy", desc: "Blueprint, scoring, time management, practice Qs" },
+      { id: "mpje-prep", label: "MPJE Prep", desc: "Federal vs state law, controlled substances, dispensing" },
+      { id: "ptce-prep", label: "PTCE / ExCPT Prep", desc: "Pharmacy technician certification review" }
+    ]
+  },
+  // ──────────────── NCLEX ────────────────
+  {
+    id: "nclex",
+    label: "NCLEX",
+    icon: CheckSquare,
+    color: "#10b981",
+    subcategories: [
+      { id: "nclex-fundamentals", label: "Fundamentals", desc: "Safety, infection control, hygiene, positioning" },
+      { id: "nclex-pharm", label: "Pharmacology", desc: "High-yield drugs, nursing considerations, safe administration" },
+      { id: "nclex-medsurg", label: "Med-Surg", desc: "Adult health: cardiovascular, respiratory, renal, neuro" },
+      { id: "nclex-mental", label: "Mental Health", desc: "Psychiatric diagnoses, therapeutic communication, restraints" },
+      { id: "nclex-maternal", label: "Maternal-Newborn", desc: "OB, postpartum, APGAR, neonatal assessment" },
+      { id: "nclex-pediatric", label: "Pediatrics", desc: "Child growth, nutrition, immunizations, common illnesses" },
+      { id: "nclex-priority", label: "Priority & Delegation", desc: "Maslow, ABC, SATA, SMART, delegation 5-rights" },
+      { id: "nclex-next", label: "Next Gen NCLEX (NGN)", desc: "Clinical judgment items: CJ, bowtie, trend, matrix" },
+      { id: "nclex-labs", label: "Critical Lab Values", desc: "Panic values, nursing actions, reportable states" },
+      { id: "nclex-infection", label: "Infection Control", desc: "Standard, contact, droplet, airborne precautions" },
+      { id: "nclex-management", label: "Management of Care", desc: "Delegation, supervision, legal, ethical, advocacy" },
+      { id: "nclex-psychosocial", label: "Psychosocial Integrity", desc: "Therapeutic communication, grief, crisis, abuse" }
+    ]
+  },
+  // ──────────────── USMLE ────────────────
+  {
+    id: "usmle",
+    label: "USMLE",
+    icon: Brain,
+    color: "#7c3aed",
+    subcategories: [
+      { id: "step1-anatomy", label: "Step 1 — Anatomy", desc: "High-yield gross + neuroanatomy for Step 1" },
+      { id: "step1-physio", label: "Step 1 — Physiology", desc: "Cardiac, renal, respiration, endocrine physiology HY" },
+      { id: "step1-biochem", label: "Step 1 — Biochemistry", desc: "Enzymes, vitamins, metabolism pathways for Step 1" },
+      { id: "step1-micro", label: "Step 1 — Microbiology", desc: "Bugs, virulence factors, antibiotics for Step 1" },
+      { id: "step1-pharm", label: "Step 1 — Pharmacology", desc: "Mechanisms, adverse effects, First Aid drugs" },
+      { id: "step1-path", label: "Step 1 — Pathology", desc: "Cellular injury, inflammation, neoplasia diseases" },
+      { id: "step1-immuno", label: "Step 1 — Immunology", desc: "Immune system, hypersensitivity, immunodeficiency" },
+      { id: "step2-medicine", label: "Step 2 — Internal Med", desc: "Diagnosis and clinical management vignettes" },
+      { id: "step2-surgery", label: "Step 2 — Surgery", desc: "Acute abdomen, trauma, surgical urgencies" },
+      { id: "step2-ob", label: "Step 2 — OB/Gyn", desc: "Obstetric complications, gynecologic emergencies" },
+      { id: "step2-pediatrics", label: "Step 2 — Pediatrics", desc: "Developmental milestones, pediatric illness" },
+      { id: "step2-psych", label: "Step 2 — Psychiatry", desc: "DSM-5 criteria, first-line treatments" },
+      { id: "step3-ccs", label: "Step 3 — CCS Cases", desc: "Clinical decision-making simulation strategies" },
+      { id: "step3-ethics", label: "Step 3 — Ethics/Law", desc: "Informed consent, competency, advance directives" },
+      { id: "step3-ambul", label: "Step 3 — Ambulatory", desc: "Preventive care, chronic disease management" },
+      { id: "usmle-biostats", label: "Biostatistics/Epi", desc: "Study design, sensitivity, NNT, p-value, OR" }
+    ]
+  },
+  // ──────────────── GLOBAL EXAMS ────────────────
+  {
+    id: "global-exams",
+    label: "Global Medical Exams",
+    icon: Globe,
+    color: "#0891b2",
+    subcategories: [
+      { id: "mcat", label: "MCAT (USA)", desc: "Bio, Chem, Physics, CARS — pre-med entry exam" },
+      { id: "comlex", label: "COMLEX (USA DO)", desc: "Osteopathic boards Level 1, 2-CE, 2-PE, 3" },
+      { id: "pance", label: "PANCE / PANRE (PA)", desc: "Physician Assistant National Certifying Exam" },
+      { id: "dha", label: "DHA (Dubai)", desc: "Dubai Health Authority medical licensing exam" },
+      { id: "moh-uae", label: "MOH (UAE)", desc: "UAE Ministry of Health licensing for all professions" },
+      { id: "haad", label: "HAAD (Abu Dhabi)", desc: "Health Authority Abu Dhabi licensing exam prep" },
+      { id: "doh", label: "DOH (Abu Dhabi 2023)", desc: "Department of Health Abu Dhabi — new DOH exam" },
+      { id: "scfhs", label: "SCFHS (Saudi Arabia)", desc: "Saudi Commission for Health Specialties exams" },
+      { id: "prometric-gulf", label: "Prometric Gulf Exams", desc: "Oman, Qatar, Kuwait, Bahrain Prometric prep" },
+      { id: "plab", label: "PLAB (UK)", desc: "Professional & Linguistic Assessment Board Parts 1 & 2" },
+      { id: "mrcgp", label: "MRCGP (UK GP)", desc: "GP licensure: AKT, CSA/RCA, WPBA portfolio" },
+      { id: "mrcp", label: "MRCP (UK Internal Med)", desc: "Member Royal College Physicians Part 1, 2, PACES" },
+      { id: "frcs", label: "FRCS (UK Surgery)", desc: "Fellowship Royal College of Surgeons exam review" },
+      { id: "amc", label: "AMC (Australia)", desc: "Australian Medical Council MCQ & clinical exam" },
+      { id: "racs", label: "RACS / RACGP (AUS)", desc: "Australian GP and specialist fellowship exams" },
+      { id: "mci-nmc", label: "NMC / FMGE (India)", desc: "Indian FMGE screening, NMC licensing exam review" },
+      { id: "neet-pg", label: "NEET PG (India)", desc: "National Eligibility cum Entrance Test Postgraduate" },
+      { id: "usmle-img", label: "IMG USMLE Pathway", desc: "International grad guide: ECFMG, USMLE, Match" },
+      { id: "smle", label: "SMLE (Saudi)", desc: "Saudi Medical Licensing Exam for Saudi graduates" },
+      { id: "jmle", label: "JMLE (Jordan)", desc: "Jordanian Medical Licensing Exam review" },
+      { id: "egypat", label: "Egyptian Medical Board", desc: "Egyptian syndicate and specialty board exams" },
+      { id: "lmcc", label: "LMCC (Canada)", desc: "Licentiate Medical Council of Canada MCCQE1/2" },
+      { id: "mccqe", label: "NAC OSCE (Canada)", desc: "National Assessment Collaboration clinical OSCE" },
+      { id: "nzrex", label: "NZREX (New Zealand)", desc: "New Zealand Registration Exam for overseas doctors" },
+      { id: "hpcsa", label: "HPCSA (South Africa)", desc: "Health Professions Council of South Africa exams" },
+      { id: "knle", label: "KNLE (Kenya)", desc: "Kenya Nursing and Midwifery licensing exam prep" },
+      { id: "pmdc", label: "PMDC (Pakistan)", desc: "Pakistan Medical & Dental Council licensing review" },
+      { id: "bmdc", label: "BMDC (Bangladesh)", desc: "Bangladesh Medical Dental Council registration exam" }
+    ]
+  },
+  // ──────────────── CLINICAL SKILLS & DIAGNOSTICS ────────────────
+  {
+    id: "clinical-skills",
+    label: "Clinical Skills & Diagnostics",
+    icon: Clipboard,
+    color: "#f43f5e",
+    subcategories: [
+      { id: "ecg", label: "ECG Interpretation", desc: "12-lead ECG: rate, rhythm, intervals, STEMI, blocks" },
+      { id: "cxr", label: "Chest X-Ray Reading", desc: "Systematic CXR approach, pathological findings" },
+      { id: "ct-basics", label: "CT Interpretation Basics", desc: "Head CT, abdominal CT, lung CT findings" },
+      { id: "ultrasound", label: "Ultrasound Basics", desc: "Point-of-care, FAST, obstetric, abdominal ultrasound" },
+      { id: "abg", label: "ABG & Acid-Base", desc: "Metabolic, respiratory disorders, compensation rules" },
+      { id: "labs", label: "Lab Values Reference", desc: "CBC, BMP, CMP, LFT, TFT, coagulation, cultures" },
+      { id: "vitals", label: "Vital Signs", desc: "Normal ranges by age, abnormal interpretation, monitoring" },
+      { id: "differential", label: "Differential Diagnosis", desc: "Symptom-based DDx: chest pain, headache, dyspnea" },
+      { id: "algorithms", label: "Clinical Algorithms", desc: "ACLS, PALS, sepsis, chest pain, AKI algorithms" },
+      { id: "procedures", label: "Bedside Procedures", desc: "LP, thoracentesis, paracentesis, central line setup" },
+      { id: "scoring-tools", label: "Scoring & Tools", desc: "Wells, CURB-65, GCS, APACHE, MELD, CHA2DS2" },
+      { id: "neurology-skills", label: "Neurology Assessment", desc: "Cranial nerves, reflexes, GCS, NIHSS, Babinski" },
+      { id: "cardiac-monitors", label: "Cardiac Monitoring", desc: "Telemetry, Swan-Ganz, hemodynamic parameters" },
+      { id: "pulm-function", label: "Pulmonary Function Tests", desc: "Spirometry, DLCO, FEV1/FVC, obstructive vs restrictive" },
+      { id: "biopsy-path", label: "Biopsy & Pathology", desc: "Specimen handling, histology interpretation basics" }
+    ]
+  },
+  // ──────────────── DENTISTRY ────────────────
+  {
+    id: "dentistry",
+    label: "Dentistry",
+    icon: Star,
+    color: "#14b8a6",
+    subcategories: [
+      { id: "oral-anatomy", label: "Oral Anatomy", desc: "Teeth, gingiva, maxilla, mandible, salivary glands" },
+      { id: "dental-caries", label: "Dental Caries", desc: "Pathophysiology, classification, prevention, treatment" },
+      { id: "periodontology", label: "Periodontology", desc: "Gingivitis, periodontitis, bone loss, perio treatment" },
+      { id: "endodontics", label: "Endodontics", desc: "Root canal treatment, pulp diseases, retreatment" },
+      { id: "oral-surgery", label: "Oral Surgery", desc: "Extractions, implants, cysts, impacted teeth, flaps" },
+      { id: "prosthodontics", label: "Prosthodontics", desc: "Dentures, crowns, bridges, implant restoration" },
+      { id: "orthodontics", label: "Orthodontics", desc: "Malocclusion, braces, Invisalign, cephalometrics" },
+      { id: "oral-medicine", label: "Oral Medicine", desc: "Aphthous ulcers, candidiasis, TMJ, oral lesions" },
+      { id: "dental-radiology", label: "Dental Radiology", desc: "Periapical, panoramic, CBCT interpretation" },
+      { id: "pediatric-dentistry", label: "Pediatric Dentistry", desc: "Primary teeth, fluoride, sealants, pediatric sedation" },
+      { id: "dental-pharmacology", label: "Dental Pharmacology", desc: "Local anesthetics, analgesics, antibiotics in dentistry" },
+      { id: "dental-exams", label: "Dental Board Exams", desc: "INBDE/NBDE, OSCE, DDS/BDS exam strategies" }
+    ]
+  },
+  // ──────────────── PUBLIC HEALTH & EPIDEMIOLOGY ────────────────
+  {
+    id: "public-health",
+    label: "Public Health",
+    icon: Network,
+    color: "#0d9488",
+    subcategories: [
+      { id: "epidemiology", label: "Epidemiology", desc: "Study designs, measures of disease, outbreak investigation" },
+      { id: "biostatistics", label: "Biostatistics", desc: "RR, OR, NNT, CI, p-value, screening tests" },
+      { id: "preventive-medicine", label: "Preventive Medicine", desc: "Primary, secondary, tertiary prevention, screening" },
+      { id: "global-health", label: "Global Health", desc: "WHO priorities, NTDs, SDGs, global burden of disease" },
+      { id: "environmental-health", label: "Environmental Health", desc: "Air, water, occupational hazards, toxicology" },
+      { id: "maternal-health", label: "Maternal & Child Health", desc: "Antenatal care, neonatal mortality, MCH indicators" },
+      { id: "communicable-disease", label: "Communicable Diseases", desc: "Outbreak control, vaccination programs, quarantine" },
+      { id: "ncds", label: "Non-Communicable Diseases", desc: "CVD, cancer, diabetes prevention at population level" },
+      { id: "health-systems", label: "Health Systems", desc: "UHC, financing, workforce, service delivery models" },
+      { id: "nutrition-public", label: "Public Nutrition", desc: "Malnutrition, micronutrient deficiencies, food safety" },
+      { id: "research-methods", label: "Research Methods", desc: "RCT, cohort, case-control, systematic review, ethics" },
+      { id: "infection-prevention", label: "Infection Prevention", desc: "Hospital-acquired infections, sterilization, HAI metrics" }
+    ]
+  },
+  // ──────────────── SURGERY ────────────────
+  {
+    id: "surgery",
+    label: "Surgery",
+    icon: Activity,
+    color: "#f97316",
+    subcategories: [
+      { id: "general-surgery", label: "General Surgery", desc: "Appendectomy, cholecystectomy, hernia, bowel resection" },
+      { id: "trauma-surgery", label: "Trauma Surgery", desc: "ATLS, polytrauma, abdominal injury, damage control" },
+      { id: "vascular-surgery", label: "Vascular Surgery", desc: "AAA, PAD, carotid endarterectomy, bypass" },
+      { id: "cardiac-surgery", label: "Cardiac Surgery", desc: "CABG, valve surgery, LVAD, cardiopulmonary bypass" },
+      { id: "thoracic-surgery", label: "Thoracic Surgery", desc: "Lobectomy, pneumonectomy, esophagectomy, mediastinum" },
+      { id: "neurosurgery", label: "Neurosurgery", desc: "Craniotomy, spinal surgery, VP shunt, tumor resection" },
+      { id: "ortho-surgery", label: "Orthopedic Surgery", desc: "Fractures, arthroplasty, spine, sports surgery" },
+      { id: "plastic-surgery", label: "Plastic Surgery", desc: "Reconstructive, burns, flaps, cosmetic procedures" },
+      { id: "urology-surgery", label: "Urology", desc: "TURP, nephrectomy, cystectomy, prostatectomy" },
+      { id: "gyn-surgery", label: "Gynecologic Surgery", desc: "Hysterectomy, myomectomy, laparoscopy, ovarian surgery" },
+      { id: "hepatobiliary", label: "Hepatobiliary", desc: "Hepatectomy, Whipple, ERCP, liver transplant" },
+      { id: "pediatric-surgery", label: "Pediatric Surgery", desc: "Congenital anomalies, pyloric stenosis, intussusception" },
+      { id: "robotic-surgery", label: "Minimally Invasive", desc: "Laparoscopy, robotic surgery, endoscopy" },
+      { id: "anesthesia", label: "Anesthesia", desc: "General, regional, spinal, epidural, airway management" },
+      { id: "pre-post-op", label: "Pre/Post-Op Care", desc: "Surgical risk, bowel prep, DVT prophylaxis, wound care" }
+    ]
+  },
+  // ──────────────── ALTERNATIVE & COMPLEMENTARY MEDICINE ────────────────
+  {
+    id: "alt-medicine",
+    label: "Alternative Medicine",
+    icon: Leaf,
+    color: "#22c55e",
+    subcategories: [
+      { id: "tcm", label: "Traditional Chinese Medicine", desc: "Acupuncture, herbal medicine, Qi, meridians, cupping" },
+      { id: "ayurveda", label: "Ayurvedic Medicine", desc: "Doshas, Panchakarma, herbs, rasayana, diet" },
+      { id: "homeopathy", label: "Homeopathy", desc: "Principles, potentization, constitutional remedies, evidence" },
+      { id: "naturopathy", label: "Naturopathy", desc: "Natural therapies, hydrotherapy, lifestyle medicine" },
+      { id: "osteopathy", label: "Osteopathy (OMT)", desc: "Osteopathic principles, muscle energy, HVLA, counterstrain" },
+      { id: "chiropractic", label: "Chiropractic", desc: "Spinal manipulation, subluxation theory, evidence base" },
+      { id: "aromatherapy", label: "Aromatherapy", desc: "Essential oils, inhalation, topical use, safety" },
+      { id: "mind-body", label: "Mind-Body Medicine", desc: "Meditation, yoga, biofeedback, hypnotherapy, mindfulness" },
+      { id: "unani", label: "Unani Medicine", desc: "Greco-Arabic humoral medicine, mizaj, tibb, oils" },
+      { id: "integrative-med", label: "Integrative Medicine", desc: "Evidence-based complementary approaches in clinical care" }
+    ]
+  },
+  // ──────────────── VETERINARY MEDICINE ────────────────
+  {
+    id: "veterinary",
+    label: "Veterinary Medicine",
+    icon: Heart,
+    color: "#84cc16",
+    subcategories: [
+      { id: "vet-anatomy", label: "Veterinary Anatomy", desc: "Canine, feline, equine, bovine comparative anatomy" },
+      { id: "vet-diseases", label: "Animal Diseases", desc: "Zoonotic diseases, companion animal, livestock diseases" },
+      { id: "vet-pharmacology", label: "Veterinary Pharmacology", desc: "Antibiotics, antiparasitics, anesthesia in animals" },
+      { id: "vet-surgery", label: "Veterinary Surgery", desc: "Spay, neuter, orthopedic surgery, wound closure" },
+      { id: "zoonoses", label: "Zoonotic Diseases", desc: "Rabies, toxoplasmosis, brucellosis, Lyme, SARS-CoV-2" },
+      { id: "food-animal", label: "Food Animal Medicine", desc: "Cattle, poultry, swine, sheep medicine and production" },
+      { id: "exotic-animals", label: "Exotic Animal Medicine", desc: "Reptiles, birds, small mammals, fish, amphibians" },
+      { id: "vet-exams", label: "NAVLE / Vet Board Exams", desc: "North American Veterinary Licensing Exam review" }
+    ]
+  },
+  // ──────────────── MENTAL HEALTH & PSYCHOLOGY ────────────────
+  {
+    id: "mental-health",
+    label: "Mental Health & Psychology",
+    icon: Brain,
+    color: "#a855f7",
+    subcategories: [
+      { id: "dsm5-overview", label: "DSM-5 Disorders", desc: "All DSM-5 categories with diagnostic criteria" },
+      { id: "schizophrenia", label: "Schizophrenia Spectrum", desc: "Psychosis, schizoaffective, brief psychotic disorder" },
+      { id: "mood-disorders", label: "Mood Disorders", desc: "Major depression, bipolar I/II, cyclothymia, dysthymia" },
+      { id: "anxiety-disorders", label: "Anxiety Disorders", desc: "GAD, panic, phobias, agoraphobia, social anxiety" },
+      { id: "trauma-disorders", label: "Trauma & Stress", desc: "PTSD, acute stress disorder, adjustment disorder" },
+      { id: "ocd-related", label: "OCD & Related", desc: "OCD, BDD, hoarding, trichotillomania, excoriation" },
+      { id: "personality", label: "Personality Disorders", desc: "Cluster A, B, C personality disorders, borderline, NPD" },
+      { id: "eating-disorders", label: "Eating Disorders", desc: "Anorexia, bulimia, binge eating, avoidant restrictive" },
+      { id: "neurodevelopmental", label: "Neurodevelopmental", desc: "ADHD, autism spectrum, intellectual disability, tics" },
+      { id: "substance-use", label: "Substance Use", desc: "Alcohol, opioids, stimulants — DSM-5 criteria, treatment" },
+      { id: "psychotherapy", label: "Psychotherapy Types", desc: "CBT, DBT, psychodynamic, ACT, MI, exposure therapy" },
+      { id: "psych-meds", label: "Psychiatric Medications", desc: "Antidepressants, antipsychotics, mood stabilizers, anxiolytics" },
+      { id: "child-psych", label: "Child Psychiatry", desc: "ADHD, autism, conduct disorder, separation anxiety, school refusal" },
+      { id: "geriatric-psych", label: "Geriatric Psychiatry", desc: "Dementia, late-life depression, delirium differential" },
+      { id: "forensic-psych", label: "Forensic Psychiatry", desc: "Competency, insanity defense, civil commitment, malingering" }
+    ]
+  },
+  // ──────────────── ALLIED HEALTH PROFESSIONS ────────────────
+  {
+    id: "allied-health",
+    label: "Allied Health",
+    icon: Stethoscope,
+    color: "#6366f1",
+    subcategories: [
+      { id: "physical-therapy", label: "Physical Therapy", desc: "Musculoskeletal rehab, neurological PT, gait, exercise" },
+      { id: "occupational-therapy", label: "Occupational Therapy", desc: "ADL, adaptive equipment, sensory processing, hand therapy" },
+      { id: "speech-therapy", label: "Speech-Language Pathology", desc: "Dysphagia, aphasia, fluency, voice, pediatric speech" },
+      { id: "respiratory-therapy", label: "Respiratory Therapy", desc: "Mechanical ventilation, ABG, CPAP, bronchial hygiene" },
+      { id: "medical-lab", label: "Medical Laboratory Science", desc: "Hematology, chemistry, microbiology, blood banking, QC" },
+      { id: "radiology-tech", label: "Radiologic Technology", desc: "X-ray, CT, MRI, radiation safety, positioning" },
+      { id: "nutrition-dietetics", label: "Nutrition & Dietetics", desc: "Clinical nutrition, enteral/parenteral, MNT, RDN exam" },
+      { id: "social-work", label: "Medical Social Work", desc: "Discharge planning, resources, ethics, counseling" },
+      { id: "health-informatics", label: "Health Informatics", desc: "EHR, clinical decision support, data analytics, interoperability" },
+      { id: "paramedic-ems", label: "Paramedic / EMS", desc: "BLS, ACLS, trauma protocols, field clinical skills" }
+    ]
+  },
+  // ──────────────── MEDICAL SPECIALTIES ────────────────
+  {
+    id: "specialties",
+    label: "Medical Specialties",
+    icon: GraduationCap,
+    color: "#0ea5e9",
+    subcategories: [
+      { id: "cardiology", label: "Cardiology", desc: "Comprehensive cardiology: HF, IHD, electrophysiology" },
+      { id: "nephrology", label: "Nephrology", desc: "CKD staging, dialysis, glomerular diseases, AKI" },
+      { id: "gastroenterology", label: "Gastroenterology", desc: "IBD, liver disease, endoscopy, GI bleeding" },
+      { id: "pulmonology", label: "Pulmonology", desc: "COPD, asthma, ILD, sleep medicine, pulm HTN" },
+      { id: "endocrinology", label: "Endocrinology", desc: "Diabetes, thyroid, adrenal, pituitary, metabolic bone" },
+      { id: "hematology", label: "Hematology", desc: "Blood disorders, cancer, coagulation, transfusion" },
+      { id: "oncology", label: "Oncology", desc: "Solid tumors, hematological malignancies, therapy" },
+      { id: "neurology", label: "Neurology", desc: "Stroke, epilepsy, movement disorders, dementia, MS neuroimaging" },
+      { id: "rheumatology", label: "Rheumatology", desc: "RA, SLE, vasculitis, sero-negative, biologics" },
+      { id: "infectious-sp", label: "Infectious Diseases", desc: "HIV, TB, sepsis, parasitology, antimicrobial stewardship" },
+      { id: "geriatrics", label: "Geriatrics", desc: "Comprehensive geriatric assessment, frailty, falls" },
+      { id: "emergency-sp", label: "Emergency Medicine", desc: "Acute resuscitation, toxicology, acute care algorithms" },
+      { id: "pediatrics-sp", label: "Pediatrics", desc: "Developmental, neonatology, vaccinations, common pediatric illness" },
+      { id: "obs-gyn", label: "Obstetrics & Gynecology", desc: "High-risk OB, gynecology, reproductive endocrinology" },
+      { id: "dermatology-sp", label: "Dermatology", desc: "Eczema, skin cancer, autoimmune skin, cosmetic derm" },
+      { id: "ophthalmology-sp", label: "Ophthalmology", desc: "Retina, cornea, glaucoma, cataracts, neuro-ophthalmology" },
+      { id: "ent", label: "ENT", desc: "Sinusitis, hearing loss, head & neck cancer, thyroid" },
+      { id: "urology", label: "Urology", desc: "BPH, urolithiasis, bladder/prostate cancer, incontinence" },
+      { id: "psychiatry-sp", label: "Psychiatry", desc: "Comprehensive psychiatry: diagnosis, psychopharmacology" },
+      { id: "pm-r", label: "Physical Medicine & Rehab", desc: "Stroke rehab, SCI, TBI, pain management, prosthetics" }
+    ]
+  },
+  // ──────────────── EMERGENCY MEDICINE & CRITICAL CARE ────────────────
+  {
+    id: "emergency-critical",
+    label: "Emergency & Critical Care",
+    icon: Activity,
+    color: "#dc2626",
+    subcategories: [
+      { id: "acls", label: "ACLS", desc: "Advanced Cardiovascular Life Support algorithms and drugs" },
+      { id: "pals", label: "PALS", desc: "Pediatric Advanced Life Support — algorithms, doses" },
+      { id: "atls", label: "ATLS", desc: "Advanced Trauma Life Support — primary/secondary survey" },
+      { id: "bls", label: "BLS / CPR", desc: "Basic Life Support, CPR quality, AED use, chain of survival" },
+      { id: "sepsis", label: "Sepsis & Septic Shock", desc: "Sepsis-3 definition, qSOFA, Surviving Sepsis Bundle" },
+      { id: "icu-monitoring", label: "ICU Monitoring", desc: "Hemodynamics, SwanGanz, arterial lines, CVP, CO" },
+      { id: "mechanical-ventilation", label: "Mechanical Ventilation", desc: "Modes, settings, weaning, ARDS, VAP prevention" },
+      { id: "vasopressors", label: "Vasopressors & Inotropes", desc: "Norepinephrine, dopamine, vasopressin, dobutamine" },
+      { id: "toxicology-em", label: "Toxicology", desc: "Overdoses, antidotes: acetaminophen, opioids, TCAs, cyanide" },
+      { id: "trauma-care", label: "Trauma Care", desc: "Hemorrhage control, damage control, massive transfusion" },
+      { id: "burns-em", label: "Burns", desc: "Burn classification, Parkland formula, fluid resuscitation" },
+      { id: "drowning-hypothermia", label: "Drowning & Environmental", desc: "Drowning, hypothermia, hyperthermia, altitude, diving" },
+      { id: "stroke-em", label: "Acute Stroke", desc: "tPA criteria, stroke mimics, NIH Stroke Scale, thrombectomy" },
+      { id: "arrhythmia-em", label: "Arrhythmia Emergencies", desc: "VT, VF, SVT, Afib with WPW, cardioversion, defibrillation" },
+      { id: "shock-types", label: "Shock Types", desc: "Hypovolemic, cardiogenic, distributive, obstructive shock" },
+      { id: "airway-management", label: "Airway Management", desc: "RSI drugs, intubation, surgical airway, cricothyrotomy" }
+    ]
+  },
+  // ──────────────── PAIN MANAGEMENT ────────────────
+  {
+    id: "pain-management",
+    label: "Pain Management",
+    icon: Flame,
+    color: "#f97316",
+    subcategories: [
+      { id: "pain-assessment", label: "Pain Assessment", desc: "Pain scales, quantification, multidimensional assessment" },
+      { id: "analgesics", label: "Analgesics", desc: "WHO ladder, NSAIDs, opioids, adjuvants, ceiling effects" },
+      { id: "opioid-pharmacology", label: "Opioid Pharmacology", desc: "Mechanism, equianalgesic doses, conversion, tolerance" },
+      { id: "neuropathic-pain", label: "Neuropathic Pain", desc: "PHN, diabetic neuropathy, CRPS, fibromyalgia treatment" },
+      { id: "headache-pain", label: "Headache Management", desc: "Migraine, cluster, tension: acute and preventive therapy" },
+      { id: "cancer-pain", label: "Cancer Pain", desc: "WHO analgesic ladder, breakthrough doses, palliative meds" },
+      { id: "interventional-pain", label: "Interventional Pain", desc: "Epidural, nerve blocks, spinal cord stimulation, RF ablation" },
+      { id: "opioid-addiction", label: "Opioid Use Disorder", desc: "MAT — methadone, buprenorphine, naltrexone, PDMP" },
+      { id: "multimodal-analgesia", label: "Multimodal Analgesia", desc: "ERAS protocols, regional anesthesia, minimizing opioids" },
+      { id: "pediatric-pain", label: "Pediatric Pain", desc: "Pain scales for children, non-pharmacologic, weight-based dosing" }
+    ]
+  },
+  // ──────────────── PHARMACOGENOMICS ────────────────
+  {
+    id: "pharmacogenomics",
+    label: "Pharmacogenomics",
+    icon: Database,
+    color: "#7c3aed",
+    subcategories: [
+      { id: "pgx-basics", label: "PGx Fundamentals", desc: "Genetic polymorphisms: PMs, IMs, NMs, UMs, RMs" },
+      { id: "cyp450-genetics", label: "CYP450 Polymorphisms", desc: "CYP2D6, CYP2C19, CYP2C9, CYP3A5 variants and clinical impact" },
+      { id: "warfarin-pgx", label: "Warfarin PGx", desc: "VKORC1, CYP2C9 — dosing algorithms, clinical use" },
+      { id: "clopidogrel-pgx", label: "Clopidogrel & Antiplatelet PGx", desc: "CYP2C19*2 loss of function, alternative antiplatelet agents" },
+      { id: "tamoxifen-pgx", label: "Oncology PGx", desc: "Tamoxifen-CYP2D6, 5-FU-DPYD, irinotecan-UGT1A1" },
+      { id: "antidepressants-pgx", label: "Antidepressants & PGx", desc: "SSRI, TCA pharmacogenomics — which SNPs matter clinically" },
+      { id: "opioids-pgx", label: "Opioid PGx", desc: "Codeine-CYP2D6 ultrarapid metabolizers — FDA warning, morphine" },
+      { id: "pgx-testing", label: "PGx Testing", desc: "FDA table of pharmacogenomic biomarkers, clinical utility, limitations" },
+      { id: "hla-markers", label: "HLA Pharmacogenomics", desc: "HLA-B*57:01 (abacavir), HLA-B*15:02 (carbamazepine), Stevens-Johnson" },
+      { id: "pgx-clinical", label: "Clinical Implementation", desc: "CPIC guidelines, EHR integration, pre-emptive PGx testing" }
+    ]
+  },
+  // ──────────────── MEDICAL DEVICES & TECHNOLOGY ────────────────
+  {
+    id: "medical-technology",
+    label: "Medical Technology",
+    icon: Monitor,
+    color: "#2563eb",
+    subcategories: [
+      { id: "cardiac-devices", label: "Cardiac Devices", desc: "Pacemakers, ICDs, CRT, LVAD, TAVR, stents, balloon pumps" },
+      { id: "renal-devices", label: "Renal Devices", desc: "Hemodialysis machines, peritoneal dialysis, CRRT circuits" },
+      { id: "ventilator-tech", label: "Ventilator Technology", desc: "Ventilator types, circuit, modes, waveforms, alarms" },
+      { id: "infusion-devices", label: "Infusion Technology", desc: "Smart pumps, DERS, IV compatibility, PCA, epidural pumps" },
+      { id: "diagnostic-imaging", label: "Diagnostic Imaging Devices", desc: "X-ray, CT, MRI, PET, ultrasound machine types and principles" },
+      { id: "surgical-robots", label: "Robotic Surgery", desc: "da Vinci, robotic laparoscopy, NOTES, single-port surgery" },
+      { id: "wearables", label: "Wearable Health Devices", desc: "CGM, smartwatch, pulse oximetry, ECG patches, remote monitoring" },
+      { id: "ai-diagnostics", label: "AI in Diagnostics", desc: "AI pathology, radiology AI, sepsis prediction, drug discovery AI" },
+      { id: "ehr-systems", label: "EHR / EMR Systems", desc: "Epic, Cerner, CPOE, clinical decision support, FHIR standards" },
+      { id: "telemedicine", label: "Telemedicine", desc: "Telehealth platforms, RPM, regulatory considerations, prescribing" },
+      { id: "lab-automation", label: "Laboratory Automation", desc: "Point-of-care testing, automated analyzers, POCT quality control" },
+      { id: "drug-delivery", label: "Drug Delivery Systems", desc: "Transdermal, liposomes, nanoparticles, implants, depot injections" }
+    ]
+  },
+  // ──────────────── LABORATORY MEDICINE ────────────────
+  {
+    id: "laboratory-medicine",
+    label: "Laboratory Medicine",
+    icon: FlaskConical,
+    color: "#0891b2",
+    subcategories: [
+      { id: "hematology-lab", label: "Hematology Lab", desc: "CBC interpretation, peripheral smear, RBC indices, reticulocytes" },
+      { id: "chemistry-lab", label: "Clinical Chemistry", desc: "Metabolic panels, enzymes, lipids, hormones, therapeutic drug monitoring" },
+      { id: "microbiology-lab", label: "Clinical Microbiology", desc: "Culture techniques, Gram stain, sensitivity, blood culture interpretation" },
+      { id: "immunology-lab", label: "Immunology Lab", desc: "Autoantibodies, flow cytometry, allergy testing, western blot" },
+      { id: "blood-banking", label: "Blood Banking / Transfusion", desc: "Blood typing, crossmatch, transfusion reactions, components" },
+      { id: "coagulation-lab", label: "Coagulation Studies", desc: "PT/INR, aPTT, TEG, platelet function, factor assays" },
+      { id: "urine-analysis", label: "Urinalysis", desc: "Dipstick, microscopy, casts, crystals, culture interpretation" },
+      { id: "csf-analysis", label: "CSF Analysis", desc: "LP technique, glucose, protein, cells, xanthochromia, oligoclonal bands" },
+      { id: "molecular-lab", label: "Molecular Diagnostics", desc: "PCR, NGS, FISH, multiplex panels, COVID testing, resistance genes" },
+      { id: "lab-quality", label: "Lab Quality Control", desc: "Levey-Jennings, Westgard rules, CLIA, CAP accreditation, delta checks" },
+      { id: "point-of-care", label: "Point-of-Care Testing", desc: "POCT devices, bedside troponin, glucose, ABG, BNP accuracy limits" },
+      { id: "lab-errors", label: "Lab Errors & Interpretation", desc: "Pre-analytical, analytical, post-analytical errors, critical values" }
+    ]
+  },
+  // ──────────────── OPTOMETRY & EYE HEALTH ────────────────
+  {
+    id: "optometry",
+    label: "Optometry & Eye Health",
+    icon: Eye,
+    color: "#0284c7",
+    subcategories: [
+      { id: "eye-anatomy", label: "Eye Anatomy", desc: "Ocular structures, visual pathway, cranial nerves III/IV/VI" },
+      { id: "refraction", label: "Refraction & Vision", desc: "Myopia, hyperopia, astigmatism, presbyopia, correction" },
+      { id: "glaucoma", label: "Glaucoma", desc: "Open-angle, angle-closure, normal tension, IOP, treatment" },
+      { id: "cataracts-opt", label: "Cataracts", desc: "Nuclear sclerosis, phacoemulsification, IOL selection" },
+      { id: "retinal-diseases", label: "Retinal Diseases", desc: "AMD, diabetic retinopathy, RVO, retinal detachment" },
+      { id: "corneal-diseases", label: "Corneal Diseases", desc: "Keratoconus, corneal ulcer, dry eye syndrome, HSV keratitis" },
+      { id: "neuro-ophthalmology", label: "Neuro-Ophthalmology", desc: "Papilledema, CN palsies, visual field defects, optic neuritis" },
+      { id: "pediatric-eye", label: "Pediatric Eye", desc: "Amblyopia, strabismus, congenital cataracts, retinoblastoma" },
+      { id: "eye-pharmacology", label: "Ocular Pharmacology", desc: "Glaucoma drops, mydriatics, antivirals, anti-VEGF, steroids" },
+      { id: "eye-exams", label: "Optometry Board Exams", desc: "NBEO TMOD/OSCE, POPT, Commonwealth optometry exams" }
+    ]
+  },
+  // ──────────────── PODIATRY ────────────────
+  {
+    id: "podiatry",
+    label: "Podiatry",
+    icon: Activity,
+    color: "#16a34a",
+    subcategories: [
+      { id: "foot-anatomy", label: "Foot & Ankle Anatomy", desc: "Bones, muscles, tendons, nerves, vascular supply of foot" },
+      { id: "diabetic-foot", label: "Diabetic Foot", desc: "Neuropathy, ulcer grading, Charcot, offloading, amputation prevention" },
+      { id: "foot-infections", label: "Foot Infections", desc: "Osteomyelitis, cellulitis, necrotizing fasciitis, fungal nails" },
+      { id: "heel-pain", label: "Heel Pain", desc: "Plantar fasciitis, calcaneal stress fractures, Haglund deformity" },
+      { id: "nail-disorders", label: "Nail Disorders", desc: "Ingrown nails, onychomycosis, nail matrix, avulsion" },
+      { id: "biomechanics", label: "Foot Biomechanics", desc: "Gait analysis, orthosis, pronation, supination, custom orthotics" },
+      { id: "bunions-deformities", label: "Bunions & Deformities", desc: "Hallux valgus, hammertoes, metatarsalgia, surgery options" },
+      { id: "podiatry-exams", label: "Podiatry Board Exams", desc: "APMLE/COMAT podiatry prep, CPME curriculum" }
+    ]
+  },
+  // ──────────────── REPRODUCTIVE HEALTH ────────────────
+  {
+    id: "reproductive-health",
+    label: "Reproductive Health",
+    icon: Heart,
+    color: "#db2777",
+    subcategories: [
+      { id: "contraception", label: "Contraception", desc: "All methods: efficacy, MOA, advantages, disadvantages, counseling" },
+      { id: "fertility", label: "Fertility & Infertility", desc: "Causes, evaluation, IVF, IUI, ovulation induction, PCOS" },
+      { id: "prenatal-care", label: "Prenatal Care", desc: "ANC schedule, screenings, nutrition, teratogen counseling" },
+      { id: "pregnancy-complications", label: "Pregnancy Complications", desc: "Preeclampsia, GDM, PPROM, placenta previa, abruption" },
+      { id: "labor-delivery", label: "Labor & Delivery", desc: "Stages, partogram, induction, fetal monitoring, shoulder dystocia" },
+      { id: "postpartum", label: "Postpartum Care", desc: "Postpartum hemorrhage, depression, breastfeeding, involution" },
+      { id: "menstrual-disorders", label: "Menstrual Disorders", desc: "Dysmenorrhea, amenorrhea, AUB, DUB, PMDD" },
+      { id: "stis", label: "STIs", desc: "Chlamydia, gonorrhea, syphilis, HSV, HPV, HIV — diagnosis and treatment" },
+      { id: "menopause", label: "Menopause", desc: "Perimenopause, symptoms, HRT options, risks, alternatives" },
+      { id: "reproductive-oncology", label: "Reproductive Oncology", desc: "Cervical, ovarian, uterine cancer — screening, staging, treatment" }
+    ]
+  },
+  // ──────────────── MEDICAL LAW, ETHICS & PROFESSIONALISM ────────────────
+  {
+    id: "medical-law-ethics",
+    label: "Medical Law & Ethics",
+    icon: BookA,
+    color: "#64748b",
+    subcategories: [
+      { id: "informed-consent", label: "Informed Consent", desc: "Elements, exceptions, capacity, documentation, surrogate" },
+      { id: "medical-liability", label: "Medical Liability", desc: "Negligence, malpractice, standard of care, tort reform" },
+      { id: "patient-rights", label: "Patient Rights", desc: "HIPAA, Privacy Rule, Security Rule, patient confidentiality" },
+      { id: "end-of-life", label: "End-of-Life Ethics", desc: "DNR, advance directives, PAD, withdrawal of care, hospice" },
+      { id: "research-ethics", label: "Research Ethics", desc: "Belmont Report, IRB, Helsinki Declaration, clinical trial phases" },
+      { id: "medical-professionalism", label: "Professionalism", desc: "ACGME core competencies, physician charter, professional behavior" },
+      { id: "international-health-law", label: "International Health Law", desc: "WHO IHR, global health governance, pandemic response frameworks" },
+      { id: "resource-allocation", label: "Resource Allocation", desc: "Triage, QALY, healthcare economics, ICU allocation principles" },
+      { id: "cultural-competency", label: "Cultural Competency", desc: "Health disparities, cultural humility, interpreter services, LGBTQ+ care" },
+      { id: "reporting-obligations", label: "Mandatory Reporting", desc: "Abuse, public health reporting, impaired physicians, FDA MedWatch" }
+    ]
+  },
+  // ──────────────── HEALTHCARE EDUCATION & STUDY SKILLS ────────────────
+  {
+    id: "study-skills",
+    label: "Healthcare Study Skills",
+    icon: BookOpen,
+    color: "#7c3aed",
+    subcategories: [
+      { id: "active-recall", label: "Active Recall & Spaced Repetition", desc: "Anki, Leitner system, flashcard creation, retrieval practice" },
+      { id: "question-banks", label: "Question Banks Guide", desc: "UWorld, Amboss, Kaplan, Lecturio, Rx — how to use effectively" },
+      { id: "test-taking", label: "Test-Taking Strategy", desc: "Process of elimination, vignette analysis, timing for all exams" },
+      { id: "study-schedules", label: "Study Schedules", desc: "Dedicated study plans for USMLE, NAPLEX, NCLEX, PLAB, DHA" },
+      { id: "clinical-reasoning", label: "Clinical Reasoning", desc: "Pattern recognition, illness scripts, Bayesian thinking" },
+      { id: "mnemonics-collection", label: "Medical Mnemonics A–Z", desc: "300+ verified medical mnemonics organized by system" },
+      { id: "note-taking", label: "Note-Taking Methods", desc: "Cornell, mind mapping, concept mapping, linear notes for medicine" },
+      { id: "burnout-wellness", label: "Student Wellness", desc: "Burnout prevention, resilience, sleep, exercise, time management" },
+      { id: "reading-ecg-guide", label: "ECG Reading Guide", desc: "Step-by-step systematic ECG reading for beginners to advanced" },
+      { id: "case-based-learning", label: "Case-Based Learning", desc: "PBL approach, SNAPPS framework, clinical case analysis" }
+    ]
+  }
+];
+function MiniAITutor({ context, settings, placeholder, chips }) {
+  const [q, setQ] = reactExports.useState("");
+  const [answer, setAnswer] = reactExports.useState("");
+  const [loading, setLoading] = reactExports.useState(false);
+  const [open, setOpen] = reactExports.useState(false);
+  const ctx = (context || "").toLowerCase();
+  const defaultChips = ctx.includes("naplex") || ctx.includes("pharmacy") || ctx.includes("drug") ? ["Top side effects?", "Drug interaction warnings", "Brand vs generic names", "Dosage & monitoring"] : ctx.includes("nclex") || ctx.includes("nursing") ? ["Priority nursing action?", "SATA question tips", "Lab values to know", "Patient education key points"] : ctx.includes("usmle") || ctx.includes("step") ? ["High-yield mechanism?", "Classic presentation", "First-line treatment", "Common USMLE pitfalls"] : ctx.includes("osce") || ctx.includes("clinical skill") ? ["OSCE checklist tips", "Common mistakes in OSCE", "How to present findings", "Communication framework"] : ctx.includes("plab") || ctx.includes("uk") ? ["PLAB 2 scenario tips", "UK-specific guidelines", "GMC framework", "Common PLAB pitfalls"] : ctx.includes("dha") || ctx.includes("haad") || ctx.includes("gulf") ? ["DHA/HAAD key topics", "Middle East guidelines", "Common MOH questions", "Exam format tips"] : ctx.includes("amc") || ctx.includes("australia") ? ["AMC exam strategy", "Australian guidelines", "Common AMC pitfalls", "MCQ vs clinical exam"] : ctx.includes("exam") || ctx.includes("global") ? ["Give me 5 practice questions", "Common exam pitfalls", "High-yield topics list", "Exam format explained"] : ctx.includes("disease") || ctx.includes("condition") ? ["Pathophysiology explained", "Classic presentation", "First-line treatment", "Diagnostic criteria"] : ctx.includes("surgery") || ctx.includes("surgical") ? ["Pre-op assessment", "Surgical complications", "Post-op care pearls", "Anatomy key points"] : ctx.includes("mental") || ctx.includes("psych") ? ["DSM-5 criteria", "First-line medications", "Therapy approaches", "Suicide risk factors"] : ctx.includes("dental") || ctx.includes("oral") ? ["Common dental emergencies", "Local anesthesia tips", "NBDE high-yield topics", "Anatomy landmarks"] : ["Explain the mechanism", "Give me a mnemonic", "Clinical pearls", "Common exam mistakes"];
+  const suggestions = chips || defaultChips;
+  const ask = async () => {
+    if (!q.trim() || loading) return;
+    setLoading(true);
+    setAnswer("");
+    try {
+      const prompt = `You are an expert medical/pharmacy AI tutor. Topic context: "${context}".
+Student question: "${q}"
+
+Answer clearly and completely. Include:
+- Direct answer
+- Key mechanism or explanation
+- Clinical relevance
+- Memory trick if applicable
+
+Format with clear sections. Be thorough but concise.`;
+      await callAIStreaming(prompt, (chunk) => setAnswer(chunk), settings, 3e3);
+    } catch (e) {
+      setAnswer("Error: " + e.message + ". Please add an API key in Settings.");
+    } finally {
+      setLoading(false);
+    }
+  };
+  if (!open) return /* @__PURE__ */ jsxRuntimeExports.jsxs(
+    "button",
+    {
+      onClick: () => setOpen(true),
+      className: "flex items-center gap-2 px-4 py-2.5 rounded-2xl text-sm font-black transition-all hover:scale-105",
+      style: { background: "linear-gradient(135deg,#6366f1,#8b5cf6)", color: "#fff", boxShadow: "0 4px 16px rgba(99,102,241,.35)" },
+      children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx(BotMessageSquare, { size: 16 }),
+        " Ask AI Tutor"
+      ]
+    }
+  );
+  return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "card-lined rounded-2xl overflow-hidden", style: { borderTopColor: "rgba(99,102,241,.4)" }, children: [
+    /* @__PURE__ */ jsxRuntimeExports.jsxs(
+      "div",
+      {
+        className: "flex items-center justify-between px-4 py-3 border-b border-[color:var(--border2,var(--border))]",
+        style: { background: "linear-gradient(135deg,rgba(99,102,241,.12),rgba(139,92,246,.08))" },
+        children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { className: "flex items-center gap-2 text-sm font-black text-[var(--accent)]", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx(BotMessageSquare, { size: 15 }),
+            " AI Tutor"
+          ] }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("button", { onClick: () => setOpen(false), className: "opacity-40 hover:opacity-80", children: /* @__PURE__ */ jsxRuntimeExports.jsx(X, { size: 15 }) })
+        ]
+      }
+    ),
+    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "p-4 space-y-3", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex gap-2", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          "input",
+          {
+            value: q,
+            onChange: (e) => setQ(e.target.value),
+            onKeyDown: (e) => e.key === "Enter" && ask(),
+            placeholder: placeholder || `Ask anything about ${context}…`,
+            className: "flex-1 glass-input rounded-xl px-3 py-2.5 text-sm"
+          }
+        ),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          "button",
+          {
+            onClick: ask,
+            disabled: loading || !q.trim(),
+            className: "btn-accent px-4 py-2 rounded-xl text-sm font-black disabled:opacity-40",
+            children: loading ? /* @__PURE__ */ jsxRuntimeExports.jsx(Loader2, { size: 15, className: "animate-spin" }) : /* @__PURE__ */ jsxRuntimeExports.jsx(Send, { size: 15 })
+          }
+        )
+      ] }),
+      answer && /* @__PURE__ */ jsxRuntimeExports.jsx(
+        "div",
+        {
+          className: "text-sm rounded-xl p-3 max-h-64 overflow-y-auto custom-scrollbar",
+          style: { background: "rgba(99,102,241,.05)", border: "1px solid rgba(99,102,241,.15)" },
+          children: renderMarkdown(answer)
+        }
+      ),
+      !answer && !loading && /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "flex flex-wrap gap-1.5", children: suggestions.map((s) => /* @__PURE__ */ jsxRuntimeExports.jsx(
+        "button",
+        {
+          onClick: () => {
+            setQ(s);
+          },
+          className: "text-xs px-3 py-1.5 rounded-lg font-semibold transition-all hover:scale-105",
+          style: { background: "rgba(99,102,241,.1)", color: "var(--accent)", border: "1px solid rgba(99,102,241,.2)" },
+          children: s
+        },
+        s
+      )) })
+    ] })
+  ] });
+}
+function TopicContentPanel({ category, subcategory, settings }) {
+  const [content, setContent] = reactExports.useState(null);
+  const [loading, setLoading] = reactExports.useState(false);
+  const [searchQ, setSearchQ] = reactExports.useState("");
+  const [activeTab, setActiveTab] = reactExports.useState("overview");
+  const [practiceQs, setPracticeQs] = reactExports.useState(null);
+  const [loadingQs, setLoadingQs] = reactExports.useState(false);
+  const [revealedAnswers, setRevealedAnswers] = reactExports.useState({});
+  const generateQuestions = async () => {
+    setLoadingQs(true);
+    setPracticeQs(null);
+    setRevealedAnswers({});
+    try {
+      const prompt = `You are a world-class medical exam author. Generate 10 high-yield board-exam style multiple choice questions for:
+
+CATEGORY: ${category.label}
+TOPIC: ${subcategory.label}
+
+Return ONLY valid JSON array:
+[
+  {
+    "question": "A 45-year-old patient presents with...",
+    "options": [
+      {"letter": "A", "text": "Option A text"},
+      {"letter": "B", "text": "Option B text"},
+      {"letter": "C", "text": "Option C text"},
+      {"letter": "D", "text": "Option D text"}
+    ],
+    "answer": "B",
+    "explanation": "Detailed explanation of why B is correct and why others are wrong. Include clinical reasoning, mechanism, and exam tip.",
+    "difficulty": "Easy|Medium|Hard",
+    "examContext": "USMLE Step 1|NCLEX|NAPLEX|PLAB|DHA|AMC|General"
+  }
+]
+
+RULES:
+1. Generate exactly 10 questions
+2. Mix difficulties: 2 Easy, 5 Medium, 3 Hard
+3. Questions must be clinical-scenario based (vignette style)
+4. Each explanation must be comprehensive (3-5 sentences) and teach the concept
+5. Cover different aspects of ${subcategory.label} across the 10 questions
+6. Make globally relevant — suitable for USMLE, PLAB, NCLEX, NAPLEX, DHA, AMC exam takers`;
+      const raw = await callAI(prompt, true, false, settings, 6e3);
+      const parsed = parseJson(raw);
+      setPracticeQs(Array.isArray(parsed) ? parsed : parsed.questions || []);
+    } catch (e) {
+      setPracticeQs({ error: e.message });
+    } finally {
+      setLoadingQs(false);
+    }
+  };
+  const topicKey = `${category.id}:${subcategory.id}`;
+  const generate = async () => {
+    setLoading(true);
+    setContent(null);
+    try {
+      const prompt = `You are a world-class medical and healthcare education AI with expert knowledge across all health professions globally. Generate a COMPLETE, comprehensive, board-exam-level reference for:
+
+CATEGORY: ${category.label}
+TOPIC: ${subcategory.label}
+DESCRIPTION: ${subcategory.desc}
+
+Return ONLY valid JSON with this exact structure:
+{
+  "overview": "4-6 paragraph COMPREHENSIVE overview covering definition, epidemiology/global context, pathophysiology/mechanism, clinical significance, and relevance to healthcare students worldwide",
+  "keyPoints": ["HY point 1","HY point 2","HY point 3","HY point 4","HY point 5","HY point 6","HY point 7","HY point 8","HY point 9","HY point 10"],
+  "tableData": {
+    "headers": ["Column1","Column2","Column3","Column4","Column5"],
+    "rows": [
+      ["row1col1","row1col2","row1col3","row1col4","row1col5"],
+      ["row2col1","row2col2","row2col3","row2col4","row2col5"]
+    ]
+  },
+  "clinicalPearls": ["pearl1","pearl2","pearl3","pearl4","pearl5","pearl6","pearl7"],
+  "mnemonics": [
+    {"mnemonic":"ACRONYM","meaning":"A=..., C=..., R=..., O=..., N=..., Y=..., M=...","topic":"what it helps remember"},
+    {"mnemonic":"SECOND","meaning":"S=..., E=..., C=..., O=..., N=..., D=...","topic":"another key concept"}
+  ],
+  "commonMistakes": ["mistake1","mistake2","mistake3","mistake4","mistake5"],
+  "examTips": ["tip1","tip2","tip3","tip4","tip5","tip6"],
+  "subtopics": [
+    {"name":"subtopic name","summary":"2-3 sentence comprehensive summary","keyFact":"the single most important high-yield fact"}
+  ]
+}
+
+CRITICAL RULES — follow exactly:
+1. tableData MUST have 20-35 rows minimum with REAL, accurate, detailed medical data
+2. For DRUGS: columns = Drug Name (Brand/Generic) | Drug Class | Mechanism of Action | Key Indications | Major Side Effects / Monitoring
+3. For DISEASES: columns = Disease | Pathophysiology | Key Symptoms | Diagnosis | First-Line Treatment
+4. For EXAMS: columns = Topic/Domain | High-Yield Content | Question Type | Key Strategy | Common Pitfalls
+5. For PROCEDURES: columns = Procedure | Indication | Key Steps | Complications | Pearls
+6. For NURSING: columns = Topic | Assessment Findings | Nursing Interventions | Patient Education | Priority Actions
+7. subtopics MUST have 12-20 entries covering ALL important aspects of the topic comprehensively
+8. keyPoints MUST have 10+ board-exam-level high-yield points
+9. clinicalPearls MUST have 7+ real clinical pearls used in exams worldwide (USMLE, PLAB, AMC, DHA, NAPLEX, NCLEX)
+10. mnemonics MUST have 2+ actual exam mnemonics used by medical students globally
+11. All content must be GLOBALLY relevant — reflect US, UK, Australia, Middle East, India, Canada exam standards
+12. commonMistakes MUST reflect real errors students make in board exams internationally
+13. examTips MUST be actionable strategies for the specific exam context (NAPLEX, NCLEX, USMLE, PLAB, DHA, AMC, etc.)`;
+      const raw = await callAI(prompt, true, false, settings, 8e3);
+      const parsed = parseJson(raw);
+      setContent(parsed);
+    } catch (e) {
+      setContent({ error: e.message });
+    } finally {
+      setLoading(false);
+    }
+  };
+  reactExports.useEffect(() => {
+    generate();
+  }, [topicKey]);
+  const filteredRows = content?.tableData?.rows?.filter(
+    (row) => !searchQ || row.some((cell) => String(cell).toLowerCase().includes(searchQ.toLowerCase()))
+  ) || [];
+  if (loading) return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex flex-col items-center justify-center py-20 gap-4", children: [
+    /* @__PURE__ */ jsxRuntimeExports.jsx(
+      "div",
+      {
+        className: "w-16 h-16 rounded-2xl flex items-center justify-center animate-pulse",
+        style: { background: category.color + "20" },
+        children: /* @__PURE__ */ jsxRuntimeExports.jsx(Loader2, { size: 28, className: "animate-spin", style: { color: category.color } })
+      }
+    ),
+    /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { className: "text-sm font-black", style: { color: category.color }, children: [
+      "AI is generating ",
+      subcategory.label,
+      "…"
+    ] }),
+    /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-xs opacity-40", children: "Building comprehensive reference tables" })
+  ] });
+  if (content?.error) return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "p-6 text-center space-y-4", children: [
+    /* @__PURE__ */ jsxRuntimeExports.jsx(AlertCircle, { size: 32, className: "mx-auto text-red-400" }),
+    /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-sm font-bold text-red-400", children: content.error }),
+    /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-xs opacity-50", children: "Add an API key in Settings to use the AI tutor" }),
+    /* @__PURE__ */ jsxRuntimeExports.jsx("button", { onClick: generate, className: "btn-accent px-4 py-2 rounded-xl text-sm font-black", children: "Retry" })
+  ] });
+  if (!content) return null;
+  const tabs = [
+    { id: "overview", label: "Overview", icon: BookOpen },
+    { id: "table", label: "Reference Table", icon: Table },
+    { id: "subtopics", label: "Subtopics", icon: Layers3 },
+    { id: "pearls", label: "Pearls & Tips", icon: Sparkles },
+    { id: "questions", label: "Practice Qs", icon: CheckCircle2 }
+  ];
+  return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "space-y-4", children: [
+    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex gap-1 p-1 glass rounded-2xl overflow-x-auto custom-scrollbar", children: [
+      tabs.map(({ id, label, icon: Icon }) => /* @__PURE__ */ jsxRuntimeExports.jsxs(
+        "button",
+        {
+          onClick: () => setActiveTab(id),
+          className: `flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-black whitespace-nowrap transition-all
+              ${activeTab === id ? "text-white shadow-md" : "opacity-50 hover:opacity-80"}`,
+          style: activeTab === id ? { background: category.color } : {},
+          children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx(Icon, { size: 13 }),
+            label
+          ]
+        },
+        id
+      )),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("button", { onClick: generate, className: "ml-auto flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-black opacity-40 hover:opacity-80 whitespace-nowrap", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx(RefreshCw, { size: 13 }),
+        " Regenerate"
+      ] })
+    ] }),
+    activeTab === "overview" && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "space-y-4", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "card-lined rounded-2xl p-5", style: { borderTopColor: category.color + "60" }, children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsxs(
+          "h3",
+          {
+            className: "text-xs font-black uppercase tracking-widest mb-3 flex items-center gap-2",
+            style: { color: category.color },
+            children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx(BookOpen, { size: 13 }),
+              " Overview"
+            ]
+          }
+        ),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "text-sm leading-relaxed", style: { color: "var(--text2)" }, children: renderMarkdown(content.overview) })
+      ] }),
+      content.keyPoints?.length > 0 && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "card-lined rounded-2xl p-5", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsxs(
+          "h3",
+          {
+            className: "text-xs font-black uppercase tracking-widest mb-3 flex items-center gap-2",
+            style: { color: category.color },
+            children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx(Zap, { size: 13 }),
+              " High-Yield Key Points"
+            ]
+          }
+        ),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("ul", { className: "space-y-2", children: content.keyPoints.map((pt, i) => /* @__PURE__ */ jsxRuntimeExports.jsxs("li", { className: "flex items-start gap-2.5 text-sm", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx(
+            "span",
+            {
+              className: "w-5 h-5 rounded-full flex items-center justify-center text-white text-xs font-black shrink-0 mt-0.5",
+              style: { background: category.color, fontSize: 10 },
+              children: i + 1
+            }
+          ),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("span", { style: { color: "var(--text2)" }, children: pt })
+        ] }, i)) })
+      ] }),
+      content.mnemonics?.length > 0 && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "card-lined rounded-2xl p-5", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsxs(
+          "h3",
+          {
+            className: "text-xs font-black uppercase tracking-widest mb-3 flex items-center gap-2",
+            style: { color: category.color },
+            children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx(Brain, { size: 13 }),
+              " Mnemonics"
+            ]
+          }
+        ),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "space-y-3", children: content.mnemonics.map((m, i) => /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "rounded-xl p-4", style: { background: category.color + "10", border: `1px solid ${category.color}25` }, children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center gap-2 mb-1", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-lg font-black", style: { color: category.color }, children: m.mnemonic }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-xs font-bold opacity-50", children: m.topic })
+          ] }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-xs", style: { color: "var(--text2)" }, children: m.meaning })
+        ] }, i)) })
+      ] })
+    ] }),
+    activeTab === "table" && content.tableData && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "card-lined rounded-2xl overflow-hidden", style: { borderTopColor: category.color + "60" }, children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "p-4 border-b border-[color:var(--border2,var(--border))] flex items-center gap-3", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex-1 flex items-center gap-2 glass-input rounded-xl px-3 py-2", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx(Search, { size: 14, className: "opacity-40 shrink-0" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx(
+            "input",
+            {
+              value: searchQ,
+              onChange: (e) => setSearchQ(e.target.value),
+              placeholder: "Search table…",
+              className: "flex-1 bg-transparent text-sm outline-none"
+            }
+          )
+        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { className: "text-xs font-black opacity-40", children: [
+          filteredRows.length,
+          " rows"
+        ] })
+      ] }),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "overflow-x-auto", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("table", { className: "w-full text-sm", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("thead", { children: /* @__PURE__ */ jsxRuntimeExports.jsx("tr", { style: { background: category.color + "15", borderBottom: `2px solid ${category.color}30` }, children: content.tableData.headers?.map((h, i) => /* @__PURE__ */ jsxRuntimeExports.jsx(
+            "th",
+            {
+              className: "px-4 py-3 text-left text-xs font-black uppercase tracking-wider",
+              style: { color: category.color },
+              children: h
+            },
+            i
+          )) }) }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("tbody", { children: filteredRows.map((row, ri) => /* @__PURE__ */ jsxRuntimeExports.jsx("tr", { className: "border-b border-[color:var(--border2,var(--border))] hover:bg-[var(--accent)]/5 transition-colors", children: row.map((cell, ci) => /* @__PURE__ */ jsxRuntimeExports.jsx("td", { className: "px-4 py-2.5 text-sm", style: { color: ci === 0 ? "var(--text)" : "var(--text2)" }, children: ci === 0 ? /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "font-semibold", children: cell }) : cell }, ci)) }, ri)) })
+        ] }),
+        filteredRows.length === 0 && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "py-12 text-center opacity-40", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx(Search, { size: 24, className: "mx-auto mb-2" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { className: "text-sm", children: [
+            'No results for "',
+            searchQ,
+            '"'
+          ] })
+        ] })
+      ] })
+    ] }),
+    activeTab === "subtopics" && content.subtopics?.length > 0 && /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "space-y-3", children: content.subtopics.map((sub, i) => /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "card-lined rounded-2xl p-4", style: { borderTopColor: category.color + "40" }, children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-start justify-between gap-3", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex-1", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("h4", { className: "font-black text-sm mb-1", style: { color: category.color }, children: sub.name }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-xs leading-relaxed", style: { color: "var(--text2)" }, children: sub.summary }),
+        sub.keyFact && /* @__PURE__ */ jsxRuntimeExports.jsxs(
+          "div",
+          {
+            className: "mt-2 flex items-start gap-2 text-xs rounded-lg p-2",
+            style: { background: category.color + "10" },
+            children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx(Zap, { size: 11, className: "shrink-0 mt-0.5", style: { color: category.color } }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "font-semibold", children: sub.keyFact })
+            ]
+          }
+        )
+      ] }),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { className: "text-xs font-black opacity-30", children: [
+        "#",
+        i + 1
+      ] })
+    ] }) }, i)) }),
+    activeTab === "pearls" && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "space-y-4", children: [
+      content.clinicalPearls?.length > 0 && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "card-lined rounded-2xl p-5", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsxs(
+          "h3",
+          {
+            className: "text-xs font-black uppercase tracking-widest mb-3 flex items-center gap-2",
+            style: { color: category.color },
+            children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx(Sparkles, { size: 13 }),
+              " Clinical Pearls"
+            ]
+          }
+        ),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("ul", { className: "space-y-2", children: content.clinicalPearls.map((p, i) => /* @__PURE__ */ jsxRuntimeExports.jsxs("li", { className: "flex items-start gap-2.5 text-sm", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx(Star, { size: 13, className: "shrink-0 mt-1", style: { color: "#f59e0b" } }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("span", { style: { color: "var(--text2)" }, children: p })
+        ] }, i)) })
+      ] }),
+      content.examTips?.length > 0 && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "card-lined rounded-2xl p-5", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsxs(
+          "h3",
+          {
+            className: "text-xs font-black uppercase tracking-widest mb-3 flex items-center gap-2",
+            style: { color: "#3b82f6" },
+            children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx(Target, { size: 13 }),
+              " Exam Tips"
+            ]
+          }
+        ),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("ul", { className: "space-y-2", children: content.examTips.map((t, i) => /* @__PURE__ */ jsxRuntimeExports.jsxs("li", { className: "flex items-start gap-2.5 text-sm", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx(CheckCircle2, { size: 13, className: "shrink-0 mt-1", style: { color: "#10b981" } }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("span", { style: { color: "var(--text2)" }, children: t })
+        ] }, i)) })
+      ] }),
+      content.commonMistakes?.length > 0 && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "card-lined rounded-2xl p-5", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsxs(
+          "h3",
+          {
+            className: "text-xs font-black uppercase tracking-widest mb-3 flex items-center gap-2",
+            style: { color: "#ef4444" },
+            children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx(AlertCircle, { size: 13 }),
+              " Common Mistakes to Avoid"
+            ]
+          }
+        ),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("ul", { className: "space-y-2", children: content.commonMistakes.map((m, i) => /* @__PURE__ */ jsxRuntimeExports.jsxs("li", { className: "flex items-start gap-2.5 text-sm", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx(X, { size: 13, className: "shrink-0 mt-1 text-red-400" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("span", { style: { color: "var(--text2)" }, children: m })
+        ] }, i)) })
+      ] })
+    ] }),
+    activeTab === "questions" && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "space-y-4", children: [
+      !practiceQs && !loadingQs && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "card-lined rounded-2xl p-8 text-center space-y-4", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          "div",
+          {
+            className: "w-16 h-16 rounded-2xl flex items-center justify-center mx-auto",
+            style: { background: category.color + "20" },
+            children: /* @__PURE__ */ jsxRuntimeExports.jsx(CheckCircle2, { size: 30, style: { color: category.color } })
+          }
+        ),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { className: "text-lg font-black mb-1", children: "Practice Questions" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { className: "text-sm opacity-50", children: [
+            "Generate 10 AI-powered board-exam style MCQs for ",
+            subcategory.label
+          ] })
+        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          "button",
+          {
+            onClick: generateQuestions,
+            className: "btn-accent px-6 py-3 rounded-2xl text-sm font-black",
+            style: { background: `linear-gradient(135deg,${category.color},${category.color}cc)` },
+            children: "Generate 10 Questions ✨"
+          }
+        )
+      ] }),
+      loadingQs && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex flex-col items-center justify-center py-16 gap-4", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          "div",
+          {
+            className: "w-14 h-14 rounded-2xl flex items-center justify-center animate-pulse",
+            style: { background: category.color + "20" },
+            children: /* @__PURE__ */ jsxRuntimeExports.jsx(Loader2, { size: 26, className: "animate-spin", style: { color: category.color } })
+          }
+        ),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-sm font-black", style: { color: category.color }, children: "Generating board-exam questions…" }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-xs opacity-40", children: "Writing clinical vignettes and detailed explanations" })
+      ] }),
+      practiceQs?.error && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "p-6 text-center space-y-3", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx(AlertCircle, { size: 28, className: "mx-auto text-red-400" }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-sm font-bold text-red-400", children: practiceQs.error }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("button", { onClick: generateQuestions, className: "btn-accent px-4 py-2 rounded-xl text-sm font-black", children: "Retry" })
+      ] }),
+      Array.isArray(practiceQs) && practiceQs.length > 0 && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "space-y-4", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center justify-between flex-wrap gap-2", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { className: "text-xs font-black uppercase tracking-widest opacity-40", children: [
+            practiceQs.length,
+            " Questions — ",
+            subcategory.label
+          ] }),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs(
+            "button",
+            {
+              onClick: generateQuestions,
+              className: "flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-black opacity-50 hover:opacity-80",
+              style: { background: category.color + "15", color: category.color },
+              children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsx(RefreshCw, { size: 11 }),
+                " New Set"
+              ]
+            }
+          )
+        ] }),
+        practiceQs.map((q, qi) => {
+          const revealed = revealedAnswers[qi];
+          const diffColor = q.difficulty === "Easy" ? "#10b981" : q.difficulty === "Hard" ? "#ef4444" : "#f59e0b";
+          return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "card-lined rounded-2xl overflow-hidden", style: { borderTopColor: revealed ? revealedAnswers[qi]?.isCorrect === false ? "#ef444440" : "#10b98140" : category.color + "40" }, children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "p-4", children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center gap-2 mb-3 flex-wrap", children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsx(
+                  "span",
+                  {
+                    className: "text-xs font-black px-2 py-0.5 rounded-lg",
+                    style: { background: diffColor + "20", color: diffColor },
+                    children: q.difficulty
+                  }
+                ),
+                q.examContext && /* @__PURE__ */ jsxRuntimeExports.jsx(
+                  "span",
+                  {
+                    className: "text-xs font-bold px-2 py-0.5 rounded-lg opacity-60",
+                    style: { background: category.color + "10", color: category.color },
+                    children: q.examContext
+                  }
+                ),
+                /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { className: "text-xs opacity-30 ml-auto", children: [
+                  "Q",
+                  qi + 1
+                ] })
+              ] }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-sm font-bold mb-4 leading-relaxed", children: q.question }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "space-y-2", children: q.options?.map((opt) => {
+                const isCorrect = opt.letter === q.answer;
+                const isRevealed = !!revealed;
+                let bg = "var(--card)";
+                let border = "var(--border)";
+                let textCol = "var(--text)";
+                if (isRevealed && isCorrect) {
+                  bg = "#10b98120";
+                  border = "#10b981";
+                  textCol = "#10b981";
+                } else if (isRevealed && revealed?.selected === opt.letter && !isCorrect) {
+                  bg = "#ef444420";
+                  border = "#ef4444";
+                  textCol = "#ef4444";
+                }
+                return /* @__PURE__ */ jsxRuntimeExports.jsxs(
+                  "button",
+                  {
+                    disabled: isRevealed,
+                    onClick: () => setRevealedAnswers((r) => ({ ...r, [qi]: { selected: opt.letter, isCorrect } })),
+                    className: "w-full flex items-start gap-3 px-4 py-3 rounded-xl text-left text-sm transition-all font-medium",
+                    style: { background: bg, border: `1.5px solid ${border}`, color: textCol, opacity: isRevealed && !isCorrect && revealed?.selected !== opt.letter ? 0.45 : 1 },
+                    children: [
+                      /* @__PURE__ */ jsxRuntimeExports.jsx(
+                        "span",
+                        {
+                          className: "w-6 h-6 rounded-lg flex items-center justify-center text-xs font-black shrink-0",
+                          style: { background: isRevealed && isCorrect ? "#10b981" : isRevealed && revealed?.selected === opt.letter ? "#ef4444" : category.color + "20", color: isRevealed && (isCorrect || revealed?.selected === opt.letter) ? "#fff" : category.color },
+                          children: opt.letter
+                        }
+                      ),
+                      /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "flex-1", children: opt.text }),
+                      isRevealed && isCorrect && /* @__PURE__ */ jsxRuntimeExports.jsx(CheckCircle2, { size: 15, className: "shrink-0 mt-0.5 text-green-500" }),
+                      isRevealed && revealed?.selected === opt.letter && !isCorrect && /* @__PURE__ */ jsxRuntimeExports.jsx(X, { size: 15, className: "shrink-0 mt-0.5 text-red-400" })
+                    ]
+                  },
+                  opt.letter
+                );
+              }) })
+            ] }),
+            revealed && q.explanation && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "border-t px-4 py-4 space-y-2", style: { borderColor: "var(--border)", background: "var(--surface)" }, children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-xs font-black uppercase tracking-widest", style: { color: category.color }, children: "Explanation" }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-sm leading-relaxed", style: { color: "var(--text2)" }, children: q.explanation }),
+              /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { className: "text-xs font-bold mt-1", style: { color: "#10b981" }, children: [
+                "✓ Correct answer: ",
+                q.answer
+              ] })
+            ] }),
+            !revealed && /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "border-t px-4 py-2 flex justify-center", style: { borderColor: "var(--border)" }, children: /* @__PURE__ */ jsxRuntimeExports.jsx(
+              "button",
+              {
+                onClick: () => setRevealedAnswers((r) => ({ ...r, [qi]: { selected: null, isCorrect: null } })),
+                className: "text-xs font-bold opacity-40 hover:opacity-70 py-1",
+                children: "Skip — Show Answer"
+              }
+            ) })
+          ] }, qi);
+        }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "card-lined rounded-2xl p-4 text-center", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { className: "text-sm font-black opacity-60", children: [
+            "Score: ",
+            Object.values(revealedAnswers).filter((r) => r?.isCorrect).length,
+            " / ",
+            Object.keys(revealedAnswers).length,
+            " answered"
+          ] }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx(
+            "button",
+            {
+              onClick: generateQuestions,
+              className: "mt-3 px-5 py-2 rounded-xl text-xs font-black",
+              style: { background: category.color + "20", color: category.color },
+              children: "Generate New Questions"
+            }
+          )
+        ] })
+      ] })
+    ] })
+  ] });
+}
+function MedicalEncyclopediaView({ settings }) {
+  const [selectedCategory, setSelectedCategory] = reactExports.useState(null);
+  const [selectedSub, setSelectedSub] = reactExports.useState(null);
+  const [globalSearch, setGlobalSearch] = reactExports.useState("");
+  const [showTutor, setShowTutor] = reactExports.useState(false);
+  const [recentTopics, setRecentTopics] = reactExports.useState(() => {
+    try {
+      return JSON.parse(localStorage.getItem("encyclo-recent") || "[]");
+    } catch {
+      return [];
+    }
+  });
+  const searchRef = reactExports.useRef(null);
+  const addRecent = (cat, sub) => {
+    setRecentTopics((prev) => {
+      const key = `${cat.id}:${sub.id}`;
+      const filtered = prev.filter((r) => r.key !== key);
+      const next = [{ key, catId: cat.id, subId: sub.id, label: sub.label, catLabel: cat.label, color: cat.color }, ...filtered].slice(0, 8);
+      try {
+        localStorage.setItem("encyclo-recent", JSON.stringify(next));
+      } catch {
+      }
+      return next;
+    });
+  };
+  const navigateToTopic = (cat, sub) => {
+    setSelectedCategory(cat);
+    setSelectedSub(sub);
+    setGlobalSearch("");
+    addRecent(cat, sub);
+  };
+  const filteredCategories = reactExports.useMemo(() => {
+    if (!globalSearch.trim()) return ENCYCLOPEDIA_CATEGORIES;
+    const lq = globalSearch.toLowerCase();
+    return ENCYCLOPEDIA_CATEGORIES.map((cat) => ({
+      ...cat,
+      subcategories: cat.subcategories.filter(
+        (s) => s.label.toLowerCase().includes(lq) || s.desc.toLowerCase().includes(lq) || cat.label.toLowerCase().includes(lq)
+      )
+    })).filter((cat) => cat.subcategories.length > 0 || cat.label.toLowerCase().includes(lq));
+  }, [globalSearch]);
+  const allSubcategories = reactExports.useMemo(
+    () => ENCYCLOPEDIA_CATEGORIES.flatMap((c) => c.subcategories.map((s) => ({ ...s, category: c }))),
+    []
+  );
+  const searchResults = reactExports.useMemo(() => {
+    if (!globalSearch.trim() || globalSearch.length < 2) return [];
+    const lq = globalSearch.toLowerCase();
+    return allSubcategories.filter(
+      (s) => s.label.toLowerCase().includes(lq) || s.desc.toLowerCase().includes(lq) || s.category.label.toLowerCase().includes(lq)
+    ).slice(0, 20);
+  }, [globalSearch, allSubcategories]);
+  if (selectedSub && selectedCategory) {
+    return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "flex-1 min-h-0 overflow-y-auto custom-scrollbar scroll-content", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "max-w-4xl mx-auto p-4 lg:p-6 space-y-5", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center gap-2 text-sm flex-wrap", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          "button",
+          {
+            onClick: () => {
+              setSelectedSub(null);
+              setSelectedCategory(null);
+            },
+            className: "font-bold opacity-60 hover:opacity-100 transition-opacity",
+            children: "Encyclopedia"
+          }
+        ),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(ChevronRight, { size: 14, className: "opacity-30" }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs(
+          "button",
+          {
+            onClick: () => setSelectedSub(null),
+            className: "font-bold opacity-60 hover:opacity-100 transition-opacity flex items-center gap-1.5",
+            children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx(selectedCategory.icon, { size: 13, style: { color: selectedCategory.color } }),
+              selectedCategory.label
+            ]
+          }
+        ),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(ChevronRight, { size: 14, className: "opacity-30" }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "font-black", style: { color: selectedCategory.color }, children: selectedSub.label })
+      ] }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "card-lined rounded-2xl p-5", style: { borderTopColor: selectedCategory.color + "80" }, children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-start justify-between gap-4 flex-wrap", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center gap-3", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx(
+            "div",
+            {
+              className: "w-12 h-12 rounded-2xl flex items-center justify-center",
+              style: { background: selectedCategory.color + "20" },
+              children: /* @__PURE__ */ jsxRuntimeExports.jsx(selectedCategory.icon, { size: 22, style: { color: selectedCategory.color } })
+            }
+          ),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx("h1", { className: "text-xl font-black", children: selectedSub.label }),
+            /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { className: "text-sm opacity-50", children: [
+              selectedCategory.label,
+              " · ",
+              selectedSub.desc
+            ] })
+          ] })
+        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs(
+          "button",
+          {
+            onClick: () => setShowTutor((t) => !t),
+            className: "flex items-center gap-2 px-4 py-2.5 rounded-2xl text-sm font-black transition-all hover:scale-105",
+            style: { background: "linear-gradient(135deg,#6366f1,#8b5cf6)", color: "#fff", boxShadow: "0 4px 16px rgba(99,102,241,.35)" },
+            children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx(BotMessageSquare, { size: 16 }),
+              " ",
+              showTutor ? "Hide" : "AI Tutor"
+            ]
+          }
+        )
+      ] }) }),
+      showTutor && /* @__PURE__ */ jsxRuntimeExports.jsx(
+        MiniAITutor,
+        {
+          context: `${selectedCategory.label} → ${selectedSub.label}: ${selectedSub.desc}`,
+          settings,
+          placeholder: `Ask anything about ${selectedSub.label}…`
+        }
+      ),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        TopicContentPanel,
+        {
+          category: selectedCategory,
+          subcategory: selectedSub,
+          settings
+        }
+      )
+    ] }) });
+  }
+  if (selectedCategory && !selectedSub) {
+    const cat = selectedCategory;
+    return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "flex-1 min-h-0 overflow-y-auto custom-scrollbar scroll-content", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "max-w-4xl mx-auto p-4 lg:p-6 space-y-5", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center gap-2 text-sm", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          "button",
+          {
+            onClick: () => setSelectedCategory(null),
+            className: "font-bold opacity-60 hover:opacity-100 transition-opacity",
+            children: "Encyclopedia"
+          }
+        ),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(ChevronRight, { size: 14, className: "opacity-30" }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "font-black", style: { color: cat.color }, children: cat.label })
+      ] }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "card-lined rounded-2xl p-6", style: { borderTopColor: cat.color + "80" }, children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center gap-4", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          "div",
+          {
+            className: "w-16 h-16 rounded-2xl flex items-center justify-center",
+            style: { background: cat.color + "20" },
+            children: /* @__PURE__ */ jsxRuntimeExports.jsx(cat.icon, { size: 30, style: { color: cat.color } })
+          }
+        ),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("h1", { className: "text-2xl font-black", children: cat.label }),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { className: "text-sm opacity-50 mt-1", children: [
+            cat.subcategories.length,
+            " topics available"
+          ] })
+        ] })
+      ] }) }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        MiniAITutor,
+        {
+          context: `${cat.label} — comprehensive medical/pharmacy reference`,
+          settings,
+          placeholder: `Ask anything about ${cat.label}…`
+        }
+      ),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "grid grid-cols-1 sm:grid-cols-2 gap-3", children: cat.subcategories.map((sub) => /* @__PURE__ */ jsxRuntimeExports.jsx(
+        "button",
+        {
+          onClick: () => navigateToTopic(selectedCategory, sub),
+          className: "card-lined rounded-2xl p-4 text-left hover:scale-[1.01] transition-all group",
+          style: { borderTopColor: cat.color + "40" },
+          children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-start gap-3", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx(
+              "div",
+              {
+                className: "w-9 h-9 rounded-xl flex items-center justify-center shrink-0 mt-0.5",
+                style: { background: cat.color + "15" },
+                children: /* @__PURE__ */ jsxRuntimeExports.jsx(cat.icon, { size: 16, style: { color: cat.color } })
+              }
+            ),
+            /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex-1 min-w-0", children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "font-black text-sm group-hover:text-[var(--accent)] transition-colors", children: sub.label }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-xs opacity-50 mt-0.5 line-clamp-2", children: sub.desc })
+            ] }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx(ChevronRight, { size: 14, className: "opacity-0 group-hover:opacity-60 transition-opacity shrink-0 mt-1", style: { color: cat.color } })
+          ] })
+        },
+        sub.id
+      )) })
+    ] }) });
+  }
+  const totalTopics = ENCYCLOPEDIA_CATEGORIES.reduce((s, c) => s + c.subcategories.length, 0);
+  return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "flex-1 min-h-0 overflow-y-auto custom-scrollbar scroll-content", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "max-w-5xl mx-auto p-4 lg:p-6 space-y-6", children: [
+    /* @__PURE__ */ jsxRuntimeExports.jsxs(
+      "div",
+      {
+        className: "rounded-2xl p-6 lg:p-8 text-center animate-slide-in",
+        style: { background: "linear-gradient(135deg,rgba(99,102,241,.12),rgba(0,212,255,.06),rgba(0,255,179,.05))", border: "1px solid rgba(99,102,241,.2)" },
+        children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("h1", { className: "text-2xl lg:text-4xl font-black tracking-tight mb-3", children: "🌍 Global Medical Encyclopedia" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-sm lg:text-base opacity-60 max-w-2xl mx-auto mb-6", children: "AI-powered comprehensive reference for pharmacy, medical school, nursing, dentistry, surgery, allied health, and every board exam worldwide. Click any topic — AI generates full tables instantly." }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "flex justify-center gap-6 lg:gap-10 flex-wrap", children: [
+            { num: ENCYCLOPEDIA_CATEGORIES.length, lbl: "Categories" },
+            { num: totalTopics + "+", lbl: "Topics" },
+            { num: "25+", lbl: "Exams Covered" },
+            { num: "AI", lbl: "Tutor 24/7" },
+            { num: "∞", lbl: "Tables & Data" }
+          ].map(({ num, lbl }) => /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "text-center", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "text-2xl lg:text-3xl font-black", style: { color: "var(--accent)" }, children: num }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "text-xs opacity-40 mt-0.5", children: lbl })
+          ] }, lbl)) })
+        ]
+      }
+    ),
+    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "relative", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center gap-3 glass rounded-2xl px-4 py-3.5 border border-[color:var(--border2,var(--border))]", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx(Search, { size: 18, className: "opacity-40 shrink-0" }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          "input",
+          {
+            ref: searchRef,
+            value: globalSearch,
+            onChange: (e) => setGlobalSearch(e.target.value),
+            placeholder: "Search any drug, disease, exam, procedure, nursing topic…",
+            className: "flex-1 bg-transparent text-sm outline-none font-medium"
+          }
+        ),
+        globalSearch && /* @__PURE__ */ jsxRuntimeExports.jsx("button", { onClick: () => setGlobalSearch(""), className: "opacity-40 hover:opacity-80", children: /* @__PURE__ */ jsxRuntimeExports.jsx(X, { size: 16 }) })
+      ] }),
+      searchResults.length > 0 && /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "absolute top-full left-0 right-0 mt-2 glass rounded-2xl shadow-2xl z-50 overflow-hidden border border-[color:var(--border2,var(--border))]", style: { maxHeight: "60vh", overflowY: "auto" }, children: searchResults.map((s, i) => /* @__PURE__ */ jsxRuntimeExports.jsxs(
+        "button",
+        {
+          onClick: () => navigateToTopic(s.category, s),
+          className: "w-full flex items-center gap-3 px-4 py-3 hover:bg-[var(--accent)]/5 transition-colors text-left border-b border-[color:var(--border2,var(--border))]/50 last:border-0",
+          children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx(
+              "div",
+              {
+                className: "w-8 h-8 rounded-xl flex items-center justify-center shrink-0",
+                style: { background: s.category.color + "20" },
+                children: /* @__PURE__ */ jsxRuntimeExports.jsx(s.category.icon, { size: 14, style: { color: s.category.color } })
+              }
+            ),
+            /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex-1 min-w-0", children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-sm font-bold truncate", children: s.label }),
+              /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { className: "text-xs opacity-40 truncate", children: [
+                s.category.label,
+                " · ",
+                s.desc
+              ] })
+            ] }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx(ChevronRight, { size: 12, className: "opacity-30 shrink-0" })
+          ]
+        },
+        i
+      )) })
+    ] }),
+    /* @__PURE__ */ jsxRuntimeExports.jsx(
+      MiniAITutor,
+      {
+        context: "Global Medical Encyclopedia covering pharmacy, diseases, nursing, surgery, dentistry, mental health, public health, alternative medicine, all board exams worldwide (USMLE, PLAB, AMC, DHA, HAAD, NAPLEX, NCLEX, COMLEX, MCAT, NEET, SCFHS)",
+        settings,
+        placeholder: "Ask anything — drugs, diseases, exam strategy, clinical skills, global medical topics…"
+      }
+    ),
+    recentTopics.length > 0 && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-xs font-black uppercase tracking-widest opacity-40 mb-3", children: "Recently Viewed" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex gap-2 overflow-x-auto custom-scrollbar pb-1", children: [
+        recentTopics.map((r) => {
+          const catObj = ENCYCLOPEDIA_CATEGORIES.find((c) => c.id === r.catId);
+          const subObj = catObj?.subcategories.find((s) => s.id === r.subId);
+          if (!catObj || !subObj) return null;
+          return /* @__PURE__ */ jsxRuntimeExports.jsxs(
+            "button",
+            {
+              onClick: () => navigateToTopic(catObj, subObj),
+              className: "flex items-center gap-2 px-3 py-2 rounded-xl shrink-0 transition-all hover:scale-105 text-left",
+              style: { background: r.color + "12", border: `1.5px solid ${r.color}25`, color: r.color, minWidth: 140, maxWidth: 200 },
+              children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsx(catObj.icon, { size: 13, style: { color: r.color, shrink: 0 } }),
+                /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "min-w-0", children: [
+                  /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-xs font-black truncate", children: r.label }),
+                  /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-[10px] opacity-50 truncate", children: r.catLabel })
+                ] })
+              ]
+            },
+            r.key
+          );
+        }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs(
+          "button",
+          {
+            onClick: () => {
+              setRecentTopics([]);
+              try {
+                localStorage.removeItem("encyclo-recent");
+              } catch {
+              }
+            },
+            className: "flex items-center gap-1 px-3 py-2 rounded-xl shrink-0 opacity-30 hover:opacity-60 text-xs font-bold",
+            children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx(X, { size: 11 }),
+              " Clear"
+            ]
+          }
+        )
+      ] })
+    ] }),
+    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-xs font-black uppercase tracking-widest opacity-40 mb-3", children: "Popular Topics" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3", children: [
+        { cat: "pharmacy", sub: "top200-drugs", label: "💊 Top 200 Drugs", col: "#6366f1" },
+        { cat: "diseases", sub: "cardiovascular", label: "❤️ Cardiology", col: "#ef4444" },
+        { cat: "nclex", sub: "nclex-priority", label: "✅ NCLEX Priority", col: "#10b981" },
+        { cat: "usmle", sub: "step1-micro", label: "🧫 USMLE Micro", col: "#7c3aed" },
+        { cat: "naplex", sub: "naplex-calculations", label: "🔢 Pharm Calc", col: "#f59e0b" },
+        { cat: "global-exams", sub: "dha", label: "🇦🇪 DHA Exam", col: "#0891b2" },
+        { cat: "global-exams", sub: "plab", label: "🇬🇧 PLAB (UK)", col: "#0891b2" },
+        { cat: "osce", sub: "osce-scenarios", label: "🩺 OSCE Scenarios", col: "#06b6d4" },
+        { cat: "diseases", sub: "infectious-dis", label: "🔬 Infectious Dis.", col: "#ef4444" },
+        { cat: "clinical-skills", sub: "ecg", label: "📊 ECG Reading", col: "#f43f5e" },
+        { cat: "nursing", sub: "critical-care", label: "🏥 ICU Nursing", col: "#ec4899" },
+        { cat: "pharmacy", sub: "drug-interactions", label: "⚠️ Drug Interactions", col: "#6366f1" }
+      ].map(({ cat, sub, label, col }) => {
+        const catObj = ENCYCLOPEDIA_CATEGORIES.find((c) => c.id === cat);
+        const subObj = catObj?.subcategories.find((s) => s.id === sub);
+        if (!catObj || !subObj) return null;
+        return /* @__PURE__ */ jsxRuntimeExports.jsx(
+          "button",
+          {
+            onClick: () => navigateToTopic(catObj, subObj),
+            className: "card-lined rounded-xl p-3 text-left hover:scale-[1.02] transition-all text-xs font-bold",
+            style: { borderTopColor: col + "50", color: col },
+            children: label
+          },
+          sub
+        );
+      }) })
+    ] }),
+    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "space-y-3", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-xs font-black uppercase tracking-widest opacity-40", children: "All Categories" }),
+      filteredCategories.map((cat, ci) => /* @__PURE__ */ jsxRuntimeExports.jsxs(
+        "div",
+        {
+          className: "card-lined rounded-2xl overflow-hidden animate-slide-up",
+          style: { borderTopColor: cat.color + "50", animationDelay: `${ci * 0.04}s` },
+          children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsxs(
+              "button",
+              {
+                className: "w-full flex items-center gap-4 p-4 hover:bg-[var(--accent)]/3 transition-colors text-left",
+                onClick: () => setSelectedCategory(cat),
+                children: [
+                  /* @__PURE__ */ jsxRuntimeExports.jsx(
+                    "div",
+                    {
+                      className: "w-11 h-11 rounded-2xl flex items-center justify-center shrink-0",
+                      style: { background: cat.color + "20" },
+                      children: /* @__PURE__ */ jsxRuntimeExports.jsx(cat.icon, { size: 20, style: { color: cat.color } })
+                    }
+                  ),
+                  /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex-1 min-w-0", children: [
+                    /* @__PURE__ */ jsxRuntimeExports.jsx("h2", { className: "font-black text-sm", children: cat.label }),
+                    /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { className: "text-xs opacity-40 mt-0.5", children: [
+                      cat.subcategories.length,
+                      " topics"
+                    ] })
+                  ] }),
+                  /* @__PURE__ */ jsxRuntimeExports.jsx(ChevronRight, { size: 15, className: "opacity-30 shrink-0", style: { color: cat.color } })
+                ]
+              }
+            ),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "px-4 pb-4 flex flex-wrap gap-1.5", children: cat.subcategories.map((sub) => /* @__PURE__ */ jsxRuntimeExports.jsx(
+              "button",
+              {
+                onClick: () => navigateToTopic(cat, sub),
+                className: "flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-semibold transition-all hover:scale-105",
+                style: { background: cat.color + "10", color: cat.color, border: `1px solid ${cat.color}20` },
+                children: sub.label
+              },
+              sub.id
+            )) })
+          ]
+        },
+        cat.id
+      ))
+    ] })
+  ] }) });
+}
 function App() {
   const [loaded, setLoaded] = reactExports.useState(false);
   const [bootError, setBootError] = reactExports.useState(null);
@@ -21571,7 +23350,8 @@ function App() {
     ["ctrl+3", () => setView("flashcards")],
     ["ctrl+4", () => setView("exams")],
     ["ctrl+5", () => setView("cases")],
-    ["ctrl+6", () => setView("chat")]
+    ["ctrl+6", () => setView("chat")],
+    ["ctrl+7", () => setView("encyclopedia")]
   ]);
   reactExports.useEffect(() => {
     setupPWA();
@@ -22173,6 +23953,7 @@ Provide a detailed analysis of this content.`;
     { icon: Layers, label: "Cards", v: "flashcards" },
     { icon: Activity, label: "Cases", v: "cases" },
     { icon: CheckSquare, label: "Exams", v: "exams" },
+    { icon: Globe, label: "Encyclo", v: "encyclopedia" },
     { icon: MessageSquare, label: "Chat", v: "chat" },
     { icon: Settings, label: "Settings", v: "settings" }
   ];
@@ -22374,6 +24155,7 @@ Provide a detailed analysis of this content.`;
             /* @__PURE__ */ jsxRuntimeExports.jsx(ViewWrapper, { active: view === "exams", children: /* @__PURE__ */ jsxRuntimeExports.jsx(ExamsView, { exams, setExams, settings, addToast, docs, setFlashcards, setCases }) }),
             /* @__PURE__ */ jsxRuntimeExports.jsx(ViewWrapper, { active: view === "cases", children: /* @__PURE__ */ jsxRuntimeExports.jsx(CasesView, { cases, setCases, settings, addToast, docs, setFlashcards, setExams }) }),
             /* @__PURE__ */ jsxRuntimeExports.jsx(ViewWrapper, { active: view === "chat", children: /* @__PURE__ */ jsxRuntimeExports.jsx(ChatView, { settings, sessions: chatSessions, setSessions: setChatSessions }) }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx(ViewWrapper, { active: view === "encyclopedia", children: /* @__PURE__ */ jsxRuntimeExports.jsx(MedicalEncyclopediaView, { settings }) }),
             /* @__PURE__ */ jsxRuntimeExports.jsx(ViewWrapper, { active: view === "settings", children: /* @__PURE__ */ jsxRuntimeExports.jsx(SettingsView, { settings, setSettings, installPrompt, onInstall }) }),
             /* @__PURE__ */ jsxRuntimeExports.jsx(ViewWrapper, { active: showReader, children: activeDoc && /* @__PURE__ */ jsxRuntimeExports.jsx(
               DocWorkspace,
@@ -22498,6 +24280,7 @@ Provide a detailed analysis of this content.`;
     }
   );
 }
+const Play = ({ size = 16, ...p }) => /* @__PURE__ */ jsxRuntimeExports.jsx("svg", { xmlns: "http://www.w3.org/2000/svg", width: size, height: size, viewBox: "0 0 24 24", fill: "currentColor", stroke: "none", ...p, children: /* @__PURE__ */ jsxRuntimeExports.jsx("polygon", { points: "5 3 19 12 5 21 5 3" }) });
 class AppErrorBoundary extends React.Component {
   state = { hasError: false, error: null };
   static getDerivedStateFromError(error) {

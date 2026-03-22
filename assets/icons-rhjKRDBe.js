@@ -150,6 +150,19 @@ const AlignLeft = createLucideIcon("AlignLeft", [
  */
 
 
+const Award = createLucideIcon("Award", [
+  ["circle", { cx: "12", cy: "8", r: "6", key: "1vp47v" }],
+  ["path", { d: "M15.477 12.89 17 22l-5-3-5 3 1.523-9.11", key: "em7aur" }]
+]);
+
+/**
+ * @license lucide-react v0.344.0 - ISC
+ *
+ * This source code is licensed under the ISC license.
+ * See the LICENSE file in the root directory of this source tree.
+ */
+
+
 const Baby = createLucideIcon("Baby", [
   ["path", { d: "M9 12h.01", key: "157uk2" }],
   ["path", { d: "M15 12h.01", key: "1k8ypt" }],
@@ -161,6 +174,20 @@ const Baby = createLucideIcon("Baby", [
       key: "5yv0yz"
     }
   ]
+]);
+
+/**
+ * @license lucide-react v0.344.0 - ISC
+ *
+ * This source code is licensed under the ISC license.
+ * See the LICENSE file in the root directory of this source tree.
+ */
+
+
+const BookA = createLucideIcon("BookA", [
+  ["path", { d: "M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20", key: "t4utmx" }],
+  ["path", { d: "m8 13 4-7 4 7", key: "4rari8" }],
+  ["path", { d: "M9.1 11h5.7", key: "1gkovt" }]
 ]);
 
 /**
@@ -187,6 +214,23 @@ const BookMarked = createLucideIcon("BookMarked", [
 const BookOpen = createLucideIcon("BookOpen", [
   ["path", { d: "M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z", key: "vv98re" }],
   ["path", { d: "M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z", key: "1cyq3y" }]
+]);
+
+/**
+ * @license lucide-react v0.344.0 - ISC
+ *
+ * This source code is licensed under the ISC license.
+ * See the LICENSE file in the root directory of this source tree.
+ */
+
+
+const BotMessageSquare = createLucideIcon("BotMessageSquare", [
+  ["path", { d: "M12 6V2H8", key: "1155em" }],
+  ["path", { d: "m8 18-4 4V8a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2Z", key: "w2lp3e" }],
+  ["path", { d: "M2 12h2", key: "1t8f8n" }],
+  ["path", { d: "M9 11v2", key: "1ueba0" }],
+  ["path", { d: "M15 11v2", key: "i11awn" }],
+  ["path", { d: "M20 12h2", key: "1q8mjw" }]
 ]);
 
 /**
@@ -720,6 +764,38 @@ const Languages = createLucideIcon("Languages", [
  */
 
 
+const Layers3 = createLucideIcon("Layers3", [
+  [
+    "path",
+    {
+      d: "m12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83Z",
+      key: "8b97xw"
+    }
+  ],
+  [
+    "path",
+    {
+      d: "m6.08 9.5-3.5 1.6a1 1 0 0 0 0 1.81l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9a1 1 0 0 0 0-1.83l-3.5-1.59",
+      key: "1e5n1m"
+    }
+  ],
+  [
+    "path",
+    {
+      d: "m6.08 14.5-3.5 1.6a1 1 0 0 0 0 1.81l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9a1 1 0 0 0 0-1.83l-3.5-1.59",
+      key: "1iwflc"
+    }
+  ]
+]);
+
+/**
+ * @license lucide-react v0.344.0 - ISC
+ *
+ * This source code is licensed under the ISC license.
+ * See the LICENSE file in the root directory of this source tree.
+ */
+
+
 const Layers = createLucideIcon("Layers", [
   [
     "path",
@@ -887,6 +963,20 @@ const Mic = createLucideIcon("Mic", [
   ["path", { d: "M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z", key: "131961" }],
   ["path", { d: "M19 10v2a7 7 0 0 1-14 0v-2", key: "1vc78b" }],
   ["line", { x1: "12", x2: "12", y1: "19", y2: "22", key: "x3vr5v" }]
+]);
+
+/**
+ * @license lucide-react v0.344.0 - ISC
+ *
+ * This source code is licensed under the ISC license.
+ * See the LICENSE file in the root directory of this source tree.
+ */
+
+
+const Monitor = createLucideIcon("Monitor", [
+  ["rect", { width: "20", height: "14", x: "2", y: "3", rx: "2", key: "48i651" }],
+  ["line", { x1: "8", x2: "16", y1: "21", y2: "21", key: "1svkeh" }],
+  ["line", { x1: "12", x2: "12", y1: "17", y2: "21", key: "vw1qmm" }]
 ]);
 
 /**
@@ -1179,6 +1269,24 @@ const Sparkles = createLucideIcon("Sparkles", [
  */
 
 
+const Star = createLucideIcon("Star", [
+  [
+    "polygon",
+    {
+      points: "12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2",
+      key: "8f66p6"
+    }
+  ]
+]);
+
+/**
+ * @license lucide-react v0.344.0 - ISC
+ *
+ * This source code is licensed under the ISC license.
+ * See the LICENSE file in the root directory of this source tree.
+ */
+
+
 const Stethoscope = createLucideIcon("Stethoscope", [
   [
     "path",
@@ -1366,4 +1474,4 @@ const ZoomOut = createLucideIcon("ZoomOut", [
   ["line", { x1: "8", x2: "14", y1: "11", y2: "11", key: "durymu" }]
 ]);
 
-export { Leaf as $, AlertCircle as A, BookMarked as B, CheckSquare as C, Database as D, Eye as E, FolderOpen as F, GripVertical as G, History as H, Info as I, Send as J, Smartphone as K, Loader2 as L, MessageSquare as M, Download as N, Globe as O, PenLine as P, KeyRound as Q, React as R, Search as S, Trash2 as T, Palette as U, Sun as V, CloudSun as W, X, Flame as Y, Zap as Z, Heart as _, Sparkles as a, Moon as a0, MoonStar as a1, PanelsTopLeft as a2, FileCode as a3, Image as a4, Table as a5, ZoomOut as a6, Maximize as a7, ZoomIn as a8, Save as a9, BookOpen as aa, AlignLeft as ab, Pill as ac, Lightbulb as ad, Baby as ae, Network as af, Tag as ag, Clock as ah, Languages as ai, Wand2 as aj, FlaskConical as ak, Code as al, ListChecks as am, Clipboard as an, GraduationCap as ao, Hash as ap, MoreVertical as aq, ChevronUp as ar, Layers as b, Activity as c, Settings as d, CheckCircle2 as e, FileText as f, FileUp as g, Grid3x3 as h, List as i, ChevronLeft as j, Printer as k, RefreshCw as l, FilePlus as m, Target as n, Stethoscope as o, ChevronRight as p, Thermometer as q, reactExports as r, ChevronDown as s, Pin as t, Copy as u, Plus as v, Brain as w, CircleUserRound as x, MicOff as y, Mic as z };
+export { Flame as $, AlertCircle as A, BookMarked as B, CheckSquare as C, Database as D, Eye as E, FolderOpen as F, GripVertical as G, History as H, Info as I, Mic as J, Send as K, Loader2 as L, MessageSquare as M, Pill as N, Heart as O, PenLine as P, GraduationCap as Q, React as R, Search as S, Trash2 as T, Award as U, Clipboard as V, Star as W, X, Network as Y, Zap as Z, Leaf as _, Sparkles as a, Monitor as a0, FlaskConical as a1, BookA as a2, BookOpen as a3, BotMessageSquare as a4, Smartphone as a5, Download as a6, KeyRound as a7, Palette as a8, Sun as a9, CloudSun as aa, Moon as ab, MoonStar as ac, PanelsTopLeft as ad, FileCode as ae, Image as af, Table as ag, ZoomOut as ah, Maximize as ai, ZoomIn as aj, Save as ak, AlignLeft as al, Lightbulb as am, Baby as an, Tag as ao, Clock as ap, Languages as aq, Wand2 as ar, Code as as, ListChecks as at, Hash as au, MoreVertical as av, Layers3 as aw, ChevronUp as ax, Layers as b, Activity as c, Globe as d, Settings as e, CheckCircle2 as f, FileText as g, FileUp as h, Grid3x3 as i, List as j, ChevronLeft as k, Printer as l, RefreshCw as m, FilePlus as n, Target as o, Stethoscope as p, ChevronRight as q, reactExports as r, Thermometer as s, ChevronDown as t, Pin as u, Copy as v, Plus as w, Brain as x, CircleUserRound as y, MicOff as z };
