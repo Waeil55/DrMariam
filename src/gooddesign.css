@@ -51,6 +51,7 @@ html.dark,
   padding: max(16px, env(safe-area-inset-top)) 16px 16px;
   padding-right: calc(16px + env(safe-area-inset-right));
   padding-left: calc(16px + env(safe-area-inset-left));
+  min-height: 62px;
   text-align: center;
   font-size: 1.5rem;
   font-weight: 700;
@@ -225,39 +226,16 @@ html.dark .design-nav-btn.active,
   }
 }
 
-/* Desktop: convert bottom nav to a compact left sidebar */
+/* Desktop: hide the pill nav (replaced by inline top-bar inside the header) */
 @media (min-width: 1024px) {
-  .design-nav {
-    bottom: auto;
-    top: 92px;
-    left: 18px;
-    transform: none;
-    width: 92px;
-    max-width: none;
-    height: calc(100dvh - 124px);
-    transition: none;
-  }
-  .design-nav.keyboard-open-hidden {
-    opacity: 1;
-    pointer-events: auto;
-    transform: none;
-  }
-  .design-nav-inner {
-    flex-direction: column;
-    padding: 12px;
-    gap: 8px;
-    align-items: center;
-    justify-content: flex-start;
-    border-radius: 16px;
-  }
-  .design-nav-btn { flex: none; padding: 10px 8px; border-radius: 12px; width: 100%; }
+  .design-nav { display: none; }
 
   /* Wider content area on desktop */
   .app-view { max-width: 1360px; padding: 24px 30px; }
 
-  /* Desktop shell: push content to the right so sidebar never overlays it */
+  /* Desktop shell: no left sidebar — full width */
   .design-main {
-    margin-left: 128px;
+    margin-left: 0;
     padding-bottom: 24px !important;
     font-size: 1.04rem;
     line-height: 1.58;
@@ -274,7 +252,112 @@ html.dark .design-nav-btn.active,
   .design-main textarea {
     font-size: 1.02rem;
   }
+
+  /* Header becomes a full-width horizontal top nav bar */
+  .design-header {
+    text-align: left;
+    padding: 0 20px;
+    height: 62px;
+    min-height: 62px;
+    display: flex !important;
+    align-items: center;
+    gap: 12px;
+  }
+
+  /* Desktop top-bar nav pills */
+  .desktop-top-nav {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    justify-content: center;
+  }
+
+  .desktop-top-nav-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 6px 13px;
+    border-radius: 999px;
+    border: none;
+    font-size: 0.82rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.18s cubic-bezier(.4,0,.2,1);
+    background: transparent;
+    color: var(--text2, #64748b);
+    white-space: nowrap;
+    letter-spacing: 0.01em;
+  }
+
+  .desktop-top-nav-btn:hover {
+    background: rgba(var(--acc-rgb, 99,102,241), 0.08);
+    color: var(--text, #1e293b);
+  }
+
+  .desktop-top-nav-btn.nav-active {
+    background: rgba(var(--acc-rgb, 99,102,241), 0.13);
+    color: var(--accent, #5046e5);
+    font-weight: 700;
+    box-shadow: inset 0 0 0 1px rgba(var(--acc-rgb, 99,102,241), 0.25);
+  }
+
+  .desktop-top-right {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-shrink: 0;
+  }
+
+  .desktop-icon-btn {
+    width: 34px;
+    height: 34px;
+    border-radius: 10px;
+    border: 1px solid var(--border2, rgba(120,130,255,0.2));
+    background: var(--surface, rgba(255,255,255,0.5));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.15s;
+    color: var(--text2, #64748b);
+  }
+
+  .desktop-icon-btn:hover {
+    background: rgba(var(--acc-rgb, 99,102,241), 0.09);
+    color: var(--accent, #5046e5);
+    border-color: rgba(var(--acc-rgb, 99,102,241), 0.3);
+  }
+
+  /* AI Studio button */
+  .desktop-ai-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 7px 16px;
+    border-radius: 999px;
+    border: none;
+    font-size: 0.82rem;
+    font-weight: 700;
+    cursor: pointer;
+    background: linear-gradient(135deg, var(--accent, #5046e5), var(--accent2, #7c3aed));
+    color: #fff;
+    letter-spacing: 0.01em;
+    box-shadow: 0 2px 12px rgba(var(--acc-rgb, 99,102,241), 0.35);
+    transition: all 0.18s;
+  }
+
+  .desktop-ai-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 20px rgba(var(--acc-rgb, 99,102,241), 0.5);
+  }
 }
+
+/* visibility toggles */
+.desktop-only { display: none !important; }
+@media (min-width: 1024px) { .desktop-only { display: flex !important; } }
+.mobile-nav-only { display: flex; }
+@media (min-width: 1024px) { .mobile-nav-only { display: none !important; } }
 
 .design-btn {
   display: inline-flex;
@@ -379,6 +462,6 @@ html.dark .design-btn-secondary:hover,
     padding-right: 34px;
   }
   .design-main {
-    margin-left: 136px;
+    margin-left: 0;
   }
 }
