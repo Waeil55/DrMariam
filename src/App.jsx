@@ -41,7 +41,10 @@ try {
 const drugDetailLookup = (() => {
   const map = {};
   try {
-    const allDrugCards = (drugFlashcards || []).flatMap(s => s.cards || []);
+    const allDrugCards = [
+      ...(drugFlashcards || []),
+      ...(counselingFlashcards || [])
+    ].flatMap(s => s.cards || []);
     for (const c of allDrugCards) {
       const name = (c.q || '').trim().toLowerCase();
       if (!name) continue;

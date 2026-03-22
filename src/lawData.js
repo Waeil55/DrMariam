@@ -2120,6 +2120,10 @@ export const lawExams = [{
   id: "builtin_exam_law",
   title: "Pharmacy Law & Regulations",
   subject: "law",
+  icon: "CheckSquare",
+  color: "#10b981",
+  isBuiltIn: true,
+  isBuiltin: true,
   questions: [
   {
     "id": "law_mcq_0",

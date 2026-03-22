@@ -1,5 +1,5 @@
 
-export const drugFlashcards = [{
+exports. drugFlashcards = [{
   id: "builtin_drug",
   title: "Drug Counseling Flashcards",
   icon: "Layers",
@@ -1186,2372 +1186,2174 @@ export const drugFlashcards = [{
 ]
 }];
 
-export const drugExams = [
+exports. drugExams = [{
+  id: "builtin_exam_drug",
+  title: "Drug Counseling Exam",
+  icon: "CheckSquare",
+  color: "#f59e0b",
+  isBuiltIn: true,
+  isBuiltin: true,
+  questions: [
   {
-    "id": "builtin_exam_drug",
-    "title": "Drug Counseling Exam",
-    "icon": "CheckSquare",
-    "color": "#f59e0b",
-    "isBuiltIn": true,
-    "isBuiltin": true,
-    "questions": [
-      {
-        "id": "drug_ex_0",
-        "q": "Which medication is indicated for pain and is classified as a(n) analgesic?",
-        "options": [
-          "Isosorbide mononitrate",
-          "Amoxicillin",
-          "Acetaminophen",
-          "Sitagliptin"
-        ],
-        "correct": 2,
-        "explanation": "Correct Answer: Acetaminophen"
-      },
-      {
-        "id": "drug_ex_1",
-        "q": "Which medication is indicated for herpes and is classified as a(n) viral dna polymerase inhibitor?",
-        "options": [
-          "Allopurinol",
-          "Acyclovir",
-          "Labetalol",
-          "Cyclobenzaprine"
-        ],
-        "correct": 1,
-        "explanation": "Correct Answer: Acyclovir"
-      },
-      {
-        "id": "drug_ex_2",
-        "q": "Which medication is indicated for crohn's disease and is classified as a(n) antirheumatic biologic dmard?",
-        "options": [
-          "Rivaroxaban",
-          "Omeprazole",
-          "Benazepril",
-          "Adalimumab"
-        ],
-        "correct": 3,
-        "explanation": "Correct Answer: Adalimumab"
-      },
-      {
-        "id": "drug_ex_3",
-        "q": "Which medication is indicated for copd and is classified as a(n) selective b2-adrenergic agonist?",
-        "options": [
-          "Albuterol sulfate (HFA)",
-          "Valacyclovir",
-          "Quetiapine",
-          "Clopidogrel"
-        ],
-        "correct": 0,
-        "explanation": "Correct Answer: Albuterol sulfate (HFA)"
-      },
-      {
-        "id": "drug_ex_4",
-        "q": "Which medication is indicated for osteoporosis and is classified as a(n) biphosphonate?",
-        "options": [
-          "Ropinirole",
-          "Lamotrigine",
-          "Alendronate",
-          "Ezetimibe"
-        ],
-        "correct": 2,
-        "explanation": "Correct Answer: Alendronate"
-      },
-      {
-        "id": "drug_ex_5",
-        "q": "Which medication is indicated for gout and is classified as a(n) xanthine oxidase inhibitor; antigout?",
-        "options": [
-          "Timolol ophthalmic",
-          "Allopurinol",
-          "Acetaminophen",
-          "Acyclovir"
-        ],
-        "correct": 1,
-        "explanation": "Correct Answer: Allopurinol"
-      },
-      {
-        "id": "drug_ex_6",
-        "q": "Which medication is indicated for anxiety and is classified as a(n) benzodiazepine, short or intermediate acting, c-iv?",
-        "options": [
-          "Alprazolam",
-          "Clonazepam",
-          "Clindamycin oral",
-          "Aspirin 81 mg"
-        ],
-        "correct": 0,
-        "explanation": "Correct Answer: Alprazolam"
-      },
-      {
-        "id": "drug_ex_7",
-        "q": "Which medication is indicated for arrhythmias and is classified as a(n) antiarrhythmic?",
-        "options": [
-          "Amoxicillin/Clavulanate",
-          "Enalapril",
-          "Oxcarbazepine",
-          "Amiodarone"
-        ],
-        "correct": 3,
-        "explanation": "Correct Answer: Amiodarone"
-      },
-      {
-        "id": "drug_ex_8",
-        "q": "Which medication is indicated for depression and is classified as a(n) tricyclic antidepressant?",
-        "options": [
-          "Aspirin 81 mg",
-          "Amitriptyline",
-          "Baclofen",
-          "Fluconazole"
-        ],
-        "correct": 1,
-        "explanation": "Correct Answer: Amitriptyline"
-      },
-      {
-        "id": "drug_ex_9",
-        "q": "Which medication is indicated for hypertension and is classified as a(n) calcium channel blocker?",
-        "options": [
-          "Loratadine",
-          "Amlodipine",
-          "Ferrous sulfate",
-          "Losartan"
-        ],
-        "correct": 1,
-        "explanation": "Correct Answer: Amlodipine"
-      },
-      {
-        "id": "drug_ex_10",
-        "q": "Which medication is indicated for infection and is classified as a(n) b-lactam antiobiotic?",
-        "options": [
-          "Phentermine",
-          "Propranolol",
-          "Amoxicillin",
-          "Acetaminophen"
-        ],
-        "correct": 2,
-        "explanation": "Correct Answer: Amoxicillin"
-      },
-      {
-        "id": "drug_ex_11",
-        "q": "Which medication is indicated for infection and is classified as a(n) b-lactam antibiotic?",
-        "options": [
-          "Lansoprazole",
-          "Montelukast",
-          "Warfarin",
-          "Amoxicillin/Clavulanate"
-        ],
-        "correct": 3,
-        "explanation": "Correct Answer: Amoxicillin/Clavulanate"
-      },
-      {
-        "id": "drug_ex_12",
-        "q": "Which medication is indicated for cancer and is classified as a(n) aromatase inhibitor?",
-        "options": [
-          "Anastrozole",
-          "Paroxetine",
-          "Rosuvastatin",
-          "Irbesartan"
-        ],
-        "correct": 0,
-        "explanation": "Correct Answer: Anastrozole"
-      },
-      {
-        "id": "drug_ex_13",
-        "q": "Which medication is indicated for anticoagulation and is classified as a(n) factor xa inhibitor?",
-        "options": [
-          "Levothyroxine",
-          "Amitriptyline",
-          "Famotidine",
-          "Apixaban"
-        ],
-        "correct": 3,
-        "explanation": "Correct Answer: Apixaban"
-      },
-      {
-        "id": "drug_ex_14",
-        "q": "Which medication is indicated for schizophrenia and is classified as a(n) second generation antipsychotic?",
-        "options": [
-          "Naproxen",
-          "Hydralazine",
-          "Aripiprazole",
-          "Estradiol oral"
-        ],
-        "correct": 2,
-        "explanation": "Correct Answer: Aripiprazole"
-      },
-      {
-        "id": "drug_ex_15",
-        "q": "Which medication is indicated for cardiovascular protection, pain and is classified as a(n) salicylate?",
-        "options": [
-          "Fluoxetine",
-          "Atenolol",
-          "Etonogestrel/Ethinyl estradiol vaginal ring",
-          "Aspirin 81 mg"
-        ],
-        "correct": 3,
-        "explanation": "Correct Answer: Aspirin 81 mg"
-      },
-      {
-        "id": "drug_ex_16",
-        "q": "Which medication is indicated for hypertension and is classified as a(n) b-adrenergic blocker, cardioselective?",
-        "options": [
-          "Atenolol",
-          "Pioglitazone",
-          "Oseltamivir",
-          "Loratadine"
-        ],
-        "correct": 0,
-        "explanation": "Correct Answer: Atenolol"
-      },
-      {
-        "id": "drug_ex_17",
-        "q": "Which medication is indicated for dyslipidemia and is classified as a(n) hmg-coa reductase inhibitor?",
-        "options": [
-          "Atorvastatin",
-          "Question 117",
-          "Levothyroxine",
-          "Benazepril"
-        ],
-        "correct": 0,
-        "explanation": "Correct Answer: Atorvastatin"
-      },
-      {
-        "id": "drug_ex_18",
-        "q": "Which medication is indicated for allergic rhinitis and is classified as a(n) nasal antihistamine?",
-        "options": [
-          "Azelastine nasal",
-          "Topiramate",
-          "Duloxetine",
-          "Loratadine"
-        ],
-        "correct": 0,
-        "explanation": "Correct Answer: Azelastine nasal"
-      },
-      {
-        "id": "drug_ex_19",
-        "q": "Which medication is indicated for infection and is classified as a(n) macrolide antibiotic?",
-        "options": [
-          "Amitriptyline",
-          "Azithromycin",
-          "Paroxetine",
-          "Meclizine"
-        ],
-        "correct": 1,
-        "explanation": "Correct Answer: Azithromycin"
-      },
-      {
-        "id": "drug_ex_20",
-        "q": "Which medication is indicated for pain, spasticity and is classified as a(n) centrally acting skeletal muscle relaxant?",
-        "options": [
-          "Baclofen",
-          "Rosuvastatin",
-          "Pregabalin",
-          "Irbesartan"
-        ],
-        "correct": 0,
-        "explanation": "Correct Answer: Baclofen"
-      },
-      {
-        "id": "drug_ex_21",
-        "q": "Which medication is indicated for hypertension and is classified as a(n) ace-inhibitor, antihypertensive?",
-        "options": [
-          "Benazepril",
-          "Linagliptin",
-          "Bupropion XL",
-          "Liraglutide"
-        ],
-        "correct": 0,
-        "explanation": "Correct Answer: Benazepril"
-      },
-      {
-        "id": "drug_ex_22",
-        "q": "Which medication is indicated for cough and is classified as a(n) antitussive?",
-        "options": [
-          "Celecoxib",
-          "Olanzapine",
-          "Methylprednisolone",
-          "Benzonatate"
-        ],
-        "correct": 3,
-        "explanation": "Correct Answer: Benzonatate"
-      },
-      {
-        "id": "drug_ex_23",
-        "q": "Which medication is indicated for hypertension and is classified as a(n) cardioselective b-adrenergic blocker?",
-        "options": [
-          "Bisoprolol/Hydrochlorothiazide",
-          "Escitalopram",
-          "Atorvastatin",
-          "Pioglitazone"
-        ],
-        "correct": 0,
-        "explanation": "Correct Answer: Bisoprolol/Hydrochlorothiazide"
-      },
-      {
-        "id": "drug_ex_24",
-        "q": "Which medication is indicated for asthma and is classified as a(n) inhaled corticosteroid/bronchodilator combination?",
-        "options": [
-          "Albuterol sulfate (HFA)",
-          "Ezetimibe",
-          "Budesonide/Formoterol",
-          "Apixaban"
-        ],
-        "correct": 2,
-        "explanation": "Correct Answer: Budesonide/Formoterol"
-      },
-      {
-        "id": "drug_ex_25",
-        "q": "Which medication is indicated for opioid dependence and is classified as a(n) opioid partial agonist and antagonist combination, c-iii?",
-        "options": [
-          "Diltiazem ER",
-          "Mometasone nasal",
-          "Prednisone",
-          "Buprenorphine/Naloxone"
-        ],
-        "correct": 3,
-        "explanation": "Correct Answer: Buprenorphine/Naloxone"
-      },
-      {
-        "id": "drug_ex_26",
-        "q": "Which medication is indicated for depression, smoking cessation and is classified as a(n) monocyclic antidepressant?",
-        "options": [
-          "Acetaminophen",
-          "Oxycodone",
-          "Bupropion XL",
-          "Ciprofloxacin"
-        ],
-        "correct": 2,
-        "explanation": "Correct Answer: Bupropion XL"
-      },
-      {
-        "id": "drug_ex_27",
-        "q": "Which medication is indicated for anxiety and is classified as a(n) antianxiety?",
-        "options": [
-          "Carbamazepine",
-          "Acetaminophen",
-          "Cyclobenzaprine",
-          "Buspirone"
-        ],
-        "correct": 3,
-        "explanation": "Correct Answer: Buspirone"
-      },
-      {
-        "id": "drug_ex_28",
-        "q": "Which medication is indicated for diabetes and is classified as a(n) antidiabetic agent, sodium glucose cotransporter 2 (sglt 2) inhibitor?",
-        "options": [
-          "Zolpidem",
-          "Canagliflozin",
-          "Prednisone",
-          "Insulin aspart"
-        ],
-        "correct": 1,
-        "explanation": "Correct Answer: Canagliflozin"
-      },
-      {
-        "id": "drug_ex_29",
-        "q": "Which medication is indicated for seizures and is classified as a(n) anticonvulsant?",
-        "options": [
-          "Promethazine",
-          "Estradiol oral",
-          "Bisoprolol/Hydrochlorothiazide",
-          "Carbamazepine"
-        ],
-        "correct": 3,
-        "explanation": "Correct Answer: Carbamazepine"
-      },
-      {
-        "id": "drug_ex_30",
-        "q": "Which medication is indicated for hypertension and is classified as a(n) a/b-adrenergic blocker?",
-        "options": [
-          "Testosterone",
-          "Adalimumab",
-          "Nortriptyline",
-          "Carvedilol"
-        ],
-        "correct": 3,
-        "explanation": "Correct Answer: Carvedilol"
-      },
-      {
-        "id": "drug_ex_31",
-        "q": "Which medication is indicated for infection and is classified as a(n) third-generation cephalosporin?",
-        "options": [
-          "Cefdinir",
-          "Benzonatate",
-          "Lisdexamfetamine",
-          "Clonazepam"
-        ],
-        "correct": 0,
-        "explanation": "Correct Answer: Cefdinir"
-      },
-      {
-        "id": "drug_ex_32",
-        "q": "Which medication is indicated for pain, arthritis and is classified as a(n) cyclooxygenase-2 inhibitor?",
-        "options": [
-          "Nitrofurantoin",
-          "Clonazepam",
-          "Testosterone",
-          "Celecoxib"
-        ],
-        "correct": 3,
-        "explanation": "Correct Answer: Celecoxib"
-      },
-      {
-        "id": "drug_ex_33",
-        "q": "Which medication is indicated for infection and is classified as a(n) first-generation cephalosporin?",
-        "options": [
-          "Pregabalin",
-          "Naproxen",
-          "Triamcinolone nasal",
-          "Cephalexin"
-        ],
-        "correct": 3,
-        "explanation": "Correct Answer: Cephalexin"
-      },
-      {
-        "id": "drug_ex_34",
-        "q": "Which medication is indicated for allergies and is classified as a(n) antihistamine?",
-        "options": [
-          "Hydroxyzine",
-          "Acetaminophen",
-          "Lovastatin",
-          "Cetirizine"
-        ],
-        "correct": 3,
-        "explanation": "Correct Answer: Cetirizine"
-      },
-      {
-        "id": "drug_ex_35",
-        "q": "Which medication is indicated for hypertension and is classified as a(n) thiazide diuretic?",
-        "options": [
-          "Question 77",
-          "Furosemide",
-          "Chlorthalidone",
-          "Cetirizine"
-        ],
-        "correct": 2,
-        "explanation": "Correct Answer: Chlorthalidone"
-      },
-      {
-        "id": "drug_ex_36",
-        "q": "Which medication is indicated for vitamin deficiency and is classified as a(n) dietary supplement?",
-        "options": [
-          "Cyclobenzaprine",
-          "Lamotrigine",
-          "Cholecalciferol (Vitamin D3)",
-          "Budesonide/Formoterol"
-        ],
-        "correct": 2,
-        "explanation": "Correct Answer: Cholecalciferol (Vitamin D3)"
-      },
-      {
-        "id": "drug_ex_37",
-        "q": "Which medication is indicated for infection and is classified as a(n) fluoroquinolone antibiotic?",
-        "options": [
-          "Buspirone",
-          "Fenofibrate",
-          "Nebivolol",
-          "Ciprofloxacin"
-        ],
-        "correct": 3,
-        "explanation": "Correct Answer: Ciprofloxacin"
-      },
-      {
-        "id": "drug_ex_38",
-        "q": "Which medication is indicated for depression and is classified as a(n) ssri antidepressant?",
-        "options": [
-          "Glipizide",
-          "Mupirocin",
-          "Citalopram",
-          "Nebivolol"
-        ],
-        "correct": 2,
-        "explanation": "Correct Answer: Citalopram"
-      },
-      {
-        "id": "drug_ex_39",
-        "q": "Which medication is indicated for infection and is classified as a(n) lincosamide antibiotic?",
-        "options": [
-          "Clindamycin oral",
-          "Methotrexate",
-          "Triamcinolone nasal",
-          "Trimethoprim/Sulfamethoxazole"
-        ],
-        "correct": 0,
-        "explanation": "Correct Answer: Clindamycin oral"
-      },
-      {
-        "id": "drug_ex_40",
-        "q": "Which medication is indicated for rash and is classified as a(n) topical corticosteroid?",
-        "options": [
-          "Clobetasol topical",
-          "Anastrozole",
-          "Insulin degludec",
-          "Cholecalciferol (Vitamin D3)"
-        ],
-        "correct": 0,
-        "explanation": "Correct Answer: Clobetasol topical"
-      },
-      {
-        "id": "drug_ex_41",
-        "q": "Which medication is indicated for anxiety and is classified as a(n) benzodiazepine, c-iv?",
-        "options": [
-          "Question 46",
-          "Fluticasone/Salmeterol",
-          "Clonazepam",
-          "Labetalol"
-        ],
-        "correct": 2,
-        "explanation": "Correct Answer: Clonazepam"
-      },
-      {
-        "id": "drug_ex_42",
-        "q": "Which medication is indicated for hypertension and is classified as a(n) a2-adrenergic agonist?",
-        "options": [
-          "Clonidine",
-          "Fenofibrate",
-          "Trimethoprim/Sulfamethoxazole",
-          "Lisinopril"
-        ],
-        "correct": 0,
-        "explanation": "Correct Answer: Clonidine"
-      },
-      {
-        "id": "drug_ex_43",
-        "q": "Which medication is indicated for antiplatelet and is classified as a(n) platelet aggregation inhibitor?",
-        "options": [
-          "Olmesartan",
-          "Ketoconazole topical",
-          "Fenofibrate",
-          "Clopidogrel"
-        ],
-        "correct": 3,
-        "explanation": "Correct Answer: Clopidogrel"
-      },
-      {
-        "id": "drug_ex_44",
-        "q": "Which medication is indicated for pain and is classified as a(n) opioid, c-ii (when in combination with acetaminophen, c-iii for tablets, c-v for liquid)?",
-        "options": [
-          "Acetaminophen",
-          "Buspirone",
-          "Rizatriptan",
-          "Ferrous sulfate"
-        ],
-        "correct": 0,
-        "explanation": "Correct Answer: Acetaminophen"
-      },
-      {
-        "id": "drug_ex_45",
-        "q": "Which medication is indicated for vitamin deficiency and is classified as a(n) essential b vitamin (b12)?",
-        "options": [
-          "Docusate sodium",
-          "Clonidine",
-          "Acetaminophen",
-          "Question 46"
-        ],
-        "correct": 3,
-        "explanation": "Correct Answer: Question 46"
-      },
-      {
-        "id": "drug_ex_46",
-        "q": "Which medication is indicated for pain and is classified as a(n) centrally acting skeletal muscle relaxant?",
-        "options": [
-          "Cyclobenzaprine",
-          "Promethazine",
-          "Etonogestrel/Ethinyl estradiol vaginal ring",
-          "Levofloxacin"
-        ],
-        "correct": 0,
-        "explanation": "Correct Answer: Cyclobenzaprine"
-      },
-      {
-        "id": "drug_ex_47",
-        "q": "Which medication is indicated for ocular issues and is classified as a(n) calcineurin inhibitor?",
-        "options": [
-          "Guanfacine ER",
-          "Cyclosporine ophthalmic",
-          "Ketoconazole topical",
-          "Olanzapine"
-        ],
-        "correct": 1,
-        "explanation": "Correct Answer: Cyclosporine ophthalmic"
-      },
-      {
-        "id": "drug_ex_48",
-        "q": "Which medication is indicated for anticoagulation and is classified as a(n) direct oral anticoagulant (doac)?",
-        "options": [
-          "Diclofenac oral",
-          "Amlodipine",
-          "Dabigatran",
-          "Sitagliptin"
-        ],
-        "correct": 2,
-        "explanation": "Correct Answer: Dabigatran"
-      },
-      {
-        "id": "drug_ex_49",
-        "q": "Which medication is indicated for diabetes and is classified as a(n) antidiabetic agent, sodium-glucose cotransporter 2 (sglt2) inhibitor?",
-        "options": [
-          "Dapagliflozin",
-          "Doxycycline",
-          "Irbesartan",
-          "Chlorthalidone"
-        ],
-        "correct": 0,
-        "explanation": "Correct Answer: Dapagliflozin"
-      },
-      {
-        "id": "drug_ex_50",
-        "q": "Which medication is indicated for depression and is classified as a(n) serotonin/norepinephrine reuptake inhibitor?",
-        "options": [
-          "Liraglutide",
-          "Amoxicillin/Clavulanate",
-          "Prednisone",
-          "Desvenlafaxine"
-        ],
-        "correct": 3,
-        "explanation": "Correct Answer: Desvenlafaxine"
-      },
-      {
-        "id": "drug_ex_51",
-        "q": "Which medication is indicated for adhd and is classified as a(n) cns stimulant, c-ii?",
-        "options": [
-          "Irbesartan",
-          "Isosorbide mononitrate",
-          "Tramadol",
-          "Dexmethylphenidate ER"
-        ],
-        "correct": 3,
-        "explanation": "Correct Answer: Dexmethylphenidate ER"
-      },
-      {
-        "id": "drug_ex_52",
-        "q": "Which medication is indicated for anxiety and is classified as a(n) benzodiazepine, c-iv?",
-        "options": [
-          "Trazodone",
-          "Diazepam",
-          "Ipratropium/Albuterol",
-          "Irbesartan"
-        ],
-        "correct": 1,
-        "explanation": "Correct Answer: Diazepam"
-      },
-      {
-        "id": "drug_ex_53",
-        "q": "Which medication is indicated for pain and is classified as a(n) nsaid?",
-        "options": [
-          "Gabapentin",
-          "Levocetirizine",
-          "Diclofenac oral",
-          "Aripiprazole"
-        ],
-        "correct": 2,
-        "explanation": "Correct Answer: Diclofenac oral"
-      },
-      {
-        "id": "drug_ex_54",
-        "q": "Which medication is indicated for irritable bowel syndrome and is classified as a(n) antimuscarinic?",
-        "options": [
-          "Desvenlafaxine",
-          "Dicyclomine",
-          "Warfarin",
-          "Varenicline"
-        ],
-        "correct": 1,
-        "explanation": "Correct Answer: Dicyclomine"
-      },
-      {
-        "id": "drug_ex_55",
-        "q": "Which medication is indicated for hypertension and is classified as a(n) calcium channel blocker?",
-        "options": [
-          "Quetiapine",
-          "Amiodarone",
-          "Diltiazem ER",
-          "Canagliflozin"
-        ],
-        "correct": 2,
-        "explanation": "Correct Answer: Diltiazem ER"
-      },
-      {
-        "id": "drug_ex_56",
-        "q": "Which medication is indicated for constipation and is classified as a(n) stool softener?",
-        "options": [
-          "Isosorbide mononitrate",
-          "Docusate sodium",
-          "Topiramate",
-          "Rivaroxaban"
-        ],
-        "correct": 1,
-        "explanation": "Correct Answer: Docusate sodium"
-      },
-      {
-        "id": "drug_ex_57",
-        "q": "Which medication is indicated for dementia and is classified as a(n) central cholinesterase inhibitor?",
-        "options": [
-          "Fluticasone nasal",
-          "Oxycodone",
-          "Donepezil",
-          "Nifedipine"
-        ],
-        "correct": 2,
-        "explanation": "Correct Answer: Donepezil"
-      },
-      {
-        "id": "drug_ex_58",
-        "q": "Which medication is indicated for bph (benign prostatic hyperplasia,) htn (hypertension) and is classified as a(n) al-adreneric blocker?",
-        "options": [
-          "Doxazosin",
-          "Cyclosporine ophthalmic",
-          "Venlafaxine",
-          "Cefdinir"
-        ],
-        "correct": 0,
-        "explanation": "Correct Answer: Doxazosin"
-      },
-      {
-        "id": "drug_ex_59",
-        "q": "Which medication is indicated for infection and is classified as a(n) tetracycline antibiotic?",
-        "options": [
-          "Finasteride",
-          "Doxycycline",
-          "Question 46",
-          "Testosterone"
-        ],
-        "correct": 1,
-        "explanation": "Correct Answer: Doxycycline"
-      },
-      {
-        "id": "drug_ex_60",
-        "q": "Which medication is indicated for diabetes and is classified as a(n) antidiabetic agent, glucagon-like peptide-1-receptor agonist?",
-        "options": [
-          "Dexmethylphenidate ER",
-          "Quetiapine",
-          "Dulaglutide",
-          "Metoprolol"
-        ],
-        "correct": 2,
-        "explanation": "Correct Answer: Dulaglutide"
-      },
-      {
-        "id": "drug_ex_61",
-        "q": "Which medication is indicated for depression, (anxiety) and is classified as a(n) serotonin/norepinephrine reuptake inhibitor?",
-        "options": [
-          "Montelukast",
-          "Duloxetine",
-          "Triamcinolone nasal",
-          "Fluconazole"
-        ],
-        "correct": 1,
-        "explanation": "Correct Answer: Duloxetine"
-      },
-      {
-        "id": "drug_ex_62",
-        "q": "Which medication is indicated for hypertension and is classified as a(n) acei, antihypertensive?",
-        "options": [
-          "Enalapril",
-          "Question 117",
-          "Lisdexamfetamine",
-          "Fenofibrate"
-        ],
-        "correct": 0,
-        "explanation": "Correct Answer: Enalapril"
-      },
-      {
-        "id": "drug_ex_63",
-        "q": "Which medication is indicated for anaphylaxis and is classified as a(n) alpha/beta agonist, anaphylaxis agent?",
-        "options": [
-          "Venlafaxine",
-          "Docusate sodium (Colace)",
-          "Latanoprost",
-          "Cyclosporine ophthalmic"
-        ],
-        "correct": 1,
-        "explanation": "Correct Answer: Docusate sodium (Colace)"
-      },
-      {
-        "id": "drug_ex_64",
-        "q": "Which medication is indicated for depression and is classified as a(n) ssri antidepressant?",
-        "options": [
-          "Nebivolol",
-          "Lisinopril",
-          "Question 77",
-          "Escitalopram"
-        ],
-        "correct": 3,
-        "explanation": "Correct Answer: Escitalopram"
-      },
-      {
-        "id": "drug_ex_65",
-        "q": "Which medication is indicated for gerd and is classified as a(n) proton pump inhibitor?",
-        "options": [
-          "Amoxicillin/Clavulanate",
-          "Paroxetine",
-          "Esomeprazole",
-          "Insulin aspart"
-        ],
-        "correct": 2,
-        "explanation": "Correct Answer: Esomeprazole"
-      },
-      {
-        "id": "drug_ex_66",
-        "q": "Which medication is indicated for menopause and is classified as a(n) estrogen?",
-        "options": [
-          "Adalimumab",
-          "Nitroglycerin",
-          "Enalapril",
-          "Estradiol oral"
-        ],
-        "correct": 3,
-        "explanation": "Correct Answer: Estradiol oral"
-      },
-      {
-        "id": "drug_ex_67",
-        "q": "Which medication is indicated for contraception and is classified as a(n) contraceptive?",
-        "options": [
-          "Gabapentin",
-          "Buspirone",
-          "Etonogestrel/Ethinyl estradiol vaginal ring",
-          "Meloxicam"
-        ],
-        "correct": 2,
-        "explanation": "Correct Answer: Etonogestrel/Ethinyl estradiol vaginal ring"
-      },
-      {
-        "id": "drug_ex_68",
-        "q": "Which medication is indicated for dyslipidemia and is classified as a(n) antihyperlipidemic, cholesterol absorption inhibitor?",
-        "options": [
-          "Oxcarbazepine",
-          "Hydrocodone",
-          "Ezetimibe",
-          "Clonazepam"
-        ],
-        "correct": 2,
-        "explanation": "Correct Answer: Ezetimibe"
-      },
-      {
-        "id": "drug_ex_69",
-        "q": "Which medication is indicated for gerd and is classified as a(n) histamine h2 antagonist?",
-        "options": [
-          "Famotidine",
-          "Esomeprazole",
-          "Ramipril",
-          "Lisinopril"
-        ],
-        "correct": 0,
-        "explanation": "Correct Answer: Famotidine"
-      },
-      {
-        "id": "drug_ex_70",
-        "q": "Which medication is indicated for dyslipidemia and is classified as a(n) antihyperlipidemic?",
-        "options": [
-          "Question 117",
-          "Pioglitazone",
-          "Hydrocodone",
-          "Fenofibrate"
-        ],
-        "correct": 3,
-        "explanation": "Correct Answer: Fenofibrate"
-      },
-      {
-        "id": "drug_ex_71",
-        "q": "Which medication is indicated for iron deficiency and is classified as a(n) mineral supplement?",
-        "options": [
-          "Naproxen",
-          "Albuterol sulfate (HFA)",
-          "Valacyclovir",
-          "Ferrous sulfate"
-        ],
-        "correct": 3,
-        "explanation": "Correct Answer: Ferrous sulfate"
-      },
-      {
-        "id": "drug_ex_72",
-        "q": "Which medication is indicated for bph (benign prostatic hyperplasia) and is classified as a(n) 5a-reductase inhibitor?",
-        "options": [
-          "Finasteride",
-          "Insulin glargine",
-          "Docusate sodium",
-          "Lorazepam"
-        ],
-        "correct": 0,
-        "explanation": "Correct Answer: Finasteride"
-      },
-      {
-        "id": "drug_ex_73",
-        "q": "Which medication is indicated for fungal infection and is classified as a(n) imidazole antifungal?",
-        "options": [
-          "Apixaban",
-          "Cholecalciferol (Vitamin D3)",
-          "Oxcarbazepine",
-          "Fluconazole"
-        ],
-        "correct": 3,
-        "explanation": "Correct Answer: Fluconazole"
-      },
-      {
-        "id": "drug_ex_74",
-        "q": "Which medication is indicated for depression and is classified as a(n) ssri antidepressant?",
-        "options": [
-          "Glimepiride",
-          "Budesonide/Formoterol",
-          "Fluoxetine",
-          "Olanzapine"
-        ],
-        "correct": 2,
-        "explanation": "Correct Answer: Fluoxetine"
-      },
-      {
-        "id": "drug_ex_75",
-        "q": "Which medication is indicated for rhinitis, (asthma) and is classified as a(n) intranasal adrenal glucocorticosteroid?",
-        "options": [
-          "Mirtazapine",
-          "Ramipril",
-          "Fluoxetine",
-          "Fluticasone nasal"
-        ],
-        "correct": 3,
-        "explanation": "Correct Answer: Fluticasone nasal"
-      },
-      {
-        "id": "drug_ex_76",
-        "q": "Which medication is indicated for asthma and is classified as a(n) inhaled adrenal corticosteroid?",
-        "options": [
-          "Docusate sodium",
-          "Lamotrigine",
-          "Mometasone nasal",
-          "Question 77"
-        ],
-        "correct": 3,
-        "explanation": "Correct Answer: Question 77"
-      },
-      {
-        "id": "drug_ex_77",
-        "q": "Which medication is indicated for asthma and is classified as a(n) inhaled corticosteroid and long-acting b2-adrenergic agonist combination?",
-        "options": [
-          "Mirtazapine",
-          "Ramipril",
-          "Indomethacin",
-          "Fluticasone/Salmeterol"
-        ],
-        "correct": 3,
-        "explanation": "Correct Answer: Fluticasone/Salmeterol"
-      },
-      {
-        "id": "drug_ex_78",
-        "q": "Which medication is indicated for folic acid deficiency and is classified as a(n) essential b vitamin?",
-        "options": [
-          "Loratadine",
-          "Question 46",
-          "Levofloxacin",
-          "Folic acid"
-        ],
-        "correct": 3,
-        "explanation": "Correct Answer: Folic acid"
-      },
-      {
-        "id": "drug_ex_79",
-        "q": "Which medication is indicated for edema and is classified as a(n) loop diuretic?",
-        "options": [
-          "Irbesartan",
-          "Furosemide",
-          "Valsartan",
-          "Testosterone"
-        ],
-        "correct": 1,
-        "explanation": "Correct Answer: Furosemide"
-      },
-      {
-        "id": "drug_ex_80",
-        "q": "Which medication is indicated for seizures and is classified as a(n) gamma aminobutyric acid analog, anticonvulsant?",
-        "options": [
-          "Meclizine",
-          "Mirtazapine",
-          "Pregabalin",
-          "Gabapentin"
-        ],
-        "correct": 3,
-        "explanation": "Correct Answer: Gabapentin"
-      },
-      {
-        "id": "drug_ex_81",
-        "q": "Which medication is indicated for diabetes and is classified as a(n) second-generation sulfonylurea, antidiabetic?",
-        "options": [
-          "Celecoxib",
-          "Glimepiride",
-          "Insulin glargine",
-          "Trazodone"
-        ],
-        "correct": 1,
-        "explanation": "Correct Answer: Glimepiride"
-      },
-      {
-        "id": "drug_ex_82",
-        "q": "Which medication is indicated for diabetes and is classified as a(n) second-generation sulfonylurea, antidiabetic?",
-        "options": [
-          "Rivaroxaban",
-          "Escitalopram",
-          "Sucralfate",
-          "Glipizide"
-        ],
-        "correct": 3,
-        "explanation": "Correct Answer: Glipizide"
-      },
-      {
-        "id": "drug_ex_83",
-        "q": "Which medication is indicated for adhd and is classified as a(n) a2-adrenergic agonist?",
-        "options": [
-          "Nortriptyline",
-          "Trazodone",
-          "Mirabegron",
-          "Guanfacine ER"
-        ],
-        "correct": 3,
-        "explanation": "Correct Answer: Guanfacine ER"
-      },
-      {
-        "id": "drug_ex_84",
-        "q": "Which medication is indicated for hypertension and is classified as a(n) peripheral vasodilator?",
-        "options": [
-          "Verapamil",
-          "Mometasone nasal",
-          "Hydralazine",
-          "Cyclobenzaprine"
-        ],
-        "correct": 2,
-        "explanation": "Correct Answer: Hydralazine"
-      },
-      {
-        "id": "drug_ex_85",
-        "q": "Which medication is indicated for hypertension and is classified as a(n) thiazide diuretic, antihypertensive?",
-        "options": [
-          "Spironolactone",
-          "Ondansetron",
-          "Hydrochlorothiazide",
-          "Clonazepam"
-        ],
-        "correct": 2,
-        "explanation": "Correct Answer: Hydrochlorothiazide"
-      },
-      {
-        "id": "drug_ex_86",
-        "q": "Which medication is indicated for pain and is classified as a(n) opioid analgesic, c-ii?",
-        "options": [
-          "Fluconazole",
-          "Sitagliptin",
-          "Mirtazapine",
-          "Hydrocodone"
-        ],
-        "correct": 3,
-        "explanation": "Correct Answer: Hydrocodone"
-      },
-      {
-        "id": "drug_ex_87",
-        "q": "Which medication is indicated for skin disorders and is classified as a(n) topical corticosteroid?",
-        "options": [
-          "Question 88",
-          "Oxcarbazepine",
-          "Losartan",
-          "Tamsulosin"
-        ],
-        "correct": 0,
-        "explanation": "Correct Answer: Question 88"
-      },
-      {
-        "id": "drug_ex_88",
-        "q": "Which medication is indicated for rheumatoid arthritis, lupus and is classified as a(n) aminoquinoline?",
-        "options": [
-          "Clonidine",
-          "Thyroid desiccated",
-          "Budesonide/Formoterol",
-          "Hydroxychloroquine"
-        ],
-        "correct": 3,
-        "explanation": "Correct Answer: Hydroxychloroquine"
-      },
-      {
-        "id": "drug_ex_89",
-        "q": "Which medication is indicated for itching and is classified as a(n) histamine h1 antagonist, first generation piperazine derivative?",
-        "options": [
-          "Rizatriptan",
-          "Sildenafil",
-          "Levocetirizine",
-          "Hydroxyzine"
-        ],
-        "correct": 3,
-        "explanation": "Correct Answer: Hydroxyzine"
-      },
-      {
-        "id": "drug_ex_90",
-        "q": "Which medication is indicated for pain and is classified as a(n) nsaid?",
-        "options": [
-          "Ibuprofen",
-          "Promethazine",
-          "Losartan",
-          "Acetaminophen"
-        ],
-        "correct": 0,
-        "explanation": "Correct Answer: Ibuprofen"
-      },
-      {
-        "id": "drug_ex_91",
-        "q": "Which medication is indicated for pain and is classified as a(n) nsaid?",
-        "options": [
-          "Indomethacin",
-          "Tamsulosin",
-          "Loratadine",
-          "Levetiracetam"
-        ],
-        "correct": 0,
-        "explanation": "Correct Answer: Indomethacin"
-      },
-      {
-        "id": "drug_ex_92",
-        "q": "Which medication is indicated for diabetes and is classified as a(n) antidiabetic, insulin, rapid-acting?",
-        "options": [
-          "Losartan",
-          "Insulin aspart",
-          "Ropinirole",
-          "Oseltamivir"
-        ],
-        "correct": 1,
-        "explanation": "Correct Answer: Insulin aspart"
-      },
-      {
-        "id": "drug_ex_93",
-        "q": "Which medication is indicated for diabetes and is classified as a(n) insulin analogs, long-acting?",
-        "options": [
-          "Insulin degludec",
-          "Cholecalciferol (Vitamin D3)",
-          "Linagliptin",
-          "Metformin"
-        ],
-        "correct": 0,
-        "explanation": "Correct Answer: Insulin degludec"
-      },
-      {
-        "id": "drug_ex_94",
-        "q": "Which medication is indicated for diabetes and is classified as a(n) insulin analogs, long-acting?",
-        "options": [
-          "Buspirone",
-          "Insulin glargine",
-          "Folic acid",
-          "Methocarbamol"
-        ],
-        "correct": 1,
-        "explanation": "Correct Answer: Insulin glargine"
-      },
-      {
-        "id": "drug_ex_95",
-        "q": "Which medication is indicated for diabetes and is classified as a(n) insulin analogs, rapid-acting?",
-        "options": [
-          "Insulin lispro",
-          "Guanfacine ER",
-          "Amlodipine",
-          "Ezetimibe"
-        ],
-        "correct": 0,
-        "explanation": "Correct Answer: Insulin lispro"
-      },
-      {
-        "id": "drug_ex_96",
-        "q": "Which medication is indicated for copd and is classified as a(n) anticholinergic/selective b2-agonist combination?",
-        "options": [
-          "Topiramate",
-          "Nystatin topical",
-          "Fluconazole",
-          "Ipratropium/Albuterol"
-        ],
-        "correct": 3,
-        "explanation": "Correct Answer: Ipratropium/Albuterol"
-      },
-      {
-        "id": "drug_ex_97",
-        "q": "Which medication is indicated for hypertension and is classified as a(n) angiotensin ii receptor antagonist?",
-        "options": [
-          "Irbesartan",
-          "Ferrous sulfate",
-          "Estradiol oral",
-          "Verapamil"
-        ],
-        "correct": 0,
-        "explanation": "Correct Answer: Irbesartan"
-      },
-      {
-        "id": "drug_ex_98",
-        "q": "Which medication is indicated for angina and is classified as a(n) long-acting nitrate, antianginal?",
-        "options": [
-          "Mirabegron",
-          "Isosorbide mononitrate",
-          "Bisoprolol/Hydrochlorothiazide",
-          "Trazodone"
-        ],
-        "correct": 1,
-        "explanation": "Correct Answer: Isosorbide mononitrate"
-      },
-      {
-        "id": "drug_ex_99",
-        "q": "Which medication is indicated for fungal infection and is classified as a(n) imidazole antifungal?",
-        "options": [
-          "Promethazine",
-          "Spironolactone",
-          "Pregabalin",
-          "Ketoconazole topical"
-        ],
-        "correct": 3,
-        "explanation": "Correct Answer: Ketoconazole topical"
-      },
-      {
-        "id": "drug_ex_100",
-        "q": "Which medication is indicated for hypertension and is classified as a(n) α/β-adrenergic blocker?",
-        "options": [
-          "Diltiazem ER",
-          "Morphine ER",
-          "Labetalol",
-          "Lovastatin"
-        ],
-        "correct": 2,
-        "explanation": "Correct Answer: Labetalol"
-      },
-      {
-        "id": "drug_ex_101",
-        "q": "Which medication is indicated for seizures and is classified as a(n) phenyltriazine anticonvulsant?",
-        "options": [
-          "Labetalol",
-          "Lamotrigine",
-          "Prednisolone",
-          "Atenolol"
-        ],
-        "correct": 1,
-        "explanation": "Correct Answer: Lamotrigine"
-      },
-      {
-        "id": "drug_ex_102",
-        "q": "Which medication is indicated for gerd and is classified as a(n) proton pump inhibitor?",
-        "options": [
-          "Metoprolol",
-          "Metformin",
-          "Lansoprazole",
-          "Prednisolone"
-        ],
-        "correct": 2,
-        "explanation": "Correct Answer: Lansoprazole"
-      },
-      {
-        "id": "drug_ex_103",
-        "q": "Which medication is indicated for glaucoma and is classified as a(n) postaglandin, antiglaucoma agent?",
-        "options": [
-          "Oxybutynin",
-          "Clonidine",
-          "Latanoprost",
-          "Tramadol"
-        ],
-        "correct": 2,
-        "explanation": "Correct Answer: Latanoprost"
-      },
-      {
-        "id": "drug_ex_104",
-        "q": "Which medication is indicated for seizures and is classified as a(n) anticonvulsant?",
-        "options": [
-          "Potassium chloride",
-          "Levetiracetam",
-          "Lorazepam",
-          "Oxycodone"
-        ],
-        "correct": 1,
-        "explanation": "Correct Answer: Levetiracetam"
-      },
-      {
-        "id": "drug_ex_105",
-        "q": "Which medication is indicated for allergic rhinitis and is classified as a(n) antihistamine?",
-        "options": [
-          "Buprenorphine/Naloxone",
-          "Cyclobenzaprine",
-          "Levocetirizine",
-          "Acetaminophen"
-        ],
-        "correct": 2,
-        "explanation": "Correct Answer: Levocetirizine"
-      },
-      {
-        "id": "drug_ex_106",
-        "q": "Which medication is indicated for infection and is classified as a(n) fluoroquinolone antibiotic?",
-        "options": [
-          "Levofloxacin",
-          "Lisdexamfetamine",
-          "Finasteride",
-          "Bisoprolol/Hydrochlorothiazide"
-        ],
-        "correct": 0,
-        "explanation": "Correct Answer: Levofloxacin"
-      },
-      {
-        "id": "drug_ex_107",
-        "q": "Which medication is indicated for hypothyroidism and is classified as a(n) thyroid supplement?",
-        "options": [
-          "Olmesartan",
-          "Paroxetine",
-          "Doxazosin",
-          "Levothyroxine"
-        ],
-        "correct": 3,
-        "explanation": "Correct Answer: Levothyroxine"
-      },
-      {
-        "id": "drug_ex_108",
-        "q": "Which medication is indicated for pain and is classified as a(n) local anesthetic?",
-        "options": [
-          "Lidocaine patch",
-          "Fluticasone nasal",
-          "Acyclovir",
-          "Esomeprazole"
-        ],
-        "correct": 0,
-        "explanation": "Correct Answer: Lidocaine patch"
-      },
-      {
-        "id": "drug_ex_109",
-        "q": "Which medication is indicated for diabetes and is classified as a(n) dipeptidyl peptidase iv inhibitor?",
-        "options": [
-          "Linagliptin",
-          "Mometasone nasal",
-          "Irbesartan",
-          "Famotidine"
-        ],
-        "correct": 0,
-        "explanation": "Correct Answer: Linagliptin"
-      },
-      {
-        "id": "drug_ex_110",
-        "q": "Which medication is indicated for diabetes and is classified as a(n) glucagon-like peptide-1-receptor agonist?",
-        "options": [
-          "Liraglutide",
-          "Buprenorphine/Naloxone",
-          "Oseltamivir",
-          "Carbamazepine"
-        ],
-        "correct": 0,
-        "explanation": "Correct Answer: Liraglutide"
-      },
-      {
-        "id": "drug_ex_111",
-        "q": "Which medication is indicated for adhd and is classified as a(n) amphetamine, cns stimulant, c-ii?",
-        "options": [
-          "Lisdexamfetamine",
-          "Lovastatin",
-          "Ibuprofen",
-          "Levothyroxine"
-        ],
-        "correct": 0,
-        "explanation": "Correct Answer: Lisdexamfetamine"
-      },
-      {
-        "id": "drug_ex_112",
-        "q": "Which medication is indicated for hypertension and is classified as a(n) acei, antihypertensive?",
-        "options": [
-          "Clobetasol topical",
-          "Naproxen",
-          "Oxycodone",
-          "Lisinopril"
-        ],
-        "correct": 3,
-        "explanation": "Correct Answer: Lisinopril"
-      },
-      {
-        "id": "drug_ex_113",
-        "q": "Which medication is indicated for allergies and is classified as a(n) antihistamine?",
-        "options": [
-          "Prednisolone",
-          "Loratadine",
-          "Bisoprolol/Hydrochlorothiazide",
-          "Insulin aspart"
-        ],
-        "correct": 1,
-        "explanation": "Correct Answer: Loratadine"
-      },
-      {
-        "id": "drug_ex_114",
-        "q": "Which medication is indicated for anxiety and is classified as a(n) benzodiazepine, short or intermediate acting, c-iv?",
-        "options": [
-          "Dabigatran",
-          "Lorazepam",
-          "Pravastatin",
-          "Cefdinir"
-        ],
-        "correct": 1,
-        "explanation": "Correct Answer: Lorazepam"
-      },
-      {
-        "id": "drug_ex_115",
-        "q": "Which medication is indicated for hypertension and is classified as a(n) angiotensin ii receptor antagonist, antihypertensive?",
-        "options": [
-          "Losartan",
-          "Budesonide/Formoterol",
-          "Montelukast",
-          "Amoxicillin"
-        ],
-        "correct": 0,
-        "explanation": "Correct Answer: Losartan"
-      },
-      {
-        "id": "drug_ex_116",
-        "q": "Which medication is indicated for dyslipidemia and is classified as a(n) hmg-coa reductase inhibitor?",
-        "options": [
-          "Question 117",
-          "Quetiapine",
-          "Oxcarbazepine",
-          "Progesterone"
-        ],
-        "correct": 0,
-        "explanation": "Correct Answer: Question 117"
-      },
-      {
-        "id": "drug_ex_117",
-        "q": "Which medication is indicated for antiemetic and is classified as a(n) antihistamine, antiemetic?",
-        "options": [
-          "Metronidazole",
-          "Anastrozole",
-          "Tizanidine",
-          "Meclizine"
-        ],
-        "correct": 3,
-        "explanation": "Correct Answer: Meclizine"
-      },
-      {
-        "id": "drug_ex_118",
-        "q": "Which medication is indicated for pain and is classified as a(n) nsaid?",
-        "options": [
-          "Meloxicam",
-          "Doxycycline",
-          "Oseltamivir",
-          "Question 88"
-        ],
-        "correct": 0,
-        "explanation": "Correct Answer: Meloxicam"
-      },
-      {
-        "id": "drug_ex_119",
-        "q": "Which medication is indicated for diabetes and is classified as a(n) biguanide, hypoglycemic?",
-        "options": [
-          "Olmesartan",
-          "Lisdexamfetamine",
-          "Nitrofurantoin",
-          "Metformin"
-        ],
-        "correct": 3,
-        "explanation": "Correct Answer: Metformin"
-      },
-      {
-        "id": "drug_ex_120",
-        "q": "Which medication is indicated for pain and is classified as a(n) centrally acting skeletal muscle relaxant?",
-        "options": [
-          "Methocarbamol",
-          "Progesterone",
-          "Insulin lispro",
-          "Cyclobenzaprine"
-        ],
-        "correct": 0,
-        "explanation": "Correct Answer: Methocarbamol"
-      },
-      {
-        "id": "drug_ex_121",
-        "q": "Which medication is indicated for cancer and is classified as a(n) antimetabolite?",
-        "options": [
-          "Allopurinol",
-          "Methotrexate",
-          "Atenolol",
-          "Fluticasone/Salmeterol"
-        ],
-        "correct": 1,
-        "explanation": "Correct Answer: Methotrexate"
-      },
-      {
-        "id": "drug_ex_122",
-        "q": "Which medication is indicated for adhd and is classified as a(n) cns stimulant, c-ii?",
-        "options": [
-          "Valsartan",
-          "Methylphenidate",
-          "Tiotropium",
-          "Benazepril"
-        ],
-        "correct": 1,
-        "explanation": "Correct Answer: Methylphenidate"
-      },
-      {
-        "id": "drug_ex_123",
-        "q": "Which medication is indicated for inflammatory reactions and is classified as a(n) adrenal corticosteroid?",
-        "options": [
-          "Labetalol",
-          "Enalapril",
-          "Ropinirole",
-          "Methylprednisolone"
-        ],
-        "correct": 3,
-        "explanation": "Correct Answer: Methylprednisolone"
-      },
-      {
-        "id": "drug_ex_124",
-        "q": "Which medication is indicated for hypertension and is classified as a(n) β-adrenergic blocker, cardioselective?",
-        "options": [
-          "Ibuprofen",
-          "Etonogestrel/Ethinyl estradiol vaginal ring",
-          "Metoprolol",
-          "Lovastatin"
-        ],
-        "correct": 2,
-        "explanation": "Correct Answer: Metoprolol"
-      },
-      {
-        "id": "drug_ex_125",
-        "q": "Which medication is indicated for infection and is classified as a(n) nitroimidazole antibiotic, antiprotozoal?",
-        "options": [
-          "Metronidazole",
-          "Isosorbide mononitrate",
-          "Fluconazole",
-          "Fenofibrate"
-        ],
-        "correct": 0,
-        "explanation": "Correct Answer: Metronidazole"
-      },
-      {
-        "id": "drug_ex_126",
-        "q": "Which medication is indicated for overactive bladder and is classified as a(n) beta-3 agonist?",
-        "options": [
-          "Rizatriptan",
-          "Mirabegron",
-          "Ezetimibe",
-          "Famotidine"
-        ],
-        "correct": 1,
-        "explanation": "Correct Answer: Mirabegron"
-      },
-      {
-        "id": "drug_ex_127",
-        "q": "Which medication is indicated for depression and is classified as a(n) antidepressant, a2-antagonist?",
-        "options": [
-          "Nortriptyline",
-          "Allopurinol",
-          "Isosorbide mononitrate",
-          "Mirtazapine"
-        ],
-        "correct": 3,
-        "explanation": "Correct Answer: Mirtazapine"
-      },
-      {
-        "id": "drug_ex_128",
-        "q": "Which medication is indicated for rhinitis and is classified as a(n) intranasal corticosteroid?",
-        "options": [
-          "Lovastatin",
-          "Mometasone nasal",
-          "Baclofen",
-          "Clopidogrel"
-        ],
-        "correct": 1,
-        "explanation": "Correct Answer: Mometasone nasal"
-      },
-      {
-        "id": "drug_ex_129",
-        "q": "Which medication is indicated for asthma and is classified as a(n) leukotriene receptor antagonist?",
-        "options": [
-          "Montelukast",
-          "Gabapentin",
-          "Sertraline",
-          "Etonogestrel/Ethinyl estradiol vaginal ring"
-        ],
-        "correct": 0,
-        "explanation": "Correct Answer: Montelukast"
-      },
-      {
-        "id": "drug_ex_130",
-        "q": "Which medication is indicated for pain and is classified as a(n) opioid analgesic, c-ii?",
-        "options": [
-          "Clonidine",
-          "Nitroglycerin",
-          "Timolol ophthalmic",
-          "Morphine ER"
-        ],
-        "correct": 3,
-        "explanation": "Correct Answer: Morphine ER"
-      },
-      {
-        "id": "drug_ex_131",
-        "q": "Which medication is indicated for skin disorders and is classified as a(n) topical antibacterial?",
-        "options": [
-          "Losartan",
-          "Mupirocin",
-          "Loratadine",
-          "Donepezil"
-        ],
-        "correct": 1,
-        "explanation": "Correct Answer: Mupirocin"
-      },
-      {
-        "id": "drug_ex_132",
-        "q": "Which medication is indicated for pain and is classified as a(n) nsaid?",
-        "options": [
-          "Penicillin VK",
-          "Bisoprolol/Hydrochlorothiazide",
-          "Guanfacine ER",
-          "Naproxen"
-        ],
-        "correct": 3,
-        "explanation": "Correct Answer: Naproxen"
-      },
-      {
-        "id": "drug_ex_133",
-        "q": "Which medication is indicated for hypertension and is classified as a(n) β-adrenergic blocker, cardioselective, b1 selective?",
-        "options": [
-          "Methotrexate",
-          "Cetirizine",
-          "Nebivolol",
-          "Gabapentin"
-        ],
-        "correct": 2,
-        "explanation": "Correct Answer: Nebivolol"
-      },
-      {
-        "id": "drug_ex_134",
-        "q": "Which medication is indicated for hypertension and is classified as a(n) dihydropyridine calcium channel blocker?",
-        "options": [
-          "Nifedipine",
-          "Rizatriptan",
-          "Famotidine",
-          "Dulaglutide"
-        ],
-        "correct": 0,
-        "explanation": "Correct Answer: Nifedipine"
-      },
-      {
-        "id": "drug_ex_135",
-        "q": "Which medication is indicated for urinary infection and is classified as a(n) nitrofuran antibiotic?",
-        "options": [
-          "Methocarbamol",
-          "Paroxetine",
-          "Nitrofurantoin",
-          "Linagliptin"
-        ],
-        "correct": 2,
-        "explanation": "Correct Answer: Nitrofurantoin"
-      },
-      {
-        "id": "drug_ex_136",
-        "q": "Which medication is indicated for angina and is classified as a(n) nitrate, antianginal?",
-        "options": [
-          "Meclizine",
-          "Simvastatin",
-          "Promethazine",
-          "Nitroglycerin"
-        ],
-        "correct": 3,
-        "explanation": "Correct Answer: Nitroglycerin"
-      },
-      {
-        "id": "drug_ex_137",
-        "q": "Which medication is indicated for depression and is classified as a(n) tricyclic antidepressant?",
-        "options": [
-          "Cetirizine",
-          "Fluconazole",
-          "Nortriptyline",
-          "Mirtazapine"
-        ],
-        "correct": 2,
-        "explanation": "Correct Answer: Nortriptyline"
-      },
-      {
-        "id": "drug_ex_138",
-        "q": "Which medication is indicated for fungal infection and is classified as a(n) polyene antifungal?",
-        "options": [
-          "Zolpidem",
-          "Nystatin topical",
-          "Allopurinol",
-          "Oseltamivir"
-        ],
-        "correct": 1,
-        "explanation": "Correct Answer: Nystatin topical"
-      },
-      {
-        "id": "drug_ex_139",
-        "q": "Which medication is indicated for schizophrenia and is classified as a(n) thienobenzodiazepine, atypical antipsychotic?",
-        "options": [
-          "Hydrochlorothiazide",
-          "Celecoxib",
-          "Olanzapine",
-          "Amlodipine"
-        ],
-        "correct": 2,
-        "explanation": "Correct Answer: Olanzapine"
-      },
-      {
-        "id": "drug_ex_140",
-        "q": "Which medication is indicated for hypertension and is classified as a(n) angiotensin ii receptor antagonist?",
-        "options": [
-          "Triamcinolone nasal",
-          "Olmesartan",
-          "Terazosin",
-          "Valacyclovir"
-        ],
-        "correct": 1,
-        "explanation": "Correct Answer: Olmesartan"
-      },
-      {
-        "id": "drug_ex_141",
-        "q": "Which medication is indicated for gerd and is classified as a(n) proton pump inhibitor?",
-        "options": [
-          "Omeprazole",
-          "Fenofibrate",
-          "Pioglitazone",
-          "Diclofenac oral"
-        ],
-        "correct": 0,
-        "explanation": "Correct Answer: Omeprazole"
-      },
-      {
-        "id": "drug_ex_142",
-        "q": "Which medication is indicated for antiemetic and is classified as a(n) antiemetic?",
-        "options": [
-          "Ondansetron",
-          "Cholecalciferol (Vitamin D3)",
-          "Acyclovir",
-          "Cyclobenzaprine"
-        ],
-        "correct": 0,
-        "explanation": "Correct Answer: Ondansetron"
-      },
-      {
-        "id": "drug_ex_143",
-        "q": "Which medication is indicated for influenza and is classified as a(n) neuraminidase inhibitor, antiviral?",
-        "options": [
-          "Fluticasone/Salmeterol",
-          "Oseltamivir",
-          "Ciprofloxacin",
-          "Sildenafil"
-        ],
-        "correct": 1,
-        "explanation": "Correct Answer: Oseltamivir"
-      },
-      {
-        "id": "drug_ex_144",
-        "q": "Which medication is indicated for seizures and is classified as a(n) dibenzazepine carboxamide, anticonvulsant?",
-        "options": [
-          "Aspirin 81 mg",
-          "Diazepam",
-          "Famotidine",
-          "Oxcarbazepine"
-        ],
-        "correct": 3,
-        "explanation": "Correct Answer: Oxcarbazepine"
-      },
-      {
-        "id": "drug_ex_145",
-        "q": "Which medication is indicated for overactive bladder and is classified as a(n) urinary antispasmodic?",
-        "options": [
-          "Question 77",
-          "Oxybutynin",
-          "Labetalol",
-          "Diltiazem ER"
-        ],
-        "correct": 1,
-        "explanation": "Correct Answer: Oxybutynin"
-      },
-      {
-        "id": "drug_ex_146",
-        "q": "Which medication is indicated for pain and is classified as a(n) opioid analgesic, c-ii?",
-        "options": [
-          "Verapamil",
-          "Metoprolol",
-          "Pioglitazone",
-          "Oxycodone"
-        ],
-        "correct": 3,
-        "explanation": "Correct Answer: Oxycodone"
-      },
-      {
-        "id": "drug_ex_147",
-        "q": "Which medication is indicated for gerd and is classified as a(n) proton pump inhibitor?",
-        "options": [
-          "Pantoprazole",
-          "Pravastatin",
-          "Paroxetine",
-          "Anastrozole"
-        ],
-        "correct": 0,
-        "explanation": "Correct Answer: Pantoprazole"
-      },
-      {
-        "id": "drug_ex_148",
-        "q": "Which medication is indicated for depression and is classified as a(n) ssri antidepressant?",
-        "options": [
-          "Fluoxetine",
-          "Carvedilol",
-          "Etonogestrel/Ethinyl estradiol vaginal ring",
-          "Paroxetine"
-        ],
-        "correct": 3,
-        "explanation": "Correct Answer: Paroxetine"
-      },
-      {
-        "id": "drug_ex_149",
-        "q": "Which medication is indicated for infection and is classified as a(n) antibiotic?",
-        "options": [
-          "Diazepam",
-          "Lovastatin",
-          "Spironolactone",
-          "Acyclovir"
-        ],
-        "correct": 1,
-        "explanation": "Correct Answer: Lovastatin"
-      },
-      {
-        "id": "drug_ex_150",
-        "q": "Which medication is indicated for obesity and is classified as a(n) centrally acting appetite suppressant, c-iv?",
-        "options": [
-          "Hydrochlorothiazide",
-          "Meloxicam",
-          "Cyclobenzaprine",
-          "Phentermine"
-        ],
-        "correct": 3,
-        "explanation": "Correct Answer: Phentermine"
-      },
-      {
-        "id": "drug_ex_151",
-        "q": "Which medication is indicated for diabetes and is classified as a(n) thiazolidinedione antidiabetic?",
-        "options": [
-          "Celecoxib",
-          "Nystatin topical",
-          "Pioglitazone",
-          "Trimethoprim/Sulfamethoxazole"
-        ],
-        "correct": 2,
-        "explanation": "Correct Answer: Pioglitazone"
-      },
-      {
-        "id": "drug_ex_152",
-        "q": "Which medication is indicated for hypokalemia and is classified as a(n) electrolyte, potassium?",
-        "options": [
-          "Furosemide",
-          "Rizatriptan",
-          "Mirabegron",
-          "Potassium chloride"
-        ],
-        "correct": 3,
-        "explanation": "Correct Answer: Potassium chloride"
-      },
-      {
-        "id": "drug_ex_153",
-        "q": "Which medication is indicated for parkinson's disease and is classified as a(n) dopamine agonist, antiparkinson?",
-        "options": [
-          "Risperidone",
-          "Pramipexole",
-          "Sucralfate",
-          "Warfarin"
-        ],
-        "correct": 1,
-        "explanation": "Correct Answer: Pramipexole"
-      },
-      {
-        "id": "drug_ex_154",
-        "q": "Which medication is indicated for dyslipidemia and is classified as a(n) hmg-coa reductase inhibitor?",
-        "options": [
-          "Pravastatin",
-          "Linagliptin",
-          "Losartan",
-          "Simvastatin"
-        ],
-        "correct": 0,
-        "explanation": "Correct Answer: Pravastatin"
-      },
-      {
-        "id": "drug_ex_155",
-        "q": "Which medication is indicated for inflammatory reactions and is classified as a(n) adrenal glucocorticosteroid?",
-        "options": [
-          "Citalopram",
-          "Prednisolone",
-          "Ciprofloxacin",
-          "Alendronate"
-        ],
-        "correct": 1,
-        "explanation": "Correct Answer: Prednisolone"
-      },
-      {
-        "id": "drug_ex_156",
-        "q": "Which medication is indicated for inflammatory reactions and is classified as a(n) adrenal corticosteroid?",
-        "options": [
-          "Prednisone",
-          "Verapamil",
-          "Trazodone",
-          "Topiramate"
-        ],
-        "correct": 0,
-        "explanation": "Correct Answer: Prednisone"
-      },
-      {
-        "id": "drug_ex_157",
-        "q": "Which medication is indicated for neuropathic pain and is classified as a(n) analgesic, anticonvulsant, c-v?",
-        "options": [
-          "Triamcinolone nasal",
-          "Dapagliflozin",
-          "Duloxetine",
-          "Pregabalin"
-        ],
-        "correct": 3,
-        "explanation": "Correct Answer: Pregabalin"
-      },
-      {
-        "id": "drug_ex_158",
-        "q": "Which medication is indicated for women's health and is classified as a(n) progestin hormone?",
-        "options": [
-          "Progesterone",
-          "Tamsulosin",
-          "Aripiprazole",
-          "Pioglitazone"
-        ],
-        "correct": 0,
-        "explanation": "Correct Answer: Progesterone"
-      },
-      {
-        "id": "drug_ex_159",
-        "q": "Which medication is indicated for antiemetic and is classified as a(n) phenothiazine antihistamine?",
-        "options": [
-          "Amitriptyline",
-          "Promethazine",
-          "Trimethoprim/Sulfamethoxazole",
-          "Simvastatin"
-        ],
-        "correct": 1,
-        "explanation": "Correct Answer: Promethazine"
-      },
-      {
-        "id": "drug_ex_160",
-        "q": "Which medication is indicated for hypertension and is classified as a(n) β-adrenergic blocker, nonselective?",
-        "options": [
-          "Naproxen",
-          "Lovastatin",
-          "Propranolol",
-          "Methotrexate"
-        ],
-        "correct": 2,
-        "explanation": "Correct Answer: Propranolol"
-      },
-      {
-        "id": "drug_ex_161",
-        "q": "Which medication is indicated for schizophrenia and is classified as a(n) antipsychotic (atypical)?",
-        "options": [
-          "Amlodipine",
-          "Insulin lispro",
-          "Methylphenidate",
-          "Quetiapine"
-        ],
-        "correct": 3,
-        "explanation": "Correct Answer: Quetiapine"
-      },
-      {
-        "id": "drug_ex_162",
-        "q": "Which medication is indicated for hypertension and is classified as a(n) acei, antihypertensive?",
-        "options": [
-          "Omeprazole",
-          "Amlodipine",
-          "Ramipril",
-          "Oxcarbazepine"
-        ],
-        "correct": 2,
-        "explanation": "Correct Answer: Ramipril"
-      },
-      {
-        "id": "drug_ex_163",
-        "q": "Which medication is indicated for schizophrenia and is classified as a(n) benzisoxazole, antipsychotic?",
-        "options": [
-          "Omeprazole",
-          "Risperidone",
-          "Simvastatin",
-          "Lamotrigine"
-        ],
-        "correct": 1,
-        "explanation": "Correct Answer: Risperidone"
-      },
-      {
-        "id": "drug_ex_164",
-        "q": "Which medication is indicated for anticoagulation and is classified as a(n) anticoagulant, factor xa inhibitor?",
-        "options": [
-          "Levofloxacin",
-          "Rivaroxaban",
-          "Baclofen",
-          "Mirtazapine"
-        ],
-        "correct": 1,
-        "explanation": "Correct Answer: Rivaroxaban"
-      },
-      {
-        "id": "drug_ex_165",
-        "q": "Which medication is indicated for migraine and is classified as a(n) antimigraine, serotonin receptor agonist?",
-        "options": [
-          "Rizatriptan",
-          "Buprenorphine/Naloxone",
-          "Sildenafil",
-          "Nebivolol"
-        ],
-        "correct": 0,
-        "explanation": "Correct Answer: Rizatriptan"
-      },
-      {
-        "id": "drug_ex_166",
-        "q": "Which medication is indicated for parkinson's disease and is classified as a(n) dopamine agonist?",
-        "options": [
-          "Ropinirole",
-          "Tizanidine",
-          "Nortriptyline",
-          "Dulaglutide"
-        ],
-        "correct": 0,
-        "explanation": "Correct Answer: Ropinirole"
-      },
-      {
-        "id": "drug_ex_167",
-        "q": "Which medication is indicated for dyslipidemia and is classified as a(n) hmg-coa reductase inhibitor?",
-        "options": [
-          "Rosuvastatin",
-          "Lamotrigine",
-          "Ropinirole",
-          "Celecoxib"
-        ],
-        "correct": 0,
-        "explanation": "Correct Answer: Rosuvastatin"
-      },
-      {
-        "id": "drug_ex_168",
-        "q": "Which medication is indicated for depression and is classified as a(n) ssri antidepressant?",
-        "options": [
-          "Sertraline",
-          "Citalopram",
-          "Azithromycin",
-          "Progesterone"
-        ],
-        "correct": 0,
-        "explanation": "Correct Answer: Sertraline"
-      },
-      {
-        "id": "drug_ex_169",
-        "q": "Which medication is indicated for erectile dysfunction and is classified as a(n) erectile dysfunction agent, pulmonary hypertensive agent?",
-        "options": [
-          "Sildenafil",
-          "Acetaminophen",
-          "Nystatin topical",
-          "Oxycodone"
-        ],
-        "correct": 0,
-        "explanation": "Correct Answer: Sildenafil"
-      },
-      {
-        "id": "drug_ex_170",
-        "q": "Which medication is indicated for dyslipidemia and is classified as a(n) hmg-coa reductase inhibitor?",
-        "options": [
-          "Simvastatin",
-          "Rosuvastatin",
-          "Alprazolam",
-          "Baclofen"
-        ],
-        "correct": 0,
-        "explanation": "Correct Answer: Simvastatin"
-      },
-      {
-        "id": "drug_ex_171",
-        "q": "Which medication is indicated for diabetes and is classified as a(n) dipeptidyl peptidase-4 inhibitor, antidiabetic?",
-        "options": [
-          "Dicyclomine",
-          "Alendronate",
-          "Sitagliptin",
-          "Chlorthalidone"
-        ],
-        "correct": 2,
-        "explanation": "Correct Answer: Sitagliptin"
-      },
-      {
-        "id": "drug_ex_172",
-        "q": "Which medication is indicated for heart failure and is classified as a(n) potassium-sparing diuretic; selective aldosterone blocker?",
-        "options": [
-          "Fluoxetine",
-          "Spironolactone",
-          "Methylprednisolone",
-          "Cephalexin"
-        ],
-        "correct": 1,
-        "explanation": "Correct Answer: Spironolactone"
-      },
-      {
-        "id": "drug_ex_173",
-        "q": "Which medication is indicated for duodenal ulcer and is classified as a(n) gastrointestinal agent, miscellaneous?",
-        "options": [
-          "Question 46",
-          "Metformin",
-          "Sucralfate",
-          "Celecoxib"
-        ],
-        "correct": 2,
-        "explanation": "Correct Answer: Sucralfate"
-      },
-      {
-        "id": "drug_ex_174",
-        "q": "Which medication is indicated for migraine and is classified as a(n) antimigraine, serotonin receptor agonist?",
-        "options": [
-          "Rosuvastatin",
-          "Loratadine",
-          "Dicyclomine",
-          "Sumatriptan"
-        ],
-        "correct": 3,
-        "explanation": "Correct Answer: Sumatriptan"
-      },
-      {
-        "id": "drug_ex_175",
-        "q": "Which medication is indicated for bph (benign prostatic hyperplasia) and is classified as a(n) α1-adrenergic blocker?",
-        "options": [
-          "Mirtazapine",
-          "Tamsulosin",
-          "Triamcinolone nasal",
-          "Canagliflozin"
-        ],
-        "correct": 1,
-        "explanation": "Correct Answer: Tamsulosin"
-      },
-      {
-        "id": "drug_ex_176",
-        "q": "Which medication is indicated for bph (benign prostatic hyperplasia, htn (hypertension) and is classified as a(n) α1-adrenergic blocker?",
-        "options": [
-          "Penicillin VK",
-          "Meloxicam",
-          "Rosuvastatin",
-          "Ibuprofen"
-        ],
-        "correct": 0,
-        "explanation": "Correct Answer: Penicillin VK"
-      },
-      {
-        "id": "drug_ex_177",
-        "q": "Which medication is indicated for androgen replacement and is classified as a(n) androgen, c-iii?",
-        "options": [
-          "Baclofen",
-          "Losartan",
-          "Morphine ER",
-          "Testosterone"
-        ],
-        "correct": 3,
-        "explanation": "Correct Answer: Testosterone"
-      },
-      {
-        "id": "drug_ex_178",
-        "q": "Which medication is indicated for hypothyroidism and is classified as a(n) thyroid supplement?",
-        "options": [
-          "Folic acid",
-          "Fenofibrate",
-          "Warfarin",
-          "Thyroid desiccated"
-        ],
-        "correct": 3,
-        "explanation": "Correct Answer: Thyroid desiccated"
-      },
-      {
-        "id": "drug_ex_179",
-        "q": "Which medication is indicated for ocular issues and is classified as a(n) beta-blocker, antiglaucoma agent?",
-        "options": [
-          "Amoxicillin",
-          "Thyroid desiccated",
-          "Timolol ophthalmic",
-          "Latanoprost"
-        ],
-        "correct": 2,
-        "explanation": "Correct Answer: Timolol ophthalmic"
-      },
-      {
-        "id": "drug_ex_180",
-        "q": "Which medication is indicated for copd and is classified as a(n) anticholinergic bronchodilator?",
-        "options": [
-          "Tiotropium",
-          "Methocarbamol",
-          "Timolol ophthalmic",
-          "Montelukast"
-        ],
-        "correct": 0,
-        "explanation": "Correct Answer: Tiotropium"
-      },
-      {
-        "id": "drug_ex_181",
-        "q": "Which medication is indicated for pain and is classified as a(n) centrally acting skeletal muscle relaxant, α2-agonist?",
-        "options": [
-          "Cefdinir",
-          "Etonogestrel/Ethinyl estradiol vaginal ring",
-          "Hydrochlorothiazide",
-          "Tizanidine"
-        ],
-        "correct": 3,
-        "explanation": "Correct Answer: Tizanidine"
-      },
-      {
-        "id": "drug_ex_182",
-        "q": "Which medication is indicated for seizures and is classified as a(n) anticonvulsant?",
-        "options": [
-          "Question 88",
-          "Topiramate",
-          "Levothyroxine",
-          "Apixaban"
-        ],
-        "correct": 1,
-        "explanation": "Correct Answer: Topiramate"
-      },
-      {
-        "id": "drug_ex_183",
-        "q": "Which medication is indicated for pain and is classified as a(n) opioid analgesic, c-iv?",
-        "options": [
-          "Lamotrigine",
-          "Losartan",
-          "Tramadol",
-          "Diclofenac oral"
-        ],
-        "correct": 2,
-        "explanation": "Correct Answer: Tramadol"
-      },
-      {
-        "id": "drug_ex_184",
-        "q": "Which medication is indicated for depression and is classified as a(n) antidepressant?",
-        "options": [
-          "Alendronate",
-          "Celecoxib",
-          "Trazodone",
-          "Ropinirole"
-        ],
-        "correct": 2,
-        "explanation": "Correct Answer: Trazodone"
-      },
-      {
-        "id": "drug_ex_185",
-        "q": "Which medication is indicated for allergic rhinitis and is classified as a(n) intranasal adrenal glucocorticosteroid?",
-        "options": [
-          "Ketoconazole topical",
-          "Triamcinolone nasal",
-          "Canagliflozin",
-          "Esomeprazole"
-        ],
-        "correct": 1,
-        "explanation": "Correct Answer: Triamcinolone nasal"
-      },
-      {
-        "id": "drug_ex_186",
-        "q": "Which medication is indicated for skin disorders and is classified as a(n) topical corticosteroid?",
-        "options": [
-          "Fluticasone/Salmeterol",
-          "Linagliptin",
-          "Terazosin",
-          "Ropinirole"
-        ],
-        "correct": 2,
-        "explanation": "Correct Answer: Terazosin"
-      },
-      {
-        "id": "drug_ex_187",
-        "q": "Which medication is indicated for hypertension and is classified as a(n) potassium sparing/thiazide diuretic combination?",
-        "options": [
-          "Triamterene/Hydrochlorothiazide",
-          "Indomethacin",
-          "Tizanidine",
-          "Ferrous sulfate"
-        ],
-        "correct": 0,
-        "explanation": "Correct Answer: Triamterene/Hydrochlorothiazide"
-      },
-      {
-        "id": "drug_ex_188",
-        "q": "Which medication is indicated for infection and is classified as a(n) sulfonamide antibiotic?",
-        "options": [
-          "Tizanidine",
-          "Trimethoprim/Sulfamethoxazole",
-          "Mirtazapine",
-          "Fluticasone nasal"
-        ],
-        "correct": 1,
-        "explanation": "Correct Answer: Trimethoprim/Sulfamethoxazole"
-      },
-      {
-        "id": "drug_ex_189",
-        "q": "Which medication is indicated for herpes and is classified as a(n) viral dna polymerase inhibitor?",
-        "options": [
-          "Chlorthalidone",
-          "Valacyclovir",
-          "Famotidine",
-          "Amitriptyline"
-        ],
-        "correct": 1,
-        "explanation": "Correct Answer: Valacyclovir"
-      },
-      {
-        "id": "drug_ex_190",
-        "q": "Which medication is indicated for hypertension and is classified as a(n) angiotensin ii receptor antagonist?",
-        "options": [
-          "Oxycodone",
-          "Ropinirole",
-          "Insulin aspart",
-          "Valsartan"
-        ],
-        "correct": 3,
-        "explanation": "Correct Answer: Valsartan"
-      },
-      {
-        "id": "drug_ex_191",
-        "q": "Which medication is indicated for smoking cessation and is classified as a(n) smoking cessation agent?",
-        "options": [
-          "Tiotropium",
-          "Nystatin topical",
-          "Varenicline",
-          "Clopidogrel"
-        ],
-        "correct": 2,
-        "explanation": "Correct Answer: Varenicline"
-      },
-      {
-        "id": "drug_ex_192",
-        "q": "Which medication is indicated for depression and is classified as a(n) antidepressant, serotonin/norepinephrine reuptake inhibitor?",
-        "options": [
-          "Acetaminophen",
-          "Venlafaxine",
-          "Progesterone",
-          "Dicyclomine"
-        ],
-        "correct": 1,
-        "explanation": "Correct Answer: Venlafaxine"
-      },
-      {
-        "id": "drug_ex_193",
-        "q": "Which medication is indicated for hypertension and is classified as a(n) calcium channel blocker?",
-        "options": [
-          "Triamterene/Hydrochlorothiazide",
-          "Labetalol",
-          "Irbesartan",
-          "Verapamil"
-        ],
-        "correct": 3,
-        "explanation": "Correct Answer: Verapamil"
-      },
-      {
-        "id": "drug_ex_194",
-        "q": "Which medication is indicated for anticoagulation and is classified as a(n) anticoagulant, vitamin k antagonist?",
-        "options": [
-          "Phentermine",
-          "Albuterol sulfate (HFA)",
-          "Bupropion XL",
-          "Warfarin"
-        ],
-        "correct": 3,
-        "explanation": "Correct Answer: Warfarin"
-      },
-      {
-        "id": "drug_ex_195",
-        "q": "Which medication is indicated for insomnia and is classified as a(n) nonbarbiturate hypnotic, c-iv?",
-        "options": [
-          "Zolpidem",
-          "Pioglitazone",
-          "Metoprolol",
-          "Sertraline"
-        ],
-        "correct": 0,
-        "explanation": "Correct Answer: Zolpidem"
-      }
-    ]
+    "id": "drug_ex_0",
+    "q": "Which medication is indicated for pain and is classified as a(n) analgesic?",
+    "options": [
+      "Isosorbide mononitrate",
+      "Amoxicillin",
+      "Acetaminophen",
+      "Sitagliptin"
+    ],
+    "correct": 2
+  },
+  {
+    "id": "drug_ex_1",
+    "q": "Which medication is indicated for herpes and is classified as a(n) viral dna polymerase inhibitor?",
+    "options": [
+      "Allopurinol",
+      "Acyclovir",
+      "Labetalol",
+      "Cyclobenzaprine"
+    ],
+    "correct": 1
+  },
+  {
+    "id": "drug_ex_2",
+    "q": "Which medication is indicated for crohn's disease and is classified as a(n) antirheumatic biologic dmard?",
+    "options": [
+      "Rivaroxaban",
+      "Omeprazole",
+      "Benazepril",
+      "Adalimumab"
+    ],
+    "correct": 3
+  },
+  {
+    "id": "drug_ex_3",
+    "q": "Which medication is indicated for copd and is classified as a(n) selective b2-adrenergic agonist?",
+    "options": [
+      "Albuterol sulfate (HFA)",
+      "Valacyclovir",
+      "Quetiapine",
+      "Clopidogrel"
+    ],
+    "correct": 0
+  },
+  {
+    "id": "drug_ex_4",
+    "q": "Which medication is indicated for osteoporosis and is classified as a(n) biphosphonate?",
+    "options": [
+      "Ropinirole",
+      "Lamotrigine",
+      "Alendronate",
+      "Ezetimibe"
+    ],
+    "correct": 2
+  },
+  {
+    "id": "drug_ex_5",
+    "q": "Which medication is indicated for gout and is classified as a(n) xanthine oxidase inhibitor; antigout?",
+    "options": [
+      "Timolol ophthalmic",
+      "Allopurinol",
+      "Acetaminophen",
+      "Acyclovir"
+    ],
+    "correct": 1
+  },
+  {
+    "id": "drug_ex_6",
+    "q": "Which medication is indicated for anxiety and is classified as a(n) benzodiazepine, short or intermediate acting, c-iv?",
+    "options": [
+      "Alprazolam",
+      "Clonazepam",
+      "Clindamycin oral",
+      "Aspirin 81 mg"
+    ],
+    "correct": 0
+  },
+  {
+    "id": "drug_ex_7",
+    "q": "Which medication is indicated for arrhythmias and is classified as a(n) antiarrhythmic?",
+    "options": [
+      "Amoxicillin/Clavulanate",
+      "Enalapril",
+      "Oxcarbazepine",
+      "Amiodarone"
+    ],
+    "correct": 3
+  },
+  {
+    "id": "drug_ex_8",
+    "q": "Which medication is indicated for depression and is classified as a(n) tricyclic antidepressant?",
+    "options": [
+      "Aspirin 81 mg",
+      "Amitriptyline",
+      "Baclofen",
+      "Fluconazole"
+    ],
+    "correct": 1
+  },
+  {
+    "id": "drug_ex_9",
+    "q": "Which medication is indicated for hypertension and is classified as a(n) calcium channel blocker?",
+    "options": [
+      "Loratadine",
+      "Amlodipine",
+      "Ferrous sulfate",
+      "Losartan"
+    ],
+    "correct": 1
+  },
+  {
+    "id": "drug_ex_10",
+    "q": "Which medication is indicated for infection and is classified as a(n) b-lactam antiobiotic?",
+    "options": [
+      "Phentermine",
+      "Propranolol",
+      "Amoxicillin",
+      "Acetaminophen"
+    ],
+    "correct": 2
+  },
+  {
+    "id": "drug_ex_11",
+    "q": "Which medication is indicated for infection and is classified as a(n) b-lactam antibiotic?",
+    "options": [
+      "Lansoprazole",
+      "Montelukast",
+      "Warfarin",
+      "Amoxicillin/Clavulanate"
+    ],
+    "correct": 3
+  },
+  {
+    "id": "drug_ex_12",
+    "q": "Which medication is indicated for cancer and is classified as a(n) aromatase inhibitor?",
+    "options": [
+      "Anastrozole",
+      "Paroxetine",
+      "Rosuvastatin",
+      "Irbesartan"
+    ],
+    "correct": 0
+  },
+  {
+    "id": "drug_ex_13",
+    "q": "Which medication is indicated for anticoagulation and is classified as a(n) factor xa inhibitor?",
+    "options": [
+      "Levothyroxine",
+      "Amitriptyline",
+      "Famotidine",
+      "Apixaban"
+    ],
+    "correct": 3
+  },
+  {
+    "id": "drug_ex_14",
+    "q": "Which medication is indicated for schizophrenia and is classified as a(n) second generation antipsychotic?",
+    "options": [
+      "Naproxen",
+      "Hydralazine",
+      "Aripiprazole",
+      "Estradiol oral"
+    ],
+    "correct": 2
+  },
+  {
+    "id": "drug_ex_15",
+    "q": "Which medication is indicated for cardiovascular protection, pain and is classified as a(n) salicylate?",
+    "options": [
+      "Fluoxetine",
+      "Atenolol",
+      "Etonogestrel/Ethinyl estradiol vaginal ring",
+      "Aspirin 81 mg"
+    ],
+    "correct": 3
+  },
+  {
+    "id": "drug_ex_16",
+    "q": "Which medication is indicated for hypertension and is classified as a(n) b-adrenergic blocker, cardioselective?",
+    "options": [
+      "Atenolol",
+      "Pioglitazone",
+      "Oseltamivir",
+      "Loratadine"
+    ],
+    "correct": 0
+  },
+  {
+    "id": "drug_ex_17",
+    "q": "Which medication is indicated for dyslipidemia and is classified as a(n) hmg-coa reductase inhibitor?",
+    "options": [
+      "Atorvastatin",
+      "Question 117",
+      "Levothyroxine",
+      "Benazepril"
+    ],
+    "correct": 0
+  },
+  {
+    "id": "drug_ex_18",
+    "q": "Which medication is indicated for allergic rhinitis and is classified as a(n) nasal antihistamine?",
+    "options": [
+      "Azelastine nasal",
+      "Topiramate",
+      "Duloxetine",
+      "Loratadine"
+    ],
+    "correct": 0
+  },
+  {
+    "id": "drug_ex_19",
+    "q": "Which medication is indicated for infection and is classified as a(n) macrolide antibiotic?",
+    "options": [
+      "Amitriptyline",
+      "Azithromycin",
+      "Paroxetine",
+      "Meclizine"
+    ],
+    "correct": 1
+  },
+  {
+    "id": "drug_ex_20",
+    "q": "Which medication is indicated for pain, spasticity and is classified as a(n) centrally acting skeletal muscle relaxant?",
+    "options": [
+      "Baclofen",
+      "Rosuvastatin",
+      "Pregabalin",
+      "Irbesartan"
+    ],
+    "correct": 0
+  },
+  {
+    "id": "drug_ex_21",
+    "q": "Which medication is indicated for hypertension and is classified as a(n) ace-inhibitor, antihypertensive?",
+    "options": [
+      "Benazepril",
+      "Linagliptin",
+      "Bupropion XL",
+      "Liraglutide"
+    ],
+    "correct": 0
+  },
+  {
+    "id": "drug_ex_22",
+    "q": "Which medication is indicated for cough and is classified as a(n) antitussive?",
+    "options": [
+      "Celecoxib",
+      "Olanzapine",
+      "Methylprednisolone",
+      "Benzonatate"
+    ],
+    "correct": 3
+  },
+  {
+    "id": "drug_ex_23",
+    "q": "Which medication is indicated for hypertension and is classified as a(n) cardioselective b-adrenergic blocker?",
+    "options": [
+      "Bisoprolol/Hydrochlorothiazide",
+      "Escitalopram",
+      "Atorvastatin",
+      "Pioglitazone"
+    ],
+    "correct": 0
+  },
+  {
+    "id": "drug_ex_24",
+    "q": "Which medication is indicated for asthma and is classified as a(n) inhaled corticosteroid/bronchodilator combination?",
+    "options": [
+      "Albuterol sulfate (HFA)",
+      "Ezetimibe",
+      "Budesonide/Formoterol",
+      "Apixaban"
+    ],
+    "correct": 2
+  },
+  {
+    "id": "drug_ex_25",
+    "q": "Which medication is indicated for opioid dependence and is classified as a(n) opioid partial agonist and antagonist combination, c-iii?",
+    "options": [
+      "Diltiazem ER",
+      "Mometasone nasal",
+      "Prednisone",
+      "Buprenorphine/Naloxone"
+    ],
+    "correct": 3
+  },
+  {
+    "id": "drug_ex_26",
+    "q": "Which medication is indicated for depression, smoking cessation and is classified as a(n) monocyclic antidepressant?",
+    "options": [
+      "Acetaminophen",
+      "Oxycodone",
+      "Bupropion XL",
+      "Ciprofloxacin"
+    ],
+    "correct": 2
+  },
+  {
+    "id": "drug_ex_27",
+    "q": "Which medication is indicated for anxiety and is classified as a(n) antianxiety?",
+    "options": [
+      "Carbamazepine",
+      "Acetaminophen",
+      "Cyclobenzaprine",
+      "Buspirone"
+    ],
+    "correct": 3
+  },
+  {
+    "id": "drug_ex_28",
+    "q": "Which medication is indicated for diabetes and is classified as a(n) antidiabetic agent, sodium glucose cotransporter 2 (sglt 2) inhibitor?",
+    "options": [
+      "Zolpidem",
+      "Canagliflozin",
+      "Prednisone",
+      "Insulin aspart"
+    ],
+    "correct": 1
+  },
+  {
+    "id": "drug_ex_29",
+    "q": "Which medication is indicated for seizures and is classified as a(n) anticonvulsant?",
+    "options": [
+      "Promethazine",
+      "Estradiol oral",
+      "Bisoprolol/Hydrochlorothiazide",
+      "Carbamazepine"
+    ],
+    "correct": 3
+  },
+  {
+    "id": "drug_ex_30",
+    "q": "Which medication is indicated for hypertension and is classified as a(n) a/b-adrenergic blocker?",
+    "options": [
+      "Testosterone",
+      "Adalimumab",
+      "Nortriptyline",
+      "Carvedilol"
+    ],
+    "correct": 3
+  },
+  {
+    "id": "drug_ex_31",
+    "q": "Which medication is indicated for infection and is classified as a(n) third-generation cephalosporin?",
+    "options": [
+      "Cefdinir",
+      "Benzonatate",
+      "Lisdexamfetamine",
+      "Clonazepam"
+    ],
+    "correct": 0
+  },
+  {
+    "id": "drug_ex_32",
+    "q": "Which medication is indicated for pain, arthritis and is classified as a(n) cyclooxygenase-2 inhibitor?",
+    "options": [
+      "Nitrofurantoin",
+      "Clonazepam",
+      "Testosterone",
+      "Celecoxib"
+    ],
+    "correct": 3
+  },
+  {
+    "id": "drug_ex_33",
+    "q": "Which medication is indicated for infection and is classified as a(n) first-generation cephalosporin?",
+    "options": [
+      "Pregabalin",
+      "Naproxen",
+      "Triamcinolone nasal",
+      "Cephalexin"
+    ],
+    "correct": 3
+  },
+  {
+    "id": "drug_ex_34",
+    "q": "Which medication is indicated for allergies and is classified as a(n) antihistamine?",
+    "options": [
+      "Hydroxyzine",
+      "Acetaminophen",
+      "Lovastatin",
+      "Cetirizine"
+    ],
+    "correct": 3
+  },
+  {
+    "id": "drug_ex_35",
+    "q": "Which medication is indicated for hypertension and is classified as a(n) thiazide diuretic?",
+    "options": [
+      "Question 77",
+      "Furosemide",
+      "Chlorthalidone",
+      "Cetirizine"
+    ],
+    "correct": 2
+  },
+  {
+    "id": "drug_ex_36",
+    "q": "Which medication is indicated for vitamin deficiency and is classified as a(n) dietary supplement?",
+    "options": [
+      "Cyclobenzaprine",
+      "Lamotrigine",
+      "Cholecalciferol (Vitamin D3)",
+      "Budesonide/Formoterol"
+    ],
+    "correct": 2
+  },
+  {
+    "id": "drug_ex_37",
+    "q": "Which medication is indicated for infection and is classified as a(n) fluoroquinolone antibiotic?",
+    "options": [
+      "Buspirone",
+      "Fenofibrate",
+      "Nebivolol",
+      "Ciprofloxacin"
+    ],
+    "correct": 3
+  },
+  {
+    "id": "drug_ex_38",
+    "q": "Which medication is indicated for depression and is classified as a(n) ssri antidepressant?",
+    "options": [
+      "Glipizide",
+      "Mupirocin",
+      "Citalopram",
+      "Nebivolol"
+    ],
+    "correct": 2
+  },
+  {
+    "id": "drug_ex_39",
+    "q": "Which medication is indicated for infection and is classified as a(n) lincosamide antibiotic?",
+    "options": [
+      "Clindamycin oral",
+      "Methotrexate",
+      "Triamcinolone nasal",
+      "Trimethoprim/Sulfamethoxazole"
+    ],
+    "correct": 0
+  },
+  {
+    "id": "drug_ex_40",
+    "q": "Which medication is indicated for rash and is classified as a(n) topical corticosteroid?",
+    "options": [
+      "Clobetasol topical",
+      "Anastrozole",
+      "Insulin degludec",
+      "Cholecalciferol (Vitamin D3)"
+    ],
+    "correct": 0
+  },
+  {
+    "id": "drug_ex_41",
+    "q": "Which medication is indicated for anxiety and is classified as a(n) benzodiazepine, c-iv?",
+    "options": [
+      "Question 46",
+      "Fluticasone/Salmeterol",
+      "Clonazepam",
+      "Labetalol"
+    ],
+    "correct": 2
+  },
+  {
+    "id": "drug_ex_42",
+    "q": "Which medication is indicated for hypertension and is classified as a(n) a2-adrenergic agonist?",
+    "options": [
+      "Clonidine",
+      "Fenofibrate",
+      "Trimethoprim/Sulfamethoxazole",
+      "Lisinopril"
+    ],
+    "correct": 0
+  },
+  {
+    "id": "drug_ex_43",
+    "q": "Which medication is indicated for antiplatelet and is classified as a(n) platelet aggregation inhibitor?",
+    "options": [
+      "Olmesartan",
+      "Ketoconazole topical",
+      "Fenofibrate",
+      "Clopidogrel"
+    ],
+    "correct": 3
+  },
+  {
+    "id": "drug_ex_44",
+    "q": "Which medication is indicated for pain and is classified as a(n) opioid, c-ii (when in combination with acetaminophen, c-iii for tablets, c-v for liquid)?",
+    "options": [
+      "Acetaminophen",
+      "Buspirone",
+      "Rizatriptan",
+      "Ferrous sulfate"
+    ],
+    "correct": 0
+  },
+  {
+    "id": "drug_ex_45",
+    "q": "Which medication is indicated for vitamin deficiency and is classified as a(n) essential b vitamin (b12)?",
+    "options": [
+      "Docusate sodium",
+      "Clonidine",
+      "Acetaminophen",
+      "Question 46"
+    ],
+    "correct": 3
+  },
+  {
+    "id": "drug_ex_46",
+    "q": "Which medication is indicated for pain and is classified as a(n) centrally acting skeletal muscle relaxant?",
+    "options": [
+      "Cyclobenzaprine",
+      "Promethazine",
+      "Etonogestrel/Ethinyl estradiol vaginal ring",
+      "Levofloxacin"
+    ],
+    "correct": 0
+  },
+  {
+    "id": "drug_ex_47",
+    "q": "Which medication is indicated for ocular issues and is classified as a(n) calcineurin inhibitor?",
+    "options": [
+      "Guanfacine ER",
+      "Cyclosporine ophthalmic",
+      "Ketoconazole topical",
+      "Olanzapine"
+    ],
+    "correct": 1
+  },
+  {
+    "id": "drug_ex_48",
+    "q": "Which medication is indicated for anticoagulation and is classified as a(n) direct oral anticoagulant (doac)?",
+    "options": [
+      "Diclofenac oral",
+      "Amlodipine",
+      "Dabigatran",
+      "Sitagliptin"
+    ],
+    "correct": 2
+  },
+  {
+    "id": "drug_ex_49",
+    "q": "Which medication is indicated for diabetes and is classified as a(n) antidiabetic agent, sodium-glucose cotransporter 2 (sglt2) inhibitor?",
+    "options": [
+      "Dapagliflozin",
+      "Doxycycline",
+      "Irbesartan",
+      "Chlorthalidone"
+    ],
+    "correct": 0
+  },
+  {
+    "id": "drug_ex_50",
+    "q": "Which medication is indicated for depression and is classified as a(n) serotonin/norepinephrine reuptake inhibitor?",
+    "options": [
+      "Liraglutide",
+      "Amoxicillin/Clavulanate",
+      "Prednisone",
+      "Desvenlafaxine"
+    ],
+    "correct": 3
+  },
+  {
+    "id": "drug_ex_51",
+    "q": "Which medication is indicated for adhd and is classified as a(n) cns stimulant, c-ii?",
+    "options": [
+      "Irbesartan",
+      "Isosorbide mononitrate",
+      "Tramadol",
+      "Dexmethylphenidate ER"
+    ],
+    "correct": 3
+  },
+  {
+    "id": "drug_ex_52",
+    "q": "Which medication is indicated for anxiety and is classified as a(n) benzodiazepine, c-iv?",
+    "options": [
+      "Trazodone",
+      "Diazepam",
+      "Ipratropium/Albuterol",
+      "Irbesartan"
+    ],
+    "correct": 1
+  },
+  {
+    "id": "drug_ex_53",
+    "q": "Which medication is indicated for pain and is classified as a(n) nsaid?",
+    "options": [
+      "Gabapentin",
+      "Levocetirizine",
+      "Diclofenac oral",
+      "Aripiprazole"
+    ],
+    "correct": 2
+  },
+  {
+    "id": "drug_ex_54",
+    "q": "Which medication is indicated for irritable bowel syndrome and is classified as a(n) antimuscarinic?",
+    "options": [
+      "Desvenlafaxine",
+      "Dicyclomine",
+      "Warfarin",
+      "Varenicline"
+    ],
+    "correct": 1
+  },
+  {
+    "id": "drug_ex_55",
+    "q": "Which medication is indicated for hypertension and is classified as a(n) calcium channel blocker?",
+    "options": [
+      "Quetiapine",
+      "Amiodarone",
+      "Diltiazem ER",
+      "Canagliflozin"
+    ],
+    "correct": 2
+  },
+  {
+    "id": "drug_ex_56",
+    "q": "Which medication is indicated for constipation and is classified as a(n) stool softener?",
+    "options": [
+      "Isosorbide mononitrate",
+      "Docusate sodium",
+      "Topiramate",
+      "Rivaroxaban"
+    ],
+    "correct": 1
+  },
+  {
+    "id": "drug_ex_57",
+    "q": "Which medication is indicated for dementia and is classified as a(n) central cholinesterase inhibitor?",
+    "options": [
+      "Fluticasone nasal",
+      "Oxycodone",
+      "Donepezil",
+      "Nifedipine"
+    ],
+    "correct": 2
+  },
+  {
+    "id": "drug_ex_58",
+    "q": "Which medication is indicated for bph (benign prostatic hyperplasia,) htn (hypertension) and is classified as a(n) al-adreneric blocker?",
+    "options": [
+      "Doxazosin",
+      "Cyclosporine ophthalmic",
+      "Venlafaxine",
+      "Cefdinir"
+    ],
+    "correct": 0
+  },
+  {
+    "id": "drug_ex_59",
+    "q": "Which medication is indicated for infection and is classified as a(n) tetracycline antibiotic?",
+    "options": [
+      "Finasteride",
+      "Doxycycline",
+      "Question 46",
+      "Testosterone"
+    ],
+    "correct": 1
+  },
+  {
+    "id": "drug_ex_60",
+    "q": "Which medication is indicated for diabetes and is classified as a(n) antidiabetic agent, glucagon-like peptide-1-receptor agonist?",
+    "options": [
+      "Dexmethylphenidate ER",
+      "Quetiapine",
+      "Dulaglutide",
+      "Metoprolol"
+    ],
+    "correct": 2
+  },
+  {
+    "id": "drug_ex_61",
+    "q": "Which medication is indicated for depression, (anxiety) and is classified as a(n) serotonin/norepinephrine reuptake inhibitor?",
+    "options": [
+      "Montelukast",
+      "Duloxetine",
+      "Triamcinolone nasal",
+      "Fluconazole"
+    ],
+    "correct": 1
+  },
+  {
+    "id": "drug_ex_62",
+    "q": "Which medication is indicated for hypertension and is classified as a(n) acei, antihypertensive?",
+    "options": [
+      "Enalapril",
+      "Question 117",
+      "Lisdexamfetamine",
+      "Fenofibrate"
+    ],
+    "correct": 0
+  },
+  {
+    "id": "drug_ex_63",
+    "q": "Which medication is indicated for anaphylaxis and is classified as a(n) alpha/beta agonist, anaphylaxis agent?",
+    "options": [
+      "Venlafaxine",
+      "Docusate sodium (Colace)",
+      "Latanoprost",
+      "Cyclosporine ophthalmic"
+    ],
+    "correct": 1
+  },
+  {
+    "id": "drug_ex_64",
+    "q": "Which medication is indicated for depression and is classified as a(n) ssri antidepressant?",
+    "options": [
+      "Nebivolol",
+      "Lisinopril",
+      "Question 77",
+      "Escitalopram"
+    ],
+    "correct": 3
+  },
+  {
+    "id": "drug_ex_65",
+    "q": "Which medication is indicated for gerd and is classified as a(n) proton pump inhibitor?",
+    "options": [
+      "Amoxicillin/Clavulanate",
+      "Paroxetine",
+      "Esomeprazole",
+      "Insulin aspart"
+    ],
+    "correct": 2
+  },
+  {
+    "id": "drug_ex_66",
+    "q": "Which medication is indicated for menopause and is classified as a(n) estrogen?",
+    "options": [
+      "Adalimumab",
+      "Nitroglycerin",
+      "Enalapril",
+      "Estradiol oral"
+    ],
+    "correct": 3
+  },
+  {
+    "id": "drug_ex_67",
+    "q": "Which medication is indicated for contraception and is classified as a(n) contraceptive?",
+    "options": [
+      "Gabapentin",
+      "Buspirone",
+      "Etonogestrel/Ethinyl estradiol vaginal ring",
+      "Meloxicam"
+    ],
+    "correct": 2
+  },
+  {
+    "id": "drug_ex_68",
+    "q": "Which medication is indicated for dyslipidemia and is classified as a(n) antihyperlipidemic, cholesterol absorption inhibitor?",
+    "options": [
+      "Oxcarbazepine",
+      "Hydrocodone",
+      "Ezetimibe",
+      "Clonazepam"
+    ],
+    "correct": 2
+  },
+  {
+    "id": "drug_ex_69",
+    "q": "Which medication is indicated for gerd and is classified as a(n) histamine h2 antagonist?",
+    "options": [
+      "Famotidine",
+      "Esomeprazole",
+      "Ramipril",
+      "Lisinopril"
+    ],
+    "correct": 0
+  },
+  {
+    "id": "drug_ex_70",
+    "q": "Which medication is indicated for dyslipidemia and is classified as a(n) antihyperlipidemic?",
+    "options": [
+      "Question 117",
+      "Pioglitazone",
+      "Hydrocodone",
+      "Fenofibrate"
+    ],
+    "correct": 3
+  },
+  {
+    "id": "drug_ex_71",
+    "q": "Which medication is indicated for iron deficiency and is classified as a(n) mineral supplement?",
+    "options": [
+      "Naproxen",
+      "Albuterol sulfate (HFA)",
+      "Valacyclovir",
+      "Ferrous sulfate"
+    ],
+    "correct": 3
+  },
+  {
+    "id": "drug_ex_72",
+    "q": "Which medication is indicated for bph (benign prostatic hyperplasia) and is classified as a(n) 5a-reductase inhibitor?",
+    "options": [
+      "Finasteride",
+      "Insulin glargine",
+      "Docusate sodium",
+      "Lorazepam"
+    ],
+    "correct": 0
+  },
+  {
+    "id": "drug_ex_73",
+    "q": "Which medication is indicated for fungal infection and is classified as a(n) imidazole antifungal?",
+    "options": [
+      "Apixaban",
+      "Cholecalciferol (Vitamin D3)",
+      "Oxcarbazepine",
+      "Fluconazole"
+    ],
+    "correct": 3
+  },
+  {
+    "id": "drug_ex_74",
+    "q": "Which medication is indicated for depression and is classified as a(n) ssri antidepressant?",
+    "options": [
+      "Glimepiride",
+      "Budesonide/Formoterol",
+      "Fluoxetine",
+      "Olanzapine"
+    ],
+    "correct": 2
+  },
+  {
+    "id": "drug_ex_75",
+    "q": "Which medication is indicated for rhinitis, (asthma) and is classified as a(n) intranasal adrenal glucocorticosteroid?",
+    "options": [
+      "Mirtazapine",
+      "Ramipril",
+      "Fluoxetine",
+      "Fluticasone nasal"
+    ],
+    "correct": 3
+  },
+  {
+    "id": "drug_ex_76",
+    "q": "Which medication is indicated for asthma and is classified as a(n) inhaled adrenal corticosteroid?",
+    "options": [
+      "Docusate sodium",
+      "Lamotrigine",
+      "Mometasone nasal",
+      "Question 77"
+    ],
+    "correct": 3
+  },
+  {
+    "id": "drug_ex_77",
+    "q": "Which medication is indicated for asthma and is classified as a(n) inhaled corticosteroid and long-acting b2-adrenergic agonist combination?",
+    "options": [
+      "Mirtazapine",
+      "Ramipril",
+      "Indomethacin",
+      "Fluticasone/Salmeterol"
+    ],
+    "correct": 3
+  },
+  {
+    "id": "drug_ex_78",
+    "q": "Which medication is indicated for folic acid deficiency and is classified as a(n) essential b vitamin?",
+    "options": [
+      "Loratadine",
+      "Question 46",
+      "Levofloxacin",
+      "Folic acid"
+    ],
+    "correct": 3
+  },
+  {
+    "id": "drug_ex_79",
+    "q": "Which medication is indicated for edema and is classified as a(n) loop diuretic?",
+    "options": [
+      "Irbesartan",
+      "Furosemide",
+      "Valsartan",
+      "Testosterone"
+    ],
+    "correct": 1
+  },
+  {
+    "id": "drug_ex_80",
+    "q": "Which medication is indicated for seizures and is classified as a(n) gamma aminobutyric acid analog, anticonvulsant?",
+    "options": [
+      "Meclizine",
+      "Mirtazapine",
+      "Pregabalin",
+      "Gabapentin"
+    ],
+    "correct": 3
+  },
+  {
+    "id": "drug_ex_81",
+    "q": "Which medication is indicated for diabetes and is classified as a(n) second-generation sulfonylurea, antidiabetic?",
+    "options": [
+      "Celecoxib",
+      "Glimepiride",
+      "Insulin glargine",
+      "Trazodone"
+    ],
+    "correct": 1
+  },
+  {
+    "id": "drug_ex_82",
+    "q": "Which medication is indicated for diabetes and is classified as a(n) second-generation sulfonylurea, antidiabetic?",
+    "options": [
+      "Rivaroxaban",
+      "Escitalopram",
+      "Sucralfate",
+      "Glipizide"
+    ],
+    "correct": 3
+  },
+  {
+    "id": "drug_ex_83",
+    "q": "Which medication is indicated for adhd and is classified as a(n) a2-adrenergic agonist?",
+    "options": [
+      "Nortriptyline",
+      "Trazodone",
+      "Mirabegron",
+      "Guanfacine ER"
+    ],
+    "correct": 3
+  },
+  {
+    "id": "drug_ex_84",
+    "q": "Which medication is indicated for hypertension and is classified as a(n) peripheral vasodilator?",
+    "options": [
+      "Verapamil",
+      "Mometasone nasal",
+      "Hydralazine",
+      "Cyclobenzaprine"
+    ],
+    "correct": 2
+  },
+  {
+    "id": "drug_ex_85",
+    "q": "Which medication is indicated for hypertension and is classified as a(n) thiazide diuretic, antihypertensive?",
+    "options": [
+      "Spironolactone",
+      "Ondansetron",
+      "Hydrochlorothiazide",
+      "Clonazepam"
+    ],
+    "correct": 2
+  },
+  {
+    "id": "drug_ex_86",
+    "q": "Which medication is indicated for pain and is classified as a(n) opioid analgesic, c-ii?",
+    "options": [
+      "Fluconazole",
+      "Sitagliptin",
+      "Mirtazapine",
+      "Hydrocodone"
+    ],
+    "correct": 3
+  },
+  {
+    "id": "drug_ex_87",
+    "q": "Which medication is indicated for skin disorders and is classified as a(n) topical corticosteroid?",
+    "options": [
+      "Question 88",
+      "Oxcarbazepine",
+      "Losartan",
+      "Tamsulosin"
+    ],
+    "correct": 0
+  },
+  {
+    "id": "drug_ex_88",
+    "q": "Which medication is indicated for rheumatoid arthritis, lupus and is classified as a(n) aminoquinoline?",
+    "options": [
+      "Clonidine",
+      "Thyroid desiccated",
+      "Budesonide/Formoterol",
+      "Hydroxychloroquine"
+    ],
+    "correct": 3
+  },
+  {
+    "id": "drug_ex_89",
+    "q": "Which medication is indicated for itching and is classified as a(n) histamine h1 antagonist, first generation piperazine derivative?",
+    "options": [
+      "Rizatriptan",
+      "Sildenafil",
+      "Levocetirizine",
+      "Hydroxyzine"
+    ],
+    "correct": 3
+  },
+  {
+    "id": "drug_ex_90",
+    "q": "Which medication is indicated for pain and is classified as a(n) nsaid?",
+    "options": [
+      "Ibuprofen",
+      "Promethazine",
+      "Losartan",
+      "Acetaminophen"
+    ],
+    "correct": 0
+  },
+  {
+    "id": "drug_ex_91",
+    "q": "Which medication is indicated for pain and is classified as a(n) nsaid?",
+    "options": [
+      "Indomethacin",
+      "Tamsulosin",
+      "Loratadine",
+      "Levetiracetam"
+    ],
+    "correct": 0
+  },
+  {
+    "id": "drug_ex_92",
+    "q": "Which medication is indicated for diabetes and is classified as a(n) antidiabetic, insulin, rapid-acting?",
+    "options": [
+      "Losartan",
+      "Insulin aspart",
+      "Ropinirole",
+      "Oseltamivir"
+    ],
+    "correct": 1
+  },
+  {
+    "id": "drug_ex_93",
+    "q": "Which medication is indicated for diabetes and is classified as a(n) insulin analogs, long-acting?",
+    "options": [
+      "Insulin degludec",
+      "Cholecalciferol (Vitamin D3)",
+      "Linagliptin",
+      "Metformin"
+    ],
+    "correct": 0
+  },
+  {
+    "id": "drug_ex_94",
+    "q": "Which medication is indicated for diabetes and is classified as a(n) insulin analogs, long-acting?",
+    "options": [
+      "Buspirone",
+      "Insulin glargine",
+      "Folic acid",
+      "Methocarbamol"
+    ],
+    "correct": 1
+  },
+  {
+    "id": "drug_ex_95",
+    "q": "Which medication is indicated for diabetes and is classified as a(n) insulin analogs, rapid-acting?",
+    "options": [
+      "Insulin lispro",
+      "Guanfacine ER",
+      "Amlodipine",
+      "Ezetimibe"
+    ],
+    "correct": 0
+  },
+  {
+    "id": "drug_ex_96",
+    "q": "Which medication is indicated for copd and is classified as a(n) anticholinergic/selective b2-agonist combination?",
+    "options": [
+      "Topiramate",
+      "Nystatin topical",
+      "Fluconazole",
+      "Ipratropium/Albuterol"
+    ],
+    "correct": 3
+  },
+  {
+    "id": "drug_ex_97",
+    "q": "Which medication is indicated for hypertension and is classified as a(n) angiotensin ii receptor antagonist?",
+    "options": [
+      "Irbesartan",
+      "Ferrous sulfate",
+      "Estradiol oral",
+      "Verapamil"
+    ],
+    "correct": 0
+  },
+  {
+    "id": "drug_ex_98",
+    "q": "Which medication is indicated for angina and is classified as a(n) long-acting nitrate, antianginal?",
+    "options": [
+      "Mirabegron",
+      "Isosorbide mononitrate",
+      "Bisoprolol/Hydrochlorothiazide",
+      "Trazodone"
+    ],
+    "correct": 1
+  },
+  {
+    "id": "drug_ex_99",
+    "q": "Which medication is indicated for fungal infection and is classified as a(n) imidazole antifungal?",
+    "options": [
+      "Promethazine",
+      "Spironolactone",
+      "Pregabalin",
+      "Ketoconazole topical"
+    ],
+    "correct": 3
+  },
+  {
+    "id": "drug_ex_100",
+    "q": "Which medication is indicated for hypertension and is classified as a(n) α/β-adrenergic blocker?",
+    "options": [
+      "Diltiazem ER",
+      "Morphine ER",
+      "Labetalol",
+      "Lovastatin"
+    ],
+    "correct": 2
+  },
+  {
+    "id": "drug_ex_101",
+    "q": "Which medication is indicated for seizures and is classified as a(n) phenyltriazine anticonvulsant?",
+    "options": [
+      "Labetalol",
+      "Lamotrigine",
+      "Prednisolone",
+      "Atenolol"
+    ],
+    "correct": 1
+  },
+  {
+    "id": "drug_ex_102",
+    "q": "Which medication is indicated for gerd and is classified as a(n) proton pump inhibitor?",
+    "options": [
+      "Metoprolol",
+      "Metformin",
+      "Lansoprazole",
+      "Prednisolone"
+    ],
+    "correct": 2
+  },
+  {
+    "id": "drug_ex_103",
+    "q": "Which medication is indicated for glaucoma and is classified as a(n) postaglandin, antiglaucoma agent?",
+    "options": [
+      "Oxybutynin",
+      "Clonidine",
+      "Latanoprost",
+      "Tramadol"
+    ],
+    "correct": 2
+  },
+  {
+    "id": "drug_ex_104",
+    "q": "Which medication is indicated for seizures and is classified as a(n) anticonvulsant?",
+    "options": [
+      "Potassium chloride",
+      "Levetiracetam",
+      "Lorazepam",
+      "Oxycodone"
+    ],
+    "correct": 1
+  },
+  {
+    "id": "drug_ex_105",
+    "q": "Which medication is indicated for allergic rhinitis and is classified as a(n) antihistamine?",
+    "options": [
+      "Buprenorphine/Naloxone",
+      "Cyclobenzaprine",
+      "Levocetirizine",
+      "Acetaminophen"
+    ],
+    "correct": 2
+  },
+  {
+    "id": "drug_ex_106",
+    "q": "Which medication is indicated for infection and is classified as a(n) fluoroquinolone antibiotic?",
+    "options": [
+      "Levofloxacin",
+      "Lisdexamfetamine",
+      "Finasteride",
+      "Bisoprolol/Hydrochlorothiazide"
+    ],
+    "correct": 0
+  },
+  {
+    "id": "drug_ex_107",
+    "q": "Which medication is indicated for hypothyroidism and is classified as a(n) thyroid supplement?",
+    "options": [
+      "Olmesartan",
+      "Paroxetine",
+      "Doxazosin",
+      "Levothyroxine"
+    ],
+    "correct": 3
+  },
+  {
+    "id": "drug_ex_108",
+    "q": "Which medication is indicated for pain and is classified as a(n) local anesthetic?",
+    "options": [
+      "Lidocaine patch",
+      "Fluticasone nasal",
+      "Acyclovir",
+      "Esomeprazole"
+    ],
+    "correct": 0
+  },
+  {
+    "id": "drug_ex_109",
+    "q": "Which medication is indicated for diabetes and is classified as a(n) dipeptidyl peptidase iv inhibitor?",
+    "options": [
+      "Linagliptin",
+      "Mometasone nasal",
+      "Irbesartan",
+      "Famotidine"
+    ],
+    "correct": 0
+  },
+  {
+    "id": "drug_ex_110",
+    "q": "Which medication is indicated for diabetes and is classified as a(n) glucagon-like peptide-1-receptor agonist?",
+    "options": [
+      "Liraglutide",
+      "Buprenorphine/Naloxone",
+      "Oseltamivir",
+      "Carbamazepine"
+    ],
+    "correct": 0
+  },
+  {
+    "id": "drug_ex_111",
+    "q": "Which medication is indicated for adhd and is classified as a(n) amphetamine, cns stimulant, c-ii?",
+    "options": [
+      "Lisdexamfetamine",
+      "Lovastatin",
+      "Ibuprofen",
+      "Levothyroxine"
+    ],
+    "correct": 0
+  },
+  {
+    "id": "drug_ex_112",
+    "q": "Which medication is indicated for hypertension and is classified as a(n) acei, antihypertensive?",
+    "options": [
+      "Clobetasol topical",
+      "Naproxen",
+      "Oxycodone",
+      "Lisinopril"
+    ],
+    "correct": 3
+  },
+  {
+    "id": "drug_ex_113",
+    "q": "Which medication is indicated for allergies and is classified as a(n) antihistamine?",
+    "options": [
+      "Prednisolone",
+      "Loratadine",
+      "Bisoprolol/Hydrochlorothiazide",
+      "Insulin aspart"
+    ],
+    "correct": 1
+  },
+  {
+    "id": "drug_ex_114",
+    "q": "Which medication is indicated for anxiety and is classified as a(n) benzodiazepine, short or intermediate acting, c-iv?",
+    "options": [
+      "Dabigatran",
+      "Lorazepam",
+      "Pravastatin",
+      "Cefdinir"
+    ],
+    "correct": 1
+  },
+  {
+    "id": "drug_ex_115",
+    "q": "Which medication is indicated for hypertension and is classified as a(n) angiotensin ii receptor antagonist, antihypertensive?",
+    "options": [
+      "Losartan",
+      "Budesonide/Formoterol",
+      "Montelukast",
+      "Amoxicillin"
+    ],
+    "correct": 0
+  },
+  {
+    "id": "drug_ex_116",
+    "q": "Which medication is indicated for dyslipidemia and is classified as a(n) hmg-coa reductase inhibitor?",
+    "options": [
+      "Question 117",
+      "Quetiapine",
+      "Oxcarbazepine",
+      "Progesterone"
+    ],
+    "correct": 0
+  },
+  {
+    "id": "drug_ex_117",
+    "q": "Which medication is indicated for antiemetic and is classified as a(n) antihistamine, antiemetic?",
+    "options": [
+      "Metronidazole",
+      "Anastrozole",
+      "Tizanidine",
+      "Meclizine"
+    ],
+    "correct": 3
+  },
+  {
+    "id": "drug_ex_118",
+    "q": "Which medication is indicated for pain and is classified as a(n) nsaid?",
+    "options": [
+      "Meloxicam",
+      "Doxycycline",
+      "Oseltamivir",
+      "Question 88"
+    ],
+    "correct": 0
+  },
+  {
+    "id": "drug_ex_119",
+    "q": "Which medication is indicated for diabetes and is classified as a(n) biguanide, hypoglycemic?",
+    "options": [
+      "Olmesartan",
+      "Lisdexamfetamine",
+      "Nitrofurantoin",
+      "Metformin"
+    ],
+    "correct": 3
+  },
+  {
+    "id": "drug_ex_120",
+    "q": "Which medication is indicated for pain and is classified as a(n) centrally acting skeletal muscle relaxant?",
+    "options": [
+      "Methocarbamol",
+      "Progesterone",
+      "Insulin lispro",
+      "Cyclobenzaprine"
+    ],
+    "correct": 0
+  },
+  {
+    "id": "drug_ex_121",
+    "q": "Which medication is indicated for cancer and is classified as a(n) antimetabolite?",
+    "options": [
+      "Allopurinol",
+      "Methotrexate",
+      "Atenolol",
+      "Fluticasone/Salmeterol"
+    ],
+    "correct": 1
+  },
+  {
+    "id": "drug_ex_122",
+    "q": "Which medication is indicated for adhd and is classified as a(n) cns stimulant, c-ii?",
+    "options": [
+      "Valsartan",
+      "Methylphenidate",
+      "Tiotropium",
+      "Benazepril"
+    ],
+    "correct": 1
+  },
+  {
+    "id": "drug_ex_123",
+    "q": "Which medication is indicated for inflammatory reactions and is classified as a(n) adrenal corticosteroid?",
+    "options": [
+      "Labetalol",
+      "Enalapril",
+      "Ropinirole",
+      "Methylprednisolone"
+    ],
+    "correct": 3
+  },
+  {
+    "id": "drug_ex_124",
+    "q": "Which medication is indicated for hypertension and is classified as a(n) β-adrenergic blocker, cardioselective?",
+    "options": [
+      "Ibuprofen",
+      "Etonogestrel/Ethinyl estradiol vaginal ring",
+      "Metoprolol",
+      "Lovastatin"
+    ],
+    "correct": 2
+  },
+  {
+    "id": "drug_ex_125",
+    "q": "Which medication is indicated for infection and is classified as a(n) nitroimidazole antibiotic, antiprotozoal?",
+    "options": [
+      "Metronidazole",
+      "Isosorbide mononitrate",
+      "Fluconazole",
+      "Fenofibrate"
+    ],
+    "correct": 0
+  },
+  {
+    "id": "drug_ex_126",
+    "q": "Which medication is indicated for overactive bladder and is classified as a(n) beta-3 agonist?",
+    "options": [
+      "Rizatriptan",
+      "Mirabegron",
+      "Ezetimibe",
+      "Famotidine"
+    ],
+    "correct": 1
+  },
+  {
+    "id": "drug_ex_127",
+    "q": "Which medication is indicated for depression and is classified as a(n) antidepressant, a2-antagonist?",
+    "options": [
+      "Nortriptyline",
+      "Allopurinol",
+      "Isosorbide mononitrate",
+      "Mirtazapine"
+    ],
+    "correct": 3
+  },
+  {
+    "id": "drug_ex_128",
+    "q": "Which medication is indicated for rhinitis and is classified as a(n) intranasal corticosteroid?",
+    "options": [
+      "Lovastatin",
+      "Mometasone nasal",
+      "Baclofen",
+      "Clopidogrel"
+    ],
+    "correct": 1
+  },
+  {
+    "id": "drug_ex_129",
+    "q": "Which medication is indicated for asthma and is classified as a(n) leukotriene receptor antagonist?",
+    "options": [
+      "Montelukast",
+      "Gabapentin",
+      "Sertraline",
+      "Etonogestrel/Ethinyl estradiol vaginal ring"
+    ],
+    "correct": 0
+  },
+  {
+    "id": "drug_ex_130",
+    "q": "Which medication is indicated for pain and is classified as a(n) opioid analgesic, c-ii?",
+    "options": [
+      "Clonidine",
+      "Nitroglycerin",
+      "Timolol ophthalmic",
+      "Morphine ER"
+    ],
+    "correct": 3
+  },
+  {
+    "id": "drug_ex_131",
+    "q": "Which medication is indicated for skin disorders and is classified as a(n) topical antibacterial?",
+    "options": [
+      "Losartan",
+      "Mupirocin",
+      "Loratadine",
+      "Donepezil"
+    ],
+    "correct": 1
+  },
+  {
+    "id": "drug_ex_132",
+    "q": "Which medication is indicated for pain and is classified as a(n) nsaid?",
+    "options": [
+      "Penicillin VK",
+      "Bisoprolol/Hydrochlorothiazide",
+      "Guanfacine ER",
+      "Naproxen"
+    ],
+    "correct": 3
+  },
+  {
+    "id": "drug_ex_133",
+    "q": "Which medication is indicated for hypertension and is classified as a(n) β-adrenergic blocker, cardioselective, b1 selective?",
+    "options": [
+      "Methotrexate",
+      "Cetirizine",
+      "Nebivolol",
+      "Gabapentin"
+    ],
+    "correct": 2
+  },
+  {
+    "id": "drug_ex_134",
+    "q": "Which medication is indicated for hypertension and is classified as a(n) dihydropyridine calcium channel blocker?",
+    "options": [
+      "Nifedipine",
+      "Rizatriptan",
+      "Famotidine",
+      "Dulaglutide"
+    ],
+    "correct": 0
+  },
+  {
+    "id": "drug_ex_135",
+    "q": "Which medication is indicated for urinary infection and is classified as a(n) nitrofuran antibiotic?",
+    "options": [
+      "Methocarbamol",
+      "Paroxetine",
+      "Nitrofurantoin",
+      "Linagliptin"
+    ],
+    "correct": 2
+  },
+  {
+    "id": "drug_ex_136",
+    "q": "Which medication is indicated for angina and is classified as a(n) nitrate, antianginal?",
+    "options": [
+      "Meclizine",
+      "Simvastatin",
+      "Promethazine",
+      "Nitroglycerin"
+    ],
+    "correct": 3
+  },
+  {
+    "id": "drug_ex_137",
+    "q": "Which medication is indicated for depression and is classified as a(n) tricyclic antidepressant?",
+    "options": [
+      "Cetirizine",
+      "Fluconazole",
+      "Nortriptyline",
+      "Mirtazapine"
+    ],
+    "correct": 2
+  },
+  {
+    "id": "drug_ex_138",
+    "q": "Which medication is indicated for fungal infection and is classified as a(n) polyene antifungal?",
+    "options": [
+      "Zolpidem",
+      "Nystatin topical",
+      "Allopurinol",
+      "Oseltamivir"
+    ],
+    "correct": 1
+  },
+  {
+    "id": "drug_ex_139",
+    "q": "Which medication is indicated for schizophrenia and is classified as a(n) thienobenzodiazepine, atypical antipsychotic?",
+    "options": [
+      "Hydrochlorothiazide",
+      "Celecoxib",
+      "Olanzapine",
+      "Amlodipine"
+    ],
+    "correct": 2
+  },
+  {
+    "id": "drug_ex_140",
+    "q": "Which medication is indicated for hypertension and is classified as a(n) angiotensin ii receptor antagonist?",
+    "options": [
+      "Triamcinolone nasal",
+      "Olmesartan",
+      "Terazosin",
+      "Valacyclovir"
+    ],
+    "correct": 1
+  },
+  {
+    "id": "drug_ex_141",
+    "q": "Which medication is indicated for gerd and is classified as a(n) proton pump inhibitor?",
+    "options": [
+      "Omeprazole",
+      "Fenofibrate",
+      "Pioglitazone",
+      "Diclofenac oral"
+    ],
+    "correct": 0
+  },
+  {
+    "id": "drug_ex_142",
+    "q": "Which medication is indicated for antiemetic and is classified as a(n) antiemetic?",
+    "options": [
+      "Ondansetron",
+      "Cholecalciferol (Vitamin D3)",
+      "Acyclovir",
+      "Cyclobenzaprine"
+    ],
+    "correct": 0
+  },
+  {
+    "id": "drug_ex_143",
+    "q": "Which medication is indicated for influenza and is classified as a(n) neuraminidase inhibitor, antiviral?",
+    "options": [
+      "Fluticasone/Salmeterol",
+      "Oseltamivir",
+      "Ciprofloxacin",
+      "Sildenafil"
+    ],
+    "correct": 1
+  },
+  {
+    "id": "drug_ex_144",
+    "q": "Which medication is indicated for seizures and is classified as a(n) dibenzazepine carboxamide, anticonvulsant?",
+    "options": [
+      "Aspirin 81 mg",
+      "Diazepam",
+      "Famotidine",
+      "Oxcarbazepine"
+    ],
+    "correct": 3
+  },
+  {
+    "id": "drug_ex_145",
+    "q": "Which medication is indicated for overactive bladder and is classified as a(n) urinary antispasmodic?",
+    "options": [
+      "Question 77",
+      "Oxybutynin",
+      "Labetalol",
+      "Diltiazem ER"
+    ],
+    "correct": 1
+  },
+  {
+    "id": "drug_ex_146",
+    "q": "Which medication is indicated for pain and is classified as a(n) opioid analgesic, c-ii?",
+    "options": [
+      "Verapamil",
+      "Metoprolol",
+      "Pioglitazone",
+      "Oxycodone"
+    ],
+    "correct": 3
+  },
+  {
+    "id": "drug_ex_147",
+    "q": "Which medication is indicated for gerd and is classified as a(n) proton pump inhibitor?",
+    "options": [
+      "Pantoprazole",
+      "Pravastatin",
+      "Paroxetine",
+      "Anastrozole"
+    ],
+    "correct": 0
+  },
+  {
+    "id": "drug_ex_148",
+    "q": "Which medication is indicated for depression and is classified as a(n) ssri antidepressant?",
+    "options": [
+      "Fluoxetine",
+      "Carvedilol",
+      "Etonogestrel/Ethinyl estradiol vaginal ring",
+      "Paroxetine"
+    ],
+    "correct": 3
+  },
+  {
+    "id": "drug_ex_149",
+    "q": "Which medication is indicated for infection and is classified as a(n) antibiotic?",
+    "options": [
+      "Diazepam",
+      "Lovastatin",
+      "Spironolactone",
+      "Acyclovir"
+    ],
+    "correct": 1
+  },
+  {
+    "id": "drug_ex_150",
+    "q": "Which medication is indicated for obesity and is classified as a(n) centrally acting appetite suppressant, c-iv?",
+    "options": [
+      "Hydrochlorothiazide",
+      "Meloxicam",
+      "Cyclobenzaprine",
+      "Phentermine"
+    ],
+    "correct": 3
+  },
+  {
+    "id": "drug_ex_151",
+    "q": "Which medication is indicated for diabetes and is classified as a(n) thiazolidinedione antidiabetic?",
+    "options": [
+      "Celecoxib",
+      "Nystatin topical",
+      "Pioglitazone",
+      "Trimethoprim/Sulfamethoxazole"
+    ],
+    "correct": 2
+  },
+  {
+    "id": "drug_ex_152",
+    "q": "Which medication is indicated for hypokalemia and is classified as a(n) electrolyte, potassium?",
+    "options": [
+      "Furosemide",
+      "Rizatriptan",
+      "Mirabegron",
+      "Potassium chloride"
+    ],
+    "correct": 3
+  },
+  {
+    "id": "drug_ex_153",
+    "q": "Which medication is indicated for parkinson's disease and is classified as a(n) dopamine agonist, antiparkinson?",
+    "options": [
+      "Risperidone",
+      "Pramipexole",
+      "Sucralfate",
+      "Warfarin"
+    ],
+    "correct": 1
+  },
+  {
+    "id": "drug_ex_154",
+    "q": "Which medication is indicated for dyslipidemia and is classified as a(n) hmg-coa reductase inhibitor?",
+    "options": [
+      "Pravastatin",
+      "Linagliptin",
+      "Losartan",
+      "Simvastatin"
+    ],
+    "correct": 0
+  },
+  {
+    "id": "drug_ex_155",
+    "q": "Which medication is indicated for inflammatory reactions and is classified as a(n) adrenal glucocorticosteroid?",
+    "options": [
+      "Citalopram",
+      "Prednisolone",
+      "Ciprofloxacin",
+      "Alendronate"
+    ],
+    "correct": 1
+  },
+  {
+    "id": "drug_ex_156",
+    "q": "Which medication is indicated for inflammatory reactions and is classified as a(n) adrenal corticosteroid?",
+    "options": [
+      "Prednisone",
+      "Verapamil",
+      "Trazodone",
+      "Topiramate"
+    ],
+    "correct": 0
+  },
+  {
+    "id": "drug_ex_157",
+    "q": "Which medication is indicated for neuropathic pain and is classified as a(n) analgesic, anticonvulsant, c-v?",
+    "options": [
+      "Triamcinolone nasal",
+      "Dapagliflozin",
+      "Duloxetine",
+      "Pregabalin"
+    ],
+    "correct": 3
+  },
+  {
+    "id": "drug_ex_158",
+    "q": "Which medication is indicated for women's health and is classified as a(n) progestin hormone?",
+    "options": [
+      "Progesterone",
+      "Tamsulosin",
+      "Aripiprazole",
+      "Pioglitazone"
+    ],
+    "correct": 0
+  },
+  {
+    "id": "drug_ex_159",
+    "q": "Which medication is indicated for antiemetic and is classified as a(n) phenothiazine antihistamine?",
+    "options": [
+      "Amitriptyline",
+      "Promethazine",
+      "Trimethoprim/Sulfamethoxazole",
+      "Simvastatin"
+    ],
+    "correct": 1
+  },
+  {
+    "id": "drug_ex_160",
+    "q": "Which medication is indicated for hypertension and is classified as a(n) β-adrenergic blocker, nonselective?",
+    "options": [
+      "Naproxen",
+      "Lovastatin",
+      "Propranolol",
+      "Methotrexate"
+    ],
+    "correct": 2
+  },
+  {
+    "id": "drug_ex_161",
+    "q": "Which medication is indicated for schizophrenia and is classified as a(n) antipsychotic (atypical)?",
+    "options": [
+      "Amlodipine",
+      "Insulin lispro",
+      "Methylphenidate",
+      "Quetiapine"
+    ],
+    "correct": 3
+  },
+  {
+    "id": "drug_ex_162",
+    "q": "Which medication is indicated for hypertension and is classified as a(n) acei, antihypertensive?",
+    "options": [
+      "Omeprazole",
+      "Amlodipine",
+      "Ramipril",
+      "Oxcarbazepine"
+    ],
+    "correct": 2
+  },
+  {
+    "id": "drug_ex_163",
+    "q": "Which medication is indicated for schizophrenia and is classified as a(n) benzisoxazole, antipsychotic?",
+    "options": [
+      "Omeprazole",
+      "Risperidone",
+      "Simvastatin",
+      "Lamotrigine"
+    ],
+    "correct": 1
+  },
+  {
+    "id": "drug_ex_164",
+    "q": "Which medication is indicated for anticoagulation and is classified as a(n) anticoagulant, factor xa inhibitor?",
+    "options": [
+      "Levofloxacin",
+      "Rivaroxaban",
+      "Baclofen",
+      "Mirtazapine"
+    ],
+    "correct": 1
+  },
+  {
+    "id": "drug_ex_165",
+    "q": "Which medication is indicated for migraine and is classified as a(n) antimigraine, serotonin receptor agonist?",
+    "options": [
+      "Rizatriptan",
+      "Buprenorphine/Naloxone",
+      "Sildenafil",
+      "Nebivolol"
+    ],
+    "correct": 0
+  },
+  {
+    "id": "drug_ex_166",
+    "q": "Which medication is indicated for parkinson's disease and is classified as a(n) dopamine agonist?",
+    "options": [
+      "Ropinirole",
+      "Tizanidine",
+      "Nortriptyline",
+      "Dulaglutide"
+    ],
+    "correct": 0
+  },
+  {
+    "id": "drug_ex_167",
+    "q": "Which medication is indicated for dyslipidemia and is classified as a(n) hmg-coa reductase inhibitor?",
+    "options": [
+      "Rosuvastatin",
+      "Lamotrigine",
+      "Ropinirole",
+      "Celecoxib"
+    ],
+    "correct": 0
+  },
+  {
+    "id": "drug_ex_168",
+    "q": "Which medication is indicated for depression and is classified as a(n) ssri antidepressant?",
+    "options": [
+      "Sertraline",
+      "Citalopram",
+      "Azithromycin",
+      "Progesterone"
+    ],
+    "correct": 0
+  },
+  {
+    "id": "drug_ex_169",
+    "q": "Which medication is indicated for erectile dysfunction and is classified as a(n) erectile dysfunction agent, pulmonary hypertensive agent?",
+    "options": [
+      "Sildenafil",
+      "Acetaminophen",
+      "Nystatin topical",
+      "Oxycodone"
+    ],
+    "correct": 0
+  },
+  {
+    "id": "drug_ex_170",
+    "q": "Which medication is indicated for dyslipidemia and is classified as a(n) hmg-coa reductase inhibitor?",
+    "options": [
+      "Simvastatin",
+      "Rosuvastatin",
+      "Alprazolam",
+      "Baclofen"
+    ],
+    "correct": 0
+  },
+  {
+    "id": "drug_ex_171",
+    "q": "Which medication is indicated for diabetes and is classified as a(n) dipeptidyl peptidase-4 inhibitor, antidiabetic?",
+    "options": [
+      "Dicyclomine",
+      "Alendronate",
+      "Sitagliptin",
+      "Chlorthalidone"
+    ],
+    "correct": 2
+  },
+  {
+    "id": "drug_ex_172",
+    "q": "Which medication is indicated for heart failure and is classified as a(n) potassium-sparing diuretic; selective aldosterone blocker?",
+    "options": [
+      "Fluoxetine",
+      "Spironolactone",
+      "Methylprednisolone",
+      "Cephalexin"
+    ],
+    "correct": 1
+  },
+  {
+    "id": "drug_ex_173",
+    "q": "Which medication is indicated for duodenal ulcer and is classified as a(n) gastrointestinal agent, miscellaneous?",
+    "options": [
+      "Question 46",
+      "Metformin",
+      "Sucralfate",
+      "Celecoxib"
+    ],
+    "correct": 2
+  },
+  {
+    "id": "drug_ex_174",
+    "q": "Which medication is indicated for migraine and is classified as a(n) antimigraine, serotonin receptor agonist?",
+    "options": [
+      "Rosuvastatin",
+      "Loratadine",
+      "Dicyclomine",
+      "Sumatriptan"
+    ],
+    "correct": 3
+  },
+  {
+    "id": "drug_ex_175",
+    "q": "Which medication is indicated for bph (benign prostatic hyperplasia) and is classified as a(n) α1-adrenergic blocker?",
+    "options": [
+      "Mirtazapine",
+      "Tamsulosin",
+      "Triamcinolone nasal",
+      "Canagliflozin"
+    ],
+    "correct": 1
+  },
+  {
+    "id": "drug_ex_176",
+    "q": "Which medication is indicated for bph (benign prostatic hyperplasia, htn (hypertension) and is classified as a(n) α1-adrenergic blocker?",
+    "options": [
+      "Penicillin VK",
+      "Meloxicam",
+      "Rosuvastatin",
+      "Ibuprofen"
+    ],
+    "correct": 0
+  },
+  {
+    "id": "drug_ex_177",
+    "q": "Which medication is indicated for androgen replacement and is classified as a(n) androgen, c-iii?",
+    "options": [
+      "Baclofen",
+      "Losartan",
+      "Morphine ER",
+      "Testosterone"
+    ],
+    "correct": 3
+  },
+  {
+    "id": "drug_ex_178",
+    "q": "Which medication is indicated for hypothyroidism and is classified as a(n) thyroid supplement?",
+    "options": [
+      "Folic acid",
+      "Fenofibrate",
+      "Warfarin",
+      "Thyroid desiccated"
+    ],
+    "correct": 3
+  },
+  {
+    "id": "drug_ex_179",
+    "q": "Which medication is indicated for ocular issues and is classified as a(n) beta-blocker, antiglaucoma agent?",
+    "options": [
+      "Amoxicillin",
+      "Thyroid desiccated",
+      "Timolol ophthalmic",
+      "Latanoprost"
+    ],
+    "correct": 2
+  },
+  {
+    "id": "drug_ex_180",
+    "q": "Which medication is indicated for copd and is classified as a(n) anticholinergic bronchodilator?",
+    "options": [
+      "Tiotropium",
+      "Methocarbamol",
+      "Timolol ophthalmic",
+      "Montelukast"
+    ],
+    "correct": 0
+  },
+  {
+    "id": "drug_ex_181",
+    "q": "Which medication is indicated for pain and is classified as a(n) centrally acting skeletal muscle relaxant, α2-agonist?",
+    "options": [
+      "Cefdinir",
+      "Etonogestrel/Ethinyl estradiol vaginal ring",
+      "Hydrochlorothiazide",
+      "Tizanidine"
+    ],
+    "correct": 3
+  },
+  {
+    "id": "drug_ex_182",
+    "q": "Which medication is indicated for seizures and is classified as a(n) anticonvulsant?",
+    "options": [
+      "Question 88",
+      "Topiramate",
+      "Levothyroxine",
+      "Apixaban"
+    ],
+    "correct": 1
+  },
+  {
+    "id": "drug_ex_183",
+    "q": "Which medication is indicated for pain and is classified as a(n) opioid analgesic, c-iv?",
+    "options": [
+      "Lamotrigine",
+      "Losartan",
+      "Tramadol",
+      "Diclofenac oral"
+    ],
+    "correct": 2
+  },
+  {
+    "id": "drug_ex_184",
+    "q": "Which medication is indicated for depression and is classified as a(n) antidepressant?",
+    "options": [
+      "Alendronate",
+      "Celecoxib",
+      "Trazodone",
+      "Ropinirole"
+    ],
+    "correct": 2
+  },
+  {
+    "id": "drug_ex_185",
+    "q": "Which medication is indicated for allergic rhinitis and is classified as a(n) intranasal adrenal glucocorticosteroid?",
+    "options": [
+      "Ketoconazole topical",
+      "Triamcinolone nasal",
+      "Canagliflozin",
+      "Esomeprazole"
+    ],
+    "correct": 1
+  },
+  {
+    "id": "drug_ex_186",
+    "q": "Which medication is indicated for skin disorders and is classified as a(n) topical corticosteroid?",
+    "options": [
+      "Fluticasone/Salmeterol",
+      "Linagliptin",
+      "Terazosin",
+      "Ropinirole"
+    ],
+    "correct": 2
+  },
+  {
+    "id": "drug_ex_187",
+    "q": "Which medication is indicated for hypertension and is classified as a(n) potassium sparing/thiazide diuretic combination?",
+    "options": [
+      "Triamterene/Hydrochlorothiazide",
+      "Indomethacin",
+      "Tizanidine",
+      "Ferrous sulfate"
+    ],
+    "correct": 0
+  },
+  {
+    "id": "drug_ex_188",
+    "q": "Which medication is indicated for infection and is classified as a(n) sulfonamide antibiotic?",
+    "options": [
+      "Tizanidine",
+      "Trimethoprim/Sulfamethoxazole",
+      "Mirtazapine",
+      "Fluticasone nasal"
+    ],
+    "correct": 1
+  },
+  {
+    "id": "drug_ex_189",
+    "q": "Which medication is indicated for herpes and is classified as a(n) viral dna polymerase inhibitor?",
+    "options": [
+      "Chlorthalidone",
+      "Valacyclovir",
+      "Famotidine",
+      "Amitriptyline"
+    ],
+    "correct": 1
+  },
+  {
+    "id": "drug_ex_190",
+    "q": "Which medication is indicated for hypertension and is classified as a(n) angiotensin ii receptor antagonist?",
+    "options": [
+      "Oxycodone",
+      "Ropinirole",
+      "Insulin aspart",
+      "Valsartan"
+    ],
+    "correct": 3
+  },
+  {
+    "id": "drug_ex_191",
+    "q": "Which medication is indicated for smoking cessation and is classified as a(n) smoking cessation agent?",
+    "options": [
+      "Tiotropium",
+      "Nystatin topical",
+      "Varenicline",
+      "Clopidogrel"
+    ],
+    "correct": 2
+  },
+  {
+    "id": "drug_ex_192",
+    "q": "Which medication is indicated for depression and is classified as a(n) antidepressant, serotonin/norepinephrine reuptake inhibitor?",
+    "options": [
+      "Acetaminophen",
+      "Venlafaxine",
+      "Progesterone",
+      "Dicyclomine"
+    ],
+    "correct": 1
+  },
+  {
+    "id": "drug_ex_193",
+    "q": "Which medication is indicated for hypertension and is classified as a(n) calcium channel blocker?",
+    "options": [
+      "Triamterene/Hydrochlorothiazide",
+      "Labetalol",
+      "Irbesartan",
+      "Verapamil"
+    ],
+    "correct": 3
+  },
+  {
+    "id": "drug_ex_194",
+    "q": "Which medication is indicated for anticoagulation and is classified as a(n) anticoagulant, vitamin k antagonist?",
+    "options": [
+      "Phentermine",
+      "Albuterol sulfate (HFA)",
+      "Bupropion XL",
+      "Warfarin"
+    ],
+    "correct": 3
+  },
+  {
+    "id": "drug_ex_195",
+    "q": "Which medication is indicated for insomnia and is classified as a(n) nonbarbiturate hypnotic, c-iv?",
+    "options": [
+      "Zolpidem",
+      "Pioglitazone",
+      "Metoprolol",
+      "Sertraline"
+    ],
+    "correct": 0
   }
-];
+]
+}];
 
-export const drugCases = [{
+exports. drugCases = [{
   id: "builtin_cases_drug",
   title: "Drug Counseling Cases",
   icon: "Stethoscope",
