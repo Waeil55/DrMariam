@@ -2465,6 +2465,10 @@ body,
     display: block;
   }
 
+  .sm\:inline {
+    display: inline;
+  }
+
   .sm\:max-w-lg {
     max-width: 32rem;
   }
