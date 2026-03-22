@@ -319,8 +319,7 @@ const openDB = () => new Promise((resolve, reject) => {
  * Generic database operation wrapper.
  * Uses async/await internally; always rejects with a descriptive Error.
  */
-const dbOp = async (store, mode, op) => {
-  let db;
+const dbOp = async (store, mode, op) => { let db;
   try { db = await openDB(); }
   catch (err) { throw new Error(`DB open failed for store '${store}': ${err.message}`); }
 
@@ -2685,7 +2684,7 @@ function LibraryView({ docs, uploading, onUpload, onOpen, onDelete, flashcards, 
 /* ═══════════════════════════════════════════════════════════════════
    DOCUMENT WORKSPACE — PDF canvas + text/image viewer
 ═══════════════════════════════════════════════════════════════════ */
-function DocWorkspace({ activeDoc, setDocs, currentPage, setCurrentPage, openDocs, closeTab, setActiveId, docs, onBack }) {
+function DocWorkspace({ activeDoc, setDocs, currentPage, setCurrentPage, openDocs, closeTab, setActiveId, docs, onBack, rpOpen, setRpOpen }) {
   const [pdf, setPdf] = useState(null);
   const [loading, setLoading] = useState(true);
   const [scale, setScale] = useState(1);
@@ -2794,6 +2793,10 @@ function DocWorkspace({ activeDoc, setDocs, currentPage, setCurrentPage, openDoc
             <button onClick={() => setScale(s => Math.min(s + .2, 4))} className="w-7 h-7 glass rounded-lg flex items-center justify-center opacity-60 hover:opacity-100"><ZoomIn size={16} /></button>
           </div>
         )}
+        <button onClick={() => setRpOpen(p => !p)}
+          className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-black shrink-0 transition-all ${rpOpen ? 'bg-[var(--accent)] text-white' : 'glass text-[var(--accent)]'}`}>
+          <Sparkles size={13} /><span className="hidden sm:inline">{rpOpen ? 'Hide' : 'AI Tools'}</span>
+        </button>
       </div>
 
       {/* Tab bar */}
@@ -3560,7 +3563,7 @@ function FlashcardsView({ flashcards, setFlashcards, settings, addToast, docs, s
   }, [flashcards, filterDocId]);
 
   const startSetWithResumeCheck = async (set) => {
-    const saved = await getSessionProgress(set.id);
+    let saved = null; try { saved = await getSessionProgress(set.id); } catch(e) { console.error('DB error:', e); }
     if (saved && saved.type === 'flashcards' && saved.index < set.cards.length) {
       setSavedProgress(saved);
       setShowResumePrompt(true);
@@ -3879,7 +3882,7 @@ function ExamsView({ exams, setExams, settings, addToast, docs, setFlashcards, s
 
   const startExamWithResumeCheck = async (ex) => {
     const shuffledEx = { ...ex, questions: shuffleOptions(ex.questions) };
-    const saved = await getSessionProgress(ex.id);
+    let saved = null; try { saved = await getSessionProgress(ex.id); } catch(e) { console.error('DB error:', e); }
     if (saved && saved.type === 'exam' && saved.index < ex.questions.length) {
       setSavedProgress(saved);
       setShowResumePrompt(true);
@@ -8538,10 +8541,10 @@ function App() {
   useEffect(() => {
     (async () => {
       try {
-        const [d, fc, ex, ca, no, ch, st, od, dp, mm, tl] = await Promise.all([
+        const [d, fc, ex, ca, no, ch, st, od, dp, mm, tl, actId, savedView] = await Promise.all([
           getState('docs'), getState('flashcards'), getState('exams'), getState('cases'),
           getState('notes'), getState('chats'), getState('settings'), getState('openDocs'),
-          getState('docPages'), getState('mindMaps'), getState('timelines')]);
+          getState('docPages'), getState('mindMaps'), getState('timelines'), getState('activeId'), getState('view')]);
         if (d) setDocs(d);
         // Merge built-in sets — always present, user sets follow after them
         const userFC = (fc || []).filter(f => !f.isBuiltin && !f.isBuiltIn);
@@ -8553,6 +8556,8 @@ function App() {
         if (no) setNotes(no); if (ch) setChatSessions(ch); if (od) setOpenDocs(od); if (dp) setDocPages(dp);
         if (mm) setMindMaps(mm); if (tl) setTimelines(tl);
         if (st) setSettings(p => ({ ...DEFAULT_SETTINGS, ...p, ...st }));
+          if (actId) setActiveId(actId); else if (od && od.length > 0) setActiveId(od[od.length-1]);
+          if (savedView && savedView === 'reader') { if (actId || (od && od.length>0)) setView(savedView); else setView('library'); }
       } catch (err) {
         logError('boot', err);
         // Non-fatal: still seed built-ins even if DB fails
@@ -8577,14 +8582,14 @@ function App() {
         saveState('exams', userEx), saveState('cases', cases), saveState('notes', notes),
         saveState('chats', chatSessions), saveState('settings', settings),
         saveState('openDocs', openDocs), saveState('docPages', docPages),
-        saveState('mindMaps', mindMaps), saveState('timelines', timelines)]);
+        saveState('mindMaps', mindMaps), saveState('timelines', timelines), saveState('activeId', activeId), saveState('view', view)]);
       } catch (err) {
         logError('persist', err);
         // Don't interrupt the user — data is safe in memory for this session
       }
     }, 800);
     return () => clearTimeout(t);
-  }, [docs, flashcards, exams, cases, notes, chatSessions, settings, openDocs, docPages, mindMaps, timelines, loaded]);
+  }, [docs, flashcards, exams, cases, notes, chatSessions, settings, openDocs, docPages, mindMaps, timelines, activeId, view, loaded]);
 
   // Theme
   useEffect(() => {
@@ -8671,6 +8676,7 @@ function App() {
   };
 
   const activeDoc = useMemo(() => docs.find(d => d.id === activeId) || null, [docs, activeId]);
+  useEffect(() => { if (view === 'reader' && loaded && !activeDoc) { if (docs.length > 0) { setActiveId(docs[0].id); setOpenDocs(p => p.includes(docs[0].id) ? p : [...p, docs[0].id]); } else setView('library'); } }, [view, activeDoc, loaded, docs]);
   const setPage = useCallback(updater => setDocPages(p => ({ ...p, [activeId]: typeof updater === 'function' ? updater(p[activeId] || 1) : updater })), [activeId]);
 
   // Background AI generation
@@ -9041,7 +9047,7 @@ function App() {
 
   const NAV_ITEMS = [
     { icon: FolderOpen, label: 'Library', v: 'library' },
-    { icon: BookMarked, label: 'Reader', v: 'reader', dis: !activeId },
+    { icon: BookMarked, label: 'Reader', v: 'reader' },
     { icon: Layers, label: 'Cards', v: 'flashcards' },
     { icon: Activity, label: 'Cases', v: 'cases' },
     { icon: CheckSquare, label: 'Exams', v: 'exams' },
@@ -9219,7 +9225,7 @@ function App() {
         <nav className="desktop-top-nav desktop-only">
           {NAV_ITEMS.map(({ icon: Icon, label, v, dis }) => (
             <button key={v} disabled={dis}
-              onClick={() => { if (!dis) { if (v === 'reader' && activeId) setView('reader'); else if (v !== 'reader') setView(v); } }}
+              onClick={() => { if (dis) return; if (v === 'reader') { if (activeId) setView('reader'); else if (docs && docs.length > 0) { const topDoc = docs[0]; setActiveId(topDoc.id); setOpenDocs(p => p.includes(topDoc.id) ? p : [...p, topDoc.id]); setView('reader'); } else setView('library'); } else setView(v); }}
               className={`desktop-top-nav-btn${view === v ? ' nav-active' : ''}`}
               title={label}>
               <Icon size={14} strokeWidth={view === v ? 2.5 : 2} />
@@ -9279,7 +9285,7 @@ function App() {
               <DocWorkspace activeDoc={activeDoc} setDocs={setDocs}
                 currentPage={docPages[activeId] || 1} setCurrentPage={setPage}
                 openDocs={openDocs} closeTab={id => setOpenDocs(p => p.filter(d => d !== id))}
-                setActiveId={setActiveId} docs={docs} onBack={() => setView('library')} />
+                setActiveId={setActiveId} docs={docs} onBack={() => setView('library')} rpOpen={rpOpen} setRpOpen={setRpOpen} />
             )}
           </ViewWrapper>
         </main>
@@ -9336,7 +9342,7 @@ function App() {
         <div className="design-nav-inner">
           {NAV_ITEMS.map(({ icon: Icon, label, v, dis }) => (
             <button key={v} disabled={dis}
-              onClick={() => { if (!dis) { if (v === 'reader' && activeId) setView('reader'); else if (v !== 'reader') setView(v); } }}
+              onClick={() => { if (dis) return; if (v === 'reader') { if (activeId) setView('reader'); else if (docs && docs.length > 0) { const topDoc = docs[0]; setActiveId(topDoc.id); setOpenDocs(p => p.includes(topDoc.id) ? p : [...p, topDoc.id]); setView('reader'); } else setView('library'); } else setView(v); }}
               className={`design-nav-btn ${view === v ? 'active' : ''}`}
               title={label}>
               <Icon size={22} strokeWidth={view === v ? 2.5 : 2} />
