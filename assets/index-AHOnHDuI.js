@@ -22731,8 +22731,12 @@ Format with clear sections. Be thorough but concise.`;
     ] })
   ] });
 }
-function OsceCommunicationForm({ topicKey, category }) {
+function OsceCommunicationForm({ topicKey, category, settings }) {
   const storageKey = `osce-comm-form:${topicKey}`;
+  const col = category.color;
+  const [caseInput, setCaseInput] = reactExports.useState("");
+  const [patientCase, setPatientCase] = reactExports.useState(null);
+  const [loadingCase, setLoadingCase] = reactExports.useState(false);
   const blankForm = () => ({
     toProvider: "",
     date: (/* @__PURE__ */ new Date()).toLocaleDateString(),
@@ -22759,6 +22763,8 @@ function OsceCommunicationForm({ topicKey, category }) {
     }
   });
   const [saved, setSaved] = reactExports.useState(false);
+  const [evaluation, setEvaluation] = reactExports.useState(null);
+  const [loadingEval, setLoadingEval] = reactExports.useState(false);
   reactExports.useEffect(() => {
     try {
       const s = localStorage.getItem(storageKey);
@@ -22767,6 +22773,9 @@ function OsceCommunicationForm({ topicKey, category }) {
       setForm(blankForm());
     }
     setSaved(false);
+    setEvaluation(null);
+    setPatientCase(null);
+    setCaseInput("");
   }, [storageKey]);
   const update = (field, val) => setForm((f) => ({ ...f, [field]: val }));
   const save = () => {
@@ -22780,232 +22789,665 @@ function OsceCommunicationForm({ topicKey, category }) {
     }
   };
   const clear = () => {
-    if (!window.confirm("Clear this communication form?")) return;
+    if (!window.confirm("Clear this SBAR form?")) return;
     const b = blankForm();
     setForm(b);
+    setEvaluation(null);
     try {
       localStorage.removeItem(storageKey);
     } catch {
     }
   };
-  const col = category.color;
-  const Field = ({ label, field, placeholder = "", type = "input", rows = 3, half = false }) => /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: `flex flex-col gap-1 ${half ? "flex-1 min-w-0" : "w-full"}`, children: [
-    /* @__PURE__ */ jsxRuntimeExports.jsx("label", { className: "text-[10px] font-black uppercase tracking-widest", style: { color: col }, children: label }),
-    type === "input" ? /* @__PURE__ */ jsxRuntimeExports.jsx(
-      "input",
-      {
-        value: form[field] || "",
-        onChange: (e) => update(field, e.target.value),
-        placeholder,
-        className: "glass-input rounded-xl px-3 py-2 text-sm outline-none w-full",
-        style: { border: `1.5px solid ${col}22`, background: "var(--card)", color: "var(--text)" }
-      }
-    ) : /* @__PURE__ */ jsxRuntimeExports.jsx(
-      "textarea",
-      {
-        value: form[field] || "",
-        onChange: (e) => update(field, e.target.value),
-        rows,
-        placeholder,
-        className: "glass-input rounded-xl px-3 py-2.5 text-sm outline-none resize-y w-full leading-relaxed",
-        style: { border: `1.5px solid ${col}22`, background: "var(--card)", color: "var(--text)" }
-      }
-    )
-  ] });
-  return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "space-y-4", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "card-lined rounded-2xl overflow-hidden", style: { borderTopColor: col + "80" }, children: [
-    /* @__PURE__ */ jsxRuntimeExports.jsxs(
-      "div",
-      {
-        className: "px-5 py-3 flex items-center justify-between gap-3",
-        style: { background: col + "15", borderBottom: `1.5px solid ${col}30` },
-        children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center gap-2", children: [
-            /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "w-8 h-8 rounded-xl flex items-center justify-center", style: { background: col + "25" }, children: /* @__PURE__ */ jsxRuntimeExports.jsx(FileText, { size: 16, style: { color: col } }) }),
-            /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
-              /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-xs font-black", style: { color: col }, children: "Provider Communication Form" }),
-              /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-[10px] opacity-50", children: "Adapted from APhA / NACDS MTM Communication Form" })
-            ] })
-          ] }),
-          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center gap-2", children: [
-            form.savedAt && /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { className: "text-[10px] opacity-40", children: [
-              "Saved ",
-              form.savedAt
-            ] }),
-            /* @__PURE__ */ jsxRuntimeExports.jsx("button", { onClick: clear, className: "px-3 py-1.5 rounded-xl text-[11px] font-black opacity-40 hover:opacity-70 glass", children: "Clear" }),
-            /* @__PURE__ */ jsxRuntimeExports.jsx(
-              "button",
-              {
-                onClick: save,
-                className: "px-4 py-1.5 rounded-xl text-[11px] font-black text-white transition-all",
-                style: { background: saved ? "#10b981" : col },
-                children: saved ? "✓ Saved" : "Save Form"
-              }
-            )
-          ] })
-        ]
-      }
-    ),
-    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "p-5 space-y-5", children: [
-      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex gap-3 flex-wrap", children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsx(Field, { label: "To (Provider)", field: "toProvider", placeholder: "Dr. Smith", half: true }),
-        /* @__PURE__ */ jsxRuntimeExports.jsx(Field, { label: "Date", field: "date", placeholder: "MM/DD/YYYY", half: true })
-      ] }),
-      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex gap-3 flex-wrap", children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsx(Field, { label: "From (Your Name & Credentials)", field: "fromName", placeholder: "Jane Doe, PharmD", half: true }),
-        /* @__PURE__ */ jsxRuntimeExports.jsx(Field, { label: "Pharmacist Contact Number", field: "pharmacistPhone", placeholder: "555-0000", half: true })
-      ] }),
-      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex gap-3 flex-wrap", children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsx(Field, { label: "Patient Name", field: "patientName", placeholder: "Full name", half: true }),
-        /* @__PURE__ */ jsxRuntimeExports.jsx(Field, { label: "Date of Birth (DOB)", field: "dob", placeholder: "MM/DD/YYYY", half: true })
-      ] }),
-      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "border-t", style: { borderColor: col + "20" } }),
-      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "rounded-2xl p-4 space-y-2", style: { background: col + "08", border: `1.5px solid ${col}20` }, children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-start gap-2 mb-1", children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "w-6 h-6 rounded-lg flex items-center justify-center shrink-0", style: { background: col + "25" }, children: /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-xs font-black", style: { color: col }, children: "S" }) }),
-          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
-            /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-xs font-black", style: { color: col }, children: "Situation" }),
-            /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-[10px] leading-relaxed opacity-50 mt-0.5", children: "Who is the patient, where are they, why are they there, and why are you involved? Include chief complaint and concise background. Write clearly and concisely in short paragraph form." })
-          ] })
-        ] }),
-        /* @__PURE__ */ jsxRuntimeExports.jsx(
-          "textarea",
-          {
-            value: form.situation || "",
-            onChange: (e) => update("situation", e.target.value),
-            rows: 5,
-            placeholder: "e.g. Mr. J.D. is a 62-year-old male admitted to the medical ward for hypertensive urgency. You were asked to dose a medication and provide a recommendation on blood pressure control...",
-            className: "glass-input rounded-xl px-3 py-2.5 text-sm outline-none resize-y w-full leading-relaxed",
-            style: { border: `1.5px solid ${col}22`, background: "var(--card)", color: "var(--text)" }
-          }
-        )
-      ] }),
-      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "rounded-2xl p-4 space-y-2", style: { background: "var(--surface)", border: `1.5px solid ${col}18` }, children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-start gap-2 mb-1", children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "w-6 h-6 rounded-lg flex items-center justify-center shrink-0", style: { background: col + "20" }, children: /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-xs font-black", style: { color: col }, children: "B" }) }),
-          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
-            /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-xs font-black", style: { color: col }, children: "Background" }),
-            /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-[10px] leading-relaxed opacity-50 mt-0.5", children: "Subjective & objective data — HPI, home testing, symptoms, PMH, allergies, vitals, labs, tests, preventive care, family/social history, immunizations, medication list, other objective data." })
-          ] })
-        ] }),
-        /* @__PURE__ */ jsxRuntimeExports.jsx(
-          "textarea",
-          {
-            value: form.background || "",
-            onChange: (e) => update("background", e.target.value),
-            rows: 7,
-            placeholder: "PMH: HTN, Type 2 DM, CKD stage 3\\nAllergies: Penicillin (rash)\\nVitals: BP 178/104, HR 88, RR 16, T 37.1°C, O2 sat 98%\\nLabs: SCr 1.4, eGFR 52, K+ 4.2, Na+ 139\\nMedications: Amlodipine 10mg daily, Metformin 500mg BID...",
-            className: "glass-input rounded-xl px-3 py-2.5 text-sm outline-none resize-y w-full leading-relaxed font-mono",
-            style: { border: `1.5px solid ${col}22`, background: "var(--card)", color: "var(--text)" }
-          }
-        )
-      ] }),
-      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "rounded-2xl p-4 space-y-2", style: { background: col + "08", border: `1.5px solid ${col}20` }, children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-start gap-2 mb-1", children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "w-6 h-6 rounded-lg flex items-center justify-center shrink-0", style: { background: col + "25" }, children: /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-xs font-black", style: { color: col }, children: "A" }) }),
-          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
-            /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-xs font-black", style: { color: col }, children: "Assessment" }),
-            /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-[10px] leading-relaxed opacity-50 mt-0.5", children: "Using situation & background data, assess the specific problem you were contacted about. Reference guidelines. State whether the patient is at goal and assess current therapy." })
-          ] })
-        ] }),
-        /* @__PURE__ */ jsxRuntimeExports.jsx(
-          "textarea",
-          {
-            value: form.assessment || "",
-            onChange: (e) => update("assessment", e.target.value),
-            rows: 5,
-            placeholder: "e.g. Patient's blood pressure is not at goal (target <130/80 per ACC/AHA 2023 guidelines). Current regimen of amlodipine 10mg daily is at maximum dose. Elevated SCr and reduced eGFR 52 suggest CKD, limiting certain antihypertensive choices...",
-            className: "glass-input rounded-xl px-3 py-2.5 text-sm outline-none resize-y w-full leading-relaxed",
-            style: { border: `1.5px solid ${col}22`, background: "var(--card)", color: "var(--text)" }
-          }
-        )
-      ] }),
-      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "rounded-2xl p-4 space-y-2", style: { background: "var(--surface)", border: `1.5px solid ${col}18` }, children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-start gap-2 mb-1", children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "w-6 h-6 rounded-lg flex items-center justify-center shrink-0", style: { background: col + "25" }, children: /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-xs font-black", style: { color: col }, children: "R" }) }),
-          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
-            /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-xs font-black", style: { color: col }, children: "Recommendation(s)" }),
-            /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-[10px] leading-relaxed opacity-50 mt-0.5", children: 'Use "recommend" or "suggest". List pharmacologic interventions (drug, dose, route, frequency, duration). Include medications to start/adjust/discontinue, non-pharmacologic measures, and monitoring for efficacy & toxicity.' })
-          ] })
-        ] }),
-        /* @__PURE__ */ jsxRuntimeExports.jsx(
-          "textarea",
-          {
-            value: form.recommendations || "",
-            onChange: (e) => update("recommendations", e.target.value),
-            rows: 7,
-            placeholder: "1. Recommend initiating Losartan® (losartan) 50mg PO daily — ARB preferred in CKD with proteinuria per KDIGO guidelines. Titrate to 100mg daily based on BP response and tolerability.\\n2. Suggest monitoring BP weekly for 4 weeks, then monthly once at goal.\\n3. Recommend checking serum K+ and SCr 1-2 weeks after initiation.\\n4. Non-pharmacologic: 30 min aerobic exercise daily, DASH diet, sodium restriction <2g/day, smoking cessation.\\n5. Monitoring: Efficacy — BP target <130/80. Toxicity — hyperkalemia (K+ >5.5), AKI.",
-            className: "glass-input rounded-xl px-3 py-2.5 text-sm outline-none resize-y w-full leading-relaxed",
-            style: { border: `1.5px solid ${col}22`, background: "var(--card)", color: "var(--text)" }
-          }
-        )
-      ] }),
-      /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-xs italic opacity-50 text-center", children: "Thank you for your attention to this matter!" }),
-      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "rounded-2xl overflow-hidden", style: { border: `2px solid ${col}30` }, children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "px-4 py-2.5 flex items-center gap-2", style: { background: col + "15", borderBottom: `1px solid ${col}25` }, children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsx(Stethoscope, { size: 13, style: { color: col } }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-xs font-black", style: { color: col }, children: "Physician Response" })
-        ] }),
-        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "p-4 space-y-3", children: [
-          [
-            { val: "implement", label: "Please implement proposed recommendation" },
-            { val: "change", label: "Please implement the following change:" },
-            { val: "other", label: "Other:" }
-          ].map(({ val, label }) => /* @__PURE__ */ jsxRuntimeExports.jsxs("label", { className: "flex items-start gap-3 cursor-pointer", children: [
-            /* @__PURE__ */ jsxRuntimeExports.jsx(
-              "div",
-              {
-                onClick: () => update("physicianChoice", form.physicianChoice === val ? "" : val),
-                className: "w-5 h-5 rounded-md border-2 shrink-0 flex items-center justify-center transition-all mt-0.5",
-                style: { borderColor: col, background: form.physicianChoice === val ? col : "transparent" },
-                children: form.physicianChoice === val && /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-white text-xs font-black", children: "✓" })
-              }
-            ),
-            /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex-1", children: [
-              /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-sm font-semibold", children: label }),
-              val === "change" && form.physicianChoice === "change" && /* @__PURE__ */ jsxRuntimeExports.jsx(
-                "input",
-                {
-                  value: form.physicianChange || "",
-                  onChange: (e) => update("physicianChange", e.target.value),
-                  placeholder: "Describe the change…",
-                  className: "glass-input rounded-xl px-3 py-2 text-sm outline-none w-full mt-2",
-                  style: { border: `1.5px solid ${col}30`, background: "var(--card)", color: "var(--text)" }
-                }
-              ),
-              val === "other" && form.physicianChoice === "other" && /* @__PURE__ */ jsxRuntimeExports.jsx(
-                "input",
-                {
-                  value: form.physicianOther || "",
-                  onChange: (e) => update("physicianOther", e.target.value),
-                  placeholder: "Describe other response…",
-                  className: "glass-input rounded-xl px-3 py-2 text-sm outline-none w-full mt-2",
-                  style: { border: `1.5px solid ${col}30`, background: "var(--card)", color: "var(--text)" }
-                }
-              )
-            ] })
-          ] }, val)),
-          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "pt-2 border-t", style: { borderColor: col + "20" }, children: [
-            /* @__PURE__ */ jsxRuntimeExports.jsx("label", { className: "text-[10px] font-black uppercase tracking-widest", style: { color: col }, children: "Physician Signature" }),
+  const generateCase = async () => {
+    if (!caseInput.trim()) return;
+    setLoadingCase(true);
+    setPatientCase(null);
+    try {
+      const prompt = `You are a clinical educator creating a realistic OSCE patient case for healthcare students.
+Generate a detailed, clinically accurate patient case for: "${caseInput}"
+
+Return ONLY valid JSON with this exact structure:
+{
+  "title": "Brief case title, e.g. Hypertensive Urgency with CKD",
+  "setting": "Clinical setting (e.g. Medical ward, Emergency department, Community pharmacy)",
+  "task": "The student's specific task — what they are asked to do as a pharmacist/nurse/clinician",
+  "patient": {
+    "name": "Realistic full name",
+    "age": 55,
+    "gender": "Male/Female",
+    "weight": "82 kg",
+    "height": "175 cm",
+    "occupation": "e.g. Retired teacher"
+  },
+  "chiefComplaint": "One-sentence chief complaint",
+  "hpi": "2-3 sentence history of presenting illness with timeline and relevant symptoms",
+  "pmh": ["Past medical history condition 1", "condition 2", "condition 3"],
+  "allergies": ["Drug name (reaction type)", "NKDA if none"],
+  "socialHistory": "Brief social history: smoking, alcohol, occupation, relevant lifestyle",
+  "familyHistory": "Relevant family history",
+  "vitals": {
+    "BP": "178/104 mmHg",
+    "HR": "88 bpm",
+    "RR": "18 breaths/min",
+    "Temp": "37.1°C",
+    "SpO2": "97% on room air",
+    "Weight": "82 kg"
+  },
+  "medications": [
+    { "name": "Drug Brand® (generic)", "dose": "10mg", "route": "PO", "frequency": "daily", "indication": "for HTN" }
+  ],
+  "labs": [
+    { "test": "Test name", "value": "Result with units", "normalRange": "Normal range", "flag": "High/Low/Normal" }
+  ],
+  "physicalExam": "Relevant physical examination findings",
+  "imagingOther": "Any relevant imaging or other test results (or 'None')",
+  "clinicalQuestion": "The specific clinical question the student must address in their SBAR communication"
+}
+
+Make the case realistic and challenging — include clinically relevant comorbidities, realistic labs with some abnormalities, and a clear clinical problem requiring SBAR communication to a prescriber.`;
+      const raw = await callAI(prompt, true, false, settings, 3e3);
+      setPatientCase(parseJson(raw));
+    } catch (e) {
+      setPatientCase({ error: e.message });
+    } finally {
+      setLoadingCase(false);
+    }
+  };
+  const evaluate = async () => {
+    const hasContent = form.situation.trim() || form.background.trim() || form.assessment.trim() || form.recommendations.trim();
+    if (!hasContent) {
+      alert("Please fill in at least one SBAR section before evaluating.");
+      return;
+    }
+    setLoadingEval(true);
+    setEvaluation(null);
+    const caseContext = patientCase && !patientCase.error ? `PATIENT CASE PROVIDED TO STUDENT:
+Title: ${patientCase.title}
+Task: ${patientCase.task}
+Patient: ${patientCase.patient?.name}, ${patientCase.patient?.age}yo ${patientCase.patient?.gender}
+Chief Complaint: ${patientCase.chiefComplaint}
+HPI: ${patientCase.hpi}
+PMH: ${(patientCase.pmh || []).join(", ")}
+Allergies: ${(patientCase.allergies || []).join(", ")}
+Vitals: ${JSON.stringify(patientCase.vitals || {})}
+Medications: ${(patientCase.medications || []).map((m) => `${m.name} ${m.dose} ${m.route} ${m.frequency}`).join("; ")}
+Labs: ${(patientCase.labs || []).map((l) => `${l.test}: ${l.value} (${l.flag})`).join(", ")}
+Clinical Question: ${patientCase.clinicalQuestion}` : "No specific patient case was generated — evaluate the SBAR based on general clinical accuracy.";
+    try {
+      const prompt = `You are an expert clinical educator evaluating a student's SBAR communication form.
+
+${caseContext}
+
+STUDENT'S SBAR SUBMISSION:
+━━━━━━━━━━━━━━━━━━━━━━━
+S — Situation:
+${form.situation || "(left blank)"}
+
+B — Background:
+${form.background || "(left blank)"}
+
+A — Assessment:
+${form.assessment || "(left blank)"}
+
+R — Recommendation(s):
+${form.recommendations || "(left blank)"}
+━━━━━━━━━━━━━━━━━━━━━━━
+
+Evaluate the student's SBAR thoroughly. Return ONLY valid JSON:
+{
+  "overallScore": 82,
+  "overallGrade": "B+",
+  "overallSummary": "2-3 sentence overall assessment of the SBAR quality and clinical reasoning",
+  "sections": {
+    "situation": {
+      "score": 85,
+      "status": "Good/Needs Work/Excellent/Missing",
+      "strengths": ["specific strength 1", "strength 2"],
+      "issues": ["specific issue 1", "issue 2"],
+      "missingElements": ["element that should have been included"],
+      "modelAnswer": "What an ideal Situation section for this case would say"
+    },
+    "background": {
+      "score": 75,
+      "status": "Good/Needs Work/Excellent/Missing",
+      "strengths": ["specific strength 1"],
+      "issues": ["specific issue 1", "issue 2"],
+      "missingElements": ["missing lab value", "missing allergy info"],
+      "modelAnswer": "What an ideal Background section for this case would say"
+    },
+    "assessment": {
+      "score": 80,
+      "status": "Good/Needs Work/Excellent/Missing",
+      "strengths": ["specific strength 1"],
+      "issues": ["specific issue 1"],
+      "missingElements": ["guideline reference missing", "goal BP not stated"],
+      "modelAnswer": "What an ideal Assessment section for this case would say"
+    },
+    "recommendations": {
+      "score": 88,
+      "status": "Good/Needs Work/Excellent/Missing",
+      "strengths": ["specific strength 1"],
+      "issues": ["specific issue 1"],
+      "missingElements": ["monitoring parameters not specified"],
+      "modelAnswer": "What ideal Recommendations for this case would say"
+    }
+  },
+  "criticalErrors": ["Any clinically dangerous or unacceptable errors — empty array if none"],
+  "topStrengths": ["Best things the student did"],
+  "priorityImprovements": ["Most important things to fix, in priority order"],
+  "examTip": "One key exam/OSCE tip relevant to this SBAR scenario",
+  "clinicalAccuracyNote": "Comment on clinical accuracy of drug choices, doses, guidelines cited"
+}`;
+      const raw = await callAI(prompt, true, false, settings, 4e3);
+      setEvaluation(parseJson(raw));
+    } catch (e) {
+      setEvaluation({ error: e.message });
+    } finally {
+      setLoadingEval(false);
+    }
+  };
+  const scoreColor = (score) => {
+    if (score >= 85) return "#10b981";
+    if (score >= 70) return "#f59e0b";
+    return "#ef4444";
+  };
+  const statusIcon = (status) => {
+    if (!status) return null;
+    const s = status.toLowerCase();
+    if (s === "excellent") return "★";
+    if (s === "good") return "✓";
+    if (s === "needs work") return "△";
+    return "✗";
+  };
+  const SbarTA = ({ field, rows, placeholder }) => /* @__PURE__ */ jsxRuntimeExports.jsx(
+    "textarea",
+    {
+      value: form[field] || "",
+      onChange: (e) => update(field, e.target.value),
+      rows,
+      placeholder,
+      className: "glass-input rounded-xl px-3 py-2.5 text-sm outline-none resize-y w-full leading-relaxed",
+      style: { border: `1.5px solid ${col}25`, background: "var(--card)", color: "var(--text)" }
+    }
+  );
+  return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "space-y-3", children: [
+    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center gap-2 px-1", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "w-8 h-8 rounded-xl flex items-center justify-center shrink-0", style: { background: col + "20" }, children: /* @__PURE__ */ jsxRuntimeExports.jsx(FileText, { size: 15, style: { color: col } }) }),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex-1", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-sm font-black", style: { color: col }, children: "SBAR Practice Station" }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-[10px] opacity-40", children: "Generate a patient case → fill the SBAR form → get AI evaluation" })
+      ] })
+    ] }),
+    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: { display: "flex", gap: 14, alignItems: "flex-start", flexWrap: "wrap" }, children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: { flex: "0 0 44%", minWidth: 280, maxWidth: "100%" }, className: "space-y-3", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "card-lined rounded-2xl p-4 space-y-3", style: { borderTopColor: col + "70" }, children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-xs font-black uppercase tracking-widest", style: { color: col }, children: "Patient Case Generator" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-[11px] opacity-50 leading-relaxed", children: "Enter a medication, disease, or clinical scenario. The AI will generate a full realistic patient case for you to practise your SBAR communication on." }),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex flex-col gap-2", children: [
             /* @__PURE__ */ jsxRuntimeExports.jsx(
               "input",
               {
-                value: form.physicianSignature || "",
-                onChange: (e) => update("physicianSignature", e.target.value),
-                placeholder: "Physician signature / name",
-                className: "glass-input rounded-xl px-3 py-2 text-sm outline-none w-full mt-1",
-                style: { border: `1.5px solid ${col}22`, background: "var(--card)", color: "var(--text)", fontFamily: "cursive" }
+                value: caseInput,
+                onChange: (e) => setCaseInput(e.target.value),
+                onKeyDown: (e) => {
+                  if (e.key === "Enter") generateCase();
+                },
+                placeholder: "e.g. Warfarin toxicity, Diabetic ketoacidosis, Vancomycin dosing…",
+                className: "glass-input rounded-xl px-4 py-2.5 text-sm outline-none w-full",
+                style: { border: `1.5px solid ${col}30`, background: "var(--card)", color: "var(--text)" }
+              }
+            ),
+            /* @__PURE__ */ jsxRuntimeExports.jsx(
+              "button",
+              {
+                onClick: generateCase,
+                disabled: loadingCase || !caseInput.trim(),
+                className: "flex items-center justify-center gap-2 py-2.5 rounded-xl text-sm font-black text-white transition-all disabled:opacity-40",
+                style: { background: `linear-gradient(135deg, ${col}, ${col}cc)` },
+                children: loadingCase ? /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
+                  /* @__PURE__ */ jsxRuntimeExports.jsx(Loader2, { size: 14, className: "animate-spin" }),
+                  " Generating case…"
+                ] }) : /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
+                  /* @__PURE__ */ jsxRuntimeExports.jsx(Sparkles, { size: 14 }),
+                  " Generate Patient Case"
+                ] })
               }
             )
           ] })
+        ] }),
+        loadingCase && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "card-lined rounded-2xl p-6 flex flex-col items-center gap-3", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "w-12 h-12 rounded-2xl flex items-center justify-center animate-pulse", style: { background: col + "20" }, children: /* @__PURE__ */ jsxRuntimeExports.jsx(Loader2, { size: 22, className: "animate-spin", style: { color: col } }) }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-xs font-black opacity-50", children: "Creating patient case…" })
+        ] }),
+        patientCase?.error && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "card-lined rounded-2xl p-4 text-center space-y-2", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx(AlertCircle, { size: 22, className: "mx-auto text-red-400" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-xs text-red-400", children: patientCase.error }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("button", { onClick: generateCase, className: "text-xs font-black px-3 py-1.5 rounded-xl glass opacity-60 hover:opacity-100", children: "Retry" })
+        ] }),
+        patientCase && !patientCase.error && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "card-lined rounded-2xl overflow-hidden", style: { borderTopColor: col + "60" }, children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "px-4 py-3", style: { background: col + "12", borderBottom: `1px solid ${col}20` }, children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-xs font-black", style: { color: col }, children: patientCase.title }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-[10px] opacity-50 mt-0.5", children: patientCase.setting })
+          ] }),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "p-4 space-y-3", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "rounded-xl p-3", style: { background: col + "15", border: `1px solid ${col}30` }, children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-[10px] font-black uppercase tracking-widest opacity-60 mb-1", children: "Your Task" }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-xs font-semibold leading-relaxed", children: patientCase.task })
+            ] }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "grid grid-cols-2 gap-2", children: [
+              ["Patient", `${patientCase.patient?.name}, ${patientCase.patient?.age}yo ${patientCase.patient?.gender}`],
+              ["Weight / Height", `${patientCase.patient?.weight} / ${patientCase.patient?.height}`],
+              ["Chief Complaint", patientCase.chiefComplaint],
+              ["Occupation", patientCase.patient?.occupation]
+            ].map(([lbl, val]) => val ? /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "rounded-xl p-2.5 col-span-1", style: { background: "var(--surface)" }, children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-[9px] font-black uppercase tracking-widest opacity-40 mb-0.5", children: lbl }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-xs font-semibold leading-snug", children: val })
+            ] }, lbl) : null) }),
+            patientCase.hpi && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-[9px] font-black uppercase tracking-widest opacity-40 mb-1", children: "History of Presenting Illness" }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-xs leading-relaxed", style: { color: "var(--text2)" }, children: patientCase.hpi })
+            ] }),
+            /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "grid grid-cols-2 gap-2", children: [
+              patientCase.pmh?.length > 0 && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "col-span-1", children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-[9px] font-black uppercase tracking-widest opacity-40 mb-1", children: "PMH" }),
+                /* @__PURE__ */ jsxRuntimeExports.jsx("ul", { className: "space-y-0.5", children: patientCase.pmh.map((c, i) => /* @__PURE__ */ jsxRuntimeExports.jsxs("li", { className: "text-xs", style: { color: "var(--text2)" }, children: [
+                  "• ",
+                  c
+                ] }, i)) })
+              ] }),
+              patientCase.allergies?.length > 0 && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "col-span-1", children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-[9px] font-black uppercase tracking-widest opacity-40 mb-1", children: "Allergies" }),
+                patientCase.allergies.map((a, i) => /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "inline-block text-[10px] font-black px-2 py-0.5 rounded-lg mr-1 mb-1 text-white", style: { background: "#ef444490" }, children: a }, i))
+              ] })
+            ] }),
+            patientCase.vitals && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-[9px] font-black uppercase tracking-widest opacity-40 mb-1.5", children: "Vitals" }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "grid grid-cols-3 gap-1.5", children: Object.entries(patientCase.vitals).map(([k, v]) => /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "rounded-lg p-2 text-center", style: { background: col + "10" }, children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-[8px] font-black uppercase opacity-50", children: k }),
+                /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-[11px] font-black", style: { color: col }, children: v })
+              ] }, k)) })
+            ] }),
+            patientCase.medications?.length > 0 && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-[9px] font-black uppercase tracking-widest opacity-40 mb-1", children: "Current Medications" }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "space-y-1", children: patientCase.medications.map((m, i) => /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-baseline gap-2 text-xs rounded-lg px-2.5 py-1.5", style: { background: "var(--surface)" }, children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "font-semibold shrink-0", children: m.name }),
+                /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { className: "opacity-60", children: [
+                  m.dose,
+                  " ",
+                  m.route,
+                  " ",
+                  m.frequency
+                ] }),
+                m.indication && /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "opacity-40 text-[10px] ml-auto shrink-0", children: m.indication })
+              ] }, i)) })
+            ] }),
+            patientCase.labs?.length > 0 && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-[9px] font-black uppercase tracking-widest opacity-40 mb-1.5", children: "Labs" }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "rounded-xl overflow-hidden border", style: { borderColor: col + "20" }, children: /* @__PURE__ */ jsxRuntimeExports.jsxs("table", { className: "w-full text-[11px]", children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsx("thead", { children: /* @__PURE__ */ jsxRuntimeExports.jsxs("tr", { style: { background: col + "12" }, children: [
+                  /* @__PURE__ */ jsxRuntimeExports.jsx("th", { className: "px-2.5 py-1.5 text-left font-black opacity-60", children: "Test" }),
+                  /* @__PURE__ */ jsxRuntimeExports.jsx("th", { className: "px-2.5 py-1.5 text-left font-black opacity-60", children: "Result" }),
+                  /* @__PURE__ */ jsxRuntimeExports.jsx("th", { className: "px-2.5 py-1.5 text-left font-black opacity-60", children: "Normal" }),
+                  /* @__PURE__ */ jsxRuntimeExports.jsx("th", { className: "px-2.5 py-1.5 text-left font-black opacity-60", children: "Flag" })
+                ] }) }),
+                /* @__PURE__ */ jsxRuntimeExports.jsx("tbody", { children: patientCase.labs.map((l, i) => /* @__PURE__ */ jsxRuntimeExports.jsxs("tr", { style: { borderTop: `1px solid ${col}10` }, children: [
+                  /* @__PURE__ */ jsxRuntimeExports.jsx("td", { className: "px-2.5 py-1 font-semibold", children: l.test }),
+                  /* @__PURE__ */ jsxRuntimeExports.jsx("td", { className: "px-2.5 py-1", children: l.value }),
+                  /* @__PURE__ */ jsxRuntimeExports.jsx("td", { className: "px-2.5 py-1 opacity-50", children: l.normalRange }),
+                  /* @__PURE__ */ jsxRuntimeExports.jsx("td", { className: "px-2.5 py-1", children: /* @__PURE__ */ jsxRuntimeExports.jsx(
+                    "span",
+                    {
+                      className: "font-black text-[10px]",
+                      style: { color: l.flag?.toLowerCase() === "normal" ? "#10b981" : "#ef4444" },
+                      children: l.flag
+                    }
+                  ) })
+                ] }, i)) })
+              ] }) })
+            ] }),
+            (patientCase.physicalExam || patientCase.imagingOther) && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "space-y-1.5", children: [
+              patientCase.physicalExam && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-[9px] font-black uppercase tracking-widest opacity-40 mb-0.5", children: "Physical Exam" }),
+                /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-xs leading-relaxed", style: { color: "var(--text2)" }, children: patientCase.physicalExam })
+              ] }),
+              patientCase.imagingOther && patientCase.imagingOther !== "None" && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-[9px] font-black uppercase tracking-widest opacity-40 mb-0.5", children: "Imaging / Other" }),
+                /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-xs leading-relaxed", style: { color: "var(--text2)" }, children: patientCase.imagingOther })
+              ] })
+            ] }),
+            patientCase.clinicalQuestion && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "rounded-xl p-3 mt-1", style: { background: col + "18", border: `1.5px solid ${col}35` }, children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-[9px] font-black uppercase tracking-widest mb-1", style: { color: col }, children: "Clinical Question to Address in SBAR" }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-xs font-semibold leading-relaxed", children: patientCase.clinicalQuestion })
+            ] }),
+            /* @__PURE__ */ jsxRuntimeExports.jsxs(
+              "button",
+              {
+                onClick: generateCase,
+                className: "w-full flex items-center justify-center gap-1.5 py-2 rounded-xl text-[11px] font-black opacity-40 hover:opacity-70 glass",
+                children: [
+                  /* @__PURE__ */ jsxRuntimeExports.jsx(RefreshCw, { size: 11 }),
+                  " New Case"
+                ]
+              }
+            )
+          ] })
+        ] }),
+        (evaluation || loadingEval) && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "card-lined rounded-2xl overflow-hidden", style: { borderTopColor: evaluation?.error ? "#ef4444" : col + "80" }, children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "px-4 py-3 flex items-center gap-2", style: { background: col + "12", borderBottom: `1px solid ${col}20` }, children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx(Target, { size: 13, style: { color: col } }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-xs font-black", style: { color: col }, children: "AI Evaluation" })
+          ] }),
+          loadingEval && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "p-6 flex flex-col items-center gap-3", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx(Loader2, { size: 22, className: "animate-spin", style: { color: col } }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-xs font-black opacity-50", children: "Evaluating your SBAR…" })
+          ] }),
+          evaluation?.error && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "p-4 text-center space-y-2", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx(AlertCircle, { size: 20, className: "mx-auto text-red-400" }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-xs text-red-400", children: evaluation.error })
+          ] }),
+          evaluation && !evaluation.error && !loadingEval && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "p-4 space-y-4", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center gap-4", children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsxs(
+                "div",
+                {
+                  className: "w-16 h-16 rounded-2xl flex flex-col items-center justify-center shrink-0",
+                  style: { background: scoreColor(evaluation.overallScore || 0) + "20", border: `2px solid ${scoreColor(evaluation.overallScore || 0)}40` },
+                  children: [
+                    /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-xl font-black", style: { color: scoreColor(evaluation.overallScore || 0) }, children: evaluation.overallScore }),
+                    /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-[10px] font-black opacity-60", children: evaluation.overallGrade })
+                  ]
+                }
+              ),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-xs leading-relaxed flex-1", style: { color: "var(--text2)" }, children: evaluation.overallSummary })
+            ] }),
+            evaluation.criticalErrors?.length > 0 && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "rounded-xl p-3 space-y-1.5", style: { background: "#ef444412", border: "1.5px solid #ef444430" }, children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-[10px] font-black uppercase tracking-widest text-red-400", children: "⚠ Critical Errors" }),
+              evaluation.criticalErrors.map((e, i) => /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { className: "text-xs text-red-400", children: [
+                "• ",
+                e
+              ] }, i))
+            ] }),
+            evaluation.sections && Object.entries(evaluation.sections).map(([sec, data]) => /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "rounded-xl overflow-hidden", style: { border: `1.5px solid ${col}20` }, children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsxs(
+                "div",
+                {
+                  className: "px-3 py-2 flex items-center justify-between",
+                  style: { background: scoreColor(data.score || 0) + "12", borderBottom: `1px solid ${col}15` },
+                  children: [
+                    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center gap-2", children: [
+                      /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-sm font-black", style: { color: col }, children: sec.charAt(0).toUpperCase() }),
+                      /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-xs font-black capitalize", style: { color: "var(--text)" }, children: sec }),
+                      /* @__PURE__ */ jsxRuntimeExports.jsxs(
+                        "span",
+                        {
+                          className: "text-[10px] px-1.5 py-0.5 rounded-md font-black",
+                          style: { background: scoreColor(data.score || 0) + "20", color: scoreColor(data.score || 0) },
+                          children: [
+                            statusIcon(data.status),
+                            " ",
+                            data.status
+                          ]
+                        }
+                      )
+                    ] }),
+                    /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-sm font-black", style: { color: scoreColor(data.score || 0) }, children: data.score })
+                  ]
+                }
+              ),
+              /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "p-3 space-y-2", children: [
+                data.strengths?.length > 0 && /* @__PURE__ */ jsxRuntimeExports.jsx("div", { children: data.strengths.map((s, i) => /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { className: "text-[11px] text-emerald-500", children: [
+                  "✓ ",
+                  s
+                ] }, i)) }),
+                data.issues?.length > 0 && /* @__PURE__ */ jsxRuntimeExports.jsx("div", { children: data.issues.map((s, i) => /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { className: "text-[11px] text-amber-500", children: [
+                  "△ ",
+                  s
+                ] }, i)) }),
+                data.missingElements?.length > 0 && /* @__PURE__ */ jsxRuntimeExports.jsx("div", { children: data.missingElements.map((s, i) => /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { className: "text-[11px] text-red-400", children: [
+                  "✗ Missing: ",
+                  s
+                ] }, i)) }),
+                data.modelAnswer && /* @__PURE__ */ jsxRuntimeExports.jsxs("details", { className: "mt-1", children: [
+                  /* @__PURE__ */ jsxRuntimeExports.jsx("summary", { className: "text-[10px] font-black cursor-pointer opacity-50 hover:opacity-80", style: { color: col }, children: "Model answer →" }),
+                  /* @__PURE__ */ jsxRuntimeExports.jsx(
+                    "p",
+                    {
+                      className: "text-[11px] mt-2 leading-relaxed p-2 rounded-lg",
+                      style: { background: col + "08", color: "var(--text2)" },
+                      children: data.modelAnswer
+                    }
+                  )
+                ] })
+              ] })
+            ] }, sec)),
+            evaluation.topStrengths?.length > 0 && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-[10px] font-black uppercase tracking-widest opacity-40 mb-1", children: "What You Did Well" }),
+              evaluation.topStrengths.map((s, i) => /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { className: "text-xs text-emerald-500 mb-0.5", children: [
+                "★ ",
+                s
+              ] }, i))
+            ] }),
+            evaluation.priorityImprovements?.length > 0 && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-[10px] font-black uppercase tracking-widest opacity-40 mb-1", children: "Priority Improvements" }),
+              evaluation.priorityImprovements.map((s, i) => /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { className: "text-xs mb-0.5 flex items-start gap-1.5", children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { className: "font-black shrink-0", style: { color: col }, children: [
+                  "#",
+                  i + 1
+                ] }),
+                /* @__PURE__ */ jsxRuntimeExports.jsx("span", { style: { color: "var(--text2)" }, children: s })
+              ] }, i))
+            ] }),
+            evaluation.clinicalAccuracyNote && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "rounded-xl p-3", style: { background: "var(--surface)" }, children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-[10px] font-black uppercase tracking-widest opacity-40 mb-1", children: "Clinical Accuracy" }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-xs leading-relaxed", style: { color: "var(--text2)" }, children: evaluation.clinicalAccuracyNote })
+            ] }),
+            evaluation.examTip && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "rounded-xl p-3", style: { background: col + "10", border: `1px solid ${col}25` }, children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-[10px] font-black uppercase tracking-widest mb-1", style: { color: col }, children: "OSCE Tip" }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-xs leading-relaxed", children: evaluation.examTip })
+            ] })
+          ] })
         ] })
       ] }),
-      /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { className: "text-[10px] opacity-30 text-center leading-relaxed", children: [
-        "This form was adapted from the Medicare Prescription Drug Coverage Provider Communication Form.",
-        /* @__PURE__ */ jsxRuntimeExports.jsx("br", {}),
-        "Source: American Pharmacists Association; National Association of Chain Drug Stores Foundation. Medication Therapy Management: Training and Techniques for Providing MTM Services in Community Pharmacy. Washington, DC: APhA and NACDS Foundation; 2006."
-      ] })
+      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { style: { flex: "1 1 50%", minWidth: 300 }, children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "card-lined rounded-2xl overflow-hidden", style: { borderTopColor: col + "70" }, children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsxs(
+          "div",
+          {
+            className: "px-4 py-3 flex items-center justify-between gap-3 flex-wrap",
+            style: { background: col + "12", borderBottom: `1.5px solid ${col}25` },
+            children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-xs font-black", style: { color: col }, children: "SBAR Communication Form" }),
+                /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-[10px] opacity-40", children: "Situation · Background · Assessment · Recommendation" })
+              ] }),
+              /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center gap-2", children: [
+                form.savedAt && /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { className: "text-[10px] opacity-40 hidden sm:block", children: [
+                  "Saved ",
+                  form.savedAt
+                ] }),
+                /* @__PURE__ */ jsxRuntimeExports.jsx("button", { onClick: clear, className: "px-2.5 py-1.5 rounded-xl text-[11px] font-black opacity-40 hover:opacity-70 glass", children: "Clear" }),
+                /* @__PURE__ */ jsxRuntimeExports.jsx(
+                  "button",
+                  {
+                    onClick: save,
+                    className: "px-3 py-1.5 rounded-xl text-[11px] font-black text-white transition-all",
+                    style: { background: saved ? "#10b981" : col },
+                    children: saved ? "✓ Saved" : "Save"
+                  }
+                )
+              ] })
+            ]
+          }
+        ),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "p-4 space-y-4", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "grid grid-cols-2 gap-3", children: [
+            ["To (Provider)", "toProvider", "Dr. Smith"],
+            ["Date", "date", "MM/DD/YYYY"],
+            ["From (Name & Credentials)", "fromName", "Jane Doe, PharmD"],
+            ["Contact Number", "pharmacistPhone", "555-0000"],
+            ["Patient Name", "patientName", "Full name"],
+            ["Date of Birth", "dob", "MM/DD/YYYY"]
+          ].map(([lbl, field, ph]) => /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex flex-col gap-1", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx("label", { className: "text-[9px] font-black uppercase tracking-widest", style: { color: col }, children: lbl }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx(
+              "input",
+              {
+                value: form[field] || "",
+                onChange: (e) => update(field, e.target.value),
+                placeholder: ph,
+                className: "glass-input rounded-xl px-3 py-2 text-xs outline-none w-full",
+                style: { border: `1.5px solid ${col}20`, background: "var(--card)", color: "var(--text)" }
+              }
+            )
+          ] }, field)) }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "border-t", style: { borderColor: col + "15" } }),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "rounded-2xl p-3 space-y-2", style: { background: col + "07", border: `1.5px solid ${col}18` }, children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-start gap-2", children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "w-6 h-6 rounded-lg flex items-center justify-center shrink-0", style: { background: col + "25" }, children: /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-xs font-black", style: { color: col }, children: "S" }) }),
+              /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex-1", children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-xs font-black", style: { color: col }, children: "Situation" }),
+                /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-[10px] opacity-40 mt-0.5", children: "Who is the patient, what is happening, and why are you calling?" })
+              ] })
+            ] }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx(
+              SbarTA,
+              {
+                field: "situation",
+                rows: 4,
+                placeholder: "e.g. Mr. J.D. is a 62-year-old male admitted to the medical ward for hypertensive urgency. I am contacting you to recommend a change in his antihypertensive regimen…"
+              }
+            )
+          ] }),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "rounded-2xl p-3 space-y-2", style: { background: "var(--surface)", border: `1.5px solid ${col}15` }, children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-start gap-2", children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "w-6 h-6 rounded-lg flex items-center justify-center shrink-0", style: { background: col + "20" }, children: /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-xs font-black", style: { color: col }, children: "B" }) }),
+              /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex-1", children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-xs font-black", style: { color: col }, children: "Background" }),
+                /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-[10px] opacity-40 mt-0.5", children: "PMH, allergies, vitals, labs, current medications, relevant history." })
+              ] })
+            ] }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx(
+              SbarTA,
+              {
+                field: "background",
+                rows: 6,
+                placeholder: "PMH: HTN, Type 2 DM, CKD stage 3\nAllergies: Penicillin (rash)\nVitals: BP 178/104, HR 88, Temp 37.1°C\nLabs: SCr 1.4, eGFR 52, K+ 4.2\nMedications: Amlodipine 10mg daily…"
+              }
+            )
+          ] }),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "rounded-2xl p-3 space-y-2", style: { background: col + "07", border: `1.5px solid ${col}18` }, children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-start gap-2", children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "w-6 h-6 rounded-lg flex items-center justify-center shrink-0", style: { background: col + "25" }, children: /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-xs font-black", style: { color: col }, children: "A" }) }),
+              /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex-1", children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-xs font-black", style: { color: col }, children: "Assessment" }),
+                /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-[10px] opacity-40 mt-0.5", children: "Your clinical assessment — is the patient at goal? Reference guidelines." })
+              ] })
+            ] }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx(
+              SbarTA,
+              {
+                field: "assessment",
+                rows: 4,
+                placeholder: "e.g. Patient's BP is not at goal (target <130/80 per ACC/AHA 2023). Amlodipine 10mg is at maximum dose. CKD stage 3 (eGFR 52) restricts some agents but favours RAAS blockade…"
+              }
+            )
+          ] }),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "rounded-2xl p-3 space-y-2", style: { background: "var(--surface)", border: `1.5px solid ${col}15` }, children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-start gap-2", children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "w-6 h-6 rounded-lg flex items-center justify-center shrink-0", style: { background: col + "25" }, children: /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-xs font-black", style: { color: col }, children: "R" }) }),
+              /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex-1", children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-xs font-black", style: { color: col }, children: "Recommendation(s)" }),
+                /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-[10px] opacity-40 mt-0.5", children: "Drug · dose · route · frequency. Monitoring for efficacy & toxicity. Non-pharmacologic measures." })
+              ] })
+            ] }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx(
+              SbarTA,
+              {
+                field: "recommendations",
+                rows: 6,
+                placeholder: "1. Recommend initiating Losartan® (losartan) 50mg PO daily — ARB preferred in CKD. Titrate to 100mg based on response.\n2. Monitor BP weekly ×4 weeks.\n3. Check K+ and SCr 1–2 weeks after initiation.\n4. Non-pharm: DASH diet, Na⁺ <2g/day, aerobic exercise 30 min/day."
+              }
+            )
+          ] }),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "rounded-2xl overflow-hidden", style: { border: `1.5px solid ${col}25` }, children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "px-3 py-2 flex items-center gap-2", style: { background: col + "12", borderBottom: `1px solid ${col}20` }, children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx(Stethoscope, { size: 12, style: { color: col } }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-[11px] font-black", style: { color: col }, children: "Physician Response" })
+            ] }),
+            /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "p-3 space-y-2.5", children: [
+              [
+                { val: "implement", label: "Please implement proposed recommendation" },
+                { val: "change", label: "Please implement the following change:" },
+                { val: "other", label: "Other:" }
+              ].map(({ val, label }) => /* @__PURE__ */ jsxRuntimeExports.jsxs("label", { className: "flex items-start gap-2.5 cursor-pointer", children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsx(
+                  "div",
+                  {
+                    onClick: () => update("physicianChoice", form.physicianChoice === val ? "" : val),
+                    className: "w-4 h-4 rounded border-2 shrink-0 flex items-center justify-center transition-all mt-0.5",
+                    style: { borderColor: col, background: form.physicianChoice === val ? col : "transparent" },
+                    children: form.physicianChoice === val && /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-white text-[9px] font-black", children: "✓" })
+                  }
+                ),
+                /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex-1", children: [
+                  /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-xs font-semibold", children: label }),
+                  val === "change" && form.physicianChoice === "change" && /* @__PURE__ */ jsxRuntimeExports.jsx(
+                    "input",
+                    {
+                      value: form.physicianChange || "",
+                      onChange: (e) => update("physicianChange", e.target.value),
+                      placeholder: "Describe the change…",
+                      className: "glass-input rounded-xl px-3 py-1.5 text-xs outline-none w-full mt-1.5",
+                      style: { border: `1.5px solid ${col}25`, background: "var(--card)", color: "var(--text)" }
+                    }
+                  ),
+                  val === "other" && form.physicianChoice === "other" && /* @__PURE__ */ jsxRuntimeExports.jsx(
+                    "input",
+                    {
+                      value: form.physicianOther || "",
+                      onChange: (e) => update("physicianOther", e.target.value),
+                      placeholder: "Describe other response…",
+                      className: "glass-input rounded-xl px-3 py-1.5 text-xs outline-none w-full mt-1.5",
+                      style: { border: `1.5px solid ${col}25`, background: "var(--card)", color: "var(--text)" }
+                    }
+                  )
+                ] })
+              ] }, val)),
+              /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "pt-2 border-t", style: { borderColor: col + "15" }, children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsx("label", { className: "text-[9px] font-black uppercase tracking-widest", style: { color: col }, children: "Physician Signature" }),
+                /* @__PURE__ */ jsxRuntimeExports.jsx(
+                  "input",
+                  {
+                    value: form.physicianSignature || "",
+                    onChange: (e) => update("physicianSignature", e.target.value),
+                    placeholder: "Physician signature / name",
+                    className: "glass-input rounded-xl px-3 py-2 text-xs outline-none w-full mt-1",
+                    style: { border: `1.5px solid ${col}20`, background: "var(--card)", color: "var(--text)", fontFamily: "cursive" }
+                  }
+                )
+              ] })
+            ] })
+          ] }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx(
+            "button",
+            {
+              onClick: evaluate,
+              disabled: loadingEval,
+              className: "w-full flex items-center justify-center gap-2 py-3 rounded-2xl text-sm font-black text-white transition-all disabled:opacity-50 shadow-lg",
+              style: { background: loadingEval ? col + "80" : `linear-gradient(135deg, ${col}, ${col}bb)` },
+              children: loadingEval ? /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsx(Loader2, { size: 15, className: "animate-spin" }),
+                " Evaluating your SBAR…"
+              ] }) : /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsx(CheckCircle2, { size: 15 }),
+                " Evaluate My SBAR"
+              ] })
+            }
+          ),
+          !evaluation && !loadingEval && /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-[10px] text-center opacity-30", children: "Fill in the SBAR sections above, then click Evaluate to get AI feedback on your clinical reasoning." })
+        ] })
+      ] }) })
     ] })
-  ] }) });
+  ] });
 }
 function TopicContentPanel({ category, subcategory, settings }) {
   const [content, setContent] = reactExports.useState(null);
@@ -23246,12 +23688,12 @@ RULE 10 — Include specific quantitative data everywhere: exact doses, lab cuto
   if (!content) return null;
   const tabs = [
     { id: "overview", label: "Overview", icon: BookOpen },
+    ...category.id === "osce" ? [{ id: "comm-form", label: "SBAR", icon: FileText }] : [],
     { id: "table", label: `Reference Table${content?.tableData?.rows?.length ? ` (${content.tableData.rows.length})` : ""}`, icon: Table },
     { id: "subtopics", label: "Subtopics", icon: Layers3 },
     { id: "pearls", label: "Pearls & Tips", icon: Sparkles },
     { id: "questions", label: "Practice Qs", icon: CheckCircle2 },
-    { id: "rapid", label: "Rapid Review", icon: Zap },
-    ...category.id === "osce" ? [{ id: "comm-form", label: "Communication Form", icon: FileText }] : []
+    { id: "rapid", label: "Rapid Review", icon: Zap }
   ];
   return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "space-y-4", children: [
     /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex gap-1 p-1 glass rounded-2xl overflow-x-auto custom-scrollbar", children: [
@@ -23884,7 +24326,7 @@ RULE 10 — Include specific quantitative data everywhere: exact doses, lab cuto
         ] });
       })()
     ] }) }),
-    activeTab === "comm-form" && /* @__PURE__ */ jsxRuntimeExports.jsx(OsceCommunicationForm, { topicKey, category })
+    activeTab === "comm-form" && /* @__PURE__ */ jsxRuntimeExports.jsx(OsceCommunicationForm, { topicKey, category, settings })
   ] });
 }
 function MedicalEncyclopediaView({ settings }) {
