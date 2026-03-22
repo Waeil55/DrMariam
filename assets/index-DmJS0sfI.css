@@ -1162,6 +1162,9 @@ video {
 .resize-none {
   resize: none;
 }
+.resize-y {
+  resize: vertical;
+}
 .resize {
   resize: both;
 }

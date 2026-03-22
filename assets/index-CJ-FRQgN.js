@@ -22731,6 +22731,282 @@ Format with clear sections. Be thorough but concise.`;
     ] })
   ] });
 }
+function OsceCommunicationForm({ topicKey, category }) {
+  const storageKey = `osce-comm-form:${topicKey}`;
+  const blankForm = () => ({
+    toProvider: "",
+    date: (/* @__PURE__ */ new Date()).toLocaleDateString(),
+    fromName: "",
+    pharmacistPhone: "",
+    patientName: "",
+    dob: "",
+    situation: "",
+    background: "",
+    assessment: "",
+    recommendations: "",
+    physicianChoice: "",
+    physicianChange: "",
+    physicianOther: "",
+    physicianSignature: "",
+    savedAt: null
+  });
+  const [form, setForm] = reactExports.useState(() => {
+    try {
+      const s = localStorage.getItem(storageKey);
+      return s ? JSON.parse(s) : blankForm();
+    } catch {
+      return blankForm();
+    }
+  });
+  const [saved, setSaved] = reactExports.useState(false);
+  reactExports.useEffect(() => {
+    try {
+      const s = localStorage.getItem(storageKey);
+      setForm(s ? JSON.parse(s) : blankForm());
+    } catch {
+      setForm(blankForm());
+    }
+    setSaved(false);
+  }, [storageKey]);
+  const update = (field, val) => setForm((f) => ({ ...f, [field]: val }));
+  const save = () => {
+    const toSave = { ...form, savedAt: (/* @__PURE__ */ new Date()).toLocaleString() };
+    try {
+      localStorage.setItem(storageKey, JSON.stringify(toSave));
+      setForm(toSave);
+      setSaved(true);
+      setTimeout(() => setSaved(false), 2500);
+    } catch {
+    }
+  };
+  const clear = () => {
+    if (!window.confirm("Clear this communication form?")) return;
+    const b = blankForm();
+    setForm(b);
+    try {
+      localStorage.removeItem(storageKey);
+    } catch {
+    }
+  };
+  const col = category.color;
+  const Field = ({ label, field, placeholder = "", type = "input", rows = 3, half = false }) => /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: `flex flex-col gap-1 ${half ? "flex-1 min-w-0" : "w-full"}`, children: [
+    /* @__PURE__ */ jsxRuntimeExports.jsx("label", { className: "text-[10px] font-black uppercase tracking-widest", style: { color: col }, children: label }),
+    type === "input" ? /* @__PURE__ */ jsxRuntimeExports.jsx(
+      "input",
+      {
+        value: form[field] || "",
+        onChange: (e) => update(field, e.target.value),
+        placeholder,
+        className: "glass-input rounded-xl px-3 py-2 text-sm outline-none w-full",
+        style: { border: `1.5px solid ${col}22`, background: "var(--card)", color: "var(--text)" }
+      }
+    ) : /* @__PURE__ */ jsxRuntimeExports.jsx(
+      "textarea",
+      {
+        value: form[field] || "",
+        onChange: (e) => update(field, e.target.value),
+        rows,
+        placeholder,
+        className: "glass-input rounded-xl px-3 py-2.5 text-sm outline-none resize-y w-full leading-relaxed",
+        style: { border: `1.5px solid ${col}22`, background: "var(--card)", color: "var(--text)" }
+      }
+    )
+  ] });
+  return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "space-y-4", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "card-lined rounded-2xl overflow-hidden", style: { borderTopColor: col + "80" }, children: [
+    /* @__PURE__ */ jsxRuntimeExports.jsxs(
+      "div",
+      {
+        className: "px-5 py-3 flex items-center justify-between gap-3",
+        style: { background: col + "15", borderBottom: `1.5px solid ${col}30` },
+        children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center gap-2", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "w-8 h-8 rounded-xl flex items-center justify-center", style: { background: col + "25" }, children: /* @__PURE__ */ jsxRuntimeExports.jsx(FileText, { size: 16, style: { color: col } }) }),
+            /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-xs font-black", style: { color: col }, children: "Provider Communication Form" }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-[10px] opacity-50", children: "Adapted from APhA / NACDS MTM Communication Form" })
+            ] })
+          ] }),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center gap-2", children: [
+            form.savedAt && /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { className: "text-[10px] opacity-40", children: [
+              "Saved ",
+              form.savedAt
+            ] }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("button", { onClick: clear, className: "px-3 py-1.5 rounded-xl text-[11px] font-black opacity-40 hover:opacity-70 glass", children: "Clear" }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx(
+              "button",
+              {
+                onClick: save,
+                className: "px-4 py-1.5 rounded-xl text-[11px] font-black text-white transition-all",
+                style: { background: saved ? "#10b981" : col },
+                children: saved ? "✓ Saved" : "Save Form"
+              }
+            )
+          ] })
+        ]
+      }
+    ),
+    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "p-5 space-y-5", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex gap-3 flex-wrap", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx(Field, { label: "To (Provider)", field: "toProvider", placeholder: "Dr. Smith", half: true }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(Field, { label: "Date", field: "date", placeholder: "MM/DD/YYYY", half: true })
+      ] }),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex gap-3 flex-wrap", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx(Field, { label: "From (Your Name & Credentials)", field: "fromName", placeholder: "Jane Doe, PharmD", half: true }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(Field, { label: "Pharmacist Contact Number", field: "pharmacistPhone", placeholder: "555-0000", half: true })
+      ] }),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex gap-3 flex-wrap", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx(Field, { label: "Patient Name", field: "patientName", placeholder: "Full name", half: true }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(Field, { label: "Date of Birth (DOB)", field: "dob", placeholder: "MM/DD/YYYY", half: true })
+      ] }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "border-t", style: { borderColor: col + "20" } }),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "rounded-2xl p-4 space-y-2", style: { background: col + "08", border: `1.5px solid ${col}20` }, children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-start gap-2 mb-1", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "w-6 h-6 rounded-lg flex items-center justify-center shrink-0", style: { background: col + "25" }, children: /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-xs font-black", style: { color: col }, children: "S" }) }),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-xs font-black", style: { color: col }, children: "Situation" }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-[10px] leading-relaxed opacity-50 mt-0.5", children: "Who is the patient, where are they, why are they there, and why are you involved? Include chief complaint and concise background. Write clearly and concisely in short paragraph form." })
+          ] })
+        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          "textarea",
+          {
+            value: form.situation || "",
+            onChange: (e) => update("situation", e.target.value),
+            rows: 5,
+            placeholder: "e.g. Mr. J.D. is a 62-year-old male admitted to the medical ward for hypertensive urgency. You were asked to dose a medication and provide a recommendation on blood pressure control...",
+            className: "glass-input rounded-xl px-3 py-2.5 text-sm outline-none resize-y w-full leading-relaxed",
+            style: { border: `1.5px solid ${col}22`, background: "var(--card)", color: "var(--text)" }
+          }
+        )
+      ] }),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "rounded-2xl p-4 space-y-2", style: { background: "var(--surface)", border: `1.5px solid ${col}18` }, children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-start gap-2 mb-1", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "w-6 h-6 rounded-lg flex items-center justify-center shrink-0", style: { background: col + "20" }, children: /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-xs font-black", style: { color: col }, children: "B" }) }),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-xs font-black", style: { color: col }, children: "Background" }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-[10px] leading-relaxed opacity-50 mt-0.5", children: "Subjective & objective data — HPI, home testing, symptoms, PMH, allergies, vitals, labs, tests, preventive care, family/social history, immunizations, medication list, other objective data." })
+          ] })
+        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          "textarea",
+          {
+            value: form.background || "",
+            onChange: (e) => update("background", e.target.value),
+            rows: 7,
+            placeholder: "PMH: HTN, Type 2 DM, CKD stage 3\\nAllergies: Penicillin (rash)\\nVitals: BP 178/104, HR 88, RR 16, T 37.1°C, O2 sat 98%\\nLabs: SCr 1.4, eGFR 52, K+ 4.2, Na+ 139\\nMedications: Amlodipine 10mg daily, Metformin 500mg BID...",
+            className: "glass-input rounded-xl px-3 py-2.5 text-sm outline-none resize-y w-full leading-relaxed font-mono",
+            style: { border: `1.5px solid ${col}22`, background: "var(--card)", color: "var(--text)" }
+          }
+        )
+      ] }),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "rounded-2xl p-4 space-y-2", style: { background: col + "08", border: `1.5px solid ${col}20` }, children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-start gap-2 mb-1", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "w-6 h-6 rounded-lg flex items-center justify-center shrink-0", style: { background: col + "25" }, children: /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-xs font-black", style: { color: col }, children: "A" }) }),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-xs font-black", style: { color: col }, children: "Assessment" }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-[10px] leading-relaxed opacity-50 mt-0.5", children: "Using situation & background data, assess the specific problem you were contacted about. Reference guidelines. State whether the patient is at goal and assess current therapy." })
+          ] })
+        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          "textarea",
+          {
+            value: form.assessment || "",
+            onChange: (e) => update("assessment", e.target.value),
+            rows: 5,
+            placeholder: "e.g. Patient's blood pressure is not at goal (target <130/80 per ACC/AHA 2023 guidelines). Current regimen of amlodipine 10mg daily is at maximum dose. Elevated SCr and reduced eGFR 52 suggest CKD, limiting certain antihypertensive choices...",
+            className: "glass-input rounded-xl px-3 py-2.5 text-sm outline-none resize-y w-full leading-relaxed",
+            style: { border: `1.5px solid ${col}22`, background: "var(--card)", color: "var(--text)" }
+          }
+        )
+      ] }),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "rounded-2xl p-4 space-y-2", style: { background: "var(--surface)", border: `1.5px solid ${col}18` }, children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-start gap-2 mb-1", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "w-6 h-6 rounded-lg flex items-center justify-center shrink-0", style: { background: col + "25" }, children: /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-xs font-black", style: { color: col }, children: "R" }) }),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-xs font-black", style: { color: col }, children: "Recommendation(s)" }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-[10px] leading-relaxed opacity-50 mt-0.5", children: 'Use "recommend" or "suggest". List pharmacologic interventions (drug, dose, route, frequency, duration). Include medications to start/adjust/discontinue, non-pharmacologic measures, and monitoring for efficacy & toxicity.' })
+          ] })
+        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          "textarea",
+          {
+            value: form.recommendations || "",
+            onChange: (e) => update("recommendations", e.target.value),
+            rows: 7,
+            placeholder: "1. Recommend initiating Losartan® (losartan) 50mg PO daily — ARB preferred in CKD with proteinuria per KDIGO guidelines. Titrate to 100mg daily based on BP response and tolerability.\\n2. Suggest monitoring BP weekly for 4 weeks, then monthly once at goal.\\n3. Recommend checking serum K+ and SCr 1-2 weeks after initiation.\\n4. Non-pharmacologic: 30 min aerobic exercise daily, DASH diet, sodium restriction <2g/day, smoking cessation.\\n5. Monitoring: Efficacy — BP target <130/80. Toxicity — hyperkalemia (K+ >5.5), AKI.",
+            className: "glass-input rounded-xl px-3 py-2.5 text-sm outline-none resize-y w-full leading-relaxed",
+            style: { border: `1.5px solid ${col}22`, background: "var(--card)", color: "var(--text)" }
+          }
+        )
+      ] }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-xs italic opacity-50 text-center", children: "Thank you for your attention to this matter!" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "rounded-2xl overflow-hidden", style: { border: `2px solid ${col}30` }, children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "px-4 py-2.5 flex items-center gap-2", style: { background: col + "15", borderBottom: `1px solid ${col}25` }, children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx(Stethoscope, { size: 13, style: { color: col } }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-xs font-black", style: { color: col }, children: "Physician Response" })
+        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "p-4 space-y-3", children: [
+          [
+            { val: "implement", label: "Please implement proposed recommendation" },
+            { val: "change", label: "Please implement the following change:" },
+            { val: "other", label: "Other:" }
+          ].map(({ val, label }) => /* @__PURE__ */ jsxRuntimeExports.jsxs("label", { className: "flex items-start gap-3 cursor-pointer", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx(
+              "div",
+              {
+                onClick: () => update("physicianChoice", form.physicianChoice === val ? "" : val),
+                className: "w-5 h-5 rounded-md border-2 shrink-0 flex items-center justify-center transition-all mt-0.5",
+                style: { borderColor: col, background: form.physicianChoice === val ? col : "transparent" },
+                children: form.physicianChoice === val && /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-white text-xs font-black", children: "✓" })
+              }
+            ),
+            /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex-1", children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-sm font-semibold", children: label }),
+              val === "change" && form.physicianChoice === "change" && /* @__PURE__ */ jsxRuntimeExports.jsx(
+                "input",
+                {
+                  value: form.physicianChange || "",
+                  onChange: (e) => update("physicianChange", e.target.value),
+                  placeholder: "Describe the change…",
+                  className: "glass-input rounded-xl px-3 py-2 text-sm outline-none w-full mt-2",
+                  style: { border: `1.5px solid ${col}30`, background: "var(--card)", color: "var(--text)" }
+                }
+              ),
+              val === "other" && form.physicianChoice === "other" && /* @__PURE__ */ jsxRuntimeExports.jsx(
+                "input",
+                {
+                  value: form.physicianOther || "",
+                  onChange: (e) => update("physicianOther", e.target.value),
+                  placeholder: "Describe other response…",
+                  className: "glass-input rounded-xl px-3 py-2 text-sm outline-none w-full mt-2",
+                  style: { border: `1.5px solid ${col}30`, background: "var(--card)", color: "var(--text)" }
+                }
+              )
+            ] })
+          ] }, val)),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "pt-2 border-t", style: { borderColor: col + "20" }, children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx("label", { className: "text-[10px] font-black uppercase tracking-widest", style: { color: col }, children: "Physician Signature" }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx(
+              "input",
+              {
+                value: form.physicianSignature || "",
+                onChange: (e) => update("physicianSignature", e.target.value),
+                placeholder: "Physician signature / name",
+                className: "glass-input rounded-xl px-3 py-2 text-sm outline-none w-full mt-1",
+                style: { border: `1.5px solid ${col}22`, background: "var(--card)", color: "var(--text)", fontFamily: "cursive" }
+              }
+            )
+          ] })
+        ] })
+      ] }),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { className: "text-[10px] opacity-30 text-center leading-relaxed", children: [
+        "This form was adapted from the Medicare Prescription Drug Coverage Provider Communication Form.",
+        /* @__PURE__ */ jsxRuntimeExports.jsx("br", {}),
+        "Source: American Pharmacists Association; National Association of Chain Drug Stores Foundation. Medication Therapy Management: Training and Techniques for Providing MTM Services in Community Pharmacy. Washington, DC: APhA and NACDS Foundation; 2006."
+      ] })
+    ] })
+  ] }) });
+}
 function TopicContentPanel({ category, subcategory, settings }) {
   const [content, setContent] = reactExports.useState(null);
   const [loading, setLoading] = reactExports.useState(false);
@@ -22974,7 +23250,8 @@ RULE 10 — Include specific quantitative data everywhere: exact doses, lab cuto
     { id: "subtopics", label: "Subtopics", icon: Layers3 },
     { id: "pearls", label: "Pearls & Tips", icon: Sparkles },
     { id: "questions", label: "Practice Qs", icon: CheckCircle2 },
-    { id: "rapid", label: "Rapid Review", icon: Zap }
+    { id: "rapid", label: "Rapid Review", icon: Zap },
+    ...category.id === "osce" ? [{ id: "comm-form", label: "Communication Form", icon: FileText }] : []
   ];
   return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "space-y-4", children: [
     /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex gap-1 p-1 glass rounded-2xl overflow-x-auto custom-scrollbar", children: [
@@ -23606,7 +23883,8 @@ RULE 10 — Include specific quantitative data everywhere: exact doses, lab cuto
           ] })
         ] });
       })()
-    ] }) })
+    ] }) }),
+    activeTab === "comm-form" && /* @__PURE__ */ jsxRuntimeExports.jsx(OsceCommunicationForm, { topicKey, category })
   ] });
 }
 function MedicalEncyclopediaView({ settings }) {
