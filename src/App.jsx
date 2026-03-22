@@ -5995,33 +5995,36 @@ Format with clear sections. Be thorough but concise.`;
 }
 
 // ── OSCE Provider Communication Form ──
-function OsceCommunicationForm({ topicKey, category }) {
+function OsceCommunicationForm({ topicKey, category, settings }) {
   const storageKey = `osce-comm-form:${topicKey}`;
+  const col = category.color;
 
+  // ── Patient Case state ──
+  const [caseInput, setCaseInput] = useState('');
+  const [patientCase, setPatientCase] = useState(null);
+  const [loadingCase, setLoadingCase] = useState(false);
+
+  // ── SBAR Form state ──
   const blankForm = () => ({
     toProvider: '', date: new Date().toLocaleDateString(),
     fromName: '', pharmacistPhone: '',
     patientName: '', dob: '',
-    situation: '',
-    background: '',
-    assessment: '',
-    recommendations: '',
-    physicianChoice: '',
-    physicianChange: '',
-    physicianOther: '',
-    physicianSignature: '',
+    situation: '', background: '', assessment: '', recommendations: '',
+    physicianChoice: '', physicianChange: '', physicianOther: '', physicianSignature: '',
     savedAt: null,
   });
-
   const [form, setForm] = useState(() => {
     try { const s = localStorage.getItem(storageKey); return s ? JSON.parse(s) : blankForm(); } catch { return blankForm(); }
   });
   const [saved, setSaved] = useState(false);
 
-  // Load form when topic changes
+  // ── AI Evaluation state ──
+  const [evaluation, setEvaluation] = useState(null);
+  const [loadingEval, setLoadingEval] = useState(false);
+
   useEffect(() => {
     try { const s = localStorage.getItem(storageKey); setForm(s ? JSON.parse(s) : blankForm()); } catch { setForm(blankForm()); }
-    setSaved(false);
+    setSaved(false); setEvaluation(null); setPatientCase(null); setCaseInput('');
   }, [storageKey]);
 
   const update = (field, val) => setForm(f => ({ ...f, [field]: val }));
@@ -6031,198 +6034,678 @@ function OsceCommunicationForm({ topicKey, category }) {
     try { localStorage.setItem(storageKey, JSON.stringify(toSave)); setForm(toSave); setSaved(true); setTimeout(() => setSaved(false), 2500); } catch {}
   };
 
-  const clear = () => { if (!window.confirm('Clear this communication form?')) return; const b = blankForm(); setForm(b); try { localStorage.removeItem(storageKey); } catch {} };
+  const clear = () => {
+    if (!window.confirm('Clear this SBAR form?')) return;
+    const b = blankForm(); setForm(b); setEvaluation(null);
+    try { localStorage.removeItem(storageKey); } catch {}
+  };
 
-  const col = category.color;
+  // ── Generate Patient Case ──
+  const generateCase = async () => {
+    if (!caseInput.trim()) return;
+    setLoadingCase(true); setPatientCase(null);
+    try {
+      const prompt = `You are a clinical educator creating a realistic OSCE patient case for healthcare students.
+Generate a detailed, clinically accurate patient case for: "${caseInput}"
 
-  const Field = ({ label, field, placeholder = '', type = 'input', rows = 3, half = false }) => (
-    <div className={`flex flex-col gap-1 ${half ? 'flex-1 min-w-0' : 'w-full'}`}>
-      <label className="text-[10px] font-black uppercase tracking-widest" style={{ color: col }}>{label}</label>
-      {type === 'input' ? (
-        <input value={form[field] || ''} onChange={e => update(field, e.target.value)}
-          placeholder={placeholder}
-          className="glass-input rounded-xl px-3 py-2 text-sm outline-none w-full"
-          style={{ border: `1.5px solid ${col}22`, background: 'var(--card)', color: 'var(--text)' }} />
-      ) : (
-        <textarea value={form[field] || ''} onChange={e => update(field, e.target.value)}
-          rows={rows} placeholder={placeholder}
-          className="glass-input rounded-xl px-3 py-2.5 text-sm outline-none resize-y w-full leading-relaxed"
-          style={{ border: `1.5px solid ${col}22`, background: 'var(--card)', color: 'var(--text)' }} />
-      )}
-    </div>
+Return ONLY valid JSON with this exact structure:
+{
+  "title": "Brief case title, e.g. Hypertensive Urgency with CKD",
+  "setting": "Clinical setting (e.g. Medical ward, Emergency department, Community pharmacy)",
+  "task": "The student's specific task — what they are asked to do as a pharmacist/nurse/clinician",
+  "patient": {
+    "name": "Realistic full name",
+    "age": 55,
+    "gender": "Male/Female",
+    "weight": "82 kg",
+    "height": "175 cm",
+    "occupation": "e.g. Retired teacher"
+  },
+  "chiefComplaint": "One-sentence chief complaint",
+  "hpi": "2-3 sentence history of presenting illness with timeline and relevant symptoms",
+  "pmh": ["Past medical history condition 1", "condition 2", "condition 3"],
+  "allergies": ["Drug name (reaction type)", "NKDA if none"],
+  "socialHistory": "Brief social history: smoking, alcohol, occupation, relevant lifestyle",
+  "familyHistory": "Relevant family history",
+  "vitals": {
+    "BP": "178/104 mmHg",
+    "HR": "88 bpm",
+    "RR": "18 breaths/min",
+    "Temp": "37.1°C",
+    "SpO2": "97% on room air",
+    "Weight": "82 kg"
+  },
+  "medications": [
+    { "name": "Drug Brand® (generic)", "dose": "10mg", "route": "PO", "frequency": "daily", "indication": "for HTN" }
+  ],
+  "labs": [
+    { "test": "Test name", "value": "Result with units", "normalRange": "Normal range", "flag": "High/Low/Normal" }
+  ],
+  "physicalExam": "Relevant physical examination findings",
+  "imagingOther": "Any relevant imaging or other test results (or 'None')",
+  "clinicalQuestion": "The specific clinical question the student must address in their SBAR communication"
+}
+
+Make the case realistic and challenging — include clinically relevant comorbidities, realistic labs with some abnormalities, and a clear clinical problem requiring SBAR communication to a prescriber.`;
+      const raw = await callAI(prompt, true, false, settings, 3000);
+      setPatientCase(parseJson(raw));
+    } catch (e) { setPatientCase({ error: e.message }); }
+    finally { setLoadingCase(false); }
+  };
+
+  // ── Evaluate SBAR ──
+  const evaluate = async () => {
+    const hasContent = form.situation.trim() || form.background.trim() || form.assessment.trim() || form.recommendations.trim();
+    if (!hasContent) { alert('Please fill in at least one SBAR section before evaluating.'); return; }
+    setLoadingEval(true); setEvaluation(null);
+    const caseContext = patientCase && !patientCase.error
+      ? `PATIENT CASE PROVIDED TO STUDENT:\nTitle: ${patientCase.title}\nTask: ${patientCase.task}\nPatient: ${patientCase.patient?.name}, ${patientCase.patient?.age}yo ${patientCase.patient?.gender}\nChief Complaint: ${patientCase.chiefComplaint}\nHPI: ${patientCase.hpi}\nPMH: ${(patientCase.pmh||[]).join(', ')}\nAllergies: ${(patientCase.allergies||[]).join(', ')}\nVitals: ${JSON.stringify(patientCase.vitals||{})}\nMedications: ${(patientCase.medications||[]).map(m=>`${m.name} ${m.dose} ${m.route} ${m.frequency}`).join('; ')}\nLabs: ${(patientCase.labs||[]).map(l=>`${l.test}: ${l.value} (${l.flag})`).join(', ')}\nClinical Question: ${patientCase.clinicalQuestion}`
+      : 'No specific patient case was generated — evaluate the SBAR based on general clinical accuracy.';
+    try {
+      const prompt = `You are an expert clinical educator evaluating a student's SBAR communication form.
+
+${caseContext}
+
+STUDENT'S SBAR SUBMISSION:
+━━━━━━━━━━━━━━━━━━━━━━━
+S — Situation:
+${form.situation || '(left blank)'}
+
+B — Background:
+${form.background || '(left blank)'}
+
+A — Assessment:
+${form.assessment || '(left blank)'}
+
+R — Recommendation(s):
+${form.recommendations || '(left blank)'}
+━━━━━━━━━━━━━━━━━━━━━━━
+
+Evaluate the student's SBAR thoroughly. Return ONLY valid JSON:
+{
+  "overallScore": 82,
+  "overallGrade": "B+",
+  "overallSummary": "2-3 sentence overall assessment of the SBAR quality and clinical reasoning",
+  "sections": {
+    "situation": {
+      "score": 85,
+      "status": "Good/Needs Work/Excellent/Missing",
+      "strengths": ["specific strength 1", "strength 2"],
+      "issues": ["specific issue 1", "issue 2"],
+      "missingElements": ["element that should have been included"],
+      "modelAnswer": "What an ideal Situation section for this case would say"
+    },
+    "background": {
+      "score": 75,
+      "status": "Good/Needs Work/Excellent/Missing",
+      "strengths": ["specific strength 1"],
+      "issues": ["specific issue 1", "issue 2"],
+      "missingElements": ["missing lab value", "missing allergy info"],
+      "modelAnswer": "What an ideal Background section for this case would say"
+    },
+    "assessment": {
+      "score": 80,
+      "status": "Good/Needs Work/Excellent/Missing",
+      "strengths": ["specific strength 1"],
+      "issues": ["specific issue 1"],
+      "missingElements": ["guideline reference missing", "goal BP not stated"],
+      "modelAnswer": "What an ideal Assessment section for this case would say"
+    },
+    "recommendations": {
+      "score": 88,
+      "status": "Good/Needs Work/Excellent/Missing",
+      "strengths": ["specific strength 1"],
+      "issues": ["specific issue 1"],
+      "missingElements": ["monitoring parameters not specified"],
+      "modelAnswer": "What ideal Recommendations for this case would say"
+    }
+  },
+  "criticalErrors": ["Any clinically dangerous or unacceptable errors — empty array if none"],
+  "topStrengths": ["Best things the student did"],
+  "priorityImprovements": ["Most important things to fix, in priority order"],
+  "examTip": "One key exam/OSCE tip relevant to this SBAR scenario",
+  "clinicalAccuracyNote": "Comment on clinical accuracy of drug choices, doses, guidelines cited"
+}`;
+      const raw = await callAI(prompt, true, false, settings, 4000);
+      setEvaluation(parseJson(raw));
+    } catch (e) { setEvaluation({ error: e.message }); }
+    finally { setLoadingEval(false); }
+  };
+
+  const scoreColor = (score) => {
+    if (score >= 85) return '#10b981';
+    if (score >= 70) return '#f59e0b';
+    return '#ef4444';
+  };
+
+  const statusIcon = (status) => {
+    if (!status) return null;
+    const s = status.toLowerCase();
+    if (s === 'excellent') return '★';
+    if (s === 'good') return '✓';
+    if (s === 'needs work') return '△';
+    return '✗';
+  };
+
+  const SbarTA = ({ field, rows, placeholder }) => (
+    <textarea value={form[field] || ''} onChange={e => update(field, e.target.value)}
+      rows={rows} placeholder={placeholder}
+      className="glass-input rounded-xl px-3 py-2.5 text-sm outline-none resize-y w-full leading-relaxed"
+      style={{ border: `1.5px solid ${col}25`, background: 'var(--card)', color: 'var(--text)' }} />
   );
 
   return (
-    <div className="space-y-4">
-      {/* Document header */}
-      <div className="card-lined rounded-2xl overflow-hidden" style={{ borderTopColor: col + '80' }}>
-        <div className="px-5 py-3 flex items-center justify-between gap-3"
-          style={{ background: col + '15', borderBottom: `1.5px solid ${col}30` }}>
-          <div className="flex items-center gap-2">
-            <div className="w-8 h-8 rounded-xl flex items-center justify-center" style={{ background: col + '25' }}>
-              <FileText size={16} style={{ color: col }} />
-            </div>
-            <div>
-              <p className="text-xs font-black" style={{ color: col }}>Provider Communication Form</p>
-              <p className="text-[10px] opacity-50">Adapted from APhA / NACDS MTM Communication Form</p>
+    <div className="space-y-3">
+      {/* ── Page header ── */}
+      <div className="flex items-center gap-2 px-1">
+        <div className="w-8 h-8 rounded-xl flex items-center justify-center shrink-0" style={{ background: col + '20' }}>
+          <FileText size={15} style={{ color: col }} />
+        </div>
+        <div className="flex-1">
+          <p className="text-sm font-black" style={{ color: col }}>SBAR Practice Station</p>
+          <p className="text-[10px] opacity-40">Generate a patient case → fill the SBAR form → get AI evaluation</p>
+        </div>
+      </div>
+
+      {/* ── Two-panel layout ── */}
+      <div style={{ display: 'flex', gap: 14, alignItems: 'flex-start', flexWrap: 'wrap' }}>
+
+        {/* ═══════════════════════════════════════
+            LEFT PANEL — Patient Case Generator
+        ═══════════════════════════════════════ */}
+        <div style={{ flex: '0 0 44%', minWidth: 280, maxWidth: '100%' }} className="space-y-3">
+          {/* Case input */}
+          <div className="card-lined rounded-2xl p-4 space-y-3" style={{ borderTopColor: col + '70' }}>
+            <p className="text-xs font-black uppercase tracking-widest" style={{ color: col }}>
+              Patient Case Generator
+            </p>
+            <p className="text-[11px] opacity-50 leading-relaxed">
+              Enter a medication, disease, or clinical scenario. The AI will generate a full realistic patient case for you to practise your SBAR communication on.
+            </p>
+            <div className="flex flex-col gap-2">
+              <input
+                value={caseInput}
+                onChange={e => setCaseInput(e.target.value)}
+                onKeyDown={e => { if (e.key === 'Enter') generateCase(); }}
+                placeholder="e.g. Warfarin toxicity, Diabetic ketoacidosis, Vancomycin dosing…"
+                className="glass-input rounded-xl px-4 py-2.5 text-sm outline-none w-full"
+                style={{ border: `1.5px solid ${col}30`, background: 'var(--card)', color: 'var(--text)' }}
+              />
+              <button
+                onClick={generateCase}
+                disabled={loadingCase || !caseInput.trim()}
+                className="flex items-center justify-center gap-2 py-2.5 rounded-xl text-sm font-black text-white transition-all disabled:opacity-40"
+                style={{ background: `linear-gradient(135deg, ${col}, ${col}cc)` }}>
+                {loadingCase ? <><Loader2 size={14} className="animate-spin" /> Generating case…</> : <><Sparkles size={14} /> Generate Patient Case</>}
+              </button>
             </div>
           </div>
-          <div className="flex items-center gap-2">
-            {form.savedAt && <span className="text-[10px] opacity-40">Saved {form.savedAt}</span>}
-            <button onClick={clear} className="px-3 py-1.5 rounded-xl text-[11px] font-black opacity-40 hover:opacity-70 glass">Clear</button>
-            <button onClick={save}
-              className="px-4 py-1.5 rounded-xl text-[11px] font-black text-white transition-all"
-              style={{ background: saved ? '#10b981' : col }}>
-              {saved ? '✓ Saved' : 'Save Form'}
-            </button>
-          </div>
+
+          {/* Generated case display */}
+          {loadingCase && (
+            <div className="card-lined rounded-2xl p-6 flex flex-col items-center gap-3">
+              <div className="w-12 h-12 rounded-2xl flex items-center justify-center animate-pulse" style={{ background: col + '20' }}>
+                <Loader2 size={22} className="animate-spin" style={{ color: col }} />
+              </div>
+              <p className="text-xs font-black opacity-50">Creating patient case…</p>
+            </div>
+          )}
+
+          {patientCase?.error && (
+            <div className="card-lined rounded-2xl p-4 text-center space-y-2">
+              <AlertCircle size={22} className="mx-auto text-red-400" />
+              <p className="text-xs text-red-400">{patientCase.error}</p>
+              <button onClick={generateCase} className="text-xs font-black px-3 py-1.5 rounded-xl glass opacity-60 hover:opacity-100">Retry</button>
+            </div>
+          )}
+
+          {patientCase && !patientCase.error && (
+            <div className="card-lined rounded-2xl overflow-hidden" style={{ borderTopColor: col + '60' }}>
+              {/* Case header */}
+              <div className="px-4 py-3" style={{ background: col + '12', borderBottom: `1px solid ${col}20` }}>
+                <p className="text-xs font-black" style={{ color: col }}>{patientCase.title}</p>
+                <p className="text-[10px] opacity-50 mt-0.5">{patientCase.setting}</p>
+              </div>
+              <div className="p-4 space-y-3">
+                {/* Task banner */}
+                <div className="rounded-xl p-3" style={{ background: col + '15', border: `1px solid ${col}30` }}>
+                  <p className="text-[10px] font-black uppercase tracking-widest opacity-60 mb-1">Your Task</p>
+                  <p className="text-xs font-semibold leading-relaxed">{patientCase.task}</p>
+                </div>
+
+                {/* Patient info grid */}
+                <div className="grid grid-cols-2 gap-2">
+                  {[
+                    ['Patient', `${patientCase.patient?.name}, ${patientCase.patient?.age}yo ${patientCase.patient?.gender}`],
+                    ['Weight / Height', `${patientCase.patient?.weight} / ${patientCase.patient?.height}`],
+                    ['Chief Complaint', patientCase.chiefComplaint],
+                    ['Occupation', patientCase.patient?.occupation],
+                  ].map(([lbl, val]) => val ? (
+                    <div key={lbl} className="rounded-xl p-2.5 col-span-1" style={{ background: 'var(--surface)' }}>
+                      <p className="text-[9px] font-black uppercase tracking-widest opacity-40 mb-0.5">{lbl}</p>
+                      <p className="text-xs font-semibold leading-snug">{val}</p>
+                    </div>
+                  ) : null)}
+                </div>
+
+                {/* HPI */}
+                {patientCase.hpi && (
+                  <div>
+                    <p className="text-[9px] font-black uppercase tracking-widest opacity-40 mb-1">History of Presenting Illness</p>
+                    <p className="text-xs leading-relaxed" style={{ color: 'var(--text2)' }}>{patientCase.hpi}</p>
+                  </div>
+                )}
+
+                {/* PMH + Allergies */}
+                <div className="grid grid-cols-2 gap-2">
+                  {patientCase.pmh?.length > 0 && (
+                    <div className="col-span-1">
+                      <p className="text-[9px] font-black uppercase tracking-widest opacity-40 mb-1">PMH</p>
+                      <ul className="space-y-0.5">
+                        {patientCase.pmh.map((c, i) => <li key={i} className="text-xs" style={{ color: 'var(--text2)' }}>• {c}</li>)}
+                      </ul>
+                    </div>
+                  )}
+                  {patientCase.allergies?.length > 0 && (
+                    <div className="col-span-1">
+                      <p className="text-[9px] font-black uppercase tracking-widest opacity-40 mb-1">Allergies</p>
+                      {patientCase.allergies.map((a, i) => (
+                        <span key={i} className="inline-block text-[10px] font-black px-2 py-0.5 rounded-lg mr-1 mb-1 text-white" style={{ background: '#ef444490' }}>{a}</span>
+                      ))}
+                    </div>
+                  )}
+                </div>
+
+                {/* Vitals */}
+                {patientCase.vitals && (
+                  <div>
+                    <p className="text-[9px] font-black uppercase tracking-widest opacity-40 mb-1.5">Vitals</p>
+                    <div className="grid grid-cols-3 gap-1.5">
+                      {Object.entries(patientCase.vitals).map(([k, v]) => (
+                        <div key={k} className="rounded-lg p-2 text-center" style={{ background: col + '10' }}>
+                          <p className="text-[8px] font-black uppercase opacity-50">{k}</p>
+                          <p className="text-[11px] font-black" style={{ color: col }}>{v}</p>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {/* Medications */}
+                {patientCase.medications?.length > 0 && (
+                  <div>
+                    <p className="text-[9px] font-black uppercase tracking-widest opacity-40 mb-1">Current Medications</p>
+                    <div className="space-y-1">
+                      {patientCase.medications.map((m, i) => (
+                        <div key={i} className="flex items-baseline gap-2 text-xs rounded-lg px-2.5 py-1.5" style={{ background: 'var(--surface)' }}>
+                          <span className="font-semibold shrink-0">{m.name}</span>
+                          <span className="opacity-60">{m.dose} {m.route} {m.frequency}</span>
+                          {m.indication && <span className="opacity-40 text-[10px] ml-auto shrink-0">{m.indication}</span>}
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {/* Labs */}
+                {patientCase.labs?.length > 0 && (
+                  <div>
+                    <p className="text-[9px] font-black uppercase tracking-widest opacity-40 mb-1.5">Labs</p>
+                    <div className="rounded-xl overflow-hidden border" style={{ borderColor: col + '20' }}>
+                      <table className="w-full text-[11px]">
+                        <thead>
+                          <tr style={{ background: col + '12' }}>
+                            <th className="px-2.5 py-1.5 text-left font-black opacity-60">Test</th>
+                            <th className="px-2.5 py-1.5 text-left font-black opacity-60">Result</th>
+                            <th className="px-2.5 py-1.5 text-left font-black opacity-60">Normal</th>
+                            <th className="px-2.5 py-1.5 text-left font-black opacity-60">Flag</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {patientCase.labs.map((l, i) => (
+                            <tr key={i} style={{ borderTop: `1px solid ${col}10` }}>
+                              <td className="px-2.5 py-1 font-semibold">{l.test}</td>
+                              <td className="px-2.5 py-1">{l.value}</td>
+                              <td className="px-2.5 py-1 opacity-50">{l.normalRange}</td>
+                              <td className="px-2.5 py-1">
+                                <span className="font-black text-[10px]"
+                                  style={{ color: l.flag?.toLowerCase() === 'normal' ? '#10b981' : '#ef4444' }}>
+                                  {l.flag}
+                                </span>
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                )}
+
+                {/* Physical exam + imaging */}
+                {(patientCase.physicalExam || patientCase.imagingOther) && (
+                  <div className="space-y-1.5">
+                    {patientCase.physicalExam && (
+                      <div>
+                        <p className="text-[9px] font-black uppercase tracking-widest opacity-40 mb-0.5">Physical Exam</p>
+                        <p className="text-xs leading-relaxed" style={{ color: 'var(--text2)' }}>{patientCase.physicalExam}</p>
+                      </div>
+                    )}
+                    {patientCase.imagingOther && patientCase.imagingOther !== 'None' && (
+                      <div>
+                        <p className="text-[9px] font-black uppercase tracking-widest opacity-40 mb-0.5">Imaging / Other</p>
+                        <p className="text-xs leading-relaxed" style={{ color: 'var(--text2)' }}>{patientCase.imagingOther}</p>
+                      </div>
+                    )}
+                  </div>
+                )}
+
+                {/* Clinical question */}
+                {patientCase.clinicalQuestion && (
+                  <div className="rounded-xl p-3 mt-1" style={{ background: col + '18', border: `1.5px solid ${col}35` }}>
+                    <p className="text-[9px] font-black uppercase tracking-widest mb-1" style={{ color: col }}>Clinical Question to Address in SBAR</p>
+                    <p className="text-xs font-semibold leading-relaxed">{patientCase.clinicalQuestion}</p>
+                  </div>
+                )}
+
+                <button
+                  onClick={generateCase}
+                  className="w-full flex items-center justify-center gap-1.5 py-2 rounded-xl text-[11px] font-black opacity-40 hover:opacity-70 glass">
+                  <RefreshCw size={11} /> New Case
+                </button>
+              </div>
+            </div>
+          )}
+
+          {/* Evaluation results (shown below case on left panel) */}
+          {(evaluation || loadingEval) && (
+            <div className="card-lined rounded-2xl overflow-hidden" style={{ borderTopColor: evaluation?.error ? '#ef4444' : col + '80' }}>
+              <div className="px-4 py-3 flex items-center gap-2" style={{ background: col + '12', borderBottom: `1px solid ${col}20` }}>
+                <Target size={13} style={{ color: col }} />
+                <p className="text-xs font-black" style={{ color: col }}>AI Evaluation</p>
+              </div>
+
+              {loadingEval && (
+                <div className="p-6 flex flex-col items-center gap-3">
+                  <Loader2 size={22} className="animate-spin" style={{ color: col }} />
+                  <p className="text-xs font-black opacity-50">Evaluating your SBAR…</p>
+                </div>
+              )}
+
+              {evaluation?.error && (
+                <div className="p-4 text-center space-y-2">
+                  <AlertCircle size={20} className="mx-auto text-red-400" />
+                  <p className="text-xs text-red-400">{evaluation.error}</p>
+                </div>
+              )}
+
+              {evaluation && !evaluation.error && !loadingEval && (
+                <div className="p-4 space-y-4">
+                  {/* Overall score */}
+                  <div className="flex items-center gap-4">
+                    <div className="w-16 h-16 rounded-2xl flex flex-col items-center justify-center shrink-0"
+                      style={{ background: scoreColor(evaluation.overallScore || 0) + '20', border: `2px solid ${scoreColor(evaluation.overallScore || 0)}40` }}>
+                      <span className="text-xl font-black" style={{ color: scoreColor(evaluation.overallScore || 0) }}>{evaluation.overallScore}</span>
+                      <span className="text-[10px] font-black opacity-60">{evaluation.overallGrade}</span>
+                    </div>
+                    <p className="text-xs leading-relaxed flex-1" style={{ color: 'var(--text2)' }}>{evaluation.overallSummary}</p>
+                  </div>
+
+                  {/* Critical errors */}
+                  {evaluation.criticalErrors?.length > 0 && (
+                    <div className="rounded-xl p-3 space-y-1.5" style={{ background: '#ef444412', border: '1.5px solid #ef444430' }}>
+                      <p className="text-[10px] font-black uppercase tracking-widest text-red-400">⚠ Critical Errors</p>
+                      {evaluation.criticalErrors.map((e, i) => (
+                        <p key={i} className="text-xs text-red-400">• {e}</p>
+                      ))}
+                    </div>
+                  )}
+
+                  {/* Sections */}
+                  {evaluation.sections && Object.entries(evaluation.sections).map(([sec, data]) => (
+                    <div key={sec} className="rounded-xl overflow-hidden" style={{ border: `1.5px solid ${col}20` }}>
+                      <div className="px-3 py-2 flex items-center justify-between"
+                        style={{ background: scoreColor(data.score || 0) + '12', borderBottom: `1px solid ${col}15` }}>
+                        <div className="flex items-center gap-2">
+                          <span className="text-sm font-black" style={{ color: col }}>{sec.charAt(0).toUpperCase()}</span>
+                          <span className="text-xs font-black capitalize" style={{ color: 'var(--text)' }}>{sec}</span>
+                          <span className="text-[10px] px-1.5 py-0.5 rounded-md font-black"
+                            style={{ background: scoreColor(data.score || 0) + '20', color: scoreColor(data.score || 0) }}>
+                            {statusIcon(data.status)} {data.status}
+                          </span>
+                        </div>
+                        <span className="text-sm font-black" style={{ color: scoreColor(data.score || 0) }}>{data.score}</span>
+                      </div>
+                      <div className="p-3 space-y-2">
+                        {data.strengths?.length > 0 && (
+                          <div>
+                            {data.strengths.map((s, i) => <p key={i} className="text-[11px] text-emerald-500">✓ {s}</p>)}
+                          </div>
+                        )}
+                        {data.issues?.length > 0 && (
+                          <div>
+                            {data.issues.map((s, i) => <p key={i} className="text-[11px] text-amber-500">△ {s}</p>)}
+                          </div>
+                        )}
+                        {data.missingElements?.length > 0 && (
+                          <div>
+                            {data.missingElements.map((s, i) => <p key={i} className="text-[11px] text-red-400">✗ Missing: {s}</p>)}
+                          </div>
+                        )}
+                        {data.modelAnswer && (
+                          <details className="mt-1">
+                            <summary className="text-[10px] font-black cursor-pointer opacity-50 hover:opacity-80" style={{ color: col }}>Model answer →</summary>
+                            <p className="text-[11px] mt-2 leading-relaxed p-2 rounded-lg"
+                              style={{ background: col + '08', color: 'var(--text2)' }}>{data.modelAnswer}</p>
+                          </details>
+                        )}
+                      </div>
+                    </div>
+                  ))}
+
+                  {/* Top strengths + priority improvements */}
+                  {evaluation.topStrengths?.length > 0 && (
+                    <div>
+                      <p className="text-[10px] font-black uppercase tracking-widest opacity-40 mb-1">What You Did Well</p>
+                      {evaluation.topStrengths.map((s, i) => <p key={i} className="text-xs text-emerald-500 mb-0.5">★ {s}</p>)}
+                    </div>
+                  )}
+                  {evaluation.priorityImprovements?.length > 0 && (
+                    <div>
+                      <p className="text-[10px] font-black uppercase tracking-widest opacity-40 mb-1">Priority Improvements</p>
+                      {evaluation.priorityImprovements.map((s, i) => (
+                        <p key={i} className="text-xs mb-0.5 flex items-start gap-1.5">
+                          <span className="font-black shrink-0" style={{ color: col }}>#{i + 1}</span>
+                          <span style={{ color: 'var(--text2)' }}>{s}</span>
+                        </p>
+                      ))}
+                    </div>
+                  )}
+                  {evaluation.clinicalAccuracyNote && (
+                    <div className="rounded-xl p-3" style={{ background: 'var(--surface)' }}>
+                      <p className="text-[10px] font-black uppercase tracking-widest opacity-40 mb-1">Clinical Accuracy</p>
+                      <p className="text-xs leading-relaxed" style={{ color: 'var(--text2)' }}>{evaluation.clinicalAccuracyNote}</p>
+                    </div>
+                  )}
+                  {evaluation.examTip && (
+                    <div className="rounded-xl p-3" style={{ background: col + '10', border: `1px solid ${col}25` }}>
+                      <p className="text-[10px] font-black uppercase tracking-widest mb-1" style={{ color: col }}>OSCE Tip</p>
+                      <p className="text-xs leading-relaxed">{evaluation.examTip}</p>
+                    </div>
+                  )}
+                </div>
+              )}
+            </div>
+          )}
         </div>
 
-        <div className="p-5 space-y-5">
-          {/* Header row 1: To / Date */}
-          <div className="flex gap-3 flex-wrap">
-            <Field label="To (Provider)" field="toProvider" placeholder="Dr. Smith" half />
-            <Field label="Date" field="date" placeholder="MM/DD/YYYY" half />
-          </div>
-          {/* Header row 2: From / Phone */}
-          <div className="flex gap-3 flex-wrap">
-            <Field label="From (Your Name &amp; Credentials)" field="fromName" placeholder="Jane Doe, PharmD" half />
-            <Field label="Pharmacist Contact Number" field="pharmacistPhone" placeholder="555-0000" half />
-          </div>
-          {/* Header row 3: Patient / DOB */}
-          <div className="flex gap-3 flex-wrap">
-            <Field label="Patient Name" field="patientName" placeholder="Full name" half />
-            <Field label="Date of Birth (DOB)" field="dob" placeholder="MM/DD/YYYY" half />
-          </div>
-
-          {/* Divider */}
-          <div className="border-t" style={{ borderColor: col + '20' }} />
-
-          {/* Situation */}
-          <div className="rounded-2xl p-4 space-y-2" style={{ background: col + '08', border: `1.5px solid ${col}20` }}>
-            <div className="flex items-start gap-2 mb-1">
-              <div className="w-6 h-6 rounded-lg flex items-center justify-center shrink-0" style={{ background: col + '25' }}>
-                <span className="text-xs font-black" style={{ color: col }}>S</span>
-              </div>
+        {/* ═══════════════════════════════════════
+            RIGHT PANEL — SBAR Form
+        ═══════════════════════════════════════ */}
+        <div style={{ flex: '1 1 50%', minWidth: 300 }}>
+          <div className="card-lined rounded-2xl overflow-hidden" style={{ borderTopColor: col + '70' }}>
+            {/* Form toolbar */}
+            <div className="px-4 py-3 flex items-center justify-between gap-3 flex-wrap"
+              style={{ background: col + '12', borderBottom: `1.5px solid ${col}25` }}>
               <div>
-                <p className="text-xs font-black" style={{ color: col }}>Situation</p>
-                <p className="text-[10px] leading-relaxed opacity-50 mt-0.5">Who is the patient, where are they, why are they there, and why are you involved? Include chief complaint and concise background. Write clearly and concisely in short paragraph form.</p>
+                <p className="text-xs font-black" style={{ color: col }}>SBAR Communication Form</p>
+                <p className="text-[10px] opacity-40">Situation · Background · Assessment · Recommendation</p>
+              </div>
+              <div className="flex items-center gap-2">
+                {form.savedAt && <span className="text-[10px] opacity-40 hidden sm:block">Saved {form.savedAt}</span>}
+                <button onClick={clear} className="px-2.5 py-1.5 rounded-xl text-[11px] font-black opacity-40 hover:opacity-70 glass">Clear</button>
+                <button onClick={save}
+                  className="px-3 py-1.5 rounded-xl text-[11px] font-black text-white transition-all"
+                  style={{ background: saved ? '#10b981' : col }}>
+                  {saved ? '✓ Saved' : 'Save'}
+                </button>
               </div>
             </div>
-            <textarea value={form.situation || ''} onChange={e => update('situation', e.target.value)}
-              rows={5} placeholder="e.g. Mr. J.D. is a 62-year-old male admitted to the medical ward for hypertensive urgency. You were asked to dose a medication and provide a recommendation on blood pressure control..."
-              className="glass-input rounded-xl px-3 py-2.5 text-sm outline-none resize-y w-full leading-relaxed"
-              style={{ border: `1.5px solid ${col}22`, background: 'var(--card)', color: 'var(--text)' }} />
-          </div>
 
-          {/* Background */}
-          <div className="rounded-2xl p-4 space-y-2" style={{ background: 'var(--surface)', border: `1.5px solid ${col}18` }}>
-            <div className="flex items-start gap-2 mb-1">
-              <div className="w-6 h-6 rounded-lg flex items-center justify-center shrink-0" style={{ background: col + '20' }}>
-                <span className="text-xs font-black" style={{ color: col }}>B</span>
+            <div className="p-4 space-y-4">
+              {/* Header fields */}
+              <div className="grid grid-cols-2 gap-3">
+                {[
+                  ['To (Provider)', 'toProvider', 'Dr. Smith'],
+                  ['Date', 'date', 'MM/DD/YYYY'],
+                  ['From (Name & Credentials)', 'fromName', 'Jane Doe, PharmD'],
+                  ['Contact Number', 'pharmacistPhone', '555-0000'],
+                  ['Patient Name', 'patientName', 'Full name'],
+                  ['Date of Birth', 'dob', 'MM/DD/YYYY'],
+                ].map(([lbl, field, ph]) => (
+                  <div key={field} className="flex flex-col gap-1">
+                    <label className="text-[9px] font-black uppercase tracking-widest" style={{ color: col }}>{lbl}</label>
+                    <input value={form[field] || ''} onChange={e => update(field, e.target.value)}
+                      placeholder={ph}
+                      className="glass-input rounded-xl px-3 py-2 text-xs outline-none w-full"
+                      style={{ border: `1.5px solid ${col}20`, background: 'var(--card)', color: 'var(--text)' }} />
+                  </div>
+                ))}
               </div>
-              <div>
-                <p className="text-xs font-black" style={{ color: col }}>Background</p>
-                <p className="text-[10px] leading-relaxed opacity-50 mt-0.5">Subjective &amp; objective data — HPI, home testing, symptoms, PMH, allergies, vitals, labs, tests, preventive care, family/social history, immunizations, medication list, other objective data.</p>
-              </div>
-            </div>
-            <textarea value={form.background || ''} onChange={e => update('background', e.target.value)}
-              rows={7} placeholder="PMH: HTN, Type 2 DM, CKD stage 3\nAllergies: Penicillin (rash)\nVitals: BP 178/104, HR 88, RR 16, T 37.1°C, O2 sat 98%\nLabs: SCr 1.4, eGFR 52, K+ 4.2, Na+ 139\nMedications: Amlodipine 10mg daily, Metformin 500mg BID..."
-              className="glass-input rounded-xl px-3 py-2.5 text-sm outline-none resize-y w-full leading-relaxed font-mono"
-              style={{ border: `1.5px solid ${col}22`, background: 'var(--card)', color: 'var(--text)' }} />
-          </div>
 
-          {/* Assessment */}
-          <div className="rounded-2xl p-4 space-y-2" style={{ background: col + '08', border: `1.5px solid ${col}20` }}>
-            <div className="flex items-start gap-2 mb-1">
-              <div className="w-6 h-6 rounded-lg flex items-center justify-center shrink-0" style={{ background: col + '25' }}>
-                <span className="text-xs font-black" style={{ color: col }}>A</span>
-              </div>
-              <div>
-                <p className="text-xs font-black" style={{ color: col }}>Assessment</p>
-                <p className="text-[10px] leading-relaxed opacity-50 mt-0.5">Using situation &amp; background data, assess the specific problem you were contacted about. Reference guidelines. State whether the patient is at goal and assess current therapy.</p>
-              </div>
-            </div>
-            <textarea value={form.assessment || ''} onChange={e => update('assessment', e.target.value)}
-              rows={5} placeholder="e.g. Patient's blood pressure is not at goal (target &lt;130/80 per ACC/AHA 2023 guidelines). Current regimen of amlodipine 10mg daily is at maximum dose. Elevated SCr and reduced eGFR 52 suggest CKD, limiting certain antihypertensive choices..."
-              className="glass-input rounded-xl px-3 py-2.5 text-sm outline-none resize-y w-full leading-relaxed"
-              style={{ border: `1.5px solid ${col}22`, background: 'var(--card)', color: 'var(--text)' }} />
-          </div>
+              <div className="border-t" style={{ borderColor: col + '15' }} />
 
-          {/* Recommendations */}
-          <div className="rounded-2xl p-4 space-y-2" style={{ background: 'var(--surface)', border: `1.5px solid ${col}18` }}>
-            <div className="flex items-start gap-2 mb-1">
-              <div className="w-6 h-6 rounded-lg flex items-center justify-center shrink-0" style={{ background: col + '25' }}>
-                <span className="text-xs font-black" style={{ color: col }}>R</span>
-              </div>
-              <div>
-                <p className="text-xs font-black" style={{ color: col }}>Recommendation(s)</p>
-                <p className="text-[10px] leading-relaxed opacity-50 mt-0.5">Use "recommend" or "suggest". List pharmacologic interventions (drug, dose, route, frequency, duration). Include medications to start/adjust/discontinue, non-pharmacologic measures, and monitoring for efficacy &amp; toxicity.</p>
-              </div>
-            </div>
-            <textarea value={form.recommendations || ''} onChange={e => update('recommendations', e.target.value)}
-              rows={7} placeholder="1. Recommend initiating Losartan® (losartan) 50mg PO daily — ARB preferred in CKD with proteinuria per KDIGO guidelines. Titrate to 100mg daily based on BP response and tolerability.\n2. Suggest monitoring BP weekly for 4 weeks, then monthly once at goal.\n3. Recommend checking serum K+ and SCr 1-2 weeks after initiation.\n4. Non-pharmacologic: 30 min aerobic exercise daily, DASH diet, sodium restriction &lt;2g/day, smoking cessation.\n5. Monitoring: Efficacy — BP target &lt;130/80. Toxicity — hyperkalemia (K+ &gt;5.5), AKI."
-              className="glass-input rounded-xl px-3 py-2.5 text-sm outline-none resize-y w-full leading-relaxed"
-              style={{ border: `1.5px solid ${col}22`, background: 'var(--card)', color: 'var(--text)' }} />
-          </div>
-
-          {/* Closing */}
-          <p className="text-xs italic opacity-50 text-center">Thank you for your attention to this matter!</p>
-
-          {/* Physician Response box */}
-          <div className="rounded-2xl overflow-hidden" style={{ border: `2px solid ${col}30` }}>
-            <div className="px-4 py-2.5 flex items-center gap-2" style={{ background: col + '15', borderBottom: `1px solid ${col}25` }}>
-              <Stethoscope size={13} style={{ color: col }} />
-              <span className="text-xs font-black" style={{ color: col }}>Physician Response</span>
-            </div>
-            <div className="p-4 space-y-3">
-              {/* Checkboxes */}
-              {[
-                { val: 'implement', label: 'Please implement proposed recommendation' },
-                { val: 'change', label: 'Please implement the following change:' },
-                { val: 'other', label: 'Other:' },
-              ].map(({ val, label }) => (
-                <label key={val} className="flex items-start gap-3 cursor-pointer">
-                  <div
-                    onClick={() => update('physicianChoice', form.physicianChoice === val ? '' : val)}
-                    className="w-5 h-5 rounded-md border-2 shrink-0 flex items-center justify-center transition-all mt-0.5"
-                    style={{ borderColor: col, background: form.physicianChoice === val ? col : 'transparent' }}>
-                    {form.physicianChoice === val && <span className="text-white text-xs font-black">✓</span>}
+              {/* S */}
+              <div className="rounded-2xl p-3 space-y-2" style={{ background: col + '07', border: `1.5px solid ${col}18` }}>
+                <div className="flex items-start gap-2">
+                  <div className="w-6 h-6 rounded-lg flex items-center justify-center shrink-0" style={{ background: col + '25' }}>
+                    <span className="text-xs font-black" style={{ color: col }}>S</span>
                   </div>
                   <div className="flex-1">
-                    <span className="text-sm font-semibold">{label}</span>
-                    {val === 'change' && form.physicianChoice === 'change' && (
-                      <input value={form.physicianChange || ''} onChange={e => update('physicianChange', e.target.value)}
-                        placeholder="Describe the change…"
-                        className="glass-input rounded-xl px-3 py-2 text-sm outline-none w-full mt-2"
-                        style={{ border: `1.5px solid ${col}30`, background: 'var(--card)', color: 'var(--text)' }} />
-                    )}
-                    {val === 'other' && form.physicianChoice === 'other' && (
-                      <input value={form.physicianOther || ''} onChange={e => update('physicianOther', e.target.value)}
-                        placeholder="Describe other response…"
-                        className="glass-input rounded-xl px-3 py-2 text-sm outline-none w-full mt-2"
-                        style={{ border: `1.5px solid ${col}30`, background: 'var(--card)', color: 'var(--text)' }} />
-                    )}
+                    <p className="text-xs font-black" style={{ color: col }}>Situation</p>
+                    <p className="text-[10px] opacity-40 mt-0.5">Who is the patient, what is happening, and why are you calling?</p>
                   </div>
-                </label>
-              ))}
-              {/* Signature line */}
-              <div className="pt-2 border-t" style={{ borderColor: col + '20' }}>
-                <label className="text-[10px] font-black uppercase tracking-widest" style={{ color: col }}>Physician Signature</label>
-                <input value={form.physicianSignature || ''} onChange={e => update('physicianSignature', e.target.value)}
-                  placeholder="Physician signature / name"
-                  className="glass-input rounded-xl px-3 py-2 text-sm outline-none w-full mt-1"
-                  style={{ border: `1.5px solid ${col}22`, background: 'var(--card)', color: 'var(--text)', fontFamily: 'cursive' }} />
+                </div>
+                <SbarTA field="situation" rows={4}
+                  placeholder="e.g. Mr. J.D. is a 62-year-old male admitted to the medical ward for hypertensive urgency. I am contacting you to recommend a change in his antihypertensive regimen…" />
               </div>
+
+              {/* B */}
+              <div className="rounded-2xl p-3 space-y-2" style={{ background: 'var(--surface)', border: `1.5px solid ${col}15` }}>
+                <div className="flex items-start gap-2">
+                  <div className="w-6 h-6 rounded-lg flex items-center justify-center shrink-0" style={{ background: col + '20' }}>
+                    <span className="text-xs font-black" style={{ color: col }}>B</span>
+                  </div>
+                  <div className="flex-1">
+                    <p className="text-xs font-black" style={{ color: col }}>Background</p>
+                    <p className="text-[10px] opacity-40 mt-0.5">PMH, allergies, vitals, labs, current medications, relevant history.</p>
+                  </div>
+                </div>
+                <SbarTA field="background" rows={6}
+                  placeholder="PMH: HTN, Type 2 DM, CKD stage 3&#10;Allergies: Penicillin (rash)&#10;Vitals: BP 178/104, HR 88, Temp 37.1°C&#10;Labs: SCr 1.4, eGFR 52, K+ 4.2&#10;Medications: Amlodipine 10mg daily…" />
+              </div>
+
+              {/* A */}
+              <div className="rounded-2xl p-3 space-y-2" style={{ background: col + '07', border: `1.5px solid ${col}18` }}>
+                <div className="flex items-start gap-2">
+                  <div className="w-6 h-6 rounded-lg flex items-center justify-center shrink-0" style={{ background: col + '25' }}>
+                    <span className="text-xs font-black" style={{ color: col }}>A</span>
+                  </div>
+                  <div className="flex-1">
+                    <p className="text-xs font-black" style={{ color: col }}>Assessment</p>
+                    <p className="text-[10px] opacity-40 mt-0.5">Your clinical assessment — is the patient at goal? Reference guidelines.</p>
+                  </div>
+                </div>
+                <SbarTA field="assessment" rows={4}
+                  placeholder="e.g. Patient's BP is not at goal (target <130/80 per ACC/AHA 2023). Amlodipine 10mg is at maximum dose. CKD stage 3 (eGFR 52) restricts some agents but favours RAAS blockade…" />
+              </div>
+
+              {/* R */}
+              <div className="rounded-2xl p-3 space-y-2" style={{ background: 'var(--surface)', border: `1.5px solid ${col}15` }}>
+                <div className="flex items-start gap-2">
+                  <div className="w-6 h-6 rounded-lg flex items-center justify-center shrink-0" style={{ background: col + '25' }}>
+                    <span className="text-xs font-black" style={{ color: col }}>R</span>
+                  </div>
+                  <div className="flex-1">
+                    <p className="text-xs font-black" style={{ color: col }}>Recommendation(s)</p>
+                    <p className="text-[10px] opacity-40 mt-0.5">Drug · dose · route · frequency. Monitoring for efficacy &amp; toxicity. Non-pharmacologic measures.</p>
+                  </div>
+                </div>
+                <SbarTA field="recommendations" rows={6}
+                  placeholder="1. Recommend initiating Losartan® (losartan) 50mg PO daily — ARB preferred in CKD. Titrate to 100mg based on response.&#10;2. Monitor BP weekly ×4 weeks.&#10;3. Check K+ and SCr 1–2 weeks after initiation.&#10;4. Non-pharm: DASH diet, Na⁺ <2g/day, aerobic exercise 30 min/day." />
+              </div>
+
+              {/* Physician Response */}
+              <div className="rounded-2xl overflow-hidden" style={{ border: `1.5px solid ${col}25` }}>
+                <div className="px-3 py-2 flex items-center gap-2" style={{ background: col + '12', borderBottom: `1px solid ${col}20` }}>
+                  <Stethoscope size={12} style={{ color: col }} />
+                  <span className="text-[11px] font-black" style={{ color: col }}>Physician Response</span>
+                </div>
+                <div className="p-3 space-y-2.5">
+                  {[
+                    { val: 'implement', label: 'Please implement proposed recommendation' },
+                    { val: 'change', label: 'Please implement the following change:' },
+                    { val: 'other', label: 'Other:' },
+                  ].map(({ val, label }) => (
+                    <label key={val} className="flex items-start gap-2.5 cursor-pointer">
+                      <div onClick={() => update('physicianChoice', form.physicianChoice === val ? '' : val)}
+                        className="w-4 h-4 rounded border-2 shrink-0 flex items-center justify-center transition-all mt-0.5"
+                        style={{ borderColor: col, background: form.physicianChoice === val ? col : 'transparent' }}>
+                        {form.physicianChoice === val && <span className="text-white text-[9px] font-black">✓</span>}
+                      </div>
+                      <div className="flex-1">
+                        <span className="text-xs font-semibold">{label}</span>
+                        {val === 'change' && form.physicianChoice === 'change' && (
+                          <input value={form.physicianChange || ''} onChange={e => update('physicianChange', e.target.value)}
+                            placeholder="Describe the change…"
+                            className="glass-input rounded-xl px-3 py-1.5 text-xs outline-none w-full mt-1.5"
+                            style={{ border: `1.5px solid ${col}25`, background: 'var(--card)', color: 'var(--text)' }} />
+                        )}
+                        {val === 'other' && form.physicianChoice === 'other' && (
+                          <input value={form.physicianOther || ''} onChange={e => update('physicianOther', e.target.value)}
+                            placeholder="Describe other response…"
+                            className="glass-input rounded-xl px-3 py-1.5 text-xs outline-none w-full mt-1.5"
+                            style={{ border: `1.5px solid ${col}25`, background: 'var(--card)', color: 'var(--text)' }} />
+                        )}
+                      </div>
+                    </label>
+                  ))}
+                  <div className="pt-2 border-t" style={{ borderColor: col + '15' }}>
+                    <label className="text-[9px] font-black uppercase tracking-widest" style={{ color: col }}>Physician Signature</label>
+                    <input value={form.physicianSignature || ''} onChange={e => update('physicianSignature', e.target.value)}
+                      placeholder="Physician signature / name"
+                      className="glass-input rounded-xl px-3 py-2 text-xs outline-none w-full mt-1"
+                      style={{ border: `1.5px solid ${col}20`, background: 'var(--card)', color: 'var(--text)', fontFamily: 'cursive' }} />
+                  </div>
+                </div>
+              </div>
+
+              {/* ── Evaluate button ── */}
+              <button
+                onClick={evaluate}
+                disabled={loadingEval}
+                className="w-full flex items-center justify-center gap-2 py-3 rounded-2xl text-sm font-black text-white transition-all disabled:opacity-50 shadow-lg"
+                style={{ background: loadingEval ? col + '80' : `linear-gradient(135deg, ${col}, ${col}bb)` }}>
+                {loadingEval
+                  ? <><Loader2 size={15} className="animate-spin" /> Evaluating your SBAR…</>
+                  : <><CheckCircle2 size={15} /> Evaluate My SBAR</>}
+              </button>
+              {!evaluation && !loadingEval && (
+                <p className="text-[10px] text-center opacity-30">Fill in the SBAR sections above, then click Evaluate to get AI feedback on your clinical reasoning.</p>
+              )}
             </div>
           </div>
-
-          {/* Source citation */}
-          <p className="text-[10px] opacity-30 text-center leading-relaxed">
-            This form was adapted from the Medicare Prescription Drug Coverage Provider Communication Form.<br />
-            Source: American Pharmacists Association; National Association of Chain Drug Stores Foundation. Medication Therapy Management: Training and Techniques for Providing MTM Services in Community Pharmacy. Washington, DC: APhA and NACDS Foundation; 2006.
-          </p>
         </div>
+
       </div>
     </div>
   );
@@ -6459,12 +6942,12 @@ RULE 10 — Include specific quantitative data everywhere: exact doses, lab cuto
 
   const tabs = [
     { id: 'overview', label: 'Overview', icon: BookOpen },
+    ...(category.id === 'osce' ? [{ id: 'comm-form', label: 'SBAR', icon: FileText }] : []),
     { id: 'table', label: `Reference Table${content?.tableData?.rows?.length ? ` (${content.tableData.rows.length})` : ''}`, icon: Table },
     { id: 'subtopics', label: 'Subtopics', icon: Layers3 },
     { id: 'pearls', label: 'Pearls & Tips', icon: Sparkles },
     { id: 'questions', label: 'Practice Qs', icon: CheckCircle2 },
     { id: 'rapid', label: 'Rapid Review', icon: Zap },
-    ...(category.id === 'osce' ? [{ id: 'comm-form', label: 'Communication Form', icon: FileText }] : []),
   ];
 
   return (
@@ -6946,7 +7429,7 @@ RULE 10 — Include specific quantitative data everywhere: exact doses, lab cuto
         </div>
       )}
       {activeTab === 'comm-form' && (
-        <OsceCommunicationForm topicKey={topicKey} category={category} />
+        <OsceCommunicationForm topicKey={topicKey} category={category} settings={settings} />
       )}
     </div>
   );
