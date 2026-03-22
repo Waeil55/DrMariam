@@ -7811,6 +7811,178 @@ function MedicalEncyclopediaView({ settings }) {
   );
 }
 
+// ── Standalone SBAR Practice Page ──
+const SBAR_CAT = { id: 'sbar', label: 'SBAR Practice', color: '#06b6d4' };
+
+function SbarPageView({ settings }) {
+  const STORAGE_PREFIX = 'osce-comm-form:sbar-standalone::';
+
+  const loadSessions = () => {
+    try {
+      return Object.keys(localStorage)
+        .filter(k => k.startsWith(STORAGE_PREFIX))
+        .map(k => {
+          const name = k.slice(STORAGE_PREFIX.length);
+          try { const d = JSON.parse(localStorage.getItem(k) || '{}'); return { id: name, savedAt: d.savedAt || null }; }
+          catch { return { id: name, savedAt: null }; }
+        })
+        .sort((a, b) => (b.savedAt || '').localeCompare(a.savedAt || ''));
+    } catch { return []; }
+  };
+
+  const [sessions, setSessions] = useState(loadSessions);
+  const [activeSession, setActiveSession] = useState(null);
+  const [newName, setNewName] = useState('');
+  const [showNewForm, setShowNewForm] = useState(false);
+
+  const refreshSessions = () => setSessions(loadSessions());
+
+  const createSession = () => {
+    if (!newName.trim()) return;
+    const id = newName.trim();
+    setSessions(prev => [{ id, savedAt: null }, ...prev.filter(s => s.id !== id)]);
+    setActiveSession({ id, topicKey: `sbar-standalone::${id}` });
+    setNewName(''); setShowNewForm(false);
+  };
+
+  const deleteSession = (id) => {
+    if (!window.confirm(`Delete SBAR session "${id}"?`)) return;
+    try { localStorage.removeItem(`${STORAGE_PREFIX}${id}`); } catch {}
+    setSessions(prev => prev.filter(s => s.id !== id));
+    if (activeSession?.id === id) setActiveSession(null);
+  };
+
+  // Refresh session list when a form saves (poll localStorage on focus)
+  useEffect(() => {
+    const onFocus = () => refreshSessions();
+    window.addEventListener('focus', onFocus);
+    return () => window.removeEventListener('focus', onFocus);
+  }, []);
+
+  return (
+    <div className="flex flex-1 min-h-0" style={{ height: '100%', overflow: 'hidden' }}>
+      {/* ── Left sidebar ── */}
+      <div className="shrink-0 flex flex-col border-r overflow-y-auto custom-scrollbar"
+        style={{ width: 240, borderColor: 'var(--border)', background: 'var(--surface)' }}>
+        {/* Header */}
+        <div className="px-3 py-4 border-b space-y-3" style={{ borderColor: 'var(--border)' }}>
+          <div className="flex items-center gap-2">
+            <div className="w-8 h-8 rounded-xl flex items-center justify-center shrink-0" style={{ background: '#06b6d420' }}>
+              <FileText size={15} style={{ color: '#06b6d4' }} />
+            </div>
+            <div>
+              <p className="text-sm font-black" style={{ color: '#06b6d4' }}>SBAR</p>
+              <p className="text-[10px] opacity-40">Practice sessions</p>
+            </div>
+          </div>
+          <button
+            onClick={() => setShowNewForm(v => !v)}
+            className="w-full flex items-center justify-center gap-2 py-2 rounded-xl text-xs font-black text-white"
+            style={{ background: 'linear-gradient(135deg,#06b6d4,#0891b2)' }}>
+            <Plus size={13} /> New Session
+          </button>
+          {showNewForm && (
+            <div className="space-y-2">
+              <input
+                value={newName}
+                onChange={e => setNewName(e.target.value)}
+                onKeyDown={e => { if (e.key === 'Enter') createSession(); if (e.key === 'Escape') { setShowNewForm(false); setNewName(''); } }}
+                placeholder="Topic: e.g. Warfarin, HTN…"
+                autoFocus
+                className="glass-input rounded-xl px-3 py-2 text-xs outline-none w-full"
+                style={{ border: '1.5px solid #06b6d430', background: 'var(--card)', color: 'var(--text)' }}
+              />
+              <div className="flex gap-2">
+                <button onClick={createSession} disabled={!newName.trim()}
+                  className="flex-1 py-1.5 rounded-xl text-xs font-black text-white disabled:opacity-40"
+                  style={{ background: '#06b6d4' }}>Create</button>
+                <button onClick={() => { setShowNewForm(false); setNewName(''); }}
+                  className="px-3 py-1.5 rounded-xl text-xs font-black glass opacity-60 hover:opacity-100">✕</button>
+              </div>
+            </div>
+          )}
+        </div>
+
+        {/* Session list */}
+        <div className="flex-1 overflow-y-auto custom-scrollbar p-2 space-y-1">
+          {sessions.length === 0 && (
+            <div className="py-8 text-center opacity-30">
+              <FileText size={22} className="mx-auto mb-2" />
+              <p className="text-xs">No sessions yet</p>
+              <p className="text-[10px] mt-1">Click "New Session"</p>
+            </div>
+          )}
+          {sessions.map(s => (
+            <div key={s.id}
+              className="group flex items-center gap-2 px-3 py-2.5 rounded-xl cursor-pointer transition-all"
+              style={activeSession?.id === s.id
+                ? { background: '#06b6d4', color: '#fff' }
+                : { color: 'var(--text)' }}
+              onClick={() => setActiveSession({ id: s.id, topicKey: `sbar-standalone::${s.id}` })}>
+              <div className="flex-1 min-w-0">
+                <p className="text-xs font-black truncate">{s.id}</p>
+                {s.savedAt && <p className={`text-[10px] truncate ${activeSession?.id === s.id ? 'opacity-70' : 'opacity-40'}`}>{s.savedAt}</p>}
+              </div>
+              <button
+                onClick={e => { e.stopPropagation(); deleteSession(s.id); }}
+                className="opacity-0 group-hover:opacity-50 hover:!opacity-100 shrink-0 transition-opacity"
+                title="Delete session">
+                <X size={13} />
+              </button>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* ── Main content ── */}
+      <div className="flex-1 min-h-0 overflow-y-auto custom-scrollbar scroll-content" style={{ padding: '16px 20px' }}>
+        {!activeSession ? (
+          /* Welcome screen */
+          <div className="flex flex-col items-center justify-center min-h-[500px] gap-6 text-center">
+            <div className="w-20 h-20 rounded-3xl flex items-center justify-center"
+              style={{ background: '#06b6d415', border: '2px solid #06b6d425' }}>
+              <FileText size={36} style={{ color: '#06b6d4' }} />
+            </div>
+            <div className="space-y-2">
+              <h2 className="text-2xl font-black" style={{ color: '#06b6d4' }}>SBAR Practice Station</h2>
+              <p className="text-sm opacity-50 max-w-md leading-relaxed">
+                Generate a realistic patient case for any medication or disease, fill in the SBAR form, then get detailed AI evaluation of your clinical reasoning.
+              </p>
+            </div>
+            <div className="grid grid-cols-3 gap-4 max-w-lg">
+              {[
+                { icon: '🏥', title: 'Case Generator', desc: 'AI creates a realistic patient scenario for any topic you choose' },
+                { icon: '📋', title: 'Fillable SBAR', desc: 'Structured form: Situation, Background, Assessment, Recommendation' },
+                { icon: '🎯', title: 'AI Evaluation', desc: 'Scored feedback per section with model answers and exam tips' },
+              ].map(({ icon, title, desc }) => (
+                <div key={title} className="rounded-2xl p-4 text-center space-y-2"
+                  style={{ background: 'var(--card)', border: '1.5px solid #06b6d420' }}>
+                  <span className="text-3xl">{icon}</span>
+                  <p className="text-xs font-black" style={{ color: '#06b6d4' }}>{title}</p>
+                  <p className="text-[10px] opacity-40 leading-snug">{desc}</p>
+                </div>
+              ))}
+            </div>
+            <button
+              onClick={() => setShowNewForm(true)}
+              className="flex items-center gap-2 px-6 py-3 rounded-2xl text-sm font-black text-white"
+              style={{ background: 'linear-gradient(135deg,#06b6d4,#0891b2)' }}>
+              <Plus size={15} /> Start New SBAR Session
+            </button>
+          </div>
+        ) : (
+          <OsceCommunicationForm
+            key={activeSession.topicKey}
+            topicKey={activeSession.topicKey}
+            category={SBAR_CAT}
+            settings={settings}
+          />
+        )}
+      </div>
+    </div>
+  );
+}
+
 /* ═══════════════════════════════════════════════════════════════════
    NAVIGATION ITEMS — used by both desktop sidebar and mobile bottom nav
 ═══════════════════════════════════════════════════════════════════ */
@@ -8441,6 +8613,7 @@ function App() {
     { icon: Activity, label: 'Cases', v: 'cases' },
     { icon: CheckSquare, label: 'Exams', v: 'exams' },
     { icon: Globe, label: 'Encyclo', v: 'encyclopedia' },
+    { icon: FileText, label: 'SBAR', v: 'sbar' },
     { icon: MessageSquare, label: 'Chat', v: 'chat' },
     { icon: Settings, label: 'Settings', v: 'settings' },
   ];
@@ -8665,6 +8838,9 @@ function App() {
           </ViewWrapper>
           <ViewWrapper active={view === 'encyclopedia'}>
             <MedicalEncyclopediaView settings={settings} />
+          </ViewWrapper>
+          <ViewWrapper active={view === 'sbar'}>
+            <SbarPageView settings={settings} />
           </ViewWrapper>
           <ViewWrapper active={view === 'settings'}>
             <SettingsView settings={settings} setSettings={setSettings} installPrompt={installPrompt} onInstall={onInstall} />
