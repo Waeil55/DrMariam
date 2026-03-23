@@ -831,6 +831,21 @@ createLucideIcon("LayoutDashboard", [
  */
 
 
+const LayoutGrid = createLucideIcon("LayoutGrid", [
+  ["rect", { width: "7", height: "7", x: "3", y: "3", rx: "1", key: "1g98yp" }],
+  ["rect", { width: "7", height: "7", x: "14", y: "3", rx: "1", key: "6d4xhi" }],
+  ["rect", { width: "7", height: "7", x: "14", y: "14", rx: "1", key: "nxv5o0" }],
+  ["rect", { width: "7", height: "7", x: "3", y: "14", rx: "1", key: "1bb6yr" }]
+]);
+
+/**
+ * @license lucide-react v0.344.0 - ISC
+ *
+ * This source code is licensed under the ISC license.
+ * See the LICENSE file in the root directory of this source tree.
+ */
+
+
 const Leaf = createLucideIcon("Leaf", [
   [
     "path",
@@ -920,20 +935,6 @@ const Maximize = createLucideIcon("Maximize", [
   ["path", { d: "M21 8V5a2 2 0 0 0-2-2h-3", key: "1e4gt3" }],
   ["path", { d: "M3 16v3a2 2 0 0 0 2 2h3", key: "wsl5sc" }],
   ["path", { d: "M16 21h3a2 2 0 0 0 2-2v-3", key: "18trek" }]
-]);
-
-/**
- * @license lucide-react v0.344.0 - ISC
- *
- * This source code is licensed under the ISC license.
- * See the LICENSE file in the root directory of this source tree.
- */
-
-
-const Menu = createLucideIcon("Menu", [
-  ["line", { x1: "4", x2: "20", y1: "12", y2: "12", key: "1e0a9i" }],
-  ["line", { x1: "4", x2: "20", y1: "6", y2: "6", key: "1owob3" }],
-  ["line", { x1: "4", x2: "20", y1: "18", y2: "18", key: "yk5zj1" }]
 ]);
 
 /**
@@ -1517,4 +1518,4 @@ const ZoomOut = createLucideIcon("ZoomOut", [
   ["line", { x1: "8", x2: "14", y1: "11", y2: "11", key: "durymu" }]
 ]);
 
-export { Menu as $, AlertCircle as A, BookMarked as B, CheckSquare as C, Database as D, Eye as E, FolderOpen as F, Globe as G, Heart as H, Info as I, Award as J, Brain as K, Loader2 as L, MessageSquare as M, Clipboard as N, Star as O, PenLine as P, Network as Q, React as R, Search as S, Trash2 as T, Leaf as U, Flame as V, Monitor as W, X, FlaskConical as Y, Zap as Z, BookOpen as _, Layers as a, History as a0, RotateCcw as a1, Send as a2, CircleUserRound as a3, MicOff as a4, Mic as a5, BotMessageSquare as a6, Smartphone as a7, Download as a8, KeyRound as a9, ChevronDown as aA, Palette as aa, Sun as ab, CloudSun as ac, Moon as ad, MoonStar as ae, PanelsTopLeft as af, FileCode as ag, Image as ah, Table as ai, ZoomOut as aj, Maximize as ak, ZoomIn as al, Save as am, AlignLeft as an, Lightbulb as ao, Baby as ap, Tag as aq, Clock as ar, Languages as as, Wand2 as at, Code as au, ListChecks as av, Hash as aw, MoreVertical as ax, Layers3 as ay, ChevronUp as az, Activity as b, Settings as c, Sparkles as d, GripVertical as e, CheckCircle2 as f, FileText as g, FileUp as h, Grid3x3 as i, List as j, ChevronLeft as k, Printer as l, RefreshCw as m, Shuffle as n, FilePlus as o, Target as p, Stethoscope as q, reactExports as r, Thermometer as s, ChevronRight as t, Pin as u, Copy as v, Plus as w, BookA as x, Pill as y, GraduationCap as z };
+export { LayoutGrid as $, AlertCircle as A, BookMarked as B, CheckSquare as C, Database as D, Eye as E, FolderOpen as F, Globe as G, Heart as H, Info as I, Award as J, Brain as K, Loader2 as L, MessageSquare as M, Clipboard as N, Star as O, PenLine as P, Network as Q, React as R, Search as S, Trash2 as T, Leaf as U, Flame as V, Monitor as W, X, FlaskConical as Y, Zap as Z, BookOpen as _, Layers as a, History as a0, RotateCcw as a1, Send as a2, CircleUserRound as a3, MicOff as a4, Mic as a5, BotMessageSquare as a6, Smartphone as a7, Download as a8, KeyRound as a9, ChevronDown as aA, Palette as aa, Sun as ab, CloudSun as ac, Moon as ad, MoonStar as ae, PanelsTopLeft as af, FileCode as ag, Image as ah, Table as ai, ZoomOut as aj, Maximize as ak, ZoomIn as al, Save as am, AlignLeft as an, Lightbulb as ao, Baby as ap, Tag as aq, Clock as ar, Languages as as, Wand2 as at, Code as au, ListChecks as av, Hash as aw, MoreVertical as ax, Layers3 as ay, ChevronUp as az, Activity as b, Settings as c, Sparkles as d, GripVertical as e, CheckCircle2 as f, FileText as g, FileUp as h, Grid3x3 as i, List as j, ChevronLeft as k, Printer as l, RefreshCw as m, Shuffle as n, FilePlus as o, Target as p, Stethoscope as q, reactExports as r, Thermometer as s, ChevronRight as t, Pin as u, Copy as v, Plus as w, BookA as x, Pill as y, GraduationCap as z };
