@@ -1820,6 +1820,9 @@ video {
 .pb-2 {
   padding-bottom: 0.5rem;
 }
+.pb-2\.5 {
+  padding-bottom: 0.625rem;
+}
 .pb-20 {
   padding-bottom: 5rem;
 }
@@ -1846,9 +1849,6 @@ video {
 }
 .pr-7 {
   padding-right: 1.75rem;
-}
-.pt-1 {
-  padding-top: 0.25rem;
 }
 .pt-16 {
   padding-top: 4rem;
@@ -2962,9 +2962,9 @@ html.dark .design-header::before,
   }
 
   /* Header becomes a full-width horizontal top nav bar */
-  /* padding-top accounts for iOS PWA safe-area (status bar) in landscape standalone mode */
   .design-header {
     text-align: left;
+    /* Push content below the status bar in PWA standalone mode on iPad */
     padding: env(safe-area-inset-top, 0px) 20px 0;
     height: calc(62px + env(safe-area-inset-top, 0px));
     min-height: calc(62px + env(safe-area-inset-top, 0px));

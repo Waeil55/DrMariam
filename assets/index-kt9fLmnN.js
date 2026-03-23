@@ -1,5 +1,5 @@
-import { r as reactExports, R as React, L as Loader2, A as AlertCircle, X, S as Search, F as FolderOpen, B as BookMarked, a as Layers, b as Activity, C as CheckSquare, G as Globe, M as MessageSquare, c as Settings, d as Sparkles, e as GripVertical, Z as Zap, D as Database, f as CheckCircle2, I as Info, g as FileText, P as PenLine, h as FileUp, i as Grid3x3, j as List, k as ChevronLeft, l as Printer, m as RefreshCw, n as Shuffle, o as FilePlus, T as Trash2, E as Eye, p as Target, q as Stethoscope, s as Thermometer, t as ChevronRight, u as Pin, v as Copy, w as Plus, x as BookA, y as Pill, H as Heart, z as GraduationCap, J as Award, K as Brain, N as Clipboard, O as Star, Q as Network, U as Leaf, V as Flame, W as Monitor, Y as FlaskConical, _ as BookOpen, $ as History, a0 as RotateCcw, a1 as Send, a2 as CircleUserRound, a3 as MicOff, a4 as Mic, a5 as BotMessageSquare, a6 as Smartphone, a7 as Download, a8 as KeyRound, a9 as Palette, aa as Sun, ab as CloudSun, ac as Moon, ad as MoonStar, ae as PanelsTopLeft, af as FileCode, ag as Image, ah as Table, ai as ZoomOut, aj as Maximize, ak as ZoomIn, al as Save, am as AlignLeft, an as Lightbulb, ao as Baby, ap as Tag, aq as Clock, ar as Languages, as as Wand2, at as Code, au as ListChecks, av as Hash, aw as MoreVertical, ax as Layers3, ay as ChevronUp, az as ChevronDown } from './icons-CBcOW6m4.js';
-import { r as reactDomExports } from './react-BB1Gn9GT.js';
+import { r as reactExports, R as React, L as Loader2, A as AlertCircle, X, S as Search, F as FolderOpen, B as BookMarked, a as Layers, b as Activity, C as CheckSquare, G as Globe, M as MessageSquare, c as Settings, d as Sparkles, e as GripVertical, Z as Zap, D as Database, f as CheckCircle2, I as Info, g as FileText, P as PenLine, h as FileUp, i as Grid3x3, j as List, k as ChevronLeft, l as Printer, m as RefreshCw, n as Shuffle, o as FilePlus, T as Trash2, E as Eye, p as Target, q as Stethoscope, s as Thermometer, t as ChevronRight, u as Pin, v as Copy, w as Plus, x as BookA, y as Pill, H as Heart, z as GraduationCap, J as Award, K as Brain, N as Clipboard, O as Star, Q as Network, U as Leaf, V as Flame, W as Monitor, Y as FlaskConical, _ as BookOpen, $ as History, a0 as RotateCcw, a1 as CircleUserRound, a2 as MicOff, a3 as Mic, a4 as Send, a5 as BotMessageSquare, a6 as Smartphone, a7 as Download, a8 as KeyRound, a9 as Palette, aa as Sun, ab as CloudSun, ac as Moon, ad as MoonStar, ae as PanelsTopLeft, af as FileCode, ag as Image, ah as Table, ai as ZoomOut, aj as Maximize, ak as ZoomIn, al as Save, am as AlignLeft, an as Lightbulb, ao as Baby, ap as Tag, aq as Clock, ar as Languages, as as Wand2, at as Code, au as ListChecks, av as Hash, aw as MoreVertical, ax as Layers3, ay as ChevronUp, az as ChevronDown } from './icons-t8PAvEEn.js';
+import { r as reactDomExports } from './react-BYwxiPsA.js';
 
 true&&(function polyfill() {
   const relList = document.createElement("link").relList;
@@ -19648,13 +19648,12 @@ function ToastContainer({ toasts }) {
 function useDrag(onDrag, deps = []) {
   const dragging = reactExports.useRef(false);
   const start = reactExports.useCallback((e) => {
-    if (e.type !== "touchstart") e.preventDefault();
+    e.preventDefault();
     dragging.current = true;
     document.body.style.userSelect = "none";
     document.body.style.webkitUserSelect = "none";
     const move = (ev) => {
       if (!dragging.current) return;
-      ev.preventDefault();
       const x = ev.touches?.[0]?.clientX ?? ev.clientX;
       const y = ev.touches?.[0]?.clientY ?? ev.clientY;
       if (x !== void 0) onDrag(x, y);
@@ -20569,7 +20568,7 @@ Answer clearly and precisely.`;
               value: input,
               onChange: (e) => setInput(e.target.value),
               onKeyDown: (e) => {
-                if (e.key === "Enter" && !e.shiftKey && !e.nativeEvent?.isComposing) {
+                if (e.key === "Enter" && !e.shiftKey) {
                   e.preventDefault();
                   send();
                 }
@@ -20577,7 +20576,6 @@ Answer clearly and precisely.`;
               placeholder: "Ask about this document…",
               disabled: loading,
               rows: 1,
-              enterKeyHint: "send",
               className: "flex-1 bg-[var(--bg)] border border-[color:var(--border2,var(--border))] rounded-xl px-3 py-2 text-xs outline-none resize-none focus:border-[var(--accent)] text-[var(--text)] min-h-[36px] max-h-24"
             }
           ),
@@ -20815,7 +20813,7 @@ TUTOR:`;
     /* @__PURE__ */ jsxRuntimeExports.jsxs(
       "div",
       {
-        className: "bg-gradient-to-r from-[var(--accent)] to-[var(--accent2,var(--accent))] text-white flex items-center justify-between px-4 py-3 shrink-0 cursor-grab select-none touch-none",
+        className: "bg-gradient-to-r from-[var(--accent)] to-[var(--accent2,var(--accent))] text-white flex items-center justify-between px-4 py-3 shrink-0 cursor-grab select-none",
         onMouseDown: onDragStart,
         onTouchStart: onDragStart,
         children: [
@@ -20858,7 +20856,7 @@ TUTOR:`;
           value: input,
           onChange: (e) => setInput(e.target.value),
           onKeyDown: (e) => {
-            if (e.key === "Enter" && !e.shiftKey && !e.nativeEvent?.isComposing) {
+            if (e.key === "Enter" && !e.shiftKey) {
               e.preventDefault();
               send();
             }
@@ -20866,7 +20864,6 @@ TUTOR:`;
           placeholder: "Ask your tutor anything…",
           disabled: loading,
           rows: 1,
-          enterKeyHint: "send",
           className: "flex-1 bg-transparent p-1.5 text-sm outline-none resize-none max-h-32 custom-scrollbar text-[var(--text)] min-h-[36px]"
         }
       ),
@@ -22316,7 +22313,7 @@ Do NOT discuss other cases, questions, or topics outside this case.`;
     ] })
   ] });
 }
-function ChatView({ settings, sessions, setSessions, isMobile = false, isKeyboardOpen = false }) {
+function ChatView({ settings, sessions, setSessions }) {
   const [selSess, setSelSess] = reactExports.useState(null);
   const [msgs, setMsgs] = reactExports.useState([]);
   const [input, setInput] = reactExports.useState("");
@@ -22343,7 +22340,6 @@ function ChatView({ settings, sessions, setSessions, isMobile = false, isKeyboar
   const [encCached, setEncCached] = reactExports.useState(false);
   const [inputRows, setInputRows] = reactExports.useState(1);
   const [hasStarted, setHasStarted] = reactExports.useState(false);
-  const [encFollowInput, setEncFollowInput] = reactExports.useState("");
   const endRef = reactExports.useRef(null);
   const recogRef = reactExports.useRef(null);
   const inputRef = reactExports.useRef(null);
@@ -22432,7 +22428,6 @@ function ChatView({ settings, sessions, setSessions, isMobile = false, isKeyboar
   const openEncycloTopic = (cat, sub, forceRefresh = false) => {
     setEncCat(cat);
     setEncSub(sub);
-    setEncFollowInput("");
     if (window.innerWidth < 1024) setSidebarOpen(false);
     const cacheKey = "enc:" + cat.id + ":" + sub.id;
     if (!forceRefresh) {
@@ -23057,46 +23052,26 @@ function ChatView({ settings, sessions, setSessions, isMobile = false, isKeyboar
               encLoading && /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "inline-block w-1.5 h-4 bg-[var(--accent)] opacity-70 animate-pulse ml-0.5 rounded-sm align-middle" })
             ] })
           ] }),
-          encSub && /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "shrink-0 px-4 pt-2 border-t border-[color:var(--border2,var(--border))]", style: { paddingBottom: isMobile ? isKeyboardOpen ? "8px" : "calc(90px + env(safe-area-inset-bottom, 0px))" : "16px" }, children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "glass rounded-2xl border border-[color:var(--border2,var(--border))] focus-within:border-[var(--accent)]/50 transition-colors", children: [
-            /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-end gap-1 px-2 pt-2 pb-2", children: [
-              /* @__PURE__ */ jsxRuntimeExports.jsx(
-                "textarea",
-                {
-                  value: encFollowInput,
-                  onChange: (e) => setEncFollowInput(e.target.value),
-                  placeholder: "Ask a follow-up about " + encSub.label + "…",
-                  rows: 2,
-                  enterKeyHint: "send",
-                  className: "flex-1 bg-transparent px-2 pt-1 pb-1 text-sm outline-none resize-none text-[var(--text)]",
-                  onKeyDown: (e) => {
-                    if (e.key === "Enter" && !e.shiftKey && !e.nativeEvent?.isComposing) {
-                      e.preventDefault();
-                      const q = encFollowInput.trim();
-                      if (!q) return;
-                      setEncFollowInput("");
-                      setSidebarTab("chats");
-                      setTimeout(() => send("[ENCYCLO: " + encSub.label + "] " + q), 50);
-                    }
-                  }
-                }
-              ),
-              /* @__PURE__ */ jsxRuntimeExports.jsx(
-                "button",
-                {
-                  onClick: () => {
-                    const q = encFollowInput.trim();
+          encSub && /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "shrink-0 px-4 pb-4 pt-2 border-t border-[color:var(--border2,var(--border))]", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "glass rounded-2xl border border-[color:var(--border2,var(--border))] focus-within:border-[var(--accent)]/50 transition-colors", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx(
+              "textarea",
+              {
+                placeholder: "Ask a follow-up about " + encSub.label + "…",
+                rows: 2,
+                className: "w-full bg-transparent px-4 pt-3 pb-1.5 text-sm outline-none resize-none text-[var(--text)]",
+                onKeyDown: (e) => {
+                  if (e.key === "Enter" && !e.shiftKey) {
+                    e.preventDefault();
+                    const q = e.target.value.trim();
                     if (!q) return;
-                    setEncFollowInput("");
+                    e.target.value = "";
                     setSidebarTab("chats");
                     setTimeout(() => send("[ENCYCLO: " + encSub.label + "] " + q), 50);
-                  },
-                  disabled: !encFollowInput.trim(),
-                  className: "w-9 h-9 bg-[var(--accent)] disabled:opacity-30 rounded-xl text-white flex items-center justify-center shadow-md transition-all shrink-0 mb-0.5",
-                  children: /* @__PURE__ */ jsxRuntimeExports.jsx(Send, { size: 15 })
+                  }
                 }
-              )
-            ] }),
-            /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-[10px] opacity-30 px-4 pb-2 font-medium", children: "Enter or tap Send  ·  Shift+Enter for new line" })
+              }
+            ),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-[10px] opacity-30 px-4 pb-2.5 font-medium", children: "Enter to ask in Chat  ·  Shift+Enter for new line" })
           ] }) })
         ] })
       ) : sidebarTab === "encyclo" ? (
@@ -23226,7 +23201,7 @@ function ChatView({ settings, sessions, setSessions, isMobile = false, isKeyboar
         ] }),
         /* @__PURE__ */ jsxRuntimeExports.jsx("div", { ref: endRef })
       ] }) }),
-      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: `shrink-0 px-4 pt-3 border-t border-[color:var(--border2,var(--border))] ${sidebarTab === "encyclo" ? "hidden" : ""}`, style: { backdropFilter: "blur(20px)", background: "var(--surface,var(--card))", paddingBottom: isMobile ? isKeyboardOpen ? "8px" : "calc(90px + env(safe-area-inset-bottom, 0px))" : "16px" }, children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "max-w-3xl mx-auto", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: `shrink-0 px-4 pb-4 pt-3 border-t border-[color:var(--border2,var(--border))] ${sidebarTab === "encyclo" ? "hidden" : ""}`, style: { backdropFilter: "blur(20px)", background: "var(--surface,var(--card))" }, children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "max-w-3xl mx-auto", children: [
         selProject && (() => {
           const p = projects.find((x) => x.id === selProject);
           return p ? /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center gap-2 mb-2 px-1", children: [
@@ -23246,7 +23221,7 @@ function ChatView({ settings, sessions, setSessions, isMobile = false, isKeyboar
                 setInputRows(Math.min(8, e.target.value.split("\n").length + 1));
               },
               onKeyDown: (e) => {
-                if (e.key === "Enter" && !e.shiftKey && !e.nativeEvent?.isComposing) {
+                if (e.key === "Enter" && !e.shiftKey) {
                   e.preventDefault();
                   send();
                 }
@@ -23254,7 +23229,6 @@ function ChatView({ settings, sessions, setSessions, isMobile = false, isKeyboar
               placeholder: "Message MARIAM… (Shift+Enter for new line)",
               disabled: loading,
               rows: inputRows,
-              enterKeyHint: "send",
               className: "w-full bg-transparent px-4 pt-3.5 pb-2 text-sm outline-none resize-none custom-scrollbar text-[var(--text)]",
               style: { minHeight: 52 }
             }
@@ -27977,7 +27951,7 @@ Provide a detailed analysis of this content.`;
             /* @__PURE__ */ jsxRuntimeExports.jsx(ViewWrapper, { active: view === "flashcards", children: /* @__PURE__ */ jsxRuntimeExports.jsx(FlashcardsView, { flashcards, setFlashcards, settings, addToast, docs, setExams, setCases }) }),
             /* @__PURE__ */ jsxRuntimeExports.jsx(ViewWrapper, { active: view === "exams", children: /* @__PURE__ */ jsxRuntimeExports.jsx(ExamsView, { exams, setExams, settings, addToast, docs, setFlashcards, setCases }) }),
             /* @__PURE__ */ jsxRuntimeExports.jsx(ViewWrapper, { active: view === "cases", children: /* @__PURE__ */ jsxRuntimeExports.jsx(CasesView, { cases, setCases, settings, addToast, docs, setFlashcards, setExams }) }),
-            /* @__PURE__ */ jsxRuntimeExports.jsx(ViewWrapper, { active: view === "chat", children: /* @__PURE__ */ jsxRuntimeExports.jsx(ChatView, { settings, sessions: chatSessions, setSessions: setChatSessions, isMobile, isKeyboardOpen }) }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx(ViewWrapper, { active: view === "chat", children: /* @__PURE__ */ jsxRuntimeExports.jsx(ChatView, { settings, sessions: chatSessions, setSessions: setChatSessions }) }),
             /* @__PURE__ */ jsxRuntimeExports.jsx(ViewWrapper, { active: view === "encyclopedia", children: /* @__PURE__ */ jsxRuntimeExports.jsx(MedicalEncyclopediaView, { settings }) }),
             /* @__PURE__ */ jsxRuntimeExports.jsx(ViewWrapper, { active: view === "settings", children: /* @__PURE__ */ jsxRuntimeExports.jsx(SettingsView, { settings, setSettings, installPrompt, onInstall }) }),
             /* @__PURE__ */ jsxRuntimeExports.jsx(ViewWrapper, { active: showReader, children: activeDoc && /* @__PURE__ */ jsxRuntimeExports.jsx(
