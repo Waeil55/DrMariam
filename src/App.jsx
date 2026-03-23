@@ -181,7 +181,7 @@ import {
   Bell, Archive, BarChart, BookCopy, CalendarDays, FlameKindling,
   Trophy, Percent, PenLine, Scissors, Bookmark, History, Plus,
   MoreVertical, CheckCheck, CircleDot, Flame, Heart, Leaf,
-  Layout, LayoutGrid, BotMessageSquare, Shuffle, Menu,
+  Layout, LayoutGrid, BotMessageSquare, Shuffle,
 } from 'lucide-react';
 
 /* ═══════════════════════════════════════════════════════════════════
@@ -5314,15 +5314,14 @@ function ChatView({ settings, sessions, setSessions, setView, docs, activeId, se
 
         {/* Top bar — paddingTop accounts for iPhone notch/status bar (chat hides the global header) */}
         <div className="flex items-center gap-3 px-4 py-2.5 border-b border-[color:var(--border2,var(--border))] shrink-0" style={{ backdropFilter: 'blur(20px)', background: 'var(--surface,var(--card))', paddingTop: 'max(10px, calc(env(safe-area-inset-top, 0px) + 10px))' }}>
-          {/* Mobile-only hamburger — opens nav sheet */}
+          {/* Mobile-only: Navigate to other pages */}
           {setView && (
             <button onClick={() => setShowNavSheet(true)}
-              className="lg:hidden w-10 h-10 rounded-2xl border border-[color:var(--border2,var(--border))] flex items-center justify-center shrink-0 transition-all active:scale-95"
-              style={{ background: 'var(--surface,var(--card))' }} title="Menu">
-              <Menu size={20} strokeWidth={2} />
+              className="lg:hidden w-9 h-9 glass rounded-xl flex items-center justify-center opacity-60 hover:opacity-100 shrink-0 transition-all" title="Navigate">
+              <LayoutGrid size={17} />
             </button>
           )}
-          <button onClick={() => setSidebarOpen(o => !o)} className="w-9 h-9 glass rounded-xl flex items-center justify-center opacity-60 hover:opacity-100 shrink-0 transition-all" title="Chat history">
+          <button onClick={() => setSidebarOpen(o => !o)} className="w-9 h-9 glass rounded-xl flex items-center justify-center opacity-60 hover:opacity-100 shrink-0 transition-all" title="Toggle sidebar">
             <History size={17} />
           </button>
           <div className="flex-1 min-w-0">
