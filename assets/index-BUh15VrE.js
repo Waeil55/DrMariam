@@ -23242,7 +23242,7 @@ function ChatView({ settings, sessions, setSessions }) {
             /* @__PURE__ */ jsxRuntimeExports.jsx("button", { onClick: () => setSelProject(null), className: "opacity-40 hover:opacity-80", children: /* @__PURE__ */ jsxRuntimeExports.jsx(X, { size: 11 }) })
           ] }) : null;
         })(),
-        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "glass rounded-2xl border border-[color:var(--border2,var(--border))] focus-within:border-[var(--accent)]/50 transition-colors shadow-lg", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "chat-input-inner glass rounded-2xl border border-[color:var(--border2,var(--border))] focus-within:border-[var(--accent)]/50 transition-colors shadow-lg", children: [
           /* @__PURE__ */ jsxRuntimeExports.jsx(
             "textarea",
             {
@@ -23267,7 +23267,7 @@ function ChatView({ settings, sessions, setSessions }) {
               style: { minHeight: 52 }
             }
           ),
-          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center justify-between px-3 pb-3", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "chat-input-actions flex items-center justify-between px-3 pb-3", children: [
             /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center gap-1", children: [
               /* @__PURE__ */ jsxRuntimeExports.jsx(
                 "button",
@@ -27108,6 +27108,17 @@ function App() {
       window.removeEventListener("focusout", onFocusOut);
     };
   }, [isMobile]);
+  const [vvH, setVvH] = reactExports.useState(() => window.visualViewport?.height || window.innerHeight);
+  reactExports.useEffect(() => {
+    const vv = window.visualViewport;
+    const update = () => setVvH(vv?.height || window.innerHeight);
+    vv?.addEventListener("resize", update);
+    window.addEventListener("resize", update);
+    return () => {
+      vv?.removeEventListener("resize", update);
+      window.removeEventListener("resize", update);
+    };
+  }, []);
   useKeyboardShortcuts([
     ["ctrl+k", () => setShowGlobalSearch(true)],
     ["ctrl+/", () => setShowGlobalSearch(true)],
@@ -27745,8 +27756,8 @@ Provide a detailed analysis of this content.`;
     {
       className: `w-screen flex flex-col overflow-hidden text-[var(--text)] bg-mesh ${settings.theme || "pure-white"} accent-${settings.accentColor || "indigo"}`,
       style: {
-        height: "100dvh",
-        maxHeight: "100dvh",
+        height: isMobile ? vvH : "100dvh",
+        maxHeight: isMobile ? vvH : "100dvh",
         boxSizing: "border-box"
       },
       children: [
