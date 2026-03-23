@@ -5317,14 +5317,13 @@ function ChatView({ settings, sessions, setSessions, setView, docs, activeId, se
 
         {/* Top bar */}
         <div className="flex items-center gap-3 px-4 py-2.5 border-b border-[color:var(--border2,var(--border))] shrink-0" style={{ backdropFilter: 'blur(20px)', background: 'var(--surface,var(--card))' }}>
-          {/* Mobile-only: hamburger menu to navigate between pages */}
-          {setView && (
-            <button onClick={() => setShowNavSheet(true)}
-              className="lg:hidden w-9 h-9 glass rounded-xl flex items-center justify-center opacity-70 hover:opacity-100 shrink-0 transition-all" title="Menu">
-              <Menu size={20} />
-            </button>
-          )}
-          <button onClick={() => setSidebarOpen(o => !o)} className="w-9 h-9 glass rounded-xl flex items-center justify-center opacity-60 hover:opacity-100 shrink-0 transition-all" title="Toggle sidebar">
+          {/* Mobile: hamburger opens the left sidebar (chat history, topics…) */}
+          <button onClick={() => setSidebarOpen(o => !o)}
+            className="lg:hidden w-9 h-9 glass rounded-xl flex items-center justify-center opacity-70 hover:opacity-100 shrink-0 transition-all" title="Open sidebar">
+            <Menu size={20} />
+          </button>
+          {/* Desktop: history icon toggle */}
+          <button onClick={() => setSidebarOpen(o => !o)} className="hidden lg:flex w-9 h-9 glass rounded-xl items-center justify-center opacity-60 hover:opacity-100 shrink-0 transition-all" title="Toggle sidebar">
             <History size={17} />
           </button>
           <div className="flex-1 min-w-0">
