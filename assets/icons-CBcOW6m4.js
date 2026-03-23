@@ -930,20 +930,6 @@ const Maximize = createLucideIcon("Maximize", [
  */
 
 
-const Menu = createLucideIcon("Menu", [
-  ["line", { x1: "4", x2: "20", y1: "12", y2: "12", key: "1e0a9i" }],
-  ["line", { x1: "4", x2: "20", y1: "6", y2: "6", key: "1owob3" }],
-  ["line", { x1: "4", x2: "20", y1: "18", y2: "18", key: "yk5zj1" }]
-]);
-
-/**
- * @license lucide-react v0.344.0 - ISC
- *
- * This source code is licensed under the ISC license.
- * See the LICENSE file in the root directory of this source tree.
- */
-
-
 const MessageSquare = createLucideIcon("MessageSquare", [
   ["path", { d: "M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z", key: "1lielz" }]
 ]);
@@ -1517,4 +1503,4 @@ const ZoomOut = createLucideIcon("ZoomOut", [
   ["line", { x1: "8", x2: "14", y1: "11", y2: "11", key: "durymu" }]
 ]);
 
-export { Menu as $, AlertCircle as A, BookMarked as B, CheckSquare as C, Database as D, Eye as E, FolderOpen as F, Globe as G, Heart as H, Info as I, Award as J, Brain as K, Loader2 as L, MessageSquare as M, Clipboard as N, Star as O, PenLine as P, Network as Q, React as R, Search as S, Trash2 as T, Leaf as U, Flame as V, Monitor as W, X, FlaskConical as Y, Zap as Z, BookOpen as _, Layers as a, History as a0, RotateCcw as a1, Send as a2, CircleUserRound as a3, MicOff as a4, Mic as a5, BotMessageSquare as a6, Smartphone as a7, Download as a8, KeyRound as a9, ChevronDown as aA, Palette as aa, Sun as ab, CloudSun as ac, Moon as ad, MoonStar as ae, PanelsTopLeft as af, FileCode as ag, Image as ah, Table as ai, ZoomOut as aj, Maximize as ak, ZoomIn as al, Save as am, AlignLeft as an, Lightbulb as ao, Baby as ap, Tag as aq, Clock as ar, Languages as as, Wand2 as at, Code as au, ListChecks as av, Hash as aw, MoreVertical as ax, Layers3 as ay, ChevronUp as az, Activity as b, Settings as c, Sparkles as d, GripVertical as e, CheckCircle2 as f, FileText as g, FileUp as h, Grid3x3 as i, List as j, ChevronLeft as k, Printer as l, RefreshCw as m, Shuffle as n, FilePlus as o, Target as p, Stethoscope as q, reactExports as r, Thermometer as s, ChevronRight as t, Pin as u, Copy as v, Plus as w, BookA as x, Pill as y, GraduationCap as z };
+export { History as $, AlertCircle as A, BookMarked as B, CheckSquare as C, Database as D, Eye as E, FolderOpen as F, Globe as G, Heart as H, Info as I, Award as J, Brain as K, Loader2 as L, MessageSquare as M, Clipboard as N, Star as O, PenLine as P, Network as Q, React as R, Search as S, Trash2 as T, Leaf as U, Flame as V, Monitor as W, X, FlaskConical as Y, Zap as Z, BookOpen as _, Layers as a, RotateCcw as a0, Send as a1, CircleUserRound as a2, MicOff as a3, Mic as a4, BotMessageSquare as a5, Smartphone as a6, Download as a7, KeyRound as a8, Palette as a9, Sun as aa, CloudSun as ab, Moon as ac, MoonStar as ad, PanelsTopLeft as ae, FileCode as af, Image as ag, Table as ah, ZoomOut as ai, Maximize as aj, ZoomIn as ak, Save as al, AlignLeft as am, Lightbulb as an, Baby as ao, Tag as ap, Clock as aq, Languages as ar, Wand2 as as, Code as at, ListChecks as au, Hash as av, MoreVertical as aw, Layers3 as ax, ChevronUp as ay, ChevronDown as az, Activity as b, Settings as c, Sparkles as d, GripVertical as e, CheckCircle2 as f, FileText as g, FileUp as h, Grid3x3 as i, List as j, ChevronLeft as k, Printer as l, RefreshCw as m, Shuffle as n, FilePlus as o, Target as p, Stethoscope as q, reactExports as r, Thermometer as s, ChevronRight as t, Pin as u, Copy as v, Plus as w, BookA as x, Pill as y, GraduationCap as z };

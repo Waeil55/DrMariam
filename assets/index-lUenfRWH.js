@@ -1,5 +1,5 @@
-import { r as reactExports, R as React, L as Loader2, A as AlertCircle, X, S as Search, F as FolderOpen, B as BookMarked, a as Layers, b as Activity, C as CheckSquare, G as Globe, M as MessageSquare, c as Settings, d as Sparkles, e as GripVertical, Z as Zap, D as Database, f as CheckCircle2, I as Info, g as FileText, P as PenLine, h as FileUp, i as Grid3x3, j as List, k as ChevronLeft, l as Printer, m as RefreshCw, n as Shuffle, o as FilePlus, T as Trash2, E as Eye, p as Target, q as Stethoscope, s as Thermometer, t as ChevronRight, u as Pin, v as Copy, w as Plus, x as BookA, y as Pill, H as Heart, z as GraduationCap, J as Award, K as Brain, N as Clipboard, O as Star, Q as Network, U as Leaf, V as Flame, W as Monitor, Y as FlaskConical, _ as BookOpen, $ as Menu, a0 as History, a1 as RotateCcw, a2 as Send, a3 as CircleUserRound, a4 as MicOff, a5 as Mic, a6 as BotMessageSquare, a7 as Smartphone, a8 as Download, a9 as KeyRound, aa as Palette, ab as Sun, ac as CloudSun, ad as Moon, ae as MoonStar, af as PanelsTopLeft, ag as FileCode, ah as Image, ai as Table, aj as ZoomOut, ak as Maximize, al as ZoomIn, am as Save, an as AlignLeft, ao as Lightbulb, ap as Baby, aq as Tag, ar as Clock, as as Languages, at as Wand2, au as Code, av as ListChecks, aw as Hash, ax as MoreVertical, ay as Layers3, az as ChevronUp, aA as ChevronDown } from './icons-BMZSsBZX.js';
-import { r as reactDomExports } from './react-CzIM8pRv.js';
+import { r as reactExports, R as React, L as Loader2, A as AlertCircle, X, S as Search, F as FolderOpen, B as BookMarked, a as Layers, b as Activity, C as CheckSquare, G as Globe, M as MessageSquare, c as Settings, d as Sparkles, e as GripVertical, Z as Zap, D as Database, f as CheckCircle2, I as Info, g as FileText, P as PenLine, h as FileUp, i as Grid3x3, j as List, k as ChevronLeft, l as Printer, m as RefreshCw, n as Shuffle, o as FilePlus, T as Trash2, E as Eye, p as Target, q as Stethoscope, s as Thermometer, t as ChevronRight, u as Pin, v as Copy, w as Plus, x as BookA, y as Pill, H as Heart, z as GraduationCap, J as Award, K as Brain, N as Clipboard, O as Star, Q as Network, U as Leaf, V as Flame, W as Monitor, Y as FlaskConical, _ as BookOpen, $ as History, a0 as RotateCcw, a1 as Send, a2 as CircleUserRound, a3 as MicOff, a4 as Mic, a5 as BotMessageSquare, a6 as Smartphone, a7 as Download, a8 as KeyRound, a9 as Palette, aa as Sun, ab as CloudSun, ac as Moon, ad as MoonStar, ae as PanelsTopLeft, af as FileCode, ag as Image, ah as Table, ai as ZoomOut, aj as Maximize, ak as ZoomIn, al as Save, am as AlignLeft, an as Lightbulb, ao as Baby, ap as Tag, aq as Clock, ar as Languages, as as Wand2, at as Code, au as ListChecks, av as Hash, aw as MoreVertical, ax as Layers3, ay as ChevronUp, az as ChevronDown } from './icons-CBcOW6m4.js';
+import { r as reactDomExports } from './react-BB1Gn9GT.js';
 
 true&&(function polyfill() {
   const relList = document.createElement("link").relList;
@@ -23019,18 +23019,18 @@ function ChatView({ settings, sessions, setSessions, setView, docs, activeId, se
       }
     ),
     /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex-1 flex flex-col min-h-0 min-w-0", children: [
-      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "lg:hidden shrink-0", style: { height: "env(safe-area-inset-top, 0px)", background: "var(--surface,var(--card))" } }),
-      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center gap-3 px-4 py-2.5 border-b border-[color:var(--border2,var(--border))] shrink-0", style: { backdropFilter: "blur(20px)", background: "var(--surface,var(--card))" }, children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsx(
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center gap-3 px-4 py-2.5 border-b border-[color:var(--border2,var(--border))] shrink-0", style: { backdropFilter: "blur(20px)", background: "var(--surface,var(--card))", paddingTop: "max(10px, calc(env(safe-area-inset-top, 0px) + 10px))" }, children: [
+        setView && /* @__PURE__ */ jsxRuntimeExports.jsx(
           "button",
           {
-            onClick: () => setSidebarOpen((o) => !o),
-            className: "lg:hidden w-9 h-9 glass rounded-xl flex items-center justify-center opacity-70 hover:opacity-100 shrink-0 transition-all",
-            title: "Open sidebar",
-            children: /* @__PURE__ */ jsxRuntimeExports.jsx(Menu, { size: 20 })
+            onClick: () => setShowNavSheet(true),
+            className: "lg:hidden w-10 h-10 rounded-2xl border border-[color:var(--border2,var(--border))] flex items-center justify-center shrink-0 transition-all active:scale-95",
+            style: { background: "var(--surface,var(--card))" },
+            title: "Menu",
+            children: /* @__PURE__ */ jsxRuntimeExports.jsx(Menu, { size: 20, strokeWidth: 2 })
           }
         ),
-        /* @__PURE__ */ jsxRuntimeExports.jsx("button", { onClick: () => setSidebarOpen((o) => !o), className: "hidden lg:flex w-9 h-9 glass rounded-xl items-center justify-center opacity-60 hover:opacity-100 shrink-0 transition-all", title: "Toggle sidebar", children: /* @__PURE__ */ jsxRuntimeExports.jsx(History, { size: 17 }) }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("button", { onClick: () => setSidebarOpen((o) => !o), className: "w-9 h-9 glass rounded-xl flex items-center justify-center opacity-60 hover:opacity-100 shrink-0 transition-all", title: "Chat history", children: /* @__PURE__ */ jsxRuntimeExports.jsx(History, { size: 17 }) }),
         /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex-1 min-w-0", children: [
           curSess && curSess.projectId && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center gap-1.5 mb-0.5", children: [
             /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "w-1.5 h-1.5 rounded-full", style: { backgroundColor: (projects.find((p) => p.id === curSess.projectId) || {}).color || "#6366f1" } }),
@@ -23347,8 +23347,7 @@ function ChatView({ settings, sessions, setSessions, setView, docs, activeId, se
           ] })
         ] }),
         /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-[10px] text-center opacity-20 font-medium mt-2", children: "MARIAM may make errors. Always verify medical information." })
-      ] }) }),
-      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "lg:hidden shrink-0", style: { height: "calc(68px + env(safe-area-inset-bottom, 0px))", background: "var(--surface,var(--card))" } })
+      ] }) })
     ] })
   ] });
 }
@@ -27785,7 +27784,6 @@ Provide a detailed analysis of this content.`;
     { icon: Settings, label: "Settings", v: "settings" }
   ];
   return /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
-    /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: `fixed inset-0 -z-10 bg-mesh ${settings.theme || "pure-white"} accent-${settings.accentColor || "indigo"}`, style: { background: "var(--bg)" } }),
     /* @__PURE__ */ jsxRuntimeExports.jsxs(
       "div",
       {
