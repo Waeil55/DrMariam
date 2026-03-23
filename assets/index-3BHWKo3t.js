@@ -20988,7 +20988,7 @@ Do NOT discuss other cards or topics outside this card.`;
       ] }),
       /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "h-1.5 bg-black/10 dark:bg-white/10 shrink-0", children: /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "bg-gradient-to-r from-[var(--accent)] to-[var(--accent2,var(--accent))] h-full transition-all duration-500", style: { width: `${progress}%` } }) }),
       /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex-1 min-h-0 flex overflow-hidden", children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex-1 min-w-0 overflow-y-auto custom-scrollbar p-6 flex flex-col gap-5", style: { touchAction: "pan-y", WebkitOverflowScrolling: "touch" }, children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex-1 min-w-0 overflow-y-auto custom-scrollbar p-6 pb-28 flex flex-col gap-5", style: { touchAction: "pan-y", WebkitOverflowScrolling: "touch" }, children: [
           /* @__PURE__ */ jsxRuntimeExports.jsx("div", { style: { perspective: "1200px" }, onClick: () => setFlipped((f) => !f), className: "cursor-pointer select-none", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: {
             display: "grid",
             width: "100%",
@@ -21071,20 +21071,8 @@ Do NOT discuss other cards or topics outside this card.`;
         ),
         /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "hidden lg:flex flex-col border-l border-[color:var(--border2,var(--border))] shrink-0", style: { width: fcTutorW }, children: /* @__PURE__ */ jsxRuntimeExports.jsx(AiTutorPanel, { settings, context: tutorCtx, onClose: null, width: fcTutorW, onDragStart: startFcTutorDrag, alwaysOpen: true }) })
       ] }),
-      reactDomExports.createPortal(
-        /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsx(
-            "button",
-            {
-              onClick: () => setMobileTutorOpen(true),
-              className: "lg:hidden fixed w-14 h-14 rounded-[22px] btn-accent shadow-2xl flex items-center justify-center transition-transform active:scale-90",
-              style: { bottom: "calc(90px + env(safe-area-inset-bottom))", right: 16, zIndex: 9e3 },
-              title: "AI Tutor",
-              children: /* @__PURE__ */ jsxRuntimeExports.jsx(MessageSquare, { size: 24 })
-            }
-          ),
-          mobileTutorOpen && /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "lg:hidden fixed inset-0 z-[99999] flex flex-col justify-end backdrop-blur-sm", style: { background: "rgba(0,0,0,0.55)" }, onClick: (e) => e.target === e.currentTarget && setMobileTutorOpen(false), children: /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "glass rounded-t-[32px] flex flex-col overflow-hidden animate-slide-up", style: { height: "85%", boxShadow: "0 -10px 50px rgba(0,0,0,0.4)" }, onClick: (e) => e.stopPropagation(), children: /* @__PURE__ */ jsxRuntimeExports.jsx(AiTutorPanel, { settings, context: tutorCtx, onClose: () => setMobileTutorOpen(false), width: window.innerWidth }) }) })
-        ] }),
+      mobileTutorOpen && reactDomExports.createPortal(
+        /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "lg:hidden fixed inset-0 z-[99999] flex flex-col justify-end backdrop-blur-sm", style: { background: "rgba(0,0,0,0.55)" }, onClick: (e) => e.target === e.currentTarget && setMobileTutorOpen(false), children: /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "glass rounded-t-[32px] flex flex-col overflow-hidden animate-slide-up", style: { height: "85%", boxShadow: "0 -10px 50px rgba(0,0,0,0.4)" }, onClick: (e) => e.stopPropagation(), children: /* @__PURE__ */ jsxRuntimeExports.jsx(AiTutorPanel, { settings, context: tutorCtx, onClose: () => setMobileTutorOpen(false), width: window.innerWidth }) }) }),
         document.body
       )
     ] });
@@ -21121,8 +21109,8 @@ Do NOT discuss other cards or topics outside this card.`;
           /* @__PURE__ */ jsxRuntimeExports.jsx(Layers, { size: 26, className: "opacity-40" }),
           " Flashcards"
         ] }) }),
-        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex flex-col gap-2", children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center gap-2 glass rounded-2xl px-4 py-2.5 border border-[color:var(--border2,var(--border))]", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex flex-col gap-2 lg:flex-row lg:items-center", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center gap-2 glass rounded-2xl px-4 py-2.5 border border-[color:var(--border2,var(--border))] lg:flex-1", children: [
             /* @__PURE__ */ jsxRuntimeExports.jsx(Search, { size: 15, className: "opacity-30 shrink-0" }),
             /* @__PURE__ */ jsxRuntimeExports.jsx(
               "input",
@@ -21183,7 +21171,7 @@ Do NOT discuss other cards or topics outside this card.`;
               }
             )
           ] }),
-          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex gap-2", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex gap-2 lg:shrink-0", children: [
             /* @__PURE__ */ jsxRuntimeExports.jsxs(
               "button",
               {
@@ -21199,7 +21187,7 @@ Do NOT discuss other cards or topics outside this card.`;
                   } });
                   addToast("🎲 Generating random topic cards…", "info");
                 },
-                className: "flex-1 flex items-center justify-center gap-1.5 py-2.5 rounded-2xl text-xs font-black transition-all hover:scale-105 active:scale-95 shadow-sm",
+                className: "flex-1 lg:flex-none lg:px-5 flex items-center justify-center gap-1.5 py-2.5 rounded-2xl text-xs font-black transition-all hover:scale-105 active:scale-95 shadow-sm",
                 style: { background: "linear-gradient(135deg,#818cf8,#6366f1)", color: "#fff", boxShadow: "0 4px 14px #6366f140" },
                 children: [
                   /* @__PURE__ */ jsxRuntimeExports.jsx(Shuffle, { size: 12 }),
@@ -21207,7 +21195,7 @@ Do NOT discuss other cards or topics outside this card.`;
                 ]
               }
             ),
-            /* @__PURE__ */ jsxRuntimeExports.jsxs("button", { onClick: () => setShowModal(true), className: "flex-1 flex items-center justify-center gap-2 py-2.5 rounded-2xl text-xs font-black glass border border-[color:var(--border2,var(--border))] hover:opacity-80 opacity-60", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsxs("button", { onClick: () => setShowModal(true), className: "flex-1 lg:flex-none lg:px-5 flex items-center justify-center gap-2 py-2.5 rounded-2xl text-xs font-black glass border border-[color:var(--border2,var(--border))] hover:opacity-80 opacity-60", children: [
               /* @__PURE__ */ jsxRuntimeExports.jsx(FilePlus, { size: 13 }),
               " From File"
             ] })
@@ -21438,7 +21426,7 @@ Do NOT discuss other questions or topics outside this question.`;
       ] }),
       /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "h-1.5 bg-black/10 dark:bg-white/10 shrink-0", children: /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "bg-gradient-to-r from-[var(--accent)] to-[var(--accent2,var(--accent))] h-full transition-all duration-500", style: { width: `${progress}%` } }) }),
       /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex-1 min-h-0 flex overflow-hidden", children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex-1 min-w-0 overflow-y-auto custom-scrollbar p-4 lg:p-8 space-y-4", style: { touchAction: "pan-y", WebkitOverflowScrolling: "touch" }, children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex-1 min-w-0 overflow-y-auto custom-scrollbar p-4 pb-28 lg:p-8 space-y-4", style: { touchAction: "pan-y", WebkitOverflowScrolling: "touch" }, children: [
           /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "glass rounded-2xl p-4 lg:p-6 border border-[color:var(--border2,var(--border))]", children: [
             q.sourcePage && /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { className: "text-xs font-mono opacity-30 mb-3", children: [
               "Source: p.",
@@ -21491,23 +21479,11 @@ Do NOT discuss other questions or topics outside this question.`;
             children: /* @__PURE__ */ jsxRuntimeExports.jsx(GripVertical, { size: 14, className: "opacity-20 group-hover:opacity-70 text-[var(--text)]" })
           }
         ),
-        reactDomExports.createPortal(
-          /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
-            /* @__PURE__ */ jsxRuntimeExports.jsx(
-              "button",
-              {
-                onClick: () => setExamMobileOpen(true),
-                className: "lg:hidden fixed w-14 h-14 rounded-[22px] btn-accent shadow-2xl flex items-center justify-center transition-transform active:scale-90",
-                style: { bottom: "calc(90px + env(safe-area-inset-bottom))", right: 16, zIndex: 9e3 },
-                title: "AI Tutor",
-                children: /* @__PURE__ */ jsxRuntimeExports.jsx(MessageSquare, { size: 24 })
-              }
-            ),
-            examMobileOpen && /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "lg:hidden fixed inset-0 z-[99999] flex flex-col justify-end backdrop-blur-sm", style: { background: "rgba(0,0,0,0.55)" }, onClick: (e) => e.target === e.currentTarget && setExamMobileOpen(false), children: /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "glass rounded-t-[32px] flex flex-col overflow-hidden animate-slide-up", style: { height: "85%", boxShadow: "0 -10px 50px rgba(0,0,0,0.4)" }, onClick: (e) => e.stopPropagation(), children: /* @__PURE__ */ jsxRuntimeExports.jsx(AiTutorPanel, { settings, context: `Exam: ${selEx?.title}
+        examMobileOpen && reactDomExports.createPortal(
+          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "lg:hidden fixed inset-0 z-[99999] flex flex-col justify-end backdrop-blur-sm", style: { background: "rgba(0,0,0,0.55)" }, onClick: (e) => e.target === e.currentTarget && setExamMobileOpen(false), children: /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "glass rounded-t-[32px] flex flex-col overflow-hidden animate-slide-up", style: { height: "85%", boxShadow: "0 -10px 50px rgba(0,0,0,0.4)" }, onClick: (e) => e.stopPropagation(), children: /* @__PURE__ */ jsxRuntimeExports.jsx(AiTutorPanel, { settings, context: `Exam: ${selEx?.title}
 Q${qi + 1}: ${selEx?.questions?.[qi]?.q}
 Options: ${selEx?.questions?.[qi]?.options?.join(" | ")}
-Correct: ${selEx?.questions?.[qi]?.options?.[selEx?.questions?.[qi]?.correct]}`, onClose: () => setExamMobileOpen(false), width: window.innerWidth }) }) })
-          ] }),
+Correct: ${selEx?.questions?.[qi]?.options?.[selEx?.questions?.[qi]?.correct]}`, onClose: () => setExamMobileOpen(false), width: window.innerWidth }) }) }),
           document.body
         ),
         /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "hidden lg:flex flex-col border-l border-[color:var(--border2,var(--border))] shrink-0", style: { width: examTutorW }, children: /* @__PURE__ */ jsxRuntimeExports.jsx(AiTutorPanel, { settings, context: tutorCtx, onClose: null, width: examTutorW, onDragStart: startExamTutorDrag, alwaysOpen: true }) })
@@ -21613,8 +21589,8 @@ Correct: ${selEx?.questions?.[qi]?.options?.[selEx?.questions?.[qi]?.correct]}`,
           /* @__PURE__ */ jsxRuntimeExports.jsx(CheckSquare, { size: 26, className: "opacity-40" }),
           " Exams"
         ] }) }),
-        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex flex-col gap-2", children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center gap-2 glass rounded-2xl px-4 py-2.5 border border-[color:var(--border2,var(--border))]", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex flex-col gap-2 lg:flex-row lg:items-center", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center gap-2 glass rounded-2xl px-4 py-2.5 border border-[color:var(--border2,var(--border))] lg:flex-1", children: [
             /* @__PURE__ */ jsxRuntimeExports.jsx(Search, { size: 15, className: "opacity-30 shrink-0" }),
             /* @__PURE__ */ jsxRuntimeExports.jsx(
               "input",
@@ -21671,7 +21647,7 @@ Correct: ${selEx?.questions?.[qi]?.options?.[selEx?.questions?.[qi]?.correct]}`,
               }
             )
           ] }),
-          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex gap-2", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex gap-2 lg:shrink-0", children: [
             /* @__PURE__ */ jsxRuntimeExports.jsxs(
               "button",
               {
@@ -21685,7 +21661,7 @@ Correct: ${selEx?.questions?.[qi]?.options?.[selEx?.questions?.[qi]?.correct]}`,
                   } });
                   addToast("🎲 Generating random exam…", "info");
                 },
-                className: "flex-1 flex items-center justify-center gap-1.5 py-2.5 rounded-2xl text-xs font-black transition-all hover:scale-105 active:scale-95 shadow-sm",
+                className: "flex-1 lg:flex-none lg:px-5 flex items-center justify-center gap-1.5 py-2.5 rounded-2xl text-xs font-black transition-all hover:scale-105 active:scale-95 shadow-sm",
                 style: { background: "linear-gradient(135deg,#60a5fa,#3b82f6)", color: "#fff", boxShadow: "0 4px 14px #3b82f640" },
                 children: [
                   /* @__PURE__ */ jsxRuntimeExports.jsx(Shuffle, { size: 12 }),
@@ -21693,7 +21669,7 @@ Correct: ${selEx?.questions?.[qi]?.options?.[selEx?.questions?.[qi]?.correct]}`,
                 ]
               }
             ),
-            /* @__PURE__ */ jsxRuntimeExports.jsxs("button", { onClick: () => setShowModal(true), className: "flex-1 flex items-center justify-center gap-2 py-2.5 rounded-2xl text-xs font-black glass border border-[color:var(--border2,var(--border))] hover:opacity-80 opacity-60", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsxs("button", { onClick: () => setShowModal(true), className: "flex-1 lg:flex-none lg:px-5 flex items-center justify-center gap-2 py-2.5 rounded-2xl text-xs font-black glass border border-[color:var(--border2,var(--border))] hover:opacity-80 opacity-60", children: [
               /* @__PURE__ */ jsxRuntimeExports.jsx(FilePlus, { size: 13 }),
               " From File"
             ] })
@@ -21906,7 +21882,7 @@ Do NOT discuss other cases, questions, or topics outside this case.`;
           ] })
         ] }),
         /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex-1 min-h-0 flex overflow-hidden", children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex-1 min-w-0 overflow-y-auto custom-scrollbar p-5 space-y-4", style: { touchAction: "pan-y", WebkitOverflowScrolling: "touch" }, children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex-1 min-w-0 overflow-y-auto custom-scrollbar p-5 pb-28 space-y-4", style: { touchAction: "pan-y", WebkitOverflowScrolling: "touch" }, children: [
             /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "glass rounded-2xl p-5 border border-[color:var(--border2,var(--border))]", children: [
               /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { className: "text-xs font-black uppercase tracking-widest text-[var(--accent)] mb-3 flex items-center gap-2", children: [
                 /* @__PURE__ */ jsxRuntimeExports.jsx(Stethoscope, { size: 13 }),
@@ -21985,7 +21961,11 @@ Do NOT discuss other cases, questions, or topics outside this case.`;
                 className: "w-full py-4 bg-emerald-500 hover:bg-emerald-600 text-white rounded-2xl text-base font-black shadow-xl",
                 children: "Finish Session 🎉"
               }
-            ) })
+            ) }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "lg:hidden", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("button", { onClick: () => setCasesMobileTutorOpen(true), className: "w-full glass py-3.5 rounded-2xl flex items-center justify-center gap-2 font-bold text-[var(--accent)] border border-[var(--accent)]/30 hover:bg-[var(--accent)]/10 transition-colors", children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx(MessageSquare, { size: 18 }),
+              " Ask AI Tutor"
+            ] }) })
           ] }),
           /* @__PURE__ */ jsxRuntimeExports.jsx(
             "div",
@@ -22032,10 +22012,6 @@ Do NOT discuss other cases, questions, or topics outside this case.`;
                 ] }, pi)) : /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex flex-col items-center justify-center h-32 opacity-25", children: [
                   /* @__PURE__ */ jsxRuntimeExports.jsx(Thermometer, { size: 28, className: "mb-2" }),
                   /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-sm font-bold", children: "No lab data" })
-                ] }) }),
-                /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "lg:hidden mt-4 flex-shrink-0", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("button", { onClick: () => setCasesMobileTutorOpen(true), className: "w-full glass py-3.5 rounded-2xl flex items-center justify-center gap-2 font-bold text-[var(--accent)] border border-[var(--accent)]/30 hover:bg-[var(--accent)]/10 transition-colors", children: [
-                  /* @__PURE__ */ jsxRuntimeExports.jsx(MessageSquare, { size: 18 }),
-                  " Ask AI Tutor"
                 ] }) })
               ]
             }
@@ -22080,20 +22056,8 @@ Do NOT discuss other cases, questions, or topics outside this case.`;
             ] })
           ] }, pi)) })
         ] }) }),
-        reactDomExports.createPortal(
-          /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
-            /* @__PURE__ */ jsxRuntimeExports.jsx(
-              "button",
-              {
-                onClick: () => setCasesMobileTutorOpen(true),
-                className: "lg:hidden fixed w-14 h-14 rounded-[22px] btn-accent shadow-2xl flex items-center justify-center transition-transform active:scale-90",
-                style: { bottom: "calc(90px + env(safe-area-inset-bottom))", right: 16, zIndex: 9e3 },
-                title: "AI Tutor",
-                children: /* @__PURE__ */ jsxRuntimeExports.jsx(MessageSquare, { size: 24 })
-              }
-            ),
-            casesMobileTutorOpen && /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "lg:hidden fixed inset-0 z-[99999] flex flex-col justify-end backdrop-blur-sm", style: { background: "rgba(0,0,0,0.55)" }, onClick: (e) => e.target === e.currentTarget && setCasesMobileTutorOpen(false), children: /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "glass rounded-t-[32px] flex flex-col overflow-hidden animate-slide-up", style: { height: "85%", boxShadow: "0 -10px 50px rgba(0,0,0,0.4)" }, onClick: (e) => e.stopPropagation(), children: /* @__PURE__ */ jsxRuntimeExports.jsx(AiTutorPanel, { settings, context: tutorCtx, onClose: () => setCasesMobileTutorOpen(false), width: window.innerWidth }) }) })
-          ] }),
+        casesMobileTutorOpen && reactDomExports.createPortal(
+          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "lg:hidden fixed inset-0 z-[99999] flex flex-col justify-end backdrop-blur-sm", style: { background: "rgba(0,0,0,0.55)" }, onClick: (e) => e.target === e.currentTarget && setCasesMobileTutorOpen(false), children: /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "glass rounded-t-[32px] flex flex-col overflow-hidden animate-slide-up", style: { height: "85%", boxShadow: "0 -10px 50px rgba(0,0,0,0.4)" }, onClick: (e) => e.stopPropagation(), children: /* @__PURE__ */ jsxRuntimeExports.jsx(AiTutorPanel, { settings, context: tutorCtx, onClose: () => setCasesMobileTutorOpen(false), width: window.innerWidth }) }) }),
           document.body
         )
       ] })
@@ -22121,8 +22085,8 @@ Do NOT discuss other cases, questions, or topics outside this case.`;
           /* @__PURE__ */ jsxRuntimeExports.jsx(Activity, { size: 26, className: "opacity-40" }),
           " Clinical Cases"
         ] }) }),
-        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex flex-col gap-2", children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center gap-2 glass rounded-2xl px-4 py-2.5 border border-[color:var(--border2,var(--border))]", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex flex-col gap-2 lg:flex-row lg:items-center", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center gap-2 glass rounded-2xl px-4 py-2.5 border border-[color:var(--border2,var(--border))] lg:flex-1", children: [
             /* @__PURE__ */ jsxRuntimeExports.jsx(Search, { size: 15, className: "opacity-30 shrink-0" }),
             /* @__PURE__ */ jsxRuntimeExports.jsx(
               "input",
@@ -22179,7 +22143,7 @@ Do NOT discuss other cases, questions, or topics outside this case.`;
               }
             )
           ] }),
-          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex gap-2", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex gap-2 lg:shrink-0", children: [
             /* @__PURE__ */ jsxRuntimeExports.jsxs(
               "button",
               {
@@ -22193,7 +22157,7 @@ Do NOT discuss other cases, questions, or topics outside this case.`;
                   } });
                   addToast("🎲 Generating random cases…", "info");
                 },
-                className: "flex-1 flex items-center justify-center gap-1.5 py-2.5 rounded-2xl text-xs font-black transition-all hover:scale-105 active:scale-95 shadow-sm",
+                className: "flex-1 lg:flex-none lg:px-5 flex items-center justify-center gap-1.5 py-2.5 rounded-2xl text-xs font-black transition-all hover:scale-105 active:scale-95 shadow-sm",
                 style: { background: "linear-gradient(135deg,#c084fc,#8b5cf6)", color: "#fff", boxShadow: "0 4px 14px #8b5cf640" },
                 children: [
                   /* @__PURE__ */ jsxRuntimeExports.jsx(Shuffle, { size: 12 }),
@@ -22201,7 +22165,7 @@ Do NOT discuss other cases, questions, or topics outside this case.`;
                 ]
               }
             ),
-            /* @__PURE__ */ jsxRuntimeExports.jsxs("button", { onClick: () => setShowModal(true), className: "flex-1 flex items-center justify-center gap-2 py-2.5 rounded-2xl text-xs font-black glass border border-[color:var(--border2,var(--border))] hover:opacity-80 opacity-60", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsxs("button", { onClick: () => setShowModal(true), className: "flex-1 lg:flex-none lg:px-5 flex items-center justify-center gap-2 py-2.5 rounded-2xl text-xs font-black glass border border-[color:var(--border2,var(--border))] hover:opacity-80 opacity-60", children: [
               /* @__PURE__ */ jsxRuntimeExports.jsx(FilePlus, { size: 13 }),
               " From File"
             ] })
@@ -22319,6 +22283,7 @@ function ChatView({ settings, sessions, setSessions }) {
   const [showNewTopic, setShowNewTopic] = reactExports.useState(false);
   const [newTopicName, setNewTopicName] = reactExports.useState("");
   const [sidebarTab, setSidebarTab] = reactExports.useState("chats");
+  const [encSearch, setEncSearch] = reactExports.useState("");
   const [encCat, setEncCat] = reactExports.useState(null);
   const [encSub, setEncSub] = reactExports.useState(null);
   const [encContent, setEncContent] = reactExports.useState("");
@@ -22826,73 +22791,131 @@ function ChatView({ settings, sessions, setSessions }) {
               )
             ] }, t.id))
           ] }),
-          sidebarTab === "encyclo" && /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "flex-1 min-h-0 overflow-y-auto custom-scrollbar", children: !encCat ? /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
-            /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-[9px] font-black uppercase tracking-widest opacity-30 px-4 py-2 pt-3", children: "Browse Categories" }),
-            ENCYCLOPEDIA_CATEGORIES.map((cat) => /* @__PURE__ */ jsxRuntimeExports.jsxs(
-              "button",
-              {
-                onClick: () => setEncCat(cat),
-                className: "w-full flex items-center gap-3 px-4 py-2.5 hover:bg-[var(--accent)]/6 transition-all text-left group",
-                children: [
-                  /* @__PURE__ */ jsxRuntimeExports.jsx(
-                    "div",
-                    {
-                      className: "w-7 h-7 rounded-xl flex items-center justify-center shrink-0 transition-transform group-hover:scale-105",
-                      style: { background: cat.color + "18" },
-                      children: /* @__PURE__ */ jsxRuntimeExports.jsx(cat.icon, { size: 13, style: { color: cat.color } })
+          sidebarTab === "encyclo" && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex-1 min-h-0 flex flex-col overflow-hidden", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "px-3 pt-2.5 pb-1.5 shrink-0", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "relative", children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx(Search, { size: 12, className: "absolute left-3 top-1/2 -translate-y-1/2 opacity-40 pointer-events-none" }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx(
+                "input",
+                {
+                  value: encSearch,
+                  onChange: (e) => {
+                    setEncSearch(e.target.value);
+                    if (e.target.value) {
+                      setEncCat(null);
+                      setEncSub(null);
                     }
-                  ),
-                  /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex-1 min-w-0", children: [
-                    /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-[11px] font-bold truncate", children: cat.label }),
-                    /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { className: "text-[9px] opacity-40", children: [
-                      cat.subcategories.length,
-                      " topics"
-                    ] })
-                  ] }),
-                  /* @__PURE__ */ jsxRuntimeExports.jsx(ChevronRight, { size: 11, className: "opacity-25 shrink-0" })
-                ]
-              },
-              cat.id
-            ))
-          ] }) : !encSub ? /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
-            /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center gap-2 px-3 py-2 border-b border-[color:var(--border2,var(--border))] mb-1 sticky top-0", style: { background: "var(--bg)" }, children: [
-              /* @__PURE__ */ jsxRuntimeExports.jsx("button", { onClick: () => setEncCat(null), className: "p-1 rounded-lg hover:bg-black/8 dark:hover:bg-white/8 opacity-60 hover:opacity-100 transition-colors", children: /* @__PURE__ */ jsxRuntimeExports.jsx(ChevronLeft, { size: 14 }) }),
-              /* @__PURE__ */ jsxRuntimeExports.jsx(encCat.icon, { size: 12, style: { color: encCat.color } }),
-              /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-xs font-black truncate flex-1", style: { color: encCat.color }, children: encCat.label })
-            ] }),
-            encCat.subcategories.map((sub) => /* @__PURE__ */ jsxRuntimeExports.jsxs(
-              "button",
-              {
-                onClick: () => openEncycloTopic(encCat, sub),
-                className: "w-full flex items-center gap-2.5 px-4 py-2.5 hover:bg-[var(--accent)]/6 transition-all text-left group",
-                children: [
-                  /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "w-1.5 h-1.5 rounded-full shrink-0", style: { backgroundColor: encCat.color + "99" } }),
-                  /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex-1 min-w-0", children: [
-                    /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-xs font-semibold truncate", children: sub.label }),
-                    /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-[9px] opacity-35 truncate", children: sub.desc })
+                  },
+                  placeholder: "Search drugs, diseases, topics…",
+                  className: "w-full bg-black/5 dark:bg-white/5 rounded-xl pl-7 pr-7 py-1.5 text-xs outline-none border border-transparent focus:border-[var(--accent)]/40 text-[var(--text)]"
+                }
+              ),
+              encSearch && /* @__PURE__ */ jsxRuntimeExports.jsx("button", { onClick: () => setEncSearch(""), className: "absolute right-2 top-1/2 -translate-y-1/2 opacity-40 hover:opacity-80", children: /* @__PURE__ */ jsxRuntimeExports.jsx(X, { size: 11 }) })
+            ] }) }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "flex-1 min-h-0 overflow-y-auto custom-scrollbar", children: encSearch ? (
+              /* ── SEARCH RESULTS ── */
+              (() => {
+                const q = encSearch.toLowerCase();
+                const results = ENCYCLOPEDIA_CATEGORIES.flatMap(
+                  (cat) => cat.subcategories.filter((sub) => sub.label.toLowerCase().includes(q) || sub.desc.toLowerCase().includes(q) || cat.label.toLowerCase().includes(q)).map((sub) => ({ cat, sub }))
+                );
+                return results.length > 0 ? results.map(({ cat, sub }) => /* @__PURE__ */ jsxRuntimeExports.jsxs(
+                  "button",
+                  {
+                    onClick: () => {
+                      openEncycloTopic(cat, sub);
+                      setEncSearch("");
+                    },
+                    className: "w-full flex items-center gap-2.5 px-4 py-2.5 hover:bg-[var(--accent)]/6 transition-all text-left group",
+                    children: [
+                      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "w-6 h-6 rounded-lg flex items-center justify-center shrink-0", style: { background: cat.color + "20" }, children: /* @__PURE__ */ jsxRuntimeExports.jsx(cat.icon, { size: 10, style: { color: cat.color } }) }),
+                      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex-1 min-w-0", children: [
+                        /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-xs font-bold truncate", children: sub.label }),
+                        /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { className: "text-[9px] opacity-40 truncate", children: [
+                          cat.label,
+                          " · ",
+                          sub.desc
+                        ] })
+                      ] })
+                    ]
+                  },
+                  cat.id + ":" + sub.id
+                )) : /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "text-center py-8 px-4 opacity-30", children: [
+                  /* @__PURE__ */ jsxRuntimeExports.jsx(Search, { size: 20, className: "mx-auto mb-2" }),
+                  /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { className: "text-xs font-bold", children: [
+                    'No results for "',
+                    encSearch,
+                    '"'
                   ] })
-                ]
-              },
-              sub.id
-            ))
-          ] }) : /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
-            /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center gap-2 px-3 py-2 border-b border-[color:var(--border2,var(--border))] mb-1 sticky top-0", style: { background: "var(--bg)" }, children: [
-              /* @__PURE__ */ jsxRuntimeExports.jsx("button", { onClick: () => setEncSub(null), className: "p-1 rounded-lg hover:bg-black/8 dark:hover:bg-white/8 opacity-60 hover:opacity-100 transition-colors", children: /* @__PURE__ */ jsxRuntimeExports.jsx(ChevronLeft, { size: 14 }) }),
-              /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-[10px] font-black truncate flex-1", children: encCat.label })
-            ] }),
-            encCat.subcategories.map((sub) => /* @__PURE__ */ jsxRuntimeExports.jsxs(
-              "button",
-              {
-                onClick: () => openEncycloTopic(encCat, sub),
-                className: "w-full flex items-center gap-2 px-4 py-2.5 text-left transition-all " + (encSub.id === sub.id ? "bg-[var(--accent)]/10 text-[var(--accent)]" : "hover:bg-[var(--accent)]/5 opacity-55 hover:opacity-90"),
-                children: [
-                  encSub.id === sub.id && /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "w-1.5 h-1.5 rounded-full bg-[var(--accent)] shrink-0" }),
-                  /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-xs truncate " + (encSub.id === sub.id ? "font-black" : "font-semibold"), children: sub.label })
-                ]
-              },
-              sub.id
-            ))
-          ] }) }),
+                ] });
+              })()
+            ) : !encCat ? /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-[9px] font-black uppercase tracking-widest opacity-30 px-4 py-2 pt-3", children: "Browse Categories" }),
+              ENCYCLOPEDIA_CATEGORIES.map((cat) => /* @__PURE__ */ jsxRuntimeExports.jsxs(
+                "button",
+                {
+                  onClick: () => setEncCat(cat),
+                  className: "w-full flex items-center gap-3 px-4 py-2.5 hover:bg-[var(--accent)]/6 transition-all text-left group",
+                  children: [
+                    /* @__PURE__ */ jsxRuntimeExports.jsx(
+                      "div",
+                      {
+                        className: "w-7 h-7 rounded-xl flex items-center justify-center shrink-0 transition-transform group-hover:scale-105",
+                        style: { background: cat.color + "18" },
+                        children: /* @__PURE__ */ jsxRuntimeExports.jsx(cat.icon, { size: 13, style: { color: cat.color } })
+                      }
+                    ),
+                    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex-1 min-w-0", children: [
+                      /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-[11px] font-bold truncate", children: cat.label }),
+                      /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { className: "text-[9px] opacity-40", children: [
+                        cat.subcategories.length,
+                        " topics"
+                      ] })
+                    ] }),
+                    /* @__PURE__ */ jsxRuntimeExports.jsx(ChevronRight, { size: 11, className: "opacity-25 shrink-0" })
+                  ]
+                },
+                cat.id
+              ))
+            ] }) : !encSub ? /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center gap-2 px-3 py-2 border-b border-[color:var(--border2,var(--border))] mb-1 sticky top-0", style: { background: "var(--bg)" }, children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsx("button", { onClick: () => setEncCat(null), className: "p-1 rounded-lg hover:bg-black/8 dark:hover:bg-white/8 opacity-60 hover:opacity-100 transition-colors", children: /* @__PURE__ */ jsxRuntimeExports.jsx(ChevronLeft, { size: 14 }) }),
+                /* @__PURE__ */ jsxRuntimeExports.jsx(encCat.icon, { size: 12, style: { color: encCat.color } }),
+                /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-xs font-black truncate flex-1", style: { color: encCat.color }, children: encCat.label })
+              ] }),
+              encCat.subcategories.map((sub) => /* @__PURE__ */ jsxRuntimeExports.jsxs(
+                "button",
+                {
+                  onClick: () => openEncycloTopic(encCat, sub),
+                  className: "w-full flex items-center gap-2.5 px-4 py-2.5 hover:bg-[var(--accent)]/6 transition-all text-left group",
+                  children: [
+                    /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "w-1.5 h-1.5 rounded-full shrink-0", style: { backgroundColor: encCat.color + "99" } }),
+                    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex-1 min-w-0", children: [
+                      /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-xs font-semibold truncate", children: sub.label }),
+                      /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-[9px] opacity-35 truncate", children: sub.desc })
+                    ] })
+                  ]
+                },
+                sub.id
+              ))
+            ] }) : /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center gap-2 px-3 py-2 border-b border-[color:var(--border2,var(--border))] mb-1 sticky top-0", style: { background: "var(--bg)" }, children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsx("button", { onClick: () => setEncSub(null), className: "p-1 rounded-lg hover:bg-black/8 dark:hover:bg-white/8 opacity-60 hover:opacity-100 transition-colors", children: /* @__PURE__ */ jsxRuntimeExports.jsx(ChevronLeft, { size: 14 }) }),
+                /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-[10px] font-black truncate flex-1", children: encCat.label })
+              ] }),
+              encCat.subcategories.map((sub) => /* @__PURE__ */ jsxRuntimeExports.jsxs(
+                "button",
+                {
+                  onClick: () => openEncycloTopic(encCat, sub),
+                  className: "w-full flex items-center gap-2 px-4 py-2.5 text-left transition-all " + (encSub.id === sub.id ? "bg-[var(--accent)]/10 text-[var(--accent)]" : "hover:bg-[var(--accent)]/5 opacity-55 hover:opacity-90"),
+                  children: [
+                    encSub.id === sub.id && /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "w-1.5 h-1.5 rounded-full bg-[var(--accent)] shrink-0" }),
+                    /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-xs truncate " + (encSub.id === sub.id ? "font-black" : "font-semibold"), children: sub.label })
+                  ]
+                },
+                sub.id
+              ))
+            ] }) })
+          ] }),
           /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "shrink-0 px-4 py-2.5 border-t border-[color:var(--border2,var(--border))]", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { className: "text-[10px] opacity-30 font-bold flex items-center gap-1.5", children: [
             /* @__PURE__ */ jsxRuntimeExports.jsx(Brain, { size: 11 }),
             sessions.length,
@@ -26966,23 +26989,30 @@ function App() {
       return;
     }
     const vv = window.visualViewport;
+    let baseH = window.innerHeight;
     const updateKeyboardState = () => {
       const viewportHeight = vv?.height || window.innerHeight;
-      const delta = window.innerHeight - viewportHeight;
+      const iosDelta = window.innerHeight - viewportHeight;
+      const androidDelta = baseH - window.innerHeight;
+      const delta = Math.max(iosDelta, androidDelta);
       const el = document.activeElement;
       const tag = (el?.tagName || "").toLowerCase();
       const isEditable = tag === "input" || tag === "textarea" || tag === "select" || el?.isContentEditable || el?.getAttribute?.("contenteditable") === "true";
-      setIsKeyboardOpen(delta > 100 && isEditable);
+      const open = delta > 100 && isEditable;
+      setIsKeyboardOpen(open);
+      if (!open && delta < 50) baseH = Math.max(baseH, window.innerHeight);
     };
     const onFocusIn = () => {
       setTimeout(updateKeyboardState, 50);
       setTimeout(updateKeyboardState, 200);
       setTimeout(updateKeyboardState, 450);
       setTimeout(updateKeyboardState, 700);
+      setTimeout(updateKeyboardState, 1200);
     };
     const onFocusOut = () => {
       setTimeout(updateKeyboardState, 50);
       setTimeout(updateKeyboardState, 200);
+      setTimeout(updateKeyboardState, 500);
     };
     vv?.addEventListener("resize", updateKeyboardState);
     window.addEventListener("resize", updateKeyboardState);
