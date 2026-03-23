@@ -191,7 +191,7 @@ html.dark .design-nav-inner,
   align-items: center;
   gap: 2px;
   cursor: pointer;
-  padding: 5px 6px;
+  padding: 8px 6px;
   border-radius: 14px;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   flex: 1;
@@ -440,7 +440,7 @@ html.dark .design-btn-secondary:hover,
     padding: 3px 4px;
   }
   .design-nav-btn {
-    padding: 4px 2px;
+    padding: 6px 2px;
     gap: 1px;
   }
   .design-nav-btn svg {
