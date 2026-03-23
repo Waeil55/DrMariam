@@ -1,5 +1,5 @@
-import { r as reactExports, R as React, L as Loader2, A as AlertCircle, X, S as Search, F as FolderOpen, B as BookMarked, a as Layers, b as Activity, C as CheckSquare, G as Globe, M as MessageSquare, c as Settings, d as Sparkles, e as GripVertical, Z as Zap, D as Database, f as CheckCircle2, I as Info, g as FileText, P as PenLine, h as FileUp, i as Grid3x3, j as List, k as ChevronLeft, l as Printer, m as RefreshCw, n as Shuffle, o as FilePlus, T as Trash2, E as Eye, p as Target, q as Stethoscope, s as Thermometer, t as ChevronRight, u as Pin, v as Copy, w as Plus, x as BookA, y as Pill, H as Heart, z as GraduationCap, J as Award, K as Brain, N as Clipboard, O as Star, Q as Network, U as Leaf, V as Flame, W as Monitor, Y as FlaskConical, _ as BookOpen, $ as History, a0 as RotateCcw, a1 as Send, a2 as CircleUserRound, a3 as MicOff, a4 as Mic, a5 as BotMessageSquare, a6 as Smartphone, a7 as Download, a8 as KeyRound, a9 as Palette, aa as Sun, ab as CloudSun, ac as Moon, ad as MoonStar, ae as PanelsTopLeft, af as FileCode, ag as Image, ah as Table, ai as ZoomOut, aj as Maximize, ak as ZoomIn, al as Save, am as AlignLeft, an as Lightbulb, ao as Baby, ap as Tag, aq as Clock, ar as Languages, as as Wand2, at as Code, au as ListChecks, av as Hash, aw as MoreVertical, ax as Layers3, ay as ChevronUp, az as ChevronDown } from './icons-CBcOW6m4.js';
-import { r as reactDomExports } from './react-BB1Gn9GT.js';
+import { r as reactExports, R as React, L as Loader2, A as AlertCircle, X, S as Search, F as FolderOpen, B as BookMarked, a as Layers, b as Activity, C as CheckSquare, G as Globe, M as MessageSquare, c as Settings, d as Sparkles, e as GripVertical, Z as Zap, D as Database, f as CheckCircle2, I as Info, g as FileText, P as PenLine, h as FileUp, i as Grid3x3, j as List, k as ChevronLeft, l as Printer, m as RefreshCw, n as Shuffle, o as FilePlus, T as Trash2, E as Eye, p as Target, q as Stethoscope, s as Thermometer, t as ChevronRight, u as Pin, v as Copy, w as Plus, x as BookA, y as Pill, H as Heart, z as GraduationCap, J as Award, K as Brain, N as Clipboard, O as Star, Q as Network, U as Leaf, V as Flame, W as Monitor, Y as FlaskConical, _ as BookOpen, $ as LayoutGrid, a0 as History, a1 as RotateCcw, a2 as Send, a3 as CircleUserRound, a4 as MicOff, a5 as Mic, a6 as BotMessageSquare, a7 as Smartphone, a8 as Download, a9 as KeyRound, aa as Palette, ab as Sun, ac as CloudSun, ad as Moon, ae as MoonStar, af as PanelsTopLeft, ag as FileCode, ah as Image, ai as Table, aj as ZoomOut, ak as Maximize, al as ZoomIn, am as Save, an as AlignLeft, ao as Lightbulb, ap as Baby, aq as Tag, ar as Clock, as as Languages, at as Wand2, au as Code, av as ListChecks, aw as Hash, ax as MoreVertical, ay as Layers3, az as ChevronUp, aA as ChevronDown } from './icons-CLLkknzF.js';
+import { r as reactDomExports } from './react-B703JwTH.js';
 
 true&&(function polyfill() {
   const relList = document.createElement("link").relList;
@@ -22323,7 +22323,7 @@ Do NOT discuss other cases, questions, or topics outside this case.`;
     ] })
   ] });
 }
-function ChatView({ settings, sessions, setSessions }) {
+function ChatView({ settings, sessions, setSessions, setView, docs, activeId, setActiveId, setOpenDocs }) {
   const [selSess, setSelSess] = reactExports.useState(null);
   const [msgs, setMsgs] = reactExports.useState([]);
   const [input, setInput] = reactExports.useState("");
@@ -22350,6 +22350,7 @@ function ChatView({ settings, sessions, setSessions }) {
   const [encCached, setEncCached] = reactExports.useState(false);
   const [encFollowUp, setEncFollowUp] = reactExports.useState("");
   const [inputRows, setInputRows] = reactExports.useState(1);
+  const [showNavSheet, setShowNavSheet] = reactExports.useState(false);
   const [hasStarted, setHasStarted] = reactExports.useState(false);
   const endRef = reactExports.useRef(null);
   const recogRef = reactExports.useRef(null);
@@ -22627,6 +22628,37 @@ function ChatView({ settings, sessions, setSessions }) {
   const curSess = sessions.find((s) => s.id === selSess);
   const topicsFiltered = sessSearch ? topics.filter((t) => t.name.toLowerCase().includes(sessSearch.toLowerCase())) : topics;
   return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex h-full min-h-0 overflow-hidden", style: { background: "var(--bg)" }, onClick: () => contextMenu && setContextMenu(null), children: [
+    showNavSheet && setView && /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "fixed inset-0 z-[9990] bg-black/50 lg:hidden", onClick: () => setShowNavSheet(false) }),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "fixed bottom-0 left-0 right-0 z-[9999] lg:hidden rounded-t-3xl border-t border-[color:var(--border2,var(--border))] pb-[env(safe-area-inset-bottom,12px)]", style: { background: "var(--bg)", backdropFilter: "blur(40px)" }, children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "w-10 h-1 rounded-full bg-[var(--text)]/20 mx-auto mt-3 mb-4" }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-[10px] font-black uppercase tracking-widest opacity-40 px-5 mb-3", children: "Navigate to" }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "grid grid-cols-4 gap-2 px-4 pb-4", children: [
+          ["Library", FolderOpen, "library"],
+          ["Reader", BookMarked, "reader"],
+          ["Cards", Layers, "flashcards"],
+          ["Cases", Activity, "cases"],
+          ["Exams", CheckSquare, "exams"],
+          ["Encyclo", Globe, "encyclopedia"],
+          ["Chat", MessageSquare, "chat"],
+          ["Settings", Settings, "settings"]
+        ].map(([label, Icon, v]) => /* @__PURE__ */ jsxRuntimeExports.jsxs(
+          "button",
+          {
+            onClick: () => {
+              setShowNavSheet(false);
+              setView(v);
+            },
+            className: `flex flex-col items-center gap-1.5 py-3 rounded-2xl transition-all ${v === "chat" ? "bg-[var(--accent)]/15 text-[var(--accent)]" : "glass opacity-70 hover:opacity-100 text-[var(--text)]"}`,
+            children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx(Icon, { size: 22, strokeWidth: v === "chat" ? 2.5 : 2 }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-[10px] font-bold", children: label })
+            ]
+          },
+          v
+        )) })
+      ] })
+    ] }),
     contextMenu && /* @__PURE__ */ jsxRuntimeExports.jsxs(
       "div",
       {
@@ -22987,7 +23019,16 @@ function ChatView({ settings, sessions, setSessions }) {
       }
     ),
     /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex-1 flex flex-col min-h-0 min-w-0", children: [
-      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center gap-3 px-4 py-2.5 border-b border-[color:var(--border2,var(--border))] shrink-0", style: { backdropFilter: "blur(20px)", background: "var(--surface,var(--card))" }, children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center gap-3 px-4 py-2.5 border-b border-[color:var(--border2,var(--border))] shrink-0", style: { backdropFilter: "blur(20px)", background: "var(--surface,var(--card))", paddingTop: "max(10px, calc(env(safe-area-inset-top, 0px) + 10px))" }, children: [
+        setView && /* @__PURE__ */ jsxRuntimeExports.jsx(
+          "button",
+          {
+            onClick: () => setShowNavSheet(true),
+            className: "lg:hidden w-9 h-9 glass rounded-xl flex items-center justify-center opacity-60 hover:opacity-100 shrink-0 transition-all",
+            title: "Navigate",
+            children: /* @__PURE__ */ jsxRuntimeExports.jsx(LayoutGrid, { size: 17 })
+          }
+        ),
         /* @__PURE__ */ jsxRuntimeExports.jsx("button", { onClick: () => setSidebarOpen((o) => !o), className: "w-9 h-9 glass rounded-xl flex items-center justify-center opacity-60 hover:opacity-100 shrink-0 transition-all", title: "Toggle sidebar", children: /* @__PURE__ */ jsxRuntimeExports.jsx(History, { size: 17 }) }),
         /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex-1 min-w-0", children: [
           curSess && curSess.projectId && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center gap-1.5 mb-0.5", children: [
@@ -27985,7 +28026,19 @@ Provide a detailed analysis of this content.`;
               /* @__PURE__ */ jsxRuntimeExports.jsx(ViewWrapper, { active: view === "flashcards", children: /* @__PURE__ */ jsxRuntimeExports.jsx(FlashcardsView, { flashcards, setFlashcards, settings, addToast, docs, setExams, setCases }) }),
               /* @__PURE__ */ jsxRuntimeExports.jsx(ViewWrapper, { active: view === "exams", children: /* @__PURE__ */ jsxRuntimeExports.jsx(ExamsView, { exams, setExams, settings, addToast, docs, setFlashcards, setCases }) }),
               /* @__PURE__ */ jsxRuntimeExports.jsx(ViewWrapper, { active: view === "cases", children: /* @__PURE__ */ jsxRuntimeExports.jsx(CasesView, { cases, setCases, settings, addToast, docs, setFlashcards, setExams }) }),
-              /* @__PURE__ */ jsxRuntimeExports.jsx(ViewWrapper, { active: view === "chat", children: /* @__PURE__ */ jsxRuntimeExports.jsx(ChatView, { settings, sessions: chatSessions, setSessions: setChatSessions }) }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx(ViewWrapper, { active: view === "chat", children: /* @__PURE__ */ jsxRuntimeExports.jsx(
+                ChatView,
+                {
+                  settings,
+                  sessions: chatSessions,
+                  setSessions: setChatSessions,
+                  setView,
+                  docs,
+                  activeId,
+                  setActiveId,
+                  setOpenDocs
+                }
+              ) }),
               /* @__PURE__ */ jsxRuntimeExports.jsx(ViewWrapper, { active: view === "encyclopedia", children: /* @__PURE__ */ jsxRuntimeExports.jsx(MedicalEncyclopediaView, { settings }) }),
               /* @__PURE__ */ jsxRuntimeExports.jsx(ViewWrapper, { active: view === "settings", children: /* @__PURE__ */ jsxRuntimeExports.jsx(SettingsView, { settings, setSettings, installPrompt, onInstall }) }),
               /* @__PURE__ */ jsxRuntimeExports.jsx(ViewWrapper, { active: showReader, children: activeDoc && /* @__PURE__ */ jsxRuntimeExports.jsx(

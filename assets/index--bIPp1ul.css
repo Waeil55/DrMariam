@@ -1838,6 +1838,9 @@ video {
 .pb-4 {
   padding-bottom: 1rem;
 }
+.pb-\[env\(safe-area-inset-bottom\2c 12px\)\] {
+  padding-bottom: env(safe-area-inset-bottom,12px);
+}
 .pl-7 {
   padding-left: 1.75rem;
 }
