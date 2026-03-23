@@ -9,6 +9,11 @@
   --text-muted: #64748b;
   --danger: #ef4444;
   --warning: #f59e0b;
+  /* Nav pill variables — light default */
+  --design-nav-bg: linear-gradient(180deg, rgba(255, 255, 255, 0.96) 0%, rgba(240, 244, 255, 0.92) 100%);
+  --design-nav-border: rgba(120, 130, 255, 0.22);
+  --design-nav-active-bg: rgba(255, 255, 255, 0.6);
+  --design-nav-text: #64748b;
 }
 
 html.dark,
@@ -17,6 +22,14 @@ html.dark,
   --card-border: rgba(255, 255, 255, 0.1);
   --text-main: #f8fafc;
   --text-muted: #94a3b8;
+}
+
+/* Dark theme nav overrides — single group covers all dark themes */
+.dark, .oled, .midnight, .slate {
+  --design-nav-bg: linear-gradient(180deg, rgba(5, 8, 28, 0.96) 0%, rgba(8, 12, 36, 0.92) 100%);
+  --design-nav-border: rgba(80, 100, 255, 0.16);
+  --design-nav-active-bg: rgba(255, 255, 255, 0.1);
+  --design-nav-text: #94a3b8;
 }
 
 .app-view {
@@ -165,14 +178,10 @@ html.dark .design-header::before,
 }
 
 .design-nav-inner {
-  background: linear-gradient(
-    180deg,
-    rgba(255, 255, 255, 0.96) 0%,
-    rgba(240, 244, 255, 0.92) 100%
-  );
+  background: var(--design-nav-bg);
   backdrop-filter: saturate(180%) blur(40px);
   -webkit-backdrop-filter: saturate(180%) blur(40px);
-  border: 1.5px solid rgba(120, 130, 255, 0.22);
+  border: 1.5px solid var(--design-nav-border);
   border-radius: 24px;
   padding: 4px 6px;
   display: flex;
@@ -180,24 +189,10 @@ html.dark .design-header::before,
   box-shadow: 0 16px 40px rgba(0, 0, 0, 0.14), 0 2px 8px rgba(79, 70, 229, 0.10);
 }
 
-html.dark .design-nav-inner,
-.dark .design-nav-inner,
-.oled .design-nav-inner,
-.midnight .design-nav-inner,
-.slate .design-nav-inner {
-  background: linear-gradient(
-    180deg,
-    rgba(5, 8, 28, 0.96) 0%,
-    rgba(8, 12, 36, 0.92) 100%
-  );
-  border-color: rgba(80, 100, 255, 0.16);
-  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.4);
-}
-
 .design-nav-btn {
   background: transparent;
   border: none;
-  color: var(--text-muted);
+  color: var(--design-nav-text);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -212,16 +207,8 @@ html.dark .design-nav-inner,
 
 .design-nav-btn.active {
   color: var(--primary, var(--accent));
-  background: rgba(255, 255, 255, 0.6);
+  background: var(--design-nav-active-bg);
   transform: translateY(-2px);
-}
-
-html.dark .design-nav-btn.active,
-.dark .design-nav-btn.active,
-.oled .design-nav-btn.active,
-.midnight .design-nav-btn.active,
-.slate .design-nav-btn.active {
-  background: rgba(255, 255, 255, 0.1);
 }
 
 .design-nav-label {

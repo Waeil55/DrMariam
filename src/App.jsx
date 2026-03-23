@@ -227,6 +227,7 @@ const loadScript = async (src, globalName) => {
 const loadMammoth = () => loadScript(CONFIG.MAMMOTH_CDN, 'mammoth');
 const loadXLSX = () => loadScript(CONFIG.XLSX_CDN, 'XLSX');
 const loadJsPDF = () => loadScript(CONFIG.JSPDF_CDN, 'jspdf');
+const loadJSZip = () => loadScript(CONFIG.JSZIP_CDN, 'JSZip');
 
 
 /* ═══════════════════════════════════════════════════════════════════
@@ -258,6 +259,7 @@ const CONFIG = Object.freeze({
   MAMMOTH_CDN: 'https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js',
   XLSX_CDN: 'https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js',
   JSPDF_CDN: 'https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js',
+  JSZIP_CDN: 'https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js',
   RETRY_ATTEMPTS: 2,
   PARALLEL_CONCURRENCY: 50,
 });
@@ -537,25 +539,40 @@ const extractText = async (file) => {
   return { pagesText, totalPages, rawText: text, fileCategory: 'text' };
 };
 
-/** Extracts text from PowerPoint .pptx/.ppt/.odp files using SheetJS. */
+/** Extracts text from PowerPoint .pptx files by unzipping with JSZip and parsing slide XML. */
 const extractPresentation = async (file) => {
   const ab = await file.arrayBuffer();
-  let text = '';
+  const slides = [];
   try {
-    const XLSX = await loadXLSX();
-    const wb = XLSX.read(new Uint8Array(ab), { type: 'array' });
-    const parts = wb.SheetNames.map((name, i) => {
-      const ws = wb.Sheets[name];
-      const rows = XLSX.utils.sheet_to_json(ws, { header: 1, defval: '' });
-      const slideText = rows.map(r => Array.isArray(r) ? r.filter(Boolean).join(' ') : '').filter(Boolean).join('\n');
-      return `=== Slide ${i + 1}${name !== 'Sheet1' ? ': ' + name : ''} ===\n${slideText}`;
-    });
-    text = parts.join('\n\n');
-    if (!text.trim()) throw new Error('empty');
-  } catch {
-    text = `[Presentation: ${file.name}]\nSize: ${(file.size / 1024).toFixed(1)} KB\nType: ${file.type || 'PowerPoint'}\n\nFor best results, export your presentation as PDF or DOCX, then upload that version.`;
+    const JSZip = await loadJSZip();
+    const zip = await JSZip.loadAsync(ab);
+    const slideFiles = Object.keys(zip.files)
+      .filter(name => /^ppt\/slides\/slide\d+\.xml$/i.test(name))
+      .sort((a, b) => {
+        const numA = parseInt(a.match(/\d+/)?.[0] || '0', 10);
+        const numB = parseInt(b.match(/\d+/)?.[0] || '0', 10);
+        return numA - numB;
+      });
+    for (let i = 0; i < slideFiles.length; i++) {
+      const xmlStr = await zip.files[slideFiles[i]].async('string');
+      const texts = [];
+      const regex = /<a:t(?:\s[^>]*)?>([\s\S]*?)<\/a:t>/g;
+      let match;
+      while ((match = regex.exec(xmlStr)) !== null) {
+        const t = match[1]
+          .replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&amp;/g, '&')
+          .replace(/&quot;/g, '"').replace(/&#39;/g, "'").trim();
+        if (t) texts.push(t);
+      }
+      if (texts.length) slides.push(`=== Slide ${i + 1} ===\n${texts.join(' ')}`);
+    }
+  } catch (e) {
+    console.warn('PPTX extraction failed:', e.message);
   }
-  const { pagesText, totalPages } = chunkText(text || `[${file.name}]`);
+  const text = slides.length
+    ? slides.join('\n\n')
+    : `[Presentation: ${file.name}]\nSize: ${(file.size / 1024).toFixed(1)} KB\n\nUnable to extract slide content. For best results, export as PDF or DOCX.`;
+  const { pagesText, totalPages } = chunkText(text);
   return { pagesText, totalPages, rawText: text, fileCategory: 'presentation' };
 };
 
@@ -4401,6 +4418,42 @@ function CasesView({ cases, setCases, settings, addToast, docs, setFlashcards, s
               <p className="text-sm leading-[1.85]">{cas.vignette}</p>
             </div>
 
+            {/* Mobile: Lab Results (inline inside scrollable column) */}
+            {cas.labPanels?.length > 0 && (
+              <div className="lg:hidden glass rounded-2xl border border-[color:var(--border2,var(--border))] overflow-hidden">
+                <div className="flex items-center gap-2 px-4 py-3 border-b border-[color:var(--border2,var(--border))]">
+                  <Thermometer size={14} className="text-[var(--accent)] shrink-0" />
+                  <span className="text-xs font-black uppercase tracking-widest text-[var(--accent)]">Laboratory Results</span>
+                </div>
+                {cas.labPanels.map((panel, pi) => (
+                  <div key={pi} className="px-4 py-3 border-b border-[color:var(--border2,var(--border))]/50 last:border-0 overflow-x-auto">
+                    <p className="text-[9px] font-black uppercase tracking-widest opacity-40 mb-2">{panel.panelName}</p>
+                    <table className="w-full text-xs min-w-[280px]">
+                      <thead>
+                        <tr className="border-b border-[color:var(--border2,var(--border))]">
+                          {['TEST', 'RESULT', 'RANGE', 'UNITS'].map(h => (
+                            <th key={h} className="text-left py-1 px-2 text-[9px] font-black uppercase tracking-widest opacity-40">{h}</th>
+                          ))}
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {(panel.rows || []).map((row, ri) => (
+                          <tr key={ri} className="border-b border-[color:var(--border2,var(--border))]/20 last:border-0">
+                            <td className="py-1.5 px-2 font-bold">{row.test}</td>
+                            <td className="py-1.5 px-2 font-black" style={{ color: row.flag === 'H' ? '#ef4444' : row.flag === 'L' ? '#3b82f6' : undefined }}>
+                              {row.result}{row.flag && <span className="ml-0.5 text-[9px]">{row.flag}</span>}
+                            </td>
+                            <td className="py-1.5 px-2 opacity-40 font-mono">{row.range}</td>
+                            <td className="py-1.5 px-2 opacity-30 font-mono">{row.units}</td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                ))}
+              </div>
+            )}
+
             {/* Question stem */}
             <div className="glass rounded-2xl p-5 border border-[color:var(--border2,var(--border))]">
               <p className="text-sm font-black uppercase tracking-widest opacity-40 mb-3 flex items-center gap-2"><CheckSquare size={13} />Question</p>
@@ -4531,37 +4584,6 @@ function CasesView({ cases, setCases, settings, addToast, docs, setFlashcards, s
             <AiTutorPanel settings={settings} context={tutorCtx} onClose={null} width={tutorW} onDragStart={startTutorDrag} alwaysOpen={true} />
           </div>
 
-        </div>
-
-        {/* Mobile: lab results below (collapsed accordion) */}
-        <div className="lg:hidden border-t border-[color:var(--border2,var(--border))]">
-          {cas.labPanels?.length > 0 && (
-            <details className="group">
-              <summary className="flex items-center gap-2 px-4 py-3 cursor-pointer bg-[var(--surface,var(--card))] text-sm font-black select-none">
-                <Thermometer size={15} className="text-[var(--accent)]" />
-                <span className="text-[var(--accent)] uppercase tracking-widest text-xs">Lab Results</span>
-                <ChevronDown size={14} className="ml-auto opacity-40 group-open:rotate-180 transition-transform" />
-              </summary>
-              <div className="p-4 overflow-x-auto">
-                {cas.labPanels.map((panel, pi) => (
-                  <div key={pi} className="mb-4">
-                    <p className="text-xs font-black uppercase tracking-widest opacity-50 mb-2">{panel.panelName}</p>
-                    <table className="w-full text-xs">
-                      <thead><tr className="border-b border-[color:var(--border2,var(--border))]">{['TEST', 'RESULT', 'RANGE', 'UNITS'].map(h => <th key={h} className="text-left py-1 px-2 font-black uppercase opacity-40">{h}</th>)}</tr></thead>
-                      <tbody>{(panel.rows || []).map((row, ri) => (
-                        <tr key={ri} className="border-b border-[color:var(--border2,var(--border))]/20">
-                          <td className="py-1.5 px-2 font-bold">{row.test}</td>
-                          <td className="py-1.5 px-2 font-black" style={{ color: row.flag === 'H' ? '#ef4444' : row.flag === 'L' ? '#3b82f6' : undefined }}>{row.result}{row.flag && ` ${row.flag}`}</td>
-                          <td className="py-1.5 px-2 opacity-40 font-mono">{row.range}</td>
-                          <td className="py-1.5 px-2 opacity-35 font-mono">{row.units}</td>
-                        </tr>
-                      ))}</tbody>
-                    </table>
-                  </div>
-                ))}
-              </div>
-            </details>
-          )}
         </div>
 
         {/* MOBILE: AI Tutor modal triggered by inline Ask AI Tutor button */}
