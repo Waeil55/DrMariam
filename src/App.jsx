@@ -3084,7 +3084,7 @@ function GeneratePanel({ activeDoc, bgTask, onStart, onClear, setFlashcards, set
 
   /* ── CONFIG VIEW ── */
   return (
-    <div className="flex-1 min-h-0 overflow-y-auto custom-scrollbar p-4 pb-24 lg:pb-6 space-y-4 h-full">
+    <div className="flex-1 min-h-0 overflow-y-auto custom-scrollbar p-4 space-y-4 h-full">
       {/* Page range */}
       <div className="glass rounded-2xl p-4">
         <h3 className="text-sm font-black uppercase tracking-widest opacity-60 mb-4 flex items-center gap-2"><BookOpen size={16} /> Page Range</h3>
@@ -4716,7 +4716,7 @@ function CasesView({ cases, setCases, settings, addToast, docs, setFlashcards, s
 /* ═══════════════════════════════════════════════════════════════════
    CHAT VIEW — global AI chat with streaming + voice
 ═══════════════════════════════════════════════════════════════════ */
-function ChatView({ settings, sessions, setSessions, setView, docs, activeId, setActiveId, setOpenDocs }) {
+function ChatView({ settings, sessions, setSessions }) {
   const [selSess, setSelSess] = useState(null);
   const [msgs, setMsgs] = useState([]);
   const [input, setInput] = useState('');
@@ -4741,14 +4741,13 @@ function ChatView({ settings, sessions, setSessions, setView, docs, activeId, se
   const [encContent, setEncContent] = useState('');
   const [encLoading, setEncLoading] = useState(false);
   const [encCached, setEncCached] = useState(false);
-  const [encFollowUp, setEncFollowUp] = useState('');
   const [inputRows, setInputRows] = useState(1);
-  const [showNavSheet, setShowNavSheet] = useState(false);
   const [hasStarted, setHasStarted] = useState(false);
   const endRef = useRef(null);
   const recogRef = useRef(null);
   const inputRef = useRef(null);
   const scrollRef = useRef(null);
+  const encFollowUpRef = useRef(null);
 
   useEffect(() => {
     if (scrollRef.current) scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
@@ -4986,37 +4985,6 @@ function ChatView({ settings, sessions, setSessions, setView, docs, activeId, se
 
   return (
     <div className="flex h-full min-h-0 overflow-hidden" style={{ background: 'var(--bg)' }} onClick={() => contextMenu && setContextMenu(null)}>
-
-      {/* Mobile Nav Sheet */}
-      {showNavSheet && setView && (
-        <>
-          <div className="fixed inset-0 z-[9990] bg-black/50 lg:hidden" onClick={() => setShowNavSheet(false)} />
-          <div className="fixed bottom-0 left-0 right-0 z-[9999] lg:hidden rounded-t-3xl border-t border-[color:var(--border2,var(--border))] pb-[env(safe-area-inset-bottom,12px)]" style={{ background: 'var(--bg)', backdropFilter: 'blur(40px)' }}>
-            <div className="w-10 h-1 rounded-full bg-[var(--text)]/20 mx-auto mt-3 mb-4" />
-            <p className="text-[10px] font-black uppercase tracking-widest opacity-40 px-5 mb-3">Navigate to</p>
-            <div className="grid grid-cols-4 gap-2 px-4 pb-4">
-              {[
-                ['Library', FolderOpen, 'library'],
-                ['Reader', BookMarked, 'reader'],
-                ['Cards', Layers, 'flashcards'],
-                ['Cases', Activity, 'cases'],
-                ['Exams', CheckSquare, 'exams'],
-                ['Encyclo', Globe, 'encyclopedia'],
-                ['Chat', MessageSquare, 'chat'],
-                ['Settings', Settings, 'settings'],
-              ].map(([label, Icon, v]) => (
-                <button key={v} onClick={() => { setShowNavSheet(false); setView(v); }}
-                  className={`flex flex-col items-center gap-1.5 py-3 rounded-2xl transition-all ${
-                    v === 'chat' ? 'bg-[var(--accent)]/15 text-[var(--accent)]' : 'glass opacity-70 hover:opacity-100 text-[var(--text)]'
-                  }`}>
-                  <Icon size={22} strokeWidth={v === 'chat' ? 2.5 : 2} />
-                  <span className="text-[10px] font-bold">{label}</span>
-                </button>
-              ))}
-            </div>
-          </div>
-        </>
-      )}
 
       {/* Context Menu */}
       {contextMenu && (
@@ -5314,13 +5282,6 @@ function ChatView({ settings, sessions, setSessions, setView, docs, activeId, se
 
         {/* Top bar */}
         <div className="flex items-center gap-3 px-4 py-2.5 border-b border-[color:var(--border2,var(--border))] shrink-0" style={{ backdropFilter: 'blur(20px)', background: 'var(--surface,var(--card))' }}>
-          {/* Mobile-only: Navigate to other pages */}
-          {setView && (
-            <button onClick={() => setShowNavSheet(true)}
-              className="lg:hidden w-9 h-9 glass rounded-xl flex items-center justify-center opacity-60 hover:opacity-100 shrink-0 transition-all" title="Navigate">
-              <LayoutGrid size={17} />
-            </button>
-          )}
           <button onClick={() => setSidebarOpen(o => !o)} className="w-9 h-9 glass rounded-xl flex items-center justify-center opacity-60 hover:opacity-100 shrink-0 transition-all" title="Toggle sidebar">
             <History size={17} />
           </button>
@@ -5398,18 +5359,17 @@ function ChatView({ settings, sessions, setSessions, setView, docs, activeId, se
                 <div className="shrink-0 px-4 pb-4 pt-2 border-t border-[color:var(--border2,var(--border))]">
                   <div className="glass rounded-2xl border border-[color:var(--border2,var(--border))] focus-within:border-[var(--accent)]/50 transition-colors">
                     <textarea
-                      value={encFollowUp}
-                      onChange={e => setEncFollowUp(e.target.value)}
+                      ref={encFollowUpRef}
                       placeholder={'Ask a follow-up about ' + encSub.label + '…'}
-                      enterKeyHint="send"
                       rows={2}
+                      enterKeyHint="send"
                       className="w-full bg-transparent px-4 pt-3 pb-1.5 text-sm outline-none resize-none text-[var(--text)]"
                       onKeyDown={e => {
                         if ((e.key === 'Enter' || e.keyCode === 13) && !e.shiftKey) {
                           e.preventDefault(); e.stopPropagation();
-                          const q = encFollowUp.trim();
+                          const q = e.target.value.trim();
                           if (!q) return;
-                          setEncFollowUp('');
+                          e.target.value = '';
                           setSidebarTab('chats');
                           setTimeout(() => send('[ENCYCLO: ' + encSub.label + '] ' + q), 50);
                         }
@@ -5419,14 +5379,15 @@ function ChatView({ settings, sessions, setSessions, setView, docs, activeId, se
                       <p className="text-[10px] opacity-30 font-medium">Shift+Enter for new line</p>
                       <button
                         onClick={() => {
-                          const q = encFollowUp.trim();
+                          const el = encFollowUpRef.current;
+                          if (!el) return;
+                          const q = el.value.trim();
                           if (!q) return;
-                          setEncFollowUp('');
+                          el.value = '';
                           setSidebarTab('chats');
                           setTimeout(() => send('[ENCYCLO: ' + encSub.label + '] ' + q), 50);
                         }}
-                        disabled={!encFollowUp.trim()}
-                        className="w-8 h-8 bg-[var(--accent)] disabled:opacity-30 rounded-xl text-white flex items-center justify-center transition-opacity">
+                        className="w-8 h-8 bg-[var(--accent)] rounded-xl text-white flex items-center justify-center hover:opacity-90 active:scale-95 transition-all">
                         <Send size={14} />
                       </button>
                     </div>
@@ -5537,7 +5498,7 @@ function ChatView({ settings, sessions, setSessions, setView, docs, activeId, se
           )}
         </div>
 
-        {/* Input — hidden when encyclopedia content is shown */}
+        {/* Input — hidden when encyclopedia is active (has its own inline input) */}
         <div className={`shrink-0 px-4 pb-4 pt-3 border-t border-[color:var(--border2,var(--border))] ${sidebarTab === 'encyclo' ? 'hidden' : ''}`} style={{ backdropFilter: 'blur(20px)', background: 'var(--surface,var(--card))' }}>
           <div className="max-w-3xl mx-auto">
             {selProject && (() => { const p = projects.find(x => x.id === selProject); return p ? (
@@ -9577,7 +9538,6 @@ function App() {
   ];
 
   return (
-    <>
     <div className={`w-screen flex flex-col overflow-hidden text-[var(--text)] bg-mesh ${settings.theme || 'pure-white'} accent-${settings.accentColor || 'indigo'}`}
       style={{
         height: '100dvh',
@@ -9788,8 +9748,7 @@ function App() {
             <CasesView cases={cases} setCases={setCases} settings={settings} addToast={addToast} docs={docs} setFlashcards={setFlashcards} setExams={setExams} />
           </ViewWrapper>
           <ViewWrapper active={view === 'chat'}>
-            <ChatView settings={settings} sessions={chatSessions} setSessions={setChatSessions}
-              setView={setView} docs={docs} activeId={activeId} setActiveId={setActiveId} setOpenDocs={setOpenDocs} />
+            <ChatView settings={settings} sessions={chatSessions} setSessions={setChatSessions} />
           </ViewWrapper>
           <ViewWrapper active={view === 'encyclopedia'}>
             <MedicalEncyclopediaView settings={settings} />
@@ -9854,24 +9813,22 @@ function App() {
         )}
       </div>
 
+      {/* BOTTOM NAV — gooddesign pill nav, all viewports */}
+      <nav className={`design-nav ${isMobile && isKeyboardOpen ? 'keyboard-open-hidden' : ''}`}>
+        <div className="design-nav-inner">
+          {NAV_ITEMS.map(({ icon: Icon, label, v, dis }) => (
+            <button key={v} disabled={dis}
+              onClick={() => { if (dis) return; if (v === 'reader') { if (activeId) setView('reader'); else if (docs && docs.length > 0) { const topDoc = docs[0]; setActiveId(topDoc.id); setOpenDocs(p => p.includes(topDoc.id) ? p : [...p, topDoc.id]); setView('reader'); } else setView('library'); } else setView(v); }}
+              className={`design-nav-btn ${view === v ? 'active' : ''}`}
+              title={label}>
+              <Icon size={22} strokeWidth={view === v ? 2.5 : 2} />
+              <span className="design-nav-label">{label}</span>
+            </button>
+          ))}
+        </div>
+      </nav>
 
     </div>
-
-    {/* BOTTOM NAV — outside overflow:hidden root so iOS PWA fixed positioning works correctly */}
-    <nav className={`design-nav ${isMobile && isKeyboardOpen ? 'keyboard-open-hidden' : ''}`}>
-      <div className="design-nav-inner">
-        {NAV_ITEMS.map(({ icon: Icon, label, v, dis }) => (
-          <button key={v} disabled={dis}
-            onClick={() => { if (dis) return; if (v === 'reader') { if (activeId) setView('reader'); else if (docs && docs.length > 0) { const topDoc = docs[0]; setActiveId(topDoc.id); setOpenDocs(p => p.includes(topDoc.id) ? p : [...p, topDoc.id]); setView('reader'); } else setView('library'); } else setView(v); }}
-            className={`design-nav-btn ${view === v ? 'active' : ''}`}
-            title={label}>
-            <Icon size={22} strokeWidth={view === v ? 2.5 : 2} />
-            <span className="design-nav-label">{label}</span>
-          </button>
-        ))}
-      </div>
-    </nav>
-    </>
   );
 }
 
