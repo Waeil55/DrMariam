@@ -22253,6 +22253,7 @@ function ChatView({ settings, sessions, setSessions }) {
   const [encSub, setEncSub] = reactExports.useState(null);
   const [encContent, setEncContent] = reactExports.useState("");
   const [encLoading, setEncLoading] = reactExports.useState(false);
+  const [encCached, setEncCached] = reactExports.useState(false);
   const [inputRows, setInputRows] = reactExports.useState(1);
   const [hasStarted, setHasStarted] = reactExports.useState(false);
   const endRef = reactExports.useRef(null);
@@ -22340,12 +22341,33 @@ function ChatView({ settings, sessions, setSessions }) {
     setNewTopicName("");
     setShowNewTopic(false);
   };
-  const openEncycloTopic = (cat, sub) => {
+  const openEncycloTopic = (cat, sub, forceRefresh = false) => {
     setEncCat(cat);
     setEncSub(sub);
+    if (window.innerWidth < 1024) setSidebarOpen(false);
+    const cacheKey = "enc:" + cat.id + ":" + sub.id;
+    if (!forceRefresh) {
+      getTopicCache(cacheKey).then((cached) => {
+        if (cached && cached.data) {
+          setEncContent(cached.data);
+          setEncCached(true);
+          setEncLoading(false);
+          return;
+        }
+        setEncCached(false);
+        generateEncycloContent(cat, sub, cacheKey);
+      }).catch(() => {
+        setEncCached(false);
+        generateEncycloContent(cat, sub, cacheKey);
+      });
+    } else {
+      generateEncycloContent(cat, sub, cacheKey);
+    }
+  };
+  const generateEncycloContent = (cat, sub, cacheKey) => {
+    setEncCached(false);
     setEncContent("");
     setEncLoading(true);
-    if (window.innerWidth < 1024) setSidebarOpen(false);
     const prompt = [
       "You are MARIAM, a world-class medical educator. Generate a COMPREHENSIVE, beautifully structured reference entry.",
       "",
@@ -22377,7 +22399,14 @@ function ChatView({ settings, sessions, setSessions }) {
       "",
       "Be exhaustive, clinically accurate, and NAPLEX/USMLE/NCLEX board-exam ready. Generate the complete reference now:"
     ].join("\n");
-    callAIStreaming(prompt, (chunk) => setEncContent(chunk), settings, 1e4).catch((e) => setEncContent("⚠️ Error loading content: " + e.message)).finally(() => setEncLoading(false));
+    let fullContent = "";
+    callAIStreaming(prompt, (chunk) => {
+      fullContent = chunk;
+      setEncContent(chunk);
+    }, settings, 1e4).then(() => {
+      if (fullContent) saveTopicCache(cacheKey, fullContent).catch(() => {
+      });
+    }).catch((e) => setEncContent("⚠️ Error loading content: " + e.message)).finally(() => setEncLoading(false));
   };
   const openTopic = (topic) => {
     setHasStarted(true);
@@ -22588,9 +22617,9 @@ function ChatView({ settings, sessions, setSessions }) {
             "button",
             {
               onClick: () => setSidebarTab(id),
-              className: "flex items-center justify-center gap-1.5 py-2.5 text-[10px] font-extrabold uppercase tracking-wide transition-all border-b-2 " + (i % 2 === 0 ? "border-r border-r-[color:var(--border2,var(--border))] " : "") + (sidebarTab === id ? "border-b-[var(--accent)] text-[var(--accent)] bg-[var(--accent)]/5" : "border-b-transparent opacity-45 hover:opacity-75 hover:bg-black/3 dark:hover:bg-white/3"),
+              className: "flex items-center justify-center gap-1 py-2 text-[9px] font-bold uppercase tracking-wide transition-all border-b-2 " + (i % 2 === 0 ? "border-r border-r-[color:var(--border2,var(--border))] " : "") + (sidebarTab === id ? "border-b-[var(--accent)] text-[var(--accent)] bg-[var(--accent)]/5" : "border-b-transparent opacity-40 hover:opacity-70 hover:bg-black/3 dark:hover:bg-white/3"),
               children: [
-                /* @__PURE__ */ jsxRuntimeExports.jsx(Icon, { size: 12 }),
+                /* @__PURE__ */ jsxRuntimeExports.jsx(Icon, { size: 10 }),
                 /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: lbl })
               ]
             },
@@ -22852,15 +22881,21 @@ function ChatView({ settings, sessions, setSessions }) {
                   /* @__PURE__ */ jsxRuntimeExports.jsx("h2", { className: "text-lg font-black leading-tight", children: encSub.label }),
                   /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-xs opacity-45 mt-0.5", children: encSub.desc })
                 ] }),
-                /* @__PURE__ */ jsxRuntimeExports.jsx(
-                  "button",
-                  {
-                    onClick: () => openEncycloTopic(encCat, encSub),
-                    className: "shrink-0 p-2 rounded-xl hover:bg-black/8 dark:hover:bg-white/8 opacity-50 hover:opacity-100 transition-colors",
-                    title: "Regenerate",
-                    children: /* @__PURE__ */ jsxRuntimeExports.jsx(RotateCcw, { size: 14 })
-                  }
-                )
+                /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center gap-1", children: [
+                  encCached && !encLoading && /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { className: "text-[9px] font-black uppercase tracking-widest opacity-40 flex items-center gap-1", children: [
+                    /* @__PURE__ */ jsxRuntimeExports.jsx(Database, { size: 9 }),
+                    "Cached"
+                  ] }),
+                  /* @__PURE__ */ jsxRuntimeExports.jsx(
+                    "button",
+                    {
+                      onClick: () => openEncycloTopic(encCat, encSub, true),
+                      className: "shrink-0 p-2 rounded-xl hover:bg-black/8 dark:hover:bg-white/8 opacity-50 hover:opacity-100 transition-colors",
+                      title: encCached ? "Refresh (regenerate — uses AI)" : "Regenerate",
+                      children: /* @__PURE__ */ jsxRuntimeExports.jsx(RotateCcw, { size: 14 })
+                    }
+                  )
+                ] })
               ] })
             }
           ),
@@ -23024,7 +23059,7 @@ function ChatView({ settings, sessions, setSessions }) {
         ] }),
         /* @__PURE__ */ jsxRuntimeExports.jsx("div", { ref: endRef })
       ] }) }),
-      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "shrink-0 px-4 pb-4 pt-3 border-t border-[color:var(--border2,var(--border))]", style: { backdropFilter: "blur(20px)", background: "var(--surface,var(--card))" }, children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "max-w-3xl mx-auto", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: `shrink-0 px-4 pb-4 pt-3 border-t border-[color:var(--border2,var(--border))] ${sidebarTab === "encyclo" ? "hidden" : ""}`, style: { backdropFilter: "blur(20px)", background: "var(--surface,var(--card))" }, children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "max-w-3xl mx-auto", children: [
         selProject && (() => {
           const p = projects.find((x) => x.id === selProject);
           return p ? /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center gap-2 mb-2 px-1", children: [
