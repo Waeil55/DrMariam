@@ -5312,8 +5312,8 @@ function ChatView({ settings, sessions, setSessions, setView, docs, activeId, se
       {/* ── MAIN AREA ──────────────────────────────────────────────── */}
       <div className="flex-1 flex flex-col min-h-0 min-w-0">
 
-        {/* Safe-area strip — fills iPhone notch/status-bar height + extra breathing room */}
-        <div className="lg:hidden shrink-0" style={{ height: 'calc(env(safe-area-inset-top, 0px) + 12px)', background: 'var(--surface,var(--card))' }} />
+        {/* Safe-area strip — fills iPhone notch/status-bar height (chat hides the global header) */}
+        <div className="lg:hidden shrink-0" style={{ height: 'env(safe-area-inset-top, 0px)', background: 'var(--surface,var(--card))' }} />
 
         {/* Top bar */}
         <div className="flex items-center gap-3 px-4 py-2.5 border-b border-[color:var(--border2,var(--border))] shrink-0" style={{ backdropFilter: 'blur(20px)', background: 'var(--surface,var(--card))' }}>
