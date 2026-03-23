@@ -4741,6 +4741,7 @@ function ChatView({ settings, sessions, setSessions }) {
   const [encContent, setEncContent] = useState('');
   const [encLoading, setEncLoading] = useState(false);
   const [encCached, setEncCached] = useState(false);
+  const [encFollowUp, setEncFollowUp] = useState('');
   const [inputRows, setInputRows] = useState(1);
   const [hasStarted, setHasStarted] = useState(false);
   const endRef = useRef(null);
@@ -5358,21 +5359,38 @@ function ChatView({ settings, sessions, setSessions }) {
                 <div className="shrink-0 px-4 pb-4 pt-2 border-t border-[color:var(--border2,var(--border))]">
                   <div className="glass rounded-2xl border border-[color:var(--border2,var(--border))] focus-within:border-[var(--accent)]/50 transition-colors">
                     <textarea
+                      value={encFollowUp}
+                      onChange={e => setEncFollowUp(e.target.value)}
                       placeholder={'Ask a follow-up about ' + encSub.label + '…'}
+                      enterKeyHint="send"
                       rows={2}
                       className="w-full bg-transparent px-4 pt-3 pb-1.5 text-sm outline-none resize-none text-[var(--text)]"
                       onKeyDown={e => {
-                        if (e.key === 'Enter' && !e.shiftKey) {
-                          e.preventDefault();
-                          const q = e.target.value.trim();
+                        if ((e.key === 'Enter' || e.keyCode === 13) && !e.shiftKey) {
+                          e.preventDefault(); e.stopPropagation();
+                          const q = encFollowUp.trim();
                           if (!q) return;
-                          e.target.value = '';
+                          setEncFollowUp('');
                           setSidebarTab('chats');
                           setTimeout(() => send('[ENCYCLO: ' + encSub.label + '] ' + q), 50);
                         }
                       }}
                     />
-                    <p className="text-[10px] opacity-30 px-4 pb-2.5 font-medium">Enter to ask in Chat &nbsp;·&nbsp; Shift+Enter for new line</p>
+                    <div className="flex items-center justify-between px-3 pb-3">
+                      <p className="text-[10px] opacity-30 font-medium">Shift+Enter for new line</p>
+                      <button
+                        onClick={() => {
+                          const q = encFollowUp.trim();
+                          if (!q) return;
+                          setEncFollowUp('');
+                          setSidebarTab('chats');
+                          setTimeout(() => send('[ENCYCLO: ' + encSub.label + '] ' + q), 50);
+                        }}
+                        disabled={!encFollowUp.trim()}
+                        className="w-8 h-8 bg-[var(--accent)] disabled:opacity-30 rounded-xl text-white flex items-center justify-center transition-opacity">
+                        <Send size={14} />
+                      </button>
+                    </div>
                   </div>
                 </div>
               )}
@@ -5480,8 +5498,8 @@ function ChatView({ settings, sessions, setSessions }) {
           )}
         </div>
 
-        {/* Input — always visible, context-aware placeholder */}
-        <div className="shrink-0 px-4 pb-4 pt-3 border-t border-[color:var(--border2,var(--border))]" style={{ backdropFilter: 'blur(20px)', background: 'var(--surface,var(--card))' }}>
+        {/* Input — hidden when encyclopedia content is shown */}
+        <div className={`shrink-0 px-4 pb-4 pt-3 border-t border-[color:var(--border2,var(--border))] ${sidebarTab === 'encyclo' ? 'hidden' : ''}`} style={{ backdropFilter: 'blur(20px)', background: 'var(--surface,var(--card))' }}>
           <div className="max-w-3xl mx-auto">
             {selProject && (() => { const p = projects.find(x => x.id === selProject); return p ? (
               <div className="flex items-center gap-2 mb-2 px-1">
@@ -5494,7 +5512,7 @@ function ChatView({ settings, sessions, setSessions }) {
               <textarea ref={inputRef} value={input}
                 onChange={e => { setInput(e.target.value); setInputRows(Math.min(8, e.target.value.split("\n").length + 1)); }}
                 onKeyDown={e => { if ((e.key === 'Enter' || e.keyCode === 13) && !e.shiftKey) { e.preventDefault(); e.stopPropagation(); send(); } }}
-                placeholder={encSub ? `Ask about ${encSub.label}…` : 'Message MARIAM… (Shift+Enter for new line)'}
+                placeholder="Message MARIAM… (Shift+Enter for new line)"
                 enterKeyHint="send" disabled={loading} rows={inputRows}
                 className="w-full bg-transparent px-4 pt-3.5 pb-2 text-sm outline-none resize-none custom-scrollbar text-[var(--text)]" style={{ minHeight: 52 }} />
               <div className="flex items-center justify-between px-3 pb-3">
@@ -9110,7 +9128,7 @@ function App() {
         setDocs(p => [...p, ...newDocs]);
         setOpenDocs(p => [...new Set([...p, ...newIds])]);
         setDocPages(p => ({ ...p, ...newPg }));
-        if (lastId) setTimeout(() => { setActiveId(lastId); setView('reader'); setRpOpen(true); }, 60);
+        if (lastId) setTimeout(() => { setActiveId(lastId); setView('reader'); }, 60);
       }
     } catch (e) { addToast(`Upload failed: ${e.message}`, 'error'); }
     finally { setUploading(false); setUploadPct(0); }
@@ -9705,7 +9723,7 @@ function App() {
       </header>
 
       {/* BODY — no sidebar, bottom nav for all */}
-      <div className="design-body flex flex-1 min-h-0 overflow-hidden">
+      <div className="design-body flex flex-1 min-h-0 overflow-hidden relative">
         {/* MAIN CONTENT — gooddesign: padding-bottom for bottom nav */}
         <main className="design-main flex-1 flex flex-col min-h-0 overflow-hidden overflow-y-auto relative" style={{ paddingBottom: isMobile ? (isKeyboardOpen ? 8 : 120) : 24 }}>
           {uploading && (
