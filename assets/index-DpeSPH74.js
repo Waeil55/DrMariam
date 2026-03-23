@@ -27784,6 +27784,7 @@ Provide a detailed analysis of this content.`;
     { icon: Settings, label: "Settings", v: "settings" }
   ];
   return /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
+    /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: `fixed inset-0 -z-10 bg-mesh ${settings.theme || "pure-white"} accent-${settings.accentColor || "indigo"}`, style: { background: "var(--bg)" } }),
     /* @__PURE__ */ jsxRuntimeExports.jsxs(
       "div",
       {
