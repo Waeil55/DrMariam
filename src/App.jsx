@@ -3287,8 +3287,8 @@ function ChatPanel({ activeDoc, settings, currentPage }) {
         style={{ padding: '12px 12px calc(12px + env(safe-area-inset-bottom)) 12px' }}>
         <div className="flex gap-2 items-end glass rounded-2xl p-2 border border-[color:var(--border2,var(--border))] focus-within:border-[var(--accent)]/50">
           <textarea value={input} onChange={e => setInput(e.target.value)}
-            onKeyDown={e => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); send(); } }}
-            placeholder="Ask about this document…" disabled={loading} rows={1}
+            onKeyDown={e => { if ((e.key === 'Enter' || e.keyCode === 13) && !e.shiftKey) { e.preventDefault(); e.stopPropagation(); send(); } }}
+            placeholder="Ask about this document…" disabled={loading} rows={1} enterKeyHint="send"
             className="flex-1 bg-[var(--bg)] border border-[color:var(--border2,var(--border))] rounded-xl px-3 py-2 text-xs outline-none resize-none focus:border-[var(--accent)] text-[var(--text)] min-h-[36px] max-h-24" />
           <button onClick={toggleVoice}
             className={`w-9 h-9 rounded-xl flex items-center justify-center shrink-0 ${listening ? 'bg-red-500 text-white animate-pulse' : 'glass text-[var(--accent)]'}`}>
@@ -3516,7 +3516,7 @@ TUTOR:`;
     <div className="flex flex-col h-full min-h-0 bg-[var(--surface,var(--card))] border-l border-[color:var(--border2,var(--border))]" style={{ width: width || 360 }}>
       {/* Header - draggable */}
       <div className="bg-gradient-to-r from-[var(--accent)] to-[var(--accent2,var(--accent))] text-white flex items-center justify-between px-4 py-3 shrink-0 cursor-grab select-none"
-        onMouseDown={onDragStart} onTouchStart={onDragStart}>
+        onMouseDown={onDragStart} onTouchStart={onDragStart} style={{ touchAction: 'none' }}>
         <div>
           <span className="font-black flex items-center gap-2 text-base"><GraduationCap size={20} /> AI Tutor</span>
           <p className="text-xs opacity-70 mt-0.5">Ask about anything you're studying</p>
@@ -3561,8 +3561,8 @@ TUTOR:`;
       <div className="shrink-0 p-3 border-t border-[color:var(--border2,var(--border))] bg-[var(--surface,var(--card))]">
         <div className="flex gap-2 items-end glass rounded-2xl p-2 border border-[color:var(--border2,var(--border))] focus-within:border-[var(--accent)]/50">
           <textarea value={input} onChange={e => setInput(e.target.value)}
-            onKeyDown={e => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); send(); } }}
-            placeholder="Ask your tutor anything…" disabled={loading} rows={1}
+            onKeyDown={e => { if ((e.key === 'Enter' || e.keyCode === 13) && !e.shiftKey) { e.preventDefault(); e.stopPropagation(); send(); } }}
+            placeholder="Ask your tutor anything…" disabled={loading} rows={1} enterKeyHint="send"
             className="flex-1 bg-transparent p-1.5 text-sm outline-none resize-none max-h-32 custom-scrollbar text-[var(--text)] min-h-[36px]" />
           <button onClick={() => send()} disabled={loading || !input.trim()}
             className="w-9 h-9 bg-[var(--accent)] disabled:opacity-40 rounded-xl text-white flex items-center justify-center shrink-0 shadow-lg">
@@ -3794,7 +3794,7 @@ function FlashcardsView({ flashcards, setFlashcards, settings, addToast, docs, s
           </div>
           {/* Drag handle */}
           <div onMouseDown={startFcTutorDrag} onTouchStart={startFcTutorDrag}
-            className="hidden lg:flex w-1.5 cursor-col-resize items-center justify-center bg-[var(--border)]/30 hover:bg-[var(--accent)]/40 shrink-0 touch-none transition-colors group">
+            className="hidden lg:flex w-3 cursor-col-resize items-center justify-center bg-[var(--border)]/30 hover:bg-[var(--accent)]/40 shrink-0 touch-none transition-colors group" style={{ touchAction: 'none' }}>
             <GripVertical size={14} className="opacity-20 group-hover:opacity-70 text-[var(--text)]" />
           </div>
           {/* RIGHT: AI Tutor always open */}
@@ -4131,7 +4131,7 @@ function ExamsView({ exams, setExams, settings, addToast, docs, setFlashcards, s
           </div>
           {/* Drag handle */}
           <div onMouseDown={startExamTutorDrag} onTouchStart={startExamTutorDrag}
-            className="hidden lg:flex w-1.5 cursor-col-resize items-center justify-center bg-[var(--border)]/30 hover:bg-[var(--accent)]/40 shrink-0 touch-none transition-colors group">
+            className="hidden lg:flex w-3 cursor-col-resize items-center justify-center bg-[var(--border)]/30 hover:bg-[var(--accent)]/40 shrink-0 touch-none transition-colors group" style={{ touchAction: 'none' }}>
             <GripVertical size={14} className="opacity-20 group-hover:opacity-70 text-[var(--text)]" />
           </div>
           {/* RIGHT: AI Tutor always open */}
@@ -4518,7 +4518,7 @@ function CasesView({ cases, setCases, settings, addToast, docs, setFlashcards, s
 
           {/* ═══ DRAG HANDLE: left ↔ lab ═══ */}
           <div onMouseDown={startLabDrag} onTouchStart={startLabDrag}
-            className="hidden lg:flex w-1.5 cursor-col-resize items-center justify-center bg-[var(--border)]/30 hover:bg-[var(--accent)]/40 shrink-0 z-10 touch-none transition-colors group">
+            className="hidden lg:flex w-3 cursor-col-resize items-center justify-center bg-[var(--border)]/30 hover:bg-[var(--accent)]/40 shrink-0 z-10 touch-none transition-colors group" style={{ touchAction: 'none' }}>
             <GripVertical size={14} className="opacity-20 group-hover:opacity-70 text-[var(--text)]" />
           </div>
 
@@ -4527,7 +4527,7 @@ function CasesView({ cases, setCases, settings, addToast, docs, setFlashcards, s
             style={{ width: labW }}>
             {/* Lab header */}
             <div className="flex items-center gap-2 px-4 py-3 border-b border-[color:var(--border2,var(--border))] shrink-0 cursor-grab select-none"
-              onMouseDown={startLabDrag} onTouchStart={startLabDrag}>
+              onMouseDown={startLabDrag} onTouchStart={startLabDrag} style={{ touchAction: 'none' }}>
               <Thermometer size={15} className="text-[var(--accent)] shrink-0" />
               <span className="text-sm font-black uppercase tracking-widest text-[var(--accent)]">Laboratory Results</span>
               <GripVertical size={13} className="ml-auto opacity-20" />
@@ -4574,7 +4574,7 @@ function CasesView({ cases, setCases, settings, addToast, docs, setFlashcards, s
 
           {/* ═══ DRAG HANDLE: lab ↔ tutor ═══ */}
           <div onMouseDown={startTutorDrag} onTouchStart={startTutorDrag}
-            className="hidden lg:flex w-1.5 cursor-col-resize items-center justify-center bg-[var(--border)]/30 hover:bg-[var(--accent)]/40 shrink-0 z-10 touch-none transition-colors group">
+            className="hidden lg:flex w-3 cursor-col-resize items-center justify-center bg-[var(--border)]/30 hover:bg-[var(--accent)]/40 shrink-0 z-10 touch-none transition-colors group" style={{ touchAction: 'none' }}>
             <GripVertical size={14} className="opacity-20 group-hover:opacity-70 text-[var(--text)]" />
           </div>
 
@@ -5480,8 +5480,8 @@ function ChatView({ settings, sessions, setSessions }) {
           )}
         </div>
 
-        {/* Input — hidden when encyclopedia content is shown */}
-        <div className={`shrink-0 px-4 pb-4 pt-3 border-t border-[color:var(--border2,var(--border))] ${sidebarTab === 'encyclo' ? 'hidden' : ''}`} style={{ backdropFilter: 'blur(20px)', background: 'var(--surface,var(--card))' }}>
+        {/* Input — always visible, context-aware placeholder */}
+        <div className="shrink-0 px-4 pb-4 pt-3 border-t border-[color:var(--border2,var(--border))]" style={{ backdropFilter: 'blur(20px)', background: 'var(--surface,var(--card))' }}>
           <div className="max-w-3xl mx-auto">
             {selProject && (() => { const p = projects.find(x => x.id === selProject); return p ? (
               <div className="flex items-center gap-2 mb-2 px-1">
@@ -5493,8 +5493,9 @@ function ChatView({ settings, sessions, setSessions }) {
             <div className="glass rounded-2xl border border-[color:var(--border2,var(--border))] focus-within:border-[var(--accent)]/50 transition-colors shadow-lg">
               <textarea ref={inputRef} value={input}
                 onChange={e => { setInput(e.target.value); setInputRows(Math.min(8, e.target.value.split("\n").length + 1)); }}
-                onKeyDown={e => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); send(); } }}
-                placeholder="Message MARIAM… (Shift+Enter for new line)" disabled={loading} rows={inputRows}
+                onKeyDown={e => { if ((e.key === 'Enter' || e.keyCode === 13) && !e.shiftKey) { e.preventDefault(); e.stopPropagation(); send(); } }}
+                placeholder={encSub ? `Ask about ${encSub.label}…` : 'Message MARIAM… (Shift+Enter for new line)'}
+                enterKeyHint="send" disabled={loading} rows={inputRows}
                 className="w-full bg-transparent px-4 pt-3.5 pb-2 text-sm outline-none resize-none custom-scrollbar text-[var(--text)]" style={{ minHeight: 52 }} />
               <div className="flex items-center justify-between px-3 pb-3">
                 <div className="flex items-center gap-1">
@@ -9751,7 +9752,7 @@ function App() {
         {showReader && rpOpen && (
           <>
             <div onMouseDown={startRpDrag} onTouchStart={startRpDrag}
-              className="hidden lg:flex w-2 cursor-col-resize items-center justify-center bg-[var(--border)]/30 hover:bg-[var(--accent)]/30 shrink-0 z-[120] touch-none transition-colors group">
+              className="hidden lg:flex w-3 cursor-col-resize items-center justify-center bg-[var(--border)]/30 hover:bg-[var(--accent)]/30 shrink-0 z-[120] touch-none transition-colors group" style={{ touchAction: 'none' }}>
               <GripVertical size={16} className="text-[var(--text)] opacity-20 group-hover:opacity-60" />
             </div>
             <aside style={{ width: window.innerWidth >= 1024 ? `${rpW}px` : '100%' }}
