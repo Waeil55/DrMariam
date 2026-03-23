@@ -367,9 +367,10 @@ html.dark .design-header::before,
 @media (max-width: 1023px) {
   .chat-header-hide { display: none !important; }
 
-  /* Push the entire chat layout up so input sits above the fixed navbar */
+  /* Clip the chat view so it ends exactly above the navbar — nothing paints behind it */
   .chat-view-root {
-    padding-bottom: calc(80px + env(safe-area-inset-bottom)) !important;
+    height: calc(100% - 72px - env(safe-area-inset-bottom)) !important;
+    padding-bottom: 0 !important;
   }
 
   /* Chat input bar: same height as the bottom navbar (~72px total) */
