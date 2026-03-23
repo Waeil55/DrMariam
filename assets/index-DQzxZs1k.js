@@ -18045,7 +18045,8 @@ const getFileCategory = (file) => {
   if (t.includes("spreadsheetml") || t.includes("ms-excel") || n.endsWith(".xlsx") || n.endsWith(".xls")) return "spreadsheet";
   if (n.endsWith(".csv") || t === "text/csv") return "csv";
   if (t.startsWith("image/")) return "image";
-  const textExts = [".txt", ".md", ".markdown", ".js", ".ts", ".jsx", ".tsx", ".py", ".java", ".c", ".cpp", ".go", ".rs", ".rb", ".php", ".html", ".css", ".json", ".yaml", ".yml", ".xml", ".sh", ".bash", ".zsh", ".sql", ".r", ".swift", ".kt", ".dart", ".vue", ".svelte", ".toml", ".ini", ".env", ".log"];
+  if (t.includes("presentationml") || t.includes("ms-powerpoint") || n.endsWith(".pptx") || n.endsWith(".ppt") || n.endsWith(".odp")) return "presentation";
+  const textExts = [".txt", ".md", ".markdown", ".js", ".ts", ".jsx", ".tsx", ".py", ".java", ".c", ".cpp", ".go", ".rs", ".rb", ".php", ".html", ".css", ".json", ".yaml", ".yml", ".xml", ".sh", ".bash", ".zsh", ".sql", ".r", ".swift", ".kt", ".dart", ".vue", ".svelte", ".toml", ".ini", ".env", ".log", ".epub", ".odt", ".rtf"];
   if (t.startsWith("text/") || textExts.some((e) => n.endsWith(e))) return "text";
   return "unknown";
 };
@@ -18056,6 +18057,7 @@ const FILE_ICONS = {
   csv: { Icon: Table, from: "from-teal-500", to: "to-emerald-700", label: "CSV" },
   image: { Icon: Image, from: "from-purple-500", to: "to-violet-700", label: "Image" },
   text: { Icon: FileCode, from: "from-amber-500", to: "to-orange-600", label: "Text" },
+  presentation: { Icon: FileText, from: "from-orange-500", to: "to-amber-600", label: "Slides" },
   unknown: { Icon: FileUp, from: "from-slate-500", to: "to-slate-700", label: "File" }
 };
 const chunkText = (text) => {
@@ -18160,6 +18162,47 @@ const extractText = async (file) => {
   const { pagesText, totalPages } = chunkText(text);
   return { pagesText, totalPages, rawText: text, fileCategory: "text" };
 };
+const extractPresentation = async (file) => {
+  const ab = await file.arrayBuffer();
+  let text = "";
+  try {
+    const XLSX = await loadXLSX();
+    const wb = XLSX.read(new Uint8Array(ab), { type: "array" });
+    const parts = wb.SheetNames.map((name, i) => {
+      const ws = wb.Sheets[name];
+      const rows = XLSX.utils.sheet_to_json(ws, { header: 1, defval: "" });
+      const slideText = rows.map((r) => Array.isArray(r) ? r.filter(Boolean).join(" ") : "").filter(Boolean).join("\n");
+      return `=== Slide ${i + 1}${name !== "Sheet1" ? ": " + name : ""} ===
+${slideText}`;
+    });
+    text = parts.join("\n\n");
+    if (!text.trim()) throw new Error("empty");
+  } catch {
+    text = `[Presentation: ${file.name}]
+Size: ${(file.size / 1024).toFixed(1)} KB
+Type: ${file.type || "PowerPoint"}
+
+For best results, export your presentation as PDF or DOCX, then upload that version.`;
+  }
+  const { pagesText, totalPages } = chunkText(text || `[${file.name}]`);
+  return { pagesText, totalPages, rawText: text, fileCategory: "presentation" };
+};
+const extractUnknown = async (file) => {
+  let text = "";
+  try {
+    text = await file.text();
+  } catch {
+  }
+  if (!text.trim() || /[\x00-\x08\x0e-\x1f]{10}/.test(text.slice(0, 500))) {
+    text = `[File: ${file.name}]
+Size: ${(file.size / 1024).toFixed(1)} KB
+Type: ${file.type || "Unknown"}
+
+This file format is not directly readable as text. For best results, convert it to PDF, Word, or a text format first.`;
+  }
+  const { pagesText, totalPages } = chunkText(text);
+  return { pagesText, totalPages, rawText: text, fileCategory: "unknown" };
+};
 const extractUniversal = async (file, onProgress) => {
   const cat = getFileCategory(file);
   switch (cat) {
@@ -18173,8 +18216,12 @@ const extractUniversal = async (file, onProgress) => {
       return extractCsv(file);
     case "image":
       return extractImage(file);
-    default:
+    case "presentation":
+      return extractPresentation(file);
+    case "text":
       return extractText(file);
+    default:
+      return extractUnknown(file);
   }
 };
 const callAI = async (prompt, expectJson, strictMode, settings = {}, maxTokens = 8e3) => {
@@ -19328,7 +19375,7 @@ function QuickGenerateModal({
                 ] }) : /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
                   /* @__PURE__ */ jsxRuntimeExports.jsx(FileUp, { size: 32, className: "mx-auto mb-3 opacity-30" }),
                   /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-sm font-black opacity-60", children: "Drop file here or click to browse" }),
-                  /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-xs opacity-30 mt-1", children: "PDF, Word, Excel, CSV, images, text" })
+                  /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-xs opacity-30 mt-1", children: "PDF, Word, PowerPoint, Excel, Images, and more" })
                 ] }),
                 /* @__PURE__ */ jsxRuntimeExports.jsx(
                   "input",
@@ -19336,7 +19383,7 @@ function QuickGenerateModal({
                     ref: inputRef,
                     type: "file",
                     className: "hidden",
-                    accept: ".pdf,.docx,.doc,.xlsx,.xls,.csv,.txt,.md,.jpg,.jpeg,.png,.webp",
+                    accept: "*/*",
                     onChange: (e) => handleFileUpload(e.target.files)
                   }
                 )
@@ -19769,7 +19816,7 @@ function LibraryMergedView({ docs, uploading, onUpload, onOpen, onDelete, flashc
         dragging && /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "fixed inset-0 z-[9998] bg-[var(--accent)]/20 border-4 border-dashed border-[var(--accent)] flex items-center justify-center pointer-events-none", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "design-btn rounded-3xl px-8 py-6 text-center shadow-2xl", children: [
           /* @__PURE__ */ jsxRuntimeExports.jsx(FileUp, { size: 48, className: "mx-auto mb-3 animate-bounce" }),
           /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-xl font-black", children: "Drop files here!" }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-sm opacity-80 mt-1", children: "PDF, Word, Excel, Images" })
+          /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-sm opacity-80 mt-1", children: "PDF, Word, PowerPoint, Excel, Images & more" })
         ] }) }),
         /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "design-card", style: { background: "linear-gradient(135deg, hsl(var(--primary-hue, 220), 80%, 50%), hsl(var(--primary-hue, 220), 70%, 40%))", color: "white", border: "none" }, children: [
           /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { style: { color: "white" }, children: "AI Study Hub" }),
@@ -19855,7 +19902,7 @@ function LibraryMergedView({ docs, uploading, onUpload, onOpen, onDelete, flashc
                   className: "hidden",
                   onChange: onUpload,
                   disabled: uploading,
-                  accept: ".pdf,.doc,.docx,.xls,.xlsx,.csv,.txt,.md,.js,.ts,.jsx,.tsx,.py,.png,.jpg,.jpeg,.gif,.webp"
+                  accept: "*/*"
                 }
               )
             ] })
@@ -20077,30 +20124,23 @@ function DocWorkspace({ activeDoc, setDocs, currentPage, setCurrentPage, openDoc
       /* @__PURE__ */ jsxRuntimeExports.jsx("canvas", { ref: canvasRef }),
       /* @__PURE__ */ jsxRuntimeExports.jsx("div", { ref: textRef, style: { position: "absolute", inset: 0, overflow: "hidden", opacity: 1, lineHeight: 1, userSelect: "text" } })
     ] }) }) : cat === "image" && imageData ? /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "flex items-center justify-center p-4 pb-20 lg:pb-4 min-h-full", children: /* @__PURE__ */ jsxRuntimeExports.jsx("img", { src: imageData, alt: activeDoc.name, className: "max-w-full max-h-[80vh] object-contain rounded-2xl shadow-2xl" }) }) : /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "p-6 pb-20 lg:pb-6 w-full", children: /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "bg-[var(--surface,var(--card))] rounded-2xl p-6 shadow-sm border border-[color:var(--border2,var(--border))] min-h-[60vh]", children: /* @__PURE__ */ jsxRuntimeExports.jsx("pre", { className: "text-sm leading-relaxed whitespace-pre-wrap font-mono text-[var(--text)] opacity-90 break-words", children: pageText || "(No content on this page)" }) }) }) }),
-    /* @__PURE__ */ jsxRuntimeExports.jsxs(
-      "div",
-      {
-        className: "h-14 glass flex items-center justify-center gap-3 shrink-0 border-t border-[color:var(--border2,var(--border))] border-x-0 border-b-0\r\n        fixed bottom-[72px] left-0 right-0 z-[200] lg:relative lg:bottom-auto lg:z-auto",
-        style: { bottom: `calc(${NAV_H}px + env(safe-area-inset-bottom))` },
-        children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsx("button", { onClick: () => nav(-1), disabled: currentPage <= 1, className: "w-10 h-10 glass rounded-xl flex items-center justify-center disabled:opacity-30 active:scale-95", children: /* @__PURE__ */ jsxRuntimeExports.jsx(ChevronLeft, { size: 18 }) }),
-          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "px-4 py-2 glass rounded-xl font-mono text-sm font-bold border border-[color:var(--border2,var(--border))] min-w-[90px] text-center", children: [
-            /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-[var(--accent)]", children: currentPage }),
-            " / ",
-            activeDoc.totalPages
-          ] }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx(
-            "button",
-            {
-              onClick: () => nav(1),
-              disabled: currentPage >= activeDoc.totalPages,
-              className: "w-10 h-10 btn-accent rounded-xl flex items-center justify-center disabled:opacity-40 active:scale-95 shadow-md",
-              children: /* @__PURE__ */ jsxRuntimeExports.jsx(ChevronRight, { size: 18 })
-            }
-          )
-        ]
-      }
-    ),
+    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "h-14 glass flex items-center justify-center gap-3 shrink-0 border-t border-[color:var(--border2,var(--border))] border-x-0 border-b-0\r\n        fixed bottom-[72px] left-0 right-0 z-[200] lg:relative lg:bottom-auto lg:z-auto", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx("button", { onClick: () => nav(-1), disabled: currentPage <= 1, className: "w-10 h-10 glass rounded-xl flex items-center justify-center disabled:opacity-30 active:scale-95", children: /* @__PURE__ */ jsxRuntimeExports.jsx(ChevronLeft, { size: 18 }) }),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "px-4 py-2 glass rounded-xl font-mono text-sm font-bold border border-[color:var(--border2,var(--border))] min-w-[90px] text-center", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-[var(--accent)]", children: currentPage }),
+        " / ",
+        activeDoc.totalPages
+      ] }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        "button",
+        {
+          onClick: () => nav(1),
+          disabled: currentPage >= activeDoc.totalPages,
+          className: "w-10 h-10 btn-accent rounded-xl flex items-center justify-center disabled:opacity-40 active:scale-95 shadow-md",
+          children: /* @__PURE__ */ jsxRuntimeExports.jsx(ChevronRight, { size: 18 })
+        }
+      )
+    ] }),
     /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "h-14 lg:hidden shrink-0" })
   ] });
 }
@@ -20988,7 +21028,7 @@ Do NOT discuss other cards or topics outside this card.`;
       ] }),
       /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "h-1.5 bg-black/10 dark:bg-white/10 shrink-0", children: /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "bg-gradient-to-r from-[var(--accent)] to-[var(--accent2,var(--accent))] h-full transition-all duration-500", style: { width: `${progress}%` } }) }),
       /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex-1 min-h-0 flex overflow-hidden", children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex-1 min-w-0 overflow-y-auto custom-scrollbar p-6 pb-28 flex flex-col gap-5", style: { touchAction: "pan-y", WebkitOverflowScrolling: "touch" }, children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex-1 min-w-0 overflow-y-auto custom-scrollbar p-6 pb-36 flex flex-col gap-5", style: { touchAction: "pan-y", WebkitOverflowScrolling: "touch" }, children: [
           /* @__PURE__ */ jsxRuntimeExports.jsx("div", { style: { perspective: "1200px" }, onClick: () => setFlipped((f) => !f), className: "cursor-pointer select-none", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: {
             display: "grid",
             width: "100%",
@@ -21426,7 +21466,7 @@ Do NOT discuss other questions or topics outside this question.`;
       ] }),
       /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "h-1.5 bg-black/10 dark:bg-white/10 shrink-0", children: /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "bg-gradient-to-r from-[var(--accent)] to-[var(--accent2,var(--accent))] h-full transition-all duration-500", style: { width: `${progress}%` } }) }),
       /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex-1 min-h-0 flex overflow-hidden", children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex-1 min-w-0 overflow-y-auto custom-scrollbar p-4 pb-28 lg:p-8 space-y-4", style: { touchAction: "pan-y", WebkitOverflowScrolling: "touch" }, children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex-1 min-w-0 overflow-y-auto custom-scrollbar p-4 pb-36 lg:p-8 space-y-4", style: { touchAction: "pan-y", WebkitOverflowScrolling: "touch" }, children: [
           /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "glass rounded-2xl p-4 lg:p-6 border border-[color:var(--border2,var(--border))]", children: [
             q.sourcePage && /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { className: "text-xs font-mono opacity-30 mb-3", children: [
               "Source: p.",
@@ -21882,7 +21922,7 @@ Do NOT discuss other cases, questions, or topics outside this case.`;
           ] })
         ] }),
         /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex-1 min-h-0 flex overflow-hidden", children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex-1 min-w-0 overflow-y-auto custom-scrollbar p-5 pb-28 space-y-4", style: { touchAction: "pan-y", WebkitOverflowScrolling: "touch" }, children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex-1 min-w-0 overflow-y-auto custom-scrollbar p-5 pb-36 space-y-4", style: { touchAction: "pan-y", WebkitOverflowScrolling: "touch" }, children: [
             /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "glass rounded-2xl p-5 border border-[color:var(--border2,var(--border))]", children: [
               /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { className: "text-xs font-black uppercase tracking-widest text-[var(--accent)] mb-3 flex items-center gap-2", children: [
                 /* @__PURE__ */ jsxRuntimeExports.jsx(Stethoscope, { size: 13 }),
@@ -22617,12 +22657,12 @@ function ChatView({ settings, sessions, setSessions }) {
         ]
       }
     ),
-    sidebarOpen && /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "lg:hidden fixed inset-0 z-40 bg-black/50", onClick: () => setSidebarOpen(false) }),
+    sidebarOpen && /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "lg:hidden fixed inset-0 z-[290] bg-black/50", onClick: () => setSidebarOpen(false) }),
     /* @__PURE__ */ jsxRuntimeExports.jsxs(
       "div",
       {
-        className: "flex flex-col border-r border-[color:var(--border2,var(--border))] transition-all duration-300 shrink-0 lg:relative absolute inset-y-0 left-0 z-[41] " + (sidebarOpen ? "w-[320px]" : "w-0 overflow-hidden"),
-        style: { background: "var(--bg)" },
+        className: "flex flex-col border-r border-[color:var(--border2,var(--border))] transition-all duration-300 shrink-0 lg:relative lg:z-auto fixed inset-y-0 left-0 z-[300] " + (sidebarOpen ? "w-[320px]" : "w-0 overflow-hidden"),
+        style: { background: "var(--bg)", paddingTop: "env(safe-area-inset-top, 0px)" },
         children: [
           /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center justify-between px-4 py-3 border-b border-[color:var(--border2,var(--border))] shrink-0", children: [
             /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-base font-black tracking-tight", children: "MARIAM" }),
@@ -23506,7 +23546,7 @@ function SettingsView({ settings, setSettings, installPrompt, onInstall }) {
         APP_VER
       ] }),
       /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-xs opacity-40 mt-1", children: "Universal AI Document Intelligence" }),
-      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "flex justify-center gap-3 mt-3 text-xs font-black uppercase tracking-widest opacity-30", children: /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: "PDF · Word · Excel · Images · Code" }) })
+      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "flex justify-center gap-3 mt-3 text-xs font-black uppercase tracking-widest opacity-30", children: /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: "PDF · Word · PowerPoint · Excel · Images · Code" }) })
     ] })
   ] }) });
 }
