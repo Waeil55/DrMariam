@@ -20842,6 +20842,7 @@ function FlashcardsView({ flashcards, setFlashcards, settings, addToast, docs, s
   const [savedProgress, setSavedProgress] = reactExports.useState(null);
   const [inlineCount, setInlineCount] = reactExports.useState(20);
   const [inlineDiff, setInlineDiff] = reactExports.useState("Medium");
+  const [inlineInput, setInlineInput] = reactExports.useState("");
   const rateCard = reactExports.useCallback((q) => {
     trackStudy("flashcard");
     setFlashcards((p) => p.map((set) => {
@@ -21139,11 +21140,13 @@ Do NOT discuss other cards or topics outside this card.`;
             /* @__PURE__ */ jsxRuntimeExports.jsx(
               "input",
               {
-                placeholder: "Type a topic… e.g. 'Tylenol toxicity', 'sepsis' — then press Enter",
+                value: inlineInput,
+                onChange: (e) => setInlineInput(e.target.value),
+                placeholder: "Type a topic… e.g. 'Tylenol toxicity', 'sepsis'",
                 className: "flex-1 bg-transparent text-sm outline-none placeholder:opacity-40 text-[var(--text)]",
                 onKeyDown: (e) => {
                   if (e.key === "Enter") {
-                    const val = e.target.value.trim();
+                    const val = inlineInput.trim();
                     if (!val) return;
                     const taskId = "task_" + Date.now();
                     runTopicGeneration({
@@ -21162,9 +21165,34 @@ Do NOT discuss other cards or topics outside this card.`;
                       }
                     });
                     addToast(`Generating ${inlineCount} ${inlineDiff} cards on "${val.slice(0, 25)}…"`, "info");
-                    e.target.value = "";
+                    setInlineInput("");
                   }
                 }
+              }
+            ),
+            /* @__PURE__ */ jsxRuntimeExports.jsxs(
+              "button",
+              {
+                onClick: () => {
+                  const val = inlineInput.trim();
+                  if (!val) return;
+                  const taskId = "task_" + Date.now();
+                  runTopicGeneration({ taskId, topic: val, taskType: "flashcards", count: inlineCount, difficultyLevel: inlineDiff, settings, onSave: (data, tid) => {
+                    const now = (/* @__PURE__ */ new Date()).toISOString();
+                    const cards = data.map((c) => ({ id: Date.now() + Math.random(), q: c.q, a: c.a, evidence: c.evidence || "", sourcePage: 0, repetitions: 0, ef: 2.5, interval: 1, nextReview: Date.now(), lastReview: Date.now() }));
+                    setFlashcards((p) => [...p, { id: taskId, docId: null, sourcePages: "topic", title: `Cards — ${val.slice(0, 30)}`, cards, createdAt: now }]);
+                    addToast(`${cards.length} flashcards saved! ⚡`, "success");
+                    bgClear(tid);
+                  } });
+                  addToast(`Generating ${inlineCount} ${inlineDiff} cards on "${val.slice(0, 25)}…"`, "info");
+                  setInlineInput("");
+                },
+                className: "shrink-0 flex items-center gap-1 px-2.5 py-1 rounded-xl text-[11px] font-black text-white btn-accent",
+                title: "Generate flashcards",
+                children: [
+                  /* @__PURE__ */ jsxRuntimeExports.jsx(Zap, { size: 11 }),
+                  " Generate"
+                ]
               }
             )
           ] }),
@@ -21321,6 +21349,7 @@ function ExamsView({ exams, setExams, settings, addToast, docs, setFlashcards, s
   const [savedProgress, setSavedProgress] = reactExports.useState(null);
   const [inlineCount, setInlineCount] = reactExports.useState(20);
   const [inlineDiff, setInlineDiff] = reactExports.useState("Medium");
+  const [inlineInput, setInlineInput] = reactExports.useState("");
   const startExamWithResumeCheck = async (ex) => {
     const shuffledEx = { ...ex, questions: shuffleOptions(ex.questions) };
     let saved = null;
@@ -21604,11 +21633,13 @@ Correct: ${selEx?.questions?.[qi]?.options?.[selEx?.questions?.[qi]?.correct]}`,
             /* @__PURE__ */ jsxRuntimeExports.jsx(
               "input",
               {
-                placeholder: "Type a topic… e.g. 'cancer staging', 'diabetes management' — then press Enter",
+                value: inlineInput,
+                onChange: (e) => setInlineInput(e.target.value),
+                placeholder: "Type a topic… e.g. 'cancer staging', 'diabetes management'",
                 className: "flex-1 bg-transparent text-sm outline-none placeholder:opacity-40 text-[var(--text)]",
                 onKeyDown: (e) => {
                   if (e.key === "Enter") {
-                    const val = e.target.value.trim();
+                    const val = inlineInput.trim();
                     if (!val) return;
                     const taskId = "task_" + Date.now();
                     runTopicGeneration({
@@ -21625,9 +21656,32 @@ Correct: ${selEx?.questions?.[qi]?.options?.[selEx?.questions?.[qi]?.correct]}`,
                       }
                     });
                     addToast(`Generating ${inlineCount} ${inlineDiff} questions on "${val.slice(0, 25)}…"`, "info");
-                    e.target.value = "";
+                    setInlineInput("");
                   }
                 }
+              }
+            ),
+            /* @__PURE__ */ jsxRuntimeExports.jsxs(
+              "button",
+              {
+                onClick: () => {
+                  const val = inlineInput.trim();
+                  if (!val) return;
+                  const taskId = "task_" + Date.now();
+                  runTopicGeneration({ taskId, topic: val, taskType: "exam", count: inlineCount, difficultyLevel: inlineDiff, settings, onSave: (data, tid) => {
+                    setExams((p) => [...p, { id: taskId, docId: null, sourcePages: "topic", title: `Exam — ${val.slice(0, 30)}`, questions: data, createdAt: (/* @__PURE__ */ new Date()).toISOString() }]);
+                    addToast(`${data.length} exam questions saved! ⚡`, "success");
+                    bgClear(tid);
+                  } });
+                  addToast(`Generating ${inlineCount} ${inlineDiff} questions on "${val.slice(0, 25)}…"`, "info");
+                  setInlineInput("");
+                },
+                className: "shrink-0 flex items-center gap-1 px-2.5 py-1 rounded-xl text-[11px] font-black text-white btn-accent",
+                title: "Generate exam questions",
+                children: [
+                  /* @__PURE__ */ jsxRuntimeExports.jsx(Zap, { size: 11 }),
+                  " Generate"
+                ]
               }
             )
           ] }),
@@ -21793,6 +21847,7 @@ function CasesView({ cases, setCases, settings, addToast, docs, setFlashcards, s
   const [exporting, setExporting] = reactExports.useState(null);
   const [inlineCount, setInlineCount] = reactExports.useState(5);
   const [inlineDiff, setInlineDiff] = reactExports.useState("Medium");
+  const [inlineInput, setInlineInput] = reactExports.useState("");
   const handleExport = async (set) => {
     setExporting(set.id);
     await exportToPDF("cases", set.questions, set.title, addToast);
@@ -22087,11 +22142,13 @@ Do NOT discuss other cases, questions, or topics outside this case.`;
             /* @__PURE__ */ jsxRuntimeExports.jsx(
               "input",
               {
-                placeholder: "Type a topic… e.g. 'septic shock', 'Tylenol OD' — then press Enter",
+                value: inlineInput,
+                onChange: (e) => setInlineInput(e.target.value),
+                placeholder: "Type a topic… e.g. 'septic shock', 'Tylenol OD'",
                 className: "flex-1 bg-transparent text-sm outline-none placeholder:opacity-40 text-[var(--text)]",
                 onKeyDown: (e) => {
                   if (e.key === "Enter") {
-                    const val = e.target.value.trim();
+                    const val = inlineInput.trim();
                     if (!val) return;
                     const taskId = "task_" + Date.now();
                     runTopicGeneration({
@@ -22108,9 +22165,32 @@ Do NOT discuss other cases, questions, or topics outside this case.`;
                       }
                     });
                     addToast(`Generating ${inlineCount} ${inlineDiff} cases on "${val.slice(0, 25)}…"`, "info");
-                    e.target.value = "";
+                    setInlineInput("");
                   }
                 }
+              }
+            ),
+            /* @__PURE__ */ jsxRuntimeExports.jsxs(
+              "button",
+              {
+                onClick: () => {
+                  const val = inlineInput.trim();
+                  if (!val) return;
+                  const taskId = "task_" + Date.now();
+                  runTopicGeneration({ taskId, topic: val, taskType: "cases", count: inlineCount, difficultyLevel: inlineDiff, settings, onSave: (data, tid) => {
+                    setCases((p) => [...p, { id: taskId, docId: null, sourcePages: "topic", title: `Cases — ${val.slice(0, 30)}`, questions: data, createdAt: (/* @__PURE__ */ new Date()).toISOString() }]);
+                    addToast(`${data.length} cases saved! ⚡`, "success");
+                    bgClear(tid);
+                  } });
+                  addToast(`Generating ${inlineCount} ${inlineDiff} cases on "${val.slice(0, 25)}…"`, "info");
+                  setInlineInput("");
+                },
+                className: "shrink-0 flex items-center gap-1 px-2.5 py-1 rounded-xl text-[11px] font-black text-white btn-accent",
+                title: "Generate cases",
+                children: [
+                  /* @__PURE__ */ jsxRuntimeExports.jsx(Zap, { size: 11 }),
+                  " Generate"
+                ]
               }
             )
           ] }),
