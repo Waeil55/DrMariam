@@ -23347,7 +23347,8 @@ function ChatView({ settings, sessions, setSessions, setView, docs, activeId, se
           ] })
         ] }),
         /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-[10px] text-center opacity-20 font-medium mt-2", children: "MARIAM may make errors. Always verify medical information." })
-      ] }) })
+      ] }) }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "lg:hidden shrink-0", style: { height: "env(safe-area-inset-bottom, 0px)", background: "var(--surface,var(--card))" } })
     ] })
   ] });
 }
