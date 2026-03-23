@@ -2781,7 +2781,10 @@ html.dark,
 }
 
 html.dark .design-header,
-.dark .design-header {
+.dark .design-header,
+.oled .design-header,
+.midnight .design-header,
+.slate .design-header {
   background: linear-gradient(
     180deg,
     rgba(5, 8, 28, 0.97) 0%,
@@ -2815,7 +2818,10 @@ html.dark .design-header,
 }
 
 html.dark .design-top-glass,
-.dark .design-top-glass {
+.dark .design-top-glass,
+.oled .design-top-glass,
+.midnight .design-top-glass,
+.slate .design-top-glass {
   background: rgba(5, 8, 28, 0.98);
 }
 
@@ -2834,7 +2840,10 @@ html.dark .design-top-glass,
 }
 
 html.dark .design-header::before,
-.dark .design-header::before {
+.dark .design-header::before,
+.oled .design-header::before,
+.midnight .design-header::before,
+.slate .design-header::before {
   background: rgba(5, 8, 28, 0.97);
 }
 
