@@ -172,7 +172,10 @@ html.dark .design-header::before,
 }
 
 html.dark .design-nav-inner,
-.dark .design-nav-inner {
+.dark .design-nav-inner,
+.oled .design-nav-inner,
+.midnight .design-nav-inner,
+.slate .design-nav-inner {
   background: linear-gradient(
     180deg,
     rgba(5, 8, 28, 0.96) 0%,
@@ -205,7 +208,10 @@ html.dark .design-nav-inner,
 }
 
 html.dark .design-nav-btn.active,
-.dark .design-nav-btn.active {
+.dark .design-nav-btn.active,
+.oled .design-nav-btn.active,
+.midnight .design-nav-btn.active,
+.slate .design-nav-btn.active {
   background: rgba(255, 255, 255, 0.1);
 }
 

@@ -2933,8 +2933,7 @@ function DocWorkspace({ activeDoc, setDocs, currentPage, setCurrentPage, openDoc
 
       {/* Page nav */}
       <div className="h-14 glass flex items-center justify-center gap-3 shrink-0 border-t border-[color:var(--border2,var(--border))] border-x-0 border-b-0
-        fixed bottom-[72px] left-0 right-0 z-[200] lg:relative lg:bottom-auto lg:z-auto"
-        style={{ bottom: `calc(${NAV_H}px + env(safe-area-inset-bottom))` }}>
+        fixed bottom-[72px] left-0 right-0 z-[200] lg:relative lg:bottom-auto lg:z-auto">
         <button onClick={() => nav(-1)} disabled={currentPage <= 1} className="w-10 h-10 glass rounded-xl flex items-center justify-center disabled:opacity-30 active:scale-95"><ChevronLeft size={18} /></button>
         <div className="px-4 py-2 glass rounded-xl font-mono text-sm font-bold border border-[color:var(--border2,var(--border))] min-w-[90px] text-center">
           <span className="text-[var(--accent)]">{currentPage}</span> / {activeDoc.totalPages}
