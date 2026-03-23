@@ -412,7 +412,8 @@ const getFileCategory = (file) => {
   if (t.includes('spreadsheetml') || t.includes('ms-excel') || n.endsWith('.xlsx') || n.endsWith('.xls')) return 'spreadsheet';
   if (n.endsWith('.csv') || t === 'text/csv') return 'csv';
   if (t.startsWith('image/')) return 'image';
-  const textExts = ['.txt', '.md', '.markdown', '.js', '.ts', '.jsx', '.tsx', '.py', '.java', '.c', '.cpp', '.go', '.rs', '.rb', '.php', '.html', '.css', '.json', '.yaml', '.yml', '.xml', '.sh', '.bash', '.zsh', '.sql', '.r', '.swift', '.kt', '.dart', '.vue', '.svelte', '.toml', '.ini', '.env', '.log'];
+  if (t.includes('presentationml') || t.includes('ms-powerpoint') || n.endsWith('.pptx') || n.endsWith('.ppt') || n.endsWith('.odp')) return 'presentation';
+  const textExts = ['.txt', '.md', '.markdown', '.js', '.ts', '.jsx', '.tsx', '.py', '.java', '.c', '.cpp', '.go', '.rs', '.rb', '.php', '.html', '.css', '.json', '.yaml', '.yml', '.xml', '.sh', '.bash', '.zsh', '.sql', '.r', '.swift', '.kt', '.dart', '.vue', '.svelte', '.toml', '.ini', '.env', '.log', '.epub', '.odt', '.rtf'];
   if (t.startsWith('text/') || textExts.some(e => n.endsWith(e))) return 'text';
   return 'unknown';
 };
@@ -424,6 +425,7 @@ const FILE_ICONS = {
   csv: { Icon: Table, from: 'from-teal-500', to: 'to-emerald-700', label: 'CSV' },
   image: { Icon: Image, from: 'from-purple-500', to: 'to-violet-700', label: 'Image' },
   text: { Icon: FileCode, from: 'from-amber-500', to: 'to-orange-600', label: 'Text' },
+  presentation: { Icon: FileText, from: 'from-orange-500', to: 'to-amber-600', label: 'Slides' },
   unknown: { Icon: FileUp, from: 'from-slate-500', to: 'to-slate-700', label: 'File' },
 };
 
@@ -535,6 +537,39 @@ const extractText = async (file) => {
   return { pagesText, totalPages, rawText: text, fileCategory: 'text' };
 };
 
+/** Extracts text from PowerPoint .pptx/.ppt/.odp files using SheetJS. */
+const extractPresentation = async (file) => {
+  const ab = await file.arrayBuffer();
+  let text = '';
+  try {
+    const XLSX = await loadXLSX();
+    const wb = XLSX.read(new Uint8Array(ab), { type: 'array' });
+    const parts = wb.SheetNames.map((name, i) => {
+      const ws = wb.Sheets[name];
+      const rows = XLSX.utils.sheet_to_json(ws, { header: 1, defval: '' });
+      const slideText = rows.map(r => Array.isArray(r) ? r.filter(Boolean).join(' ') : '').filter(Boolean).join('\n');
+      return `=== Slide ${i + 1}${name !== 'Sheet1' ? ': ' + name : ''} ===\n${slideText}`;
+    });
+    text = parts.join('\n\n');
+    if (!text.trim()) throw new Error('empty');
+  } catch {
+    text = `[Presentation: ${file.name}]\nSize: ${(file.size / 1024).toFixed(1)} KB\nType: ${file.type || 'PowerPoint'}\n\nFor best results, export your presentation as PDF or DOCX, then upload that version.`;
+  }
+  const { pagesText, totalPages } = chunkText(text || `[${file.name}]`);
+  return { pagesText, totalPages, rawText: text, fileCategory: 'presentation' };
+};
+
+/** Attempts to extract text from any unknown file format. */
+const extractUnknown = async (file) => {
+  let text = '';
+  try { text = await file.text(); } catch { }
+  if (!text.trim() || /[\x00-\x08\x0e-\x1f]{10}/.test(text.slice(0, 500))) {
+    text = `[File: ${file.name}]\nSize: ${(file.size / 1024).toFixed(1)} KB\nType: ${file.type || 'Unknown'}\n\nThis file format is not directly readable as text. For best results, convert it to PDF, Word, or a text format first.`;
+  }
+  const { pagesText, totalPages } = chunkText(text);
+  return { pagesText, totalPages, rawText: text, fileCategory: 'unknown' };
+};
+
 /**
  * Universal entry point: detects the file type and routes to the correct extractor.
  * Always returns { pagesText, totalPages, fileCategory, ...extras }.
@@ -547,7 +582,9 @@ const extractUniversal = async (file, onProgress) => {
     case 'spreadsheet': return extractSpreadsheet(file);
     case 'csv': return extractCsv(file);
     case 'image': return extractImage(file);
-    default: return extractText(file);
+    case 'presentation': return extractPresentation(file);
+    case 'text': return extractText(file);
+    default: return extractUnknown(file);
   }
 };
 
@@ -1745,10 +1782,10 @@ function QuickGenerateModal({ type, docs, settings, onClose, onTaskStart, addToa
                     <>
                       <FileUp size={32} className="mx-auto mb-3 opacity-30" />
                       <p className="text-sm font-black opacity-60">Drop file here or click to browse</p>
-                      <p className="text-xs opacity-30 mt-1">PDF, Word, Excel, CSV, images, text</p>
+                      <p className="text-xs opacity-30 mt-1">PDF, Word, PowerPoint, Excel, Images, and more</p>
                     </>
                   )}
-                  <input ref={inputRef} type="file" className="hidden" accept=".pdf,.docx,.doc,.xlsx,.xls,.csv,.txt,.md,.jpg,.jpeg,.png,.webp"
+                  <input ref={inputRef} type="file" className="hidden" accept="*/*"
                     onChange={e => handleFileUpload(e.target.files)} />
                 </div>
               ) : (
@@ -2431,7 +2468,7 @@ function LibraryMergedView({ docs, uploading, onUpload, onOpen, onDelete, flashc
       {dragging && (
         <div className="fixed inset-0 z-[9998] bg-[var(--accent)]/20 border-4 border-dashed border-[var(--accent)] flex items-center justify-center pointer-events-none">
           <div className="design-btn rounded-3xl px-8 py-6 text-center shadow-2xl"><FileUp size={48} className="mx-auto mb-3 animate-bounce" />
-            <p className="text-xl font-black">Drop files here!</p><p className="text-sm opacity-80 mt-1">PDF, Word, Excel, Images</p>
+            <p className="text-xl font-black">Drop files here!</p><p className="text-sm opacity-80 mt-1">PDF, Word, PowerPoint, Excel, Images &amp; more</p>
           </div>
         </div>
       )}
@@ -2510,7 +2547,7 @@ function LibraryMergedView({ docs, uploading, onUpload, onOpen, onDelete, flashc
             {uploading ? <Loader2 size={16} className="animate-spin" /> : <FileUp size={16} />}
             {uploading ? 'Uploading…' : 'Import'}
             <input ref={inputRef} type="file" multiple className="hidden" onChange={onUpload} disabled={uploading}
-              accept=".pdf,.doc,.docx,.xls,.xlsx,.csv,.txt,.md,.js,.ts,.jsx,.tsx,.py,.png,.jpg,.jpeg,.gif,.webp" />
+              accept="*/*" />
           </label>
         </div>
 
@@ -2595,7 +2632,7 @@ function LibraryView({ docs, uploading, onUpload, onOpen, onDelete, flashcards, 
           <div className="bg-[var(--accent)] text-white rounded-3xl px-8 py-6 text-center shadow-2xl">
             <FileUp size={48} className="mx-auto mb-3 animate-bounce" />
             <p className="text-xl font-black">Drop any files here!</p>
-            <p className="text-sm opacity-80 mt-1">PDF, Word, Excel, Images, Code — all welcome</p>
+            <p className="text-sm opacity-80 mt-1">PDF, Word, PowerPoint, Excel, Images, Code — all welcome</p>
           </div>
         </div>
       )}
@@ -2642,7 +2679,7 @@ function LibraryView({ docs, uploading, onUpload, onOpen, onDelete, flashcards, 
               {uploading ? <Loader2 size={16} className="animate-spin" /> : <FileUp size={16} />}
               {uploading ? 'Uploading…' : 'Import Files'}
               <input ref={inputRef} type="file" multiple className="hidden" onChange={onUpload} disabled={uploading}
-                accept=".pdf,.doc,.docx,.xls,.xlsx,.csv,.txt,.md,.js,.ts,.jsx,.tsx,.py,.java,.c,.cpp,.go,.rs,.rb,.php,.html,.css,.json,.yaml,.yml,.xml,.sh,.sql,.r,.swift,.kt,.png,.jpg,.jpeg,.gif,.webp,.svg,.bmp" />
+                accept="*/*" />
             </label>
           </div>
         </div>
@@ -2656,7 +2693,7 @@ function LibraryView({ docs, uploading, onUpload, onOpen, onDelete, flashcards, 
             </div>
             <div>
               <h2 className="text-xl font-black opacity-70">{search ? 'No results found' : 'Drop any file to begin'}</h2>
-              <p className="text-sm opacity-40 mt-1">PDF · Word · Excel · CSV · Images · Code · Text — everything works</p>
+              <p className="text-sm opacity-40 mt-1">PDF · Word · PowerPoint · Excel · CSV · Images · Code · Text — everything works</p>
             </div>
             {!search && <button className="btn-accent px-6 py-3 rounded-2xl text-sm font-black uppercase tracking-widest shadow-lg">Browse Files</button>}
           </div>
@@ -3681,7 +3718,7 @@ function FlashcardsView({ flashcards, setFlashcards, settings, addToast, docs, s
         {/* Two-panel row */}
         <div className="flex-1 min-h-0 flex overflow-hidden">
           {/* LEFT: card + controls */}
-          <div className="flex-1 min-w-0 overflow-y-auto custom-scrollbar p-6 pb-28 flex flex-col gap-5" style={{ touchAction: 'pan-y', WebkitOverflowScrolling: 'touch' }}>
+          <div className="flex-1 min-w-0 overflow-y-auto custom-scrollbar p-6 pb-36 flex flex-col gap-5" style={{ touchAction: 'pan-y', WebkitOverflowScrolling: 'touch' }}>
             {/* Quizlet-style 3D flip card */}
             <div style={{ perspective: '1200px' }} onClick={() => setFlipped(f => !f)} className="cursor-pointer select-none">
               <div style={{
@@ -4029,7 +4066,7 @@ function ExamsView({ exams, setExams, settings, addToast, docs, setFlashcards, s
         {/* Two-panel row */}
         <div className="flex-1 min-h-0 flex overflow-hidden">
           {/* LEFT: question + options */}
-          <div className="flex-1 min-w-0 overflow-y-auto custom-scrollbar p-4 pb-28 lg:p-8 space-y-4" style={{ touchAction: 'pan-y', WebkitOverflowScrolling: 'touch' }}>
+          <div className="flex-1 min-w-0 overflow-y-auto custom-scrollbar p-4 pb-36 lg:p-8 space-y-4" style={{ touchAction: 'pan-y', WebkitOverflowScrolling: 'touch' }}>
             <div className="glass rounded-2xl p-4 lg:p-6 border border-[color:var(--border2,var(--border))]">
               {q.sourcePage && <p className="text-xs font-mono opacity-30 mb-3">Source: p.{q.sourcePage}</p>}
               <p className="text-base font-semibold leading-relaxed">{q.q}</p>
@@ -4355,7 +4392,7 @@ function CasesView({ cases, setCases, settings, addToast, docs, setFlashcards, s
         <div className="flex-1 min-h-0 flex overflow-hidden">
 
           {/* ═══ LEFT: Vignette + Question + Answers (scrollable) ═══ */}
-          <div className="flex-1 min-w-0 overflow-y-auto custom-scrollbar p-5 pb-28 space-y-4" style={{ touchAction: 'pan-y', WebkitOverflowScrolling: 'touch' }}>
+          <div className="flex-1 min-w-0 overflow-y-auto custom-scrollbar p-5 pb-36 space-y-4" style={{ touchAction: 'pan-y', WebkitOverflowScrolling: 'touch' }}>
 
             {/* Patient Vignette */}
             <div className="glass rounded-2xl p-5 border border-[color:var(--border2,var(--border))]">
@@ -4948,11 +4985,11 @@ function ChatView({ settings, sessions, setSessions }) {
       )}
 
       {/* Mobile backdrop */}
-      {sidebarOpen && <div className="lg:hidden fixed inset-0 z-40 bg-black/50" onClick={() => setSidebarOpen(false)} />}
+      {sidebarOpen && <div className="lg:hidden fixed inset-0 z-[290] bg-black/50" onClick={() => setSidebarOpen(false)} />}
 
       {/* ── SIDEBAR ────────────────────────────────────────────────── */}
-      <div className={'flex flex-col border-r border-[color:var(--border2,var(--border))] transition-all duration-300 shrink-0 lg:relative absolute inset-y-0 left-0 z-[41] ' + (sidebarOpen ? 'w-[320px]' : 'w-0 overflow-hidden')}
-        style={{ background: 'var(--bg)' }}>
+      <div className={'flex flex-col border-r border-[color:var(--border2,var(--border))] transition-all duration-300 shrink-0 lg:relative lg:z-auto fixed inset-y-0 left-0 z-[300] ' + (sidebarOpen ? 'w-[320px]' : 'w-0 overflow-hidden')}
+        style={{ background: 'var(--bg)', paddingTop: 'env(safe-area-inset-top, 0px)' }}>
 
         {/* Sidebar header */}
         <div className="flex items-center justify-between px-4 py-3 border-b border-[color:var(--border2,var(--border))] shrink-0">
@@ -5696,7 +5733,7 @@ function SettingsView({ settings, setSettings, installPrompt, onInstall }) {
           <h3 className="font-black text-sm">MARIAM PRO {APP_VER}</h3>
           <p className="text-xs opacity-40 mt-1">Universal AI Document Intelligence</p>
           <div className="flex justify-center gap-3 mt-3 text-xs font-black uppercase tracking-widest opacity-30">
-            <span>PDF · Word · Excel · Images · Code</span>
+            <span>PDF · Word · PowerPoint · Excel · Images · Code</span>
           </div>
         </section>
       </div>
