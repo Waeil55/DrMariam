@@ -3084,7 +3084,7 @@ function GeneratePanel({ activeDoc, bgTask, onStart, onClear, setFlashcards, set
 
   /* ── CONFIG VIEW ── */
   return (
-    <div className="flex-1 min-h-0 overflow-y-auto custom-scrollbar p-4 space-y-4 h-full">
+    <div className="flex-1 min-h-0 overflow-y-auto custom-scrollbar p-4 pb-24 lg:pb-6 space-y-4 h-full">
       {/* Page range */}
       <div className="glass rounded-2xl p-4">
         <h3 className="text-sm font-black uppercase tracking-widest opacity-60 mb-4 flex items-center gap-2"><BookOpen size={16} /> Page Range</h3>
@@ -9538,6 +9538,7 @@ function App() {
   ];
 
   return (
+    <>
     <div className={`w-screen flex flex-col overflow-hidden text-[var(--text)] bg-mesh ${settings.theme || 'pure-white'} accent-${settings.accentColor || 'indigo'}`}
       style={{
         height: '100dvh',
@@ -9813,22 +9814,24 @@ function App() {
         )}
       </div>
 
-      {/* BOTTOM NAV — gooddesign pill nav, all viewports */}
-      <nav className={`design-nav ${isMobile && isKeyboardOpen ? 'keyboard-open-hidden' : ''}`}>
-        <div className="design-nav-inner">
-          {NAV_ITEMS.map(({ icon: Icon, label, v, dis }) => (
-            <button key={v} disabled={dis}
-              onClick={() => { if (dis) return; if (v === 'reader') { if (activeId) setView('reader'); else if (docs && docs.length > 0) { const topDoc = docs[0]; setActiveId(topDoc.id); setOpenDocs(p => p.includes(topDoc.id) ? p : [...p, topDoc.id]); setView('reader'); } else setView('library'); } else setView(v); }}
-              className={`design-nav-btn ${view === v ? 'active' : ''}`}
-              title={label}>
-              <Icon size={22} strokeWidth={view === v ? 2.5 : 2} />
-              <span className="design-nav-label">{label}</span>
-            </button>
-          ))}
-        </div>
-      </nav>
 
     </div>
+
+    {/* BOTTOM NAV — outside overflow:hidden root so iOS PWA fixed positioning works correctly */}
+    <nav className={`design-nav ${isMobile && isKeyboardOpen ? 'keyboard-open-hidden' : ''}`}>
+      <div className="design-nav-inner">
+        {NAV_ITEMS.map(({ icon: Icon, label, v, dis }) => (
+          <button key={v} disabled={dis}
+            onClick={() => { if (dis) return; if (v === 'reader') { if (activeId) setView('reader'); else if (docs && docs.length > 0) { const topDoc = docs[0]; setActiveId(topDoc.id); setOpenDocs(p => p.includes(topDoc.id) ? p : [...p, topDoc.id]); setView('reader'); } else setView('library'); } else setView(v); }}
+            className={`design-nav-btn ${view === v ? 'active' : ''}`}
+            title={label}>
+            <Icon size={22} strokeWidth={view === v ? 2.5 : 2} />
+            <span className="design-nav-label">{label}</span>
+          </button>
+        ))}
+      </div>
+    </nav>
+    </>
   );
 }
 
