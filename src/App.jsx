@@ -5556,7 +5556,6 @@ function ChatView({ settings, sessions, setSessions }) {
                 </button>
               </div>
             </div>
-            <p className="text-[10px] text-center opacity-20 font-medium mt-2">MARIAM may make errors. Always verify medical information.</p>
           </div>
         </div>
       </div>
