@@ -23019,18 +23019,18 @@ function ChatView({ settings, sessions, setSessions, setView, docs, activeId, se
       }
     ),
     /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex-1 flex flex-col min-h-0 min-w-0", children: [
-      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "lg:hidden shrink-0", style: { height: "calc(env(safe-area-inset-top, 0px) + 12px)", background: "var(--surface,var(--card))" } }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "lg:hidden shrink-0", style: { height: "env(safe-area-inset-top, 0px)", background: "var(--surface,var(--card))" } }),
       /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center gap-3 px-4 py-2.5 border-b border-[color:var(--border2,var(--border))] shrink-0", style: { backdropFilter: "blur(20px)", background: "var(--surface,var(--card))" }, children: [
-        setView && /* @__PURE__ */ jsxRuntimeExports.jsx(
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
           "button",
           {
-            onClick: () => setShowNavSheet(true),
+            onClick: () => setSidebarOpen((o) => !o),
             className: "lg:hidden w-9 h-9 glass rounded-xl flex items-center justify-center opacity-70 hover:opacity-100 shrink-0 transition-all",
-            title: "Menu",
+            title: "Open sidebar",
             children: /* @__PURE__ */ jsxRuntimeExports.jsx(Menu, { size: 20 })
           }
         ),
-        /* @__PURE__ */ jsxRuntimeExports.jsx("button", { onClick: () => setSidebarOpen((o) => !o), className: "w-9 h-9 glass rounded-xl flex items-center justify-center opacity-60 hover:opacity-100 shrink-0 transition-all", title: "Toggle sidebar", children: /* @__PURE__ */ jsxRuntimeExports.jsx(History, { size: 17 }) }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("button", { onClick: () => setSidebarOpen((o) => !o), className: "hidden lg:flex w-9 h-9 glass rounded-xl items-center justify-center opacity-60 hover:opacity-100 shrink-0 transition-all", title: "Toggle sidebar", children: /* @__PURE__ */ jsxRuntimeExports.jsx(History, { size: 17 }) }),
         /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex-1 min-w-0", children: [
           curSess && curSess.projectId && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center gap-1.5 mb-0.5", children: [
             /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "w-1.5 h-1.5 rounded-full", style: { backgroundColor: (projects.find((p) => p.id === curSess.projectId) || {}).color || "#6366f1" } }),
