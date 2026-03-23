@@ -17877,7 +17877,9 @@ function DrugQuickRef({ detail, compact }) {
     document.head.appendChild(vp);
   }
   if (!vp.content.includes("viewport-fit=cover")) {
-    vp.content = "width=device-width, initial-scale=1, viewport-fit=cover";
+    vp.content = "width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content";
+  } else if (!vp.content.includes("interactive-widget")) {
+    vp.content = vp.content + ", interactive-widget=resizes-content";
   }
   document.documentElement.style.cssText += "height:100%;background:transparent;";
   document.body.style.cssText += "height:100%;background:transparent;margin:0;padding:0;overflow:hidden;";
@@ -19541,7 +19543,7 @@ const setupPWA = () => {
     document.head.appendChild(vp);
   }
   if (!vp.content.includes("viewport-fit")) {
-    vp.content = (vp.content || "width=device-width, initial-scale=1") + ", viewport-fit=cover";
+    vp.content = (vp.content || "width=device-width, initial-scale=1") + ", viewport-fit=cover, interactive-widget=resizes-content";
   }
   let apl = document.querySelector('link[rel="apple-touch-icon"]');
   if (!apl) {
@@ -26868,11 +26870,15 @@ function App() {
       setIsKeyboardOpen(delta > 100 && isEditable);
     };
     const onFocusIn = () => {
-      setTimeout(updateKeyboardState, 100);
-      setTimeout(updateKeyboardState, 350);
-      setTimeout(updateKeyboardState, 600);
+      setTimeout(updateKeyboardState, 50);
+      setTimeout(updateKeyboardState, 200);
+      setTimeout(updateKeyboardState, 450);
+      setTimeout(updateKeyboardState, 700);
     };
-    const onFocusOut = () => setTimeout(updateKeyboardState, 200);
+    const onFocusOut = () => {
+      setTimeout(updateKeyboardState, 50);
+      setTimeout(updateKeyboardState, 200);
+    };
     vv?.addEventListener("resize", updateKeyboardState);
     window.addEventListener("resize", updateKeyboardState);
     window.addEventListener("focusin", onFocusIn);
@@ -27523,10 +27529,9 @@ Provide a detailed analysis of this content.`;
     {
       className: `w-screen flex flex-col overflow-hidden text-[var(--text)] bg-mesh ${settings.theme || "pure-white"} accent-${settings.accentColor || "indigo"}`,
       style: {
-        height: "100%",
-        maxHeight: "100%",
+        height: "100dvh",
+        maxHeight: "100dvh",
         boxSizing: "border-box"
-        /* safe-area-inset-top is handled by the header below */
       },
       children: [
         /* @__PURE__ */ jsxRuntimeExports.jsx("style", { children: `
@@ -27556,13 +27561,12 @@ Provide a detailed analysis of this content.`;
         /* ── ROOT RESET ── */
         html, body, #root {
           margin: 0; padding: 0;
-          position: absolute; inset: 0;
-          width: 100%; height: 100%;
+          width: 100%; height: 100dvh;
           overflow: hidden;
           overscroll-behavior: none;
-          background-color: var(--bg) !important; /* Fixes the white flash at the bottom */
+          background-color: var(--bg) !important;
         }
-        #root { width: 100%; height: 100%; }
+        #root { width: 100%; height: 100dvh; display: flex; flex-direction: column; }
         input,textarea,select{font-size:16px!important;}
         .custom-scrollbar{-webkit-overflow-scrolling:touch;}
         .custom-scrollbar::-webkit-scrollbar{width:2px;height:2px;}
@@ -27737,7 +27741,7 @@ Provide a detailed analysis of this content.`;
           ] })
         ] }),
         /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "design-body flex flex-1 min-h-0 overflow-hidden", children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsxs("main", { className: "design-main flex-1 flex flex-col min-h-0 overflow-hidden overflow-y-auto relative", style: { paddingBottom: isMobile ? 120 : 24 }, children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("main", { className: "design-main flex-1 flex flex-col min-h-0 overflow-hidden overflow-y-auto relative", style: { paddingBottom: isMobile ? isKeyboardOpen ? 8 : 120 : 24 }, children: [
             uploading && /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "absolute top-0 left-0 right-0 h-1.5 bg-[var(--border)] z-50", children: /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "h-full bg-gradient-to-r from-[var(--accent)] to-[var(--accent2,var(--accent))] transition-all duration-300 animate-pulse", style: { width: `${uploadPct}%` } }) }),
             /* @__PURE__ */ jsxRuntimeExports.jsx(ViewWrapper, { active: view === "library", children: /* @__PURE__ */ jsxRuntimeExports.jsx(
               LibraryMergedView,

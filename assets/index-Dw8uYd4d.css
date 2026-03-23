@@ -2825,14 +2825,15 @@ html.dark .design-header::before,
   width: 98%;
   max-width: 600px;
   z-index: 1000;
-  /* Transition on the base so it animates BOTH ways (show and hide) */
-  transition: opacity 0.22s ease, transform 0.22s ease;
+  transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s;
+  will-change: transform, opacity;
 }
 
 .design-nav.keyboard-open-hidden {
   opacity: 0;
   pointer-events: none;
-  transform: translate(-50%, 30px);
+  visibility: hidden;
+  transform: translate(-50%, 40px);
 }
 
 .design-nav-inner {
