@@ -19648,12 +19648,13 @@ function ToastContainer({ toasts }) {
 function useDrag(onDrag, deps = []) {
   const dragging = reactExports.useRef(false);
   const start = reactExports.useCallback((e) => {
-    e.preventDefault();
+    if (e.type !== "touchstart") e.preventDefault();
     dragging.current = true;
     document.body.style.userSelect = "none";
     document.body.style.webkitUserSelect = "none";
     const move = (ev) => {
       if (!dragging.current) return;
+      ev.preventDefault();
       const x = ev.touches?.[0]?.clientX ?? ev.clientX;
       const y = ev.touches?.[0]?.clientY ?? ev.clientY;
       if (x !== void 0) onDrag(x, y);
@@ -20568,9 +20569,8 @@ Answer clearly and precisely.`;
               value: input,
               onChange: (e) => setInput(e.target.value),
               onKeyDown: (e) => {
-                if ((e.key === "Enter" || e.keyCode === 13) && !e.shiftKey) {
+                if (e.key === "Enter" && !e.shiftKey && !e.nativeEvent?.isComposing) {
                   e.preventDefault();
-                  e.stopPropagation();
                   send();
                 }
               },
@@ -20815,10 +20815,9 @@ TUTOR:`;
     /* @__PURE__ */ jsxRuntimeExports.jsxs(
       "div",
       {
-        className: "bg-gradient-to-r from-[var(--accent)] to-[var(--accent2,var(--accent))] text-white flex items-center justify-between px-4 py-3 shrink-0 cursor-grab select-none",
+        className: "bg-gradient-to-r from-[var(--accent)] to-[var(--accent2,var(--accent))] text-white flex items-center justify-between px-4 py-3 shrink-0 cursor-grab select-none touch-none",
         onMouseDown: onDragStart,
         onTouchStart: onDragStart,
-        style: { touchAction: "none" },
         children: [
           /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
             /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { className: "font-black flex items-center gap-2 text-base", children: [
@@ -20859,9 +20858,8 @@ TUTOR:`;
           value: input,
           onChange: (e) => setInput(e.target.value),
           onKeyDown: (e) => {
-            if ((e.key === "Enter" || e.keyCode === 13) && !e.shiftKey) {
+            if (e.key === "Enter" && !e.shiftKey && !e.nativeEvent?.isComposing) {
               e.preventDefault();
-              e.stopPropagation();
               send();
             }
           },
@@ -21120,8 +21118,7 @@ Do NOT discuss other cards or topics outside this card.`;
           {
             onMouseDown: startFcTutorDrag,
             onTouchStart: startFcTutorDrag,
-            className: "hidden lg:flex w-3 cursor-col-resize items-center justify-center bg-[var(--border)]/30 hover:bg-[var(--accent)]/40 shrink-0 touch-none transition-colors group",
-            style: { touchAction: "none" },
+            className: "hidden lg:flex w-1.5 cursor-col-resize items-center justify-center bg-[var(--border)]/30 hover:bg-[var(--accent)]/40 shrink-0 touch-none transition-colors group",
             children: /* @__PURE__ */ jsxRuntimeExports.jsx(GripVertical, { size: 14, className: "opacity-20 group-hover:opacity-70 text-[var(--text)]" })
           }
         ),
@@ -21531,8 +21528,7 @@ Do NOT discuss other questions or topics outside this question.`;
           {
             onMouseDown: startExamTutorDrag,
             onTouchStart: startExamTutorDrag,
-            className: "hidden lg:flex w-3 cursor-col-resize items-center justify-center bg-[var(--border)]/30 hover:bg-[var(--accent)]/40 shrink-0 touch-none transition-colors group",
-            style: { touchAction: "none" },
+            className: "hidden lg:flex w-1.5 cursor-col-resize items-center justify-center bg-[var(--border)]/30 hover:bg-[var(--accent)]/40 shrink-0 touch-none transition-colors group",
             children: /* @__PURE__ */ jsxRuntimeExports.jsx(GripVertical, { size: 14, className: "opacity-20 group-hover:opacity-70 text-[var(--text)]" })
           }
         ),
@@ -22050,8 +22046,7 @@ Do NOT discuss other cases, questions, or topics outside this case.`;
             {
               onMouseDown: startLabDrag,
               onTouchStart: startLabDrag,
-              className: "hidden lg:flex w-3 cursor-col-resize items-center justify-center bg-[var(--border)]/30 hover:bg-[var(--accent)]/40 shrink-0 z-10 touch-none transition-colors group",
-              style: { touchAction: "none" },
+              className: "hidden lg:flex w-1.5 cursor-col-resize items-center justify-center bg-[var(--border)]/30 hover:bg-[var(--accent)]/40 shrink-0 z-10 touch-none transition-colors group",
               children: /* @__PURE__ */ jsxRuntimeExports.jsx(GripVertical, { size: 14, className: "opacity-20 group-hover:opacity-70 text-[var(--text)]" })
             }
           ),
@@ -22067,7 +22062,6 @@ Do NOT discuss other cases, questions, or topics outside this case.`;
                     className: "flex items-center gap-2 px-4 py-3 border-b border-[color:var(--border2,var(--border))] shrink-0 cursor-grab select-none",
                     onMouseDown: startLabDrag,
                     onTouchStart: startLabDrag,
-                    style: { touchAction: "none" },
                     children: [
                       /* @__PURE__ */ jsxRuntimeExports.jsx(Thermometer, { size: 15, className: "text-[var(--accent)] shrink-0" }),
                       /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-sm font-black uppercase tracking-widest text-[var(--accent)]", children: "Laboratory Results" }),
@@ -22101,8 +22095,7 @@ Do NOT discuss other cases, questions, or topics outside this case.`;
             {
               onMouseDown: startTutorDrag,
               onTouchStart: startTutorDrag,
-              className: "hidden lg:flex w-3 cursor-col-resize items-center justify-center bg-[var(--border)]/30 hover:bg-[var(--accent)]/40 shrink-0 z-10 touch-none transition-colors group",
-              style: { touchAction: "none" },
+              className: "hidden lg:flex w-1.5 cursor-col-resize items-center justify-center bg-[var(--border)]/30 hover:bg-[var(--accent)]/40 shrink-0 z-10 touch-none transition-colors group",
               children: /* @__PURE__ */ jsxRuntimeExports.jsx(GripVertical, { size: 14, className: "opacity-20 group-hover:opacity-70 text-[var(--text)]" })
             }
           ),
@@ -22323,7 +22316,7 @@ Do NOT discuss other cases, questions, or topics outside this case.`;
     ] })
   ] });
 }
-function ChatView({ settings, sessions, setSessions }) {
+function ChatView({ settings, sessions, setSessions, isMobile = false, isKeyboardOpen = false }) {
   const [selSess, setSelSess] = reactExports.useState(null);
   const [msgs, setMsgs] = reactExports.useState([]);
   const [input, setInput] = reactExports.useState("");
@@ -22350,11 +22343,11 @@ function ChatView({ settings, sessions, setSessions }) {
   const [encCached, setEncCached] = reactExports.useState(false);
   const [inputRows, setInputRows] = reactExports.useState(1);
   const [hasStarted, setHasStarted] = reactExports.useState(false);
+  const [encFollowInput, setEncFollowInput] = reactExports.useState("");
   const endRef = reactExports.useRef(null);
   const recogRef = reactExports.useRef(null);
   const inputRef = reactExports.useRef(null);
   const scrollRef = reactExports.useRef(null);
-  const encFollowUpRef = reactExports.useRef(null);
   reactExports.useEffect(() => {
     if (scrollRef.current) scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
   }, [msgs, loading]);
@@ -22439,6 +22432,7 @@ function ChatView({ settings, sessions, setSessions }) {
   const openEncycloTopic = (cat, sub, forceRefresh = false) => {
     setEncCat(cat);
     setEncSub(sub);
+    setEncFollowInput("");
     if (window.innerWidth < 1024) setSidebarOpen(false);
     const cacheKey = "enc:" + cat.id + ":" + sub.id;
     if (!forceRefresh) {
@@ -23063,47 +23057,46 @@ function ChatView({ settings, sessions, setSessions }) {
               encLoading && /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "inline-block w-1.5 h-4 bg-[var(--accent)] opacity-70 animate-pulse ml-0.5 rounded-sm align-middle" })
             ] })
           ] }),
-          encSub && /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "shrink-0 px-4 pb-4 pt-2 border-t border-[color:var(--border2,var(--border))]", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "glass rounded-2xl border border-[color:var(--border2,var(--border))] focus-within:border-[var(--accent)]/50 transition-colors", children: [
-            /* @__PURE__ */ jsxRuntimeExports.jsx(
-              "textarea",
-              {
-                ref: encFollowUpRef,
-                placeholder: "Ask a follow-up about " + encSub.label + "…",
-                rows: 2,
-                enterKeyHint: "send",
-                className: "w-full bg-transparent px-4 pt-3 pb-1.5 text-sm outline-none resize-none text-[var(--text)]",
-                onKeyDown: (e) => {
-                  if ((e.key === "Enter" || e.keyCode === 13) && !e.shiftKey) {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    const q = e.target.value.trim();
-                    if (!q) return;
-                    e.target.value = "";
-                    setSidebarTab("chats");
-                    setTimeout(() => send("[ENCYCLO: " + encSub.label + "] " + q), 50);
+          encSub && /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "shrink-0 px-4 pt-2 border-t border-[color:var(--border2,var(--border))]", style: { paddingBottom: isMobile ? isKeyboardOpen ? "8px" : "calc(90px + env(safe-area-inset-bottom, 0px))" : "16px" }, children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "glass rounded-2xl border border-[color:var(--border2,var(--border))] focus-within:border-[var(--accent)]/50 transition-colors", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-end gap-1 px-2 pt-2 pb-2", children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx(
+                "textarea",
+                {
+                  value: encFollowInput,
+                  onChange: (e) => setEncFollowInput(e.target.value),
+                  placeholder: "Ask a follow-up about " + encSub.label + "…",
+                  rows: 2,
+                  enterKeyHint: "send",
+                  className: "flex-1 bg-transparent px-2 pt-1 pb-1 text-sm outline-none resize-none text-[var(--text)]",
+                  onKeyDown: (e) => {
+                    if (e.key === "Enter" && !e.shiftKey && !e.nativeEvent?.isComposing) {
+                      e.preventDefault();
+                      const q = encFollowInput.trim();
+                      if (!q) return;
+                      setEncFollowInput("");
+                      setSidebarTab("chats");
+                      setTimeout(() => send("[ENCYCLO: " + encSub.label + "] " + q), 50);
+                    }
                   }
                 }
-              }
-            ),
-            /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center justify-between px-3 pb-3", children: [
-              /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-[10px] opacity-30 font-medium", children: "Shift+Enter for new line" }),
+              ),
               /* @__PURE__ */ jsxRuntimeExports.jsx(
                 "button",
                 {
                   onClick: () => {
-                    const el = encFollowUpRef.current;
-                    if (!el) return;
-                    const q = el.value.trim();
+                    const q = encFollowInput.trim();
                     if (!q) return;
-                    el.value = "";
+                    setEncFollowInput("");
                     setSidebarTab("chats");
                     setTimeout(() => send("[ENCYCLO: " + encSub.label + "] " + q), 50);
                   },
-                  className: "w-8 h-8 bg-[var(--accent)] rounded-xl text-white flex items-center justify-center hover:opacity-90 active:scale-95 transition-all",
-                  children: /* @__PURE__ */ jsxRuntimeExports.jsx(Send, { size: 14 })
+                  disabled: !encFollowInput.trim(),
+                  className: "w-9 h-9 bg-[var(--accent)] disabled:opacity-30 rounded-xl text-white flex items-center justify-center shadow-md transition-all shrink-0 mb-0.5",
+                  children: /* @__PURE__ */ jsxRuntimeExports.jsx(Send, { size: 15 })
                 }
               )
-            ] })
+            ] }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-[10px] opacity-30 px-4 pb-2 font-medium", children: "Enter or tap Send  ·  Shift+Enter for new line" })
           ] }) })
         ] })
       ) : sidebarTab === "encyclo" ? (
@@ -23233,7 +23226,7 @@ function ChatView({ settings, sessions, setSessions }) {
         ] }),
         /* @__PURE__ */ jsxRuntimeExports.jsx("div", { ref: endRef })
       ] }) }),
-      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: `shrink-0 px-4 pb-4 pt-3 border-t border-[color:var(--border2,var(--border))] ${sidebarTab === "encyclo" ? "hidden" : ""}`, style: { backdropFilter: "blur(20px)", background: "var(--surface,var(--card))" }, children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "max-w-3xl mx-auto", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: `shrink-0 px-4 pt-3 border-t border-[color:var(--border2,var(--border))] ${sidebarTab === "encyclo" ? "hidden" : ""}`, style: { backdropFilter: "blur(20px)", background: "var(--surface,var(--card))", paddingBottom: isMobile ? isKeyboardOpen ? "8px" : "calc(90px + env(safe-area-inset-bottom, 0px))" : "16px" }, children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "max-w-3xl mx-auto", children: [
         selProject && (() => {
           const p = projects.find((x) => x.id === selProject);
           return p ? /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center gap-2 mb-2 px-1", children: [
@@ -23253,16 +23246,15 @@ function ChatView({ settings, sessions, setSessions }) {
                 setInputRows(Math.min(8, e.target.value.split("\n").length + 1));
               },
               onKeyDown: (e) => {
-                if ((e.key === "Enter" || e.keyCode === 13) && !e.shiftKey) {
+                if (e.key === "Enter" && !e.shiftKey && !e.nativeEvent?.isComposing) {
                   e.preventDefault();
-                  e.stopPropagation();
                   send();
                 }
               },
               placeholder: "Message MARIAM… (Shift+Enter for new line)",
-              enterKeyHint: "send",
               disabled: loading,
               rows: inputRows,
+              enterKeyHint: "send",
               className: "w-full bg-transparent px-4 pt-3.5 pb-2 text-sm outline-none resize-none custom-scrollbar text-[var(--text)]",
               style: { minHeight: 52 }
             }
@@ -27280,6 +27272,7 @@ function App() {
         if (lastId) setTimeout(() => {
           setActiveId(lastId);
           setView("reader");
+          setRpOpen(true);
         }, 60);
       }
     } catch (e2) {
@@ -27953,7 +27946,7 @@ Provide a detailed analysis of this content.`;
             ] })
           ] })
         ] }),
-        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "design-body flex flex-1 min-h-0 overflow-hidden relative", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "design-body flex flex-1 min-h-0 overflow-hidden", children: [
           /* @__PURE__ */ jsxRuntimeExports.jsxs("main", { className: "design-main flex-1 flex flex-col min-h-0 overflow-hidden overflow-y-auto relative", style: { paddingBottom: isMobile ? isKeyboardOpen ? 8 : 120 : 24 }, children: [
             uploading && /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "absolute top-0 left-0 right-0 h-1.5 bg-[var(--border)] z-50", children: /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "h-full bg-gradient-to-r from-[var(--accent)] to-[var(--accent2,var(--accent))] transition-all duration-300 animate-pulse", style: { width: `${uploadPct}%` } }) }),
             /* @__PURE__ */ jsxRuntimeExports.jsx(ViewWrapper, { active: view === "library", children: /* @__PURE__ */ jsxRuntimeExports.jsx(
@@ -27984,7 +27977,7 @@ Provide a detailed analysis of this content.`;
             /* @__PURE__ */ jsxRuntimeExports.jsx(ViewWrapper, { active: view === "flashcards", children: /* @__PURE__ */ jsxRuntimeExports.jsx(FlashcardsView, { flashcards, setFlashcards, settings, addToast, docs, setExams, setCases }) }),
             /* @__PURE__ */ jsxRuntimeExports.jsx(ViewWrapper, { active: view === "exams", children: /* @__PURE__ */ jsxRuntimeExports.jsx(ExamsView, { exams, setExams, settings, addToast, docs, setFlashcards, setCases }) }),
             /* @__PURE__ */ jsxRuntimeExports.jsx(ViewWrapper, { active: view === "cases", children: /* @__PURE__ */ jsxRuntimeExports.jsx(CasesView, { cases, setCases, settings, addToast, docs, setFlashcards, setExams }) }),
-            /* @__PURE__ */ jsxRuntimeExports.jsx(ViewWrapper, { active: view === "chat", children: /* @__PURE__ */ jsxRuntimeExports.jsx(ChatView, { settings, sessions: chatSessions, setSessions: setChatSessions }) }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx(ViewWrapper, { active: view === "chat", children: /* @__PURE__ */ jsxRuntimeExports.jsx(ChatView, { settings, sessions: chatSessions, setSessions: setChatSessions, isMobile, isKeyboardOpen }) }),
             /* @__PURE__ */ jsxRuntimeExports.jsx(ViewWrapper, { active: view === "encyclopedia", children: /* @__PURE__ */ jsxRuntimeExports.jsx(MedicalEncyclopediaView, { settings }) }),
             /* @__PURE__ */ jsxRuntimeExports.jsx(ViewWrapper, { active: view === "settings", children: /* @__PURE__ */ jsxRuntimeExports.jsx(SettingsView, { settings, setSettings, installPrompt, onInstall }) }),
             /* @__PURE__ */ jsxRuntimeExports.jsx(ViewWrapper, { active: showReader, children: activeDoc && /* @__PURE__ */ jsxRuntimeExports.jsx(
@@ -28010,8 +28003,7 @@ Provide a detailed analysis of this content.`;
               {
                 onMouseDown: startRpDrag,
                 onTouchStart: startRpDrag,
-                className: "hidden lg:flex w-3 cursor-col-resize items-center justify-center bg-[var(--border)]/30 hover:bg-[var(--accent)]/30 shrink-0 z-[120] touch-none transition-colors group",
-                style: { touchAction: "none" },
+                className: "hidden lg:flex w-2 cursor-col-resize items-center justify-center bg-[var(--border)]/30 hover:bg-[var(--accent)]/30 shrink-0 z-[120] touch-none transition-colors group",
                 children: /* @__PURE__ */ jsxRuntimeExports.jsx(GripVertical, { size: 16, className: "text-[var(--text)] opacity-20 group-hover:opacity-60" })
               }
             ),
