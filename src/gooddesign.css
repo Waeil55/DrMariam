@@ -257,11 +257,12 @@ html.dark .design-header::before,
   }
 
   /* Header becomes a full-width horizontal top nav bar */
+  /* padding-top accounts for iOS PWA safe-area (status bar) in landscape standalone mode */
   .design-header {
     text-align: left;
-    padding: 0 20px;
-    height: 62px;
-    min-height: 62px;
+    padding: env(safe-area-inset-top, 0px) 20px 0;
+    height: calc(62px + env(safe-area-inset-top, 0px));
+    min-height: calc(62px + env(safe-area-inset-top, 0px));
     display: flex !important;
     align-items: center;
     gap: 12px;
