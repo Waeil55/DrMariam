@@ -22586,7 +22586,7 @@ function ChatView({ settings, sessions, setSessions }) {
     /* @__PURE__ */ jsxRuntimeExports.jsxs(
       "div",
       {
-        className: "flex flex-col border-r border-[color:var(--border2,var(--border))] transition-all duration-300 shrink-0 lg:relative absolute inset-y-0 left-0 z-[41] " + (sidebarOpen ? "w-[280px]" : "w-0 overflow-hidden"),
+        className: "flex flex-col border-r border-[color:var(--border2,var(--border))] transition-all duration-300 shrink-0 lg:relative absolute inset-y-0 left-0 z-[41] " + (sidebarOpen ? "w-[320px]" : "w-0 overflow-hidden"),
         style: { background: "var(--bg)" },
         children: [
           /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center justify-between px-4 py-3 border-b border-[color:var(--border2,var(--border))] shrink-0", children: [
@@ -22773,7 +22773,7 @@ function ChatView({ settings, sessions, setSessions }) {
                     }
                   ),
                   /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex-1 min-w-0", children: [
-                    /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-xs font-bold truncate", children: cat.label }),
+                    /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-[11px] font-bold truncate", children: cat.label }),
                     /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { className: "text-[9px] opacity-40", children: [
                       cat.subcategories.length,
                       " topics"
