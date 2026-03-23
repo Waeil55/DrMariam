@@ -9580,6 +9580,8 @@ function App() {
 
   return (
     <>
+    {/* Full-viewport background — prevents white gaps in iPhone safe areas when nav is outside overflow:hidden root */}
+    <div className={`fixed inset-0 -z-10 bg-mesh ${settings.theme || 'pure-white'} accent-${settings.accentColor || 'indigo'}`} style={{ background: 'var(--bg)' }} />
     <div className={`w-screen flex flex-col overflow-hidden text-[var(--text)] bg-mesh ${settings.theme || 'pure-white'} accent-${settings.accentColor || 'indigo'}`}
       style={{
         height: '100dvh',
