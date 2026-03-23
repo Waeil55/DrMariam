@@ -1,5 +1,5 @@
-import { r as reactExports, R as React, L as Loader2, A as AlertCircle, X, S as Search, F as FolderOpen, B as BookMarked, a as Layers, b as Activity, C as CheckSquare, G as Globe, M as MessageSquare, c as Settings, d as Sparkles, e as GripVertical, Z as Zap, D as Database, f as CheckCircle2, I as Info, g as FileText, P as PenLine, h as FileUp, i as Grid3x3, j as List, k as ChevronLeft, l as Printer, m as RefreshCw, n as Shuffle, o as FilePlus, T as Trash2, E as Eye, p as Target, q as Stethoscope, s as Thermometer, t as ChevronRight, u as Pin, v as Copy, w as Plus, x as BookA, y as Pill, H as Heart, z as GraduationCap, J as Award, K as Brain, N as Clipboard, O as Star, Q as Network, U as Leaf, V as Flame, W as Monitor, Y as FlaskConical, _ as BookOpen, $ as History, a0 as RotateCcw, a1 as CircleUserRound, a2 as MicOff, a3 as Mic, a4 as Send, a5 as BotMessageSquare, a6 as Smartphone, a7 as Download, a8 as KeyRound, a9 as Palette, aa as Sun, ab as CloudSun, ac as Moon, ad as MoonStar, ae as PanelsTopLeft, af as FileCode, ag as Image, ah as Table, ai as ZoomOut, aj as Maximize, ak as ZoomIn, al as Save, am as AlignLeft, an as Lightbulb, ao as Baby, ap as Tag, aq as Clock, ar as Languages, as as Wand2, at as Code, au as ListChecks, av as Hash, aw as MoreVertical, ax as Layers3, ay as ChevronUp, az as ChevronDown } from './icons-t8PAvEEn.js';
-import { r as reactDomExports } from './react-BYwxiPsA.js';
+import { r as reactExports, R as React, L as Loader2, A as AlertCircle, X, S as Search, F as FolderOpen, B as BookMarked, a as Layers, b as Activity, C as CheckSquare, G as Globe, M as MessageSquare, c as Settings, d as Sparkles, e as GripVertical, Z as Zap, D as Database, f as CheckCircle2, I as Info, g as FileText, P as PenLine, h as FileUp, i as Grid3x3, j as List, k as ChevronLeft, l as Printer, m as RefreshCw, n as Shuffle, o as FilePlus, T as Trash2, E as Eye, p as Target, q as Stethoscope, s as Thermometer, t as ChevronRight, u as Pin, v as Copy, w as Plus, x as BookA, y as Pill, H as Heart, z as GraduationCap, J as Award, K as Brain, N as Clipboard, O as Star, Q as Network, U as Leaf, V as Flame, W as Monitor, Y as FlaskConical, _ as BookOpen, $ as History, a0 as RotateCcw, a1 as Send, a2 as CircleUserRound, a3 as MicOff, a4 as Mic, a5 as BotMessageSquare, a6 as Smartphone, a7 as Download, a8 as KeyRound, a9 as Palette, aa as Sun, ab as CloudSun, ac as Moon, ad as MoonStar, ae as PanelsTopLeft, af as FileCode, ag as Image, ah as Table, ai as ZoomOut, aj as Maximize, ak as ZoomIn, al as Save, am as AlignLeft, an as Lightbulb, ao as Baby, ap as Tag, aq as Clock, ar as Languages, as as Wand2, at as Code, au as ListChecks, av as Hash, aw as MoreVertical, ax as Layers3, ay as ChevronUp, az as ChevronDown } from './icons-CBcOW6m4.js';
+import { r as reactDomExports } from './react-BB1Gn9GT.js';
 
 true&&(function polyfill() {
   const relList = document.createElement("link").relList;
@@ -20568,14 +20568,16 @@ Answer clearly and precisely.`;
               value: input,
               onChange: (e) => setInput(e.target.value),
               onKeyDown: (e) => {
-                if (e.key === "Enter" && !e.shiftKey) {
+                if ((e.key === "Enter" || e.keyCode === 13) && !e.shiftKey) {
                   e.preventDefault();
+                  e.stopPropagation();
                   send();
                 }
               },
               placeholder: "Ask about this document…",
               disabled: loading,
               rows: 1,
+              enterKeyHint: "send",
               className: "flex-1 bg-[var(--bg)] border border-[color:var(--border2,var(--border))] rounded-xl px-3 py-2 text-xs outline-none resize-none focus:border-[var(--accent)] text-[var(--text)] min-h-[36px] max-h-24"
             }
           ),
@@ -20816,6 +20818,7 @@ TUTOR:`;
         className: "bg-gradient-to-r from-[var(--accent)] to-[var(--accent2,var(--accent))] text-white flex items-center justify-between px-4 py-3 shrink-0 cursor-grab select-none",
         onMouseDown: onDragStart,
         onTouchStart: onDragStart,
+        style: { touchAction: "none" },
         children: [
           /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
             /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { className: "font-black flex items-center gap-2 text-base", children: [
@@ -20856,14 +20859,16 @@ TUTOR:`;
           value: input,
           onChange: (e) => setInput(e.target.value),
           onKeyDown: (e) => {
-            if (e.key === "Enter" && !e.shiftKey) {
+            if ((e.key === "Enter" || e.keyCode === 13) && !e.shiftKey) {
               e.preventDefault();
+              e.stopPropagation();
               send();
             }
           },
           placeholder: "Ask your tutor anything…",
           disabled: loading,
           rows: 1,
+          enterKeyHint: "send",
           className: "flex-1 bg-transparent p-1.5 text-sm outline-none resize-none max-h-32 custom-scrollbar text-[var(--text)] min-h-[36px]"
         }
       ),
@@ -21115,7 +21120,8 @@ Do NOT discuss other cards or topics outside this card.`;
           {
             onMouseDown: startFcTutorDrag,
             onTouchStart: startFcTutorDrag,
-            className: "hidden lg:flex w-1.5 cursor-col-resize items-center justify-center bg-[var(--border)]/30 hover:bg-[var(--accent)]/40 shrink-0 touch-none transition-colors group",
+            className: "hidden lg:flex w-3 cursor-col-resize items-center justify-center bg-[var(--border)]/30 hover:bg-[var(--accent)]/40 shrink-0 touch-none transition-colors group",
+            style: { touchAction: "none" },
             children: /* @__PURE__ */ jsxRuntimeExports.jsx(GripVertical, { size: 14, className: "opacity-20 group-hover:opacity-70 text-[var(--text)]" })
           }
         ),
@@ -21525,7 +21531,8 @@ Do NOT discuss other questions or topics outside this question.`;
           {
             onMouseDown: startExamTutorDrag,
             onTouchStart: startExamTutorDrag,
-            className: "hidden lg:flex w-1.5 cursor-col-resize items-center justify-center bg-[var(--border)]/30 hover:bg-[var(--accent)]/40 shrink-0 touch-none transition-colors group",
+            className: "hidden lg:flex w-3 cursor-col-resize items-center justify-center bg-[var(--border)]/30 hover:bg-[var(--accent)]/40 shrink-0 touch-none transition-colors group",
+            style: { touchAction: "none" },
             children: /* @__PURE__ */ jsxRuntimeExports.jsx(GripVertical, { size: 14, className: "opacity-20 group-hover:opacity-70 text-[var(--text)]" })
           }
         ),
@@ -22043,7 +22050,8 @@ Do NOT discuss other cases, questions, or topics outside this case.`;
             {
               onMouseDown: startLabDrag,
               onTouchStart: startLabDrag,
-              className: "hidden lg:flex w-1.5 cursor-col-resize items-center justify-center bg-[var(--border)]/30 hover:bg-[var(--accent)]/40 shrink-0 z-10 touch-none transition-colors group",
+              className: "hidden lg:flex w-3 cursor-col-resize items-center justify-center bg-[var(--border)]/30 hover:bg-[var(--accent)]/40 shrink-0 z-10 touch-none transition-colors group",
+              style: { touchAction: "none" },
               children: /* @__PURE__ */ jsxRuntimeExports.jsx(GripVertical, { size: 14, className: "opacity-20 group-hover:opacity-70 text-[var(--text)]" })
             }
           ),
@@ -22059,6 +22067,7 @@ Do NOT discuss other cases, questions, or topics outside this case.`;
                     className: "flex items-center gap-2 px-4 py-3 border-b border-[color:var(--border2,var(--border))] shrink-0 cursor-grab select-none",
                     onMouseDown: startLabDrag,
                     onTouchStart: startLabDrag,
+                    style: { touchAction: "none" },
                     children: [
                       /* @__PURE__ */ jsxRuntimeExports.jsx(Thermometer, { size: 15, className: "text-[var(--accent)] shrink-0" }),
                       /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-sm font-black uppercase tracking-widest text-[var(--accent)]", children: "Laboratory Results" }),
@@ -22092,7 +22101,8 @@ Do NOT discuss other cases, questions, or topics outside this case.`;
             {
               onMouseDown: startTutorDrag,
               onTouchStart: startTutorDrag,
-              className: "hidden lg:flex w-1.5 cursor-col-resize items-center justify-center bg-[var(--border)]/30 hover:bg-[var(--accent)]/40 shrink-0 z-10 touch-none transition-colors group",
+              className: "hidden lg:flex w-3 cursor-col-resize items-center justify-center bg-[var(--border)]/30 hover:bg-[var(--accent)]/40 shrink-0 z-10 touch-none transition-colors group",
+              style: { touchAction: "none" },
               children: /* @__PURE__ */ jsxRuntimeExports.jsx(GripVertical, { size: 14, className: "opacity-20 group-hover:opacity-70 text-[var(--text)]" })
             }
           ),
@@ -22338,6 +22348,7 @@ function ChatView({ settings, sessions, setSessions }) {
   const [encContent, setEncContent] = reactExports.useState("");
   const [encLoading, setEncLoading] = reactExports.useState(false);
   const [encCached, setEncCached] = reactExports.useState(false);
+  const [encFollowUp, setEncFollowUp] = reactExports.useState("");
   const [inputRows, setInputRows] = reactExports.useState(1);
   const [hasStarted, setHasStarted] = reactExports.useState(false);
   const endRef = reactExports.useRef(null);
@@ -23056,22 +23067,43 @@ function ChatView({ settings, sessions, setSessions }) {
             /* @__PURE__ */ jsxRuntimeExports.jsx(
               "textarea",
               {
+                value: encFollowUp,
+                onChange: (e) => setEncFollowUp(e.target.value),
                 placeholder: "Ask a follow-up about " + encSub.label + "…",
+                enterKeyHint: "send",
                 rows: 2,
                 className: "w-full bg-transparent px-4 pt-3 pb-1.5 text-sm outline-none resize-none text-[var(--text)]",
                 onKeyDown: (e) => {
-                  if (e.key === "Enter" && !e.shiftKey) {
+                  if ((e.key === "Enter" || e.keyCode === 13) && !e.shiftKey) {
                     e.preventDefault();
-                    const q = e.target.value.trim();
+                    e.stopPropagation();
+                    const q = encFollowUp.trim();
                     if (!q) return;
-                    e.target.value = "";
+                    setEncFollowUp("");
                     setSidebarTab("chats");
                     setTimeout(() => send("[ENCYCLO: " + encSub.label + "] " + q), 50);
                   }
                 }
               }
             ),
-            /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-[10px] opacity-30 px-4 pb-2.5 font-medium", children: "Enter to ask in Chat  ·  Shift+Enter for new line" })
+            /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center justify-between px-3 pb-3", children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-[10px] opacity-30 font-medium", children: "Shift+Enter for new line" }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx(
+                "button",
+                {
+                  onClick: () => {
+                    const q = encFollowUp.trim();
+                    if (!q) return;
+                    setEncFollowUp("");
+                    setSidebarTab("chats");
+                    setTimeout(() => send("[ENCYCLO: " + encSub.label + "] " + q), 50);
+                  },
+                  disabled: !encFollowUp.trim(),
+                  className: "w-8 h-8 bg-[var(--accent)] disabled:opacity-30 rounded-xl text-white flex items-center justify-center transition-opacity",
+                  children: /* @__PURE__ */ jsxRuntimeExports.jsx(Send, { size: 14 })
+                }
+              )
+            ] })
           ] }) })
         ] })
       ) : sidebarTab === "encyclo" ? (
@@ -23221,12 +23253,14 @@ function ChatView({ settings, sessions, setSessions }) {
                 setInputRows(Math.min(8, e.target.value.split("\n").length + 1));
               },
               onKeyDown: (e) => {
-                if (e.key === "Enter" && !e.shiftKey) {
+                if ((e.key === "Enter" || e.keyCode === 13) && !e.shiftKey) {
                   e.preventDefault();
+                  e.stopPropagation();
                   send();
                 }
               },
               placeholder: "Message MARIAM… (Shift+Enter for new line)",
+              enterKeyHint: "send",
               disabled: loading,
               rows: inputRows,
               className: "w-full bg-transparent px-4 pt-3.5 pb-2 text-sm outline-none resize-none custom-scrollbar text-[var(--text)]",
@@ -27246,7 +27280,6 @@ function App() {
         if (lastId) setTimeout(() => {
           setActiveId(lastId);
           setView("reader");
-          setRpOpen(true);
         }, 60);
       }
     } catch (e2) {
@@ -27920,7 +27953,7 @@ Provide a detailed analysis of this content.`;
             ] })
           ] })
         ] }),
-        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "design-body flex flex-1 min-h-0 overflow-hidden", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "design-body flex flex-1 min-h-0 overflow-hidden relative", children: [
           /* @__PURE__ */ jsxRuntimeExports.jsxs("main", { className: "design-main flex-1 flex flex-col min-h-0 overflow-hidden overflow-y-auto relative", style: { paddingBottom: isMobile ? isKeyboardOpen ? 8 : 120 : 24 }, children: [
             uploading && /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "absolute top-0 left-0 right-0 h-1.5 bg-[var(--border)] z-50", children: /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "h-full bg-gradient-to-r from-[var(--accent)] to-[var(--accent2,var(--accent))] transition-all duration-300 animate-pulse", style: { width: `${uploadPct}%` } }) }),
             /* @__PURE__ */ jsxRuntimeExports.jsx(ViewWrapper, { active: view === "library", children: /* @__PURE__ */ jsxRuntimeExports.jsx(
@@ -27977,7 +28010,8 @@ Provide a detailed analysis of this content.`;
               {
                 onMouseDown: startRpDrag,
                 onTouchStart: startRpDrag,
-                className: "hidden lg:flex w-2 cursor-col-resize items-center justify-center bg-[var(--border)]/30 hover:bg-[var(--accent)]/30 shrink-0 z-[120] touch-none transition-colors group",
+                className: "hidden lg:flex w-3 cursor-col-resize items-center justify-center bg-[var(--border)]/30 hover:bg-[var(--accent)]/30 shrink-0 z-[120] touch-none transition-colors group",
+                style: { touchAction: "none" },
                 children: /* @__PURE__ */ jsxRuntimeExports.jsx(GripVertical, { size: 16, className: "text-[var(--text)] opacity-20 group-hover:opacity-60" })
               }
             ),
