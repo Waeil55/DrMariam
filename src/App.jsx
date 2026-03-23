@@ -5508,14 +5508,14 @@ function ChatView({ settings, sessions, setSessions }) {
                 <button onClick={() => setSelProject(null)} className="opacity-40 hover:opacity-80"><X size={11} /></button>
               </div>
             ) : null; })()}
-            <div className="glass rounded-2xl border border-[color:var(--border2,var(--border))] focus-within:border-[var(--accent)]/50 transition-colors shadow-lg">
+            <div className="chat-input-inner glass rounded-2xl border border-[color:var(--border2,var(--border))] focus-within:border-[var(--accent)]/50 transition-colors shadow-lg">
               <textarea ref={inputRef} value={input}
                 onChange={e => { setInput(e.target.value); setInputRows(Math.min(8, e.target.value.split("\n").length + 1)); }}
                 onKeyDown={e => { if ((e.key === 'Enter' || e.keyCode === 13) && !e.shiftKey) { e.preventDefault(); e.stopPropagation(); send(); } }}
                 placeholder="Message MARIAM… (Shift+Enter for new line)"
                 enterKeyHint="send" disabled={loading} rows={inputRows}
                 className="w-full bg-transparent px-4 pt-3.5 pb-2 text-sm outline-none resize-none custom-scrollbar text-[var(--text)]" style={{ minHeight: 52 }} />
-              <div className="flex items-center justify-between px-3 pb-3">
+              <div className="chat-input-actions flex items-center justify-between px-3 pb-3">
                 <div className="flex items-center gap-1">
                   <button onClick={toggleVoice}
                     className={'w-8 h-8 rounded-xl flex items-center justify-center transition-all ' + (listening ? 'bg-red-500 text-white animate-pulse' : 'opacity-50 hover:opacity-100 hover:bg-black/8 dark:hover:bg-white/8')} title={listening ? 'Stop' : 'Voice input'}>
@@ -8992,6 +8992,16 @@ function App() {
     };
   }, [isMobile]);
 
+  // Track visual viewport height so the app container shrinks when the keyboard opens
+  const [vvH, setVvH] = useState(() => window.visualViewport?.height || window.innerHeight);
+  useEffect(() => {
+    const vv = window.visualViewport;
+    const update = () => setVvH(vv?.height || window.innerHeight);
+    vv?.addEventListener('resize', update);
+    window.addEventListener('resize', update);
+    return () => { vv?.removeEventListener('resize', update); window.removeEventListener('resize', update); };
+  }, []);
+
   // (body background kept transparent — app div covers full screen)
 
   useKeyboardShortcuts([
@@ -9539,8 +9549,8 @@ function App() {
   return (
     <div className={`w-screen flex flex-col overflow-hidden text-[var(--text)] bg-mesh ${settings.theme || 'pure-white'} accent-${settings.accentColor || 'indigo'}`}
       style={{
-        height: '100dvh',
-        maxHeight: '100dvh',
+        height: isMobile ? vvH : '100dvh',
+        maxHeight: isMobile ? vvH : '100dvh',
         boxSizing: 'border-box',
       }}>
       <style>{`
