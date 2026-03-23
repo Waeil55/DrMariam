@@ -1,5 +1,5 @@
-import { r as reactExports, R as React, L as Loader2, A as AlertCircle, X, S as Search, F as FolderOpen, B as BookMarked, a as Layers, b as Activity, C as CheckSquare, G as Globe, M as MessageSquare, c as Settings, d as Sparkles, e as GripVertical, Z as Zap, D as Database, f as CheckCircle2, I as Info, g as FileText, P as PenLine, h as FileUp, i as Grid3x3, j as List, k as ChevronLeft, l as Printer, m as RefreshCw, n as FilePlus, T as Trash2, E as Eye, o as Target, p as Stethoscope, q as ChevronRight, s as Thermometer, t as ChevronDown, u as Pin, v as Copy, w as Plus, x as BookA, y as Pill, H as Heart, z as GraduationCap, J as Award, K as Brain, N as Clipboard, O as Star, Q as Network, U as Leaf, V as Flame, W as Monitor, Y as FlaskConical, _ as BookOpen, $ as History, a0 as RotateCcw, a1 as CircleUserRound, a2 as MicOff, a3 as Mic, a4 as Send, a5 as BotMessageSquare, a6 as Smartphone, a7 as Download, a8 as KeyRound, a9 as Palette, aa as Sun, ab as CloudSun, ac as Moon, ad as MoonStar, ae as PanelsTopLeft, af as FileCode, ag as Image, ah as Table, ai as ZoomOut, aj as Maximize, ak as ZoomIn, al as Save, am as AlignLeft, an as Lightbulb, ao as Baby, ap as Tag, aq as Clock, ar as Languages, as as Wand2, at as Code, au as ListChecks, av as Hash, aw as MoreVertical, ax as Layers3, ay as ChevronUp } from './icons-6CdlYKY6.js';
-import { r as reactDomExports } from './react-DYBYVNG8.js';
+import { r as reactExports, R as React, L as Loader2, A as AlertCircle, X, S as Search, F as FolderOpen, B as BookMarked, a as Layers, b as Activity, C as CheckSquare, G as Globe, M as MessageSquare, c as Settings, d as Sparkles, e as GripVertical, Z as Zap, D as Database, f as CheckCircle2, I as Info, g as FileText, P as PenLine, h as FileUp, i as Grid3x3, j as List, k as ChevronLeft, l as Printer, m as RefreshCw, n as Shuffle, o as FilePlus, T as Trash2, E as Eye, p as Target, q as Stethoscope, s as ChevronRight, t as Thermometer, u as ChevronDown, v as Pin, w as Copy, x as Plus, y as BookA, z as Pill, H as Heart, J as GraduationCap, K as Award, N as Brain, O as Clipboard, Q as Star, U as Network, V as Leaf, W as Flame, Y as Monitor, _ as FlaskConical, $ as BookOpen, a0 as History, a1 as RotateCcw, a2 as CircleUserRound, a3 as MicOff, a4 as Mic, a5 as Send, a6 as BotMessageSquare, a7 as Smartphone, a8 as Download, a9 as KeyRound, aa as Palette, ab as Sun, ac as CloudSun, ad as Moon, ae as MoonStar, af as PanelsTopLeft, ag as FileCode, ah as Image, ai as Table, aj as ZoomOut, ak as Maximize, al as ZoomIn, am as Save, an as AlignLeft, ao as Lightbulb, ap as Baby, aq as Tag, ar as Clock, as as Languages, at as Wand2, au as Code, av as ListChecks, aw as Hash, ax as MoreVertical, ay as Layers3, az as ChevronUp } from './icons-Spe__sDA.js';
+import { r as reactDomExports } from './react-5GtXZgYV.js';
 
 true&&(function polyfill() {
   const relList = document.createElement("link").relList;
@@ -21117,23 +21117,10 @@ Do NOT discuss other cards or topics outside this card.`;
     ),
     /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "w-full p-6 lg:p-8 space-y-6", children: [
       /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex flex-col gap-3", children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center justify-between", children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsxs("h1", { className: "text-2xl lg:text-3xl font-black flex items-center gap-3", children: [
-            /* @__PURE__ */ jsxRuntimeExports.jsx(Layers, { size: 26, className: "opacity-40" }),
-            " Flashcards"
-          ] }),
-          /* @__PURE__ */ jsxRuntimeExports.jsxs(
-            "button",
-            {
-              onClick: () => setShowModal(true),
-              className: "btn-accent px-4 py-2.5 rounded-xl text-xs font-black flex items-center gap-2 shadow-lg",
-              children: [
-                /* @__PURE__ */ jsxRuntimeExports.jsx(FilePlus, { size: 18 }),
-                " From File"
-              ]
-            }
-          )
-        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "flex items-center justify-between", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("h1", { className: "text-2xl lg:text-3xl font-black flex items-center gap-3", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx(Layers, { size: 26, className: "opacity-40" }),
+          " Flashcards"
+        ] }) }),
         /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex gap-2 items-center flex-wrap", children: [
           /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex-1 flex items-center gap-2 glass rounded-2xl px-4 py-2.5 border border-[color:var(--border2,var(--border))]", style: { minWidth: 200 }, children: [
             /* @__PURE__ */ jsxRuntimeExports.jsx(Search, { size: 15, className: "opacity-30 shrink-0" }),
@@ -21196,7 +21183,7 @@ Do NOT discuss other cards or topics outside this card.`;
               }
             )
           ] }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx(
+          /* @__PURE__ */ jsxRuntimeExports.jsxs(
             "button",
             {
               onClick: () => {
@@ -21211,9 +21198,12 @@ Do NOT discuss other cards or topics outside this card.`;
                 } });
                 addToast("🎲 Generating random topic cards…", "info");
               },
-              className: "flex items-center gap-2 px-4 py-2.5 rounded-2xl text-xs font-black border-2 border-dashed transition-all hover:opacity-80 whitespace-nowrap",
-              style: { borderColor: "#6366f160", color: "#6366f1", background: "#6366f110" },
-              children: "🎲 Random"
+              className: "flex items-center gap-1.5 px-3.5 py-2.5 rounded-2xl text-xs font-black transition-all hover:scale-105 active:scale-95 whitespace-nowrap shadow-sm",
+              style: { background: "linear-gradient(135deg,#818cf8,#6366f1)", color: "#fff", boxShadow: "0 4px 14px #6366f140" },
+              children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsx(Shuffle, { size: 12 }),
+                " Random"
+              ]
             }
           ),
           /* @__PURE__ */ jsxRuntimeExports.jsxs("button", { onClick: () => setShowModal(true), className: "flex items-center gap-2 px-3 py-2.5 rounded-2xl text-xs font-black glass border border-[color:var(--border2,var(--border))] hover:opacity-80 whitespace-nowrap opacity-60", children: [
@@ -21617,16 +21607,10 @@ Correct: ${selEx?.questions?.[qi]?.options?.[selEx?.questions?.[qi]?.correct]}`,
     ),
     /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "w-full p-6 lg:p-8 space-y-6", children: [
       /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex flex-col gap-3", children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center justify-between", children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsxs("h1", { className: "text-2xl lg:text-3xl font-black flex items-center gap-3", children: [
-            /* @__PURE__ */ jsxRuntimeExports.jsx(CheckSquare, { size: 26, className: "opacity-40" }),
-            " Exams"
-          ] }),
-          /* @__PURE__ */ jsxRuntimeExports.jsxs("button", { onClick: () => setShowModal(true), className: "btn-accent px-4 py-2.5 rounded-xl text-xs font-black flex items-center gap-2 shadow-lg", children: [
-            /* @__PURE__ */ jsxRuntimeExports.jsx(FilePlus, { size: 18 }),
-            " From File"
-          ] })
-        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "flex items-center justify-between", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("h1", { className: "text-2xl lg:text-3xl font-black flex items-center gap-3", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx(CheckSquare, { size: 26, className: "opacity-40" }),
+          " Exams"
+        ] }) }),
         /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex gap-2 items-center flex-wrap", children: [
           /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex-1 flex items-center gap-2 glass rounded-2xl px-4 py-2.5 border border-[color:var(--border2,var(--border))]", style: { minWidth: 200 }, children: [
             /* @__PURE__ */ jsxRuntimeExports.jsx(Search, { size: 15, className: "opacity-30 shrink-0" }),
@@ -21685,7 +21669,7 @@ Correct: ${selEx?.questions?.[qi]?.options?.[selEx?.questions?.[qi]?.correct]}`,
               }
             )
           ] }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx(
+          /* @__PURE__ */ jsxRuntimeExports.jsxs(
             "button",
             {
               onClick: () => {
@@ -21698,9 +21682,12 @@ Correct: ${selEx?.questions?.[qi]?.options?.[selEx?.questions?.[qi]?.correct]}`,
                 } });
                 addToast("🎲 Generating random exam…", "info");
               },
-              className: "flex items-center gap-2 px-4 py-2.5 rounded-2xl text-xs font-black border-2 border-dashed transition-all hover:opacity-80 whitespace-nowrap",
-              style: { borderColor: "#3b82f660", color: "#3b82f6", background: "#3b82f610" },
-              children: "🎲 Random"
+              className: "flex items-center gap-1.5 px-3.5 py-2.5 rounded-2xl text-xs font-black transition-all hover:scale-105 active:scale-95 whitespace-nowrap shadow-sm",
+              style: { background: "linear-gradient(135deg,#60a5fa,#3b82f6)", color: "#fff", boxShadow: "0 4px 14px #3b82f640" },
+              children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsx(Shuffle, { size: 12 }),
+                " Random"
+              ]
             }
           ),
           /* @__PURE__ */ jsxRuntimeExports.jsxs("button", { onClick: () => setShowModal(true), className: "flex items-center gap-2 px-3 py-2.5 rounded-2xl text-xs font-black glass border border-[color:var(--border2,var(--border))] hover:opacity-80 whitespace-nowrap opacity-60", children: [
@@ -22126,16 +22113,10 @@ Do NOT discuss other cases, questions, or topics outside this case.`;
     ),
     /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "w-full p-6 lg:p-8 space-y-6", children: [
       /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex flex-col gap-3", children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center justify-between", children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsxs("h1", { className: "text-2xl lg:text-3xl font-black flex items-center gap-3", children: [
-            /* @__PURE__ */ jsxRuntimeExports.jsx(Activity, { size: 26, className: "opacity-40" }),
-            " Clinical Cases"
-          ] }),
-          /* @__PURE__ */ jsxRuntimeExports.jsxs("button", { onClick: () => setShowModal(true), className: "btn-accent px-4 py-2.5 rounded-xl text-xs font-black flex items-center gap-2 shadow-lg", children: [
-            /* @__PURE__ */ jsxRuntimeExports.jsx(FilePlus, { size: 18 }),
-            " From File"
-          ] })
-        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "flex items-center justify-between", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("h1", { className: "text-2xl lg:text-3xl font-black flex items-center gap-3", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx(Activity, { size: 26, className: "opacity-40" }),
+          " Clinical Cases"
+        ] }) }),
         /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex gap-2 items-center flex-wrap", children: [
           /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex-1 flex items-center gap-2 glass rounded-2xl px-4 py-2.5 border border-[color:var(--border2,var(--border))]", style: { minWidth: 200 }, children: [
             /* @__PURE__ */ jsxRuntimeExports.jsx(Search, { size: 15, className: "opacity-30 shrink-0" }),
@@ -22194,7 +22175,7 @@ Do NOT discuss other cases, questions, or topics outside this case.`;
               }
             )
           ] }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx(
+          /* @__PURE__ */ jsxRuntimeExports.jsxs(
             "button",
             {
               onClick: () => {
@@ -22207,9 +22188,12 @@ Do NOT discuss other cases, questions, or topics outside this case.`;
                 } });
                 addToast("🎲 Generating random cases…", "info");
               },
-              className: "flex items-center gap-2 px-4 py-2.5 rounded-2xl text-xs font-black border-2 border-dashed transition-all hover:opacity-80 whitespace-nowrap",
-              style: { borderColor: "#8b5cf660", color: "#8b5cf6", background: "#8b5cf610" },
-              children: "🎲 Random"
+              className: "flex items-center gap-1.5 px-3.5 py-2.5 rounded-2xl text-xs font-black transition-all hover:scale-105 active:scale-95 whitespace-nowrap shadow-sm",
+              style: { background: "linear-gradient(135deg,#c084fc,#8b5cf6)", color: "#fff", boxShadow: "0 4px 14px #8b5cf640" },
+              children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsx(Shuffle, { size: 12 }),
+                " Random"
+              ]
             }
           ),
           /* @__PURE__ */ jsxRuntimeExports.jsxs("button", { onClick: () => setShowModal(true), className: "flex items-center gap-2 px-3 py-2.5 rounded-2xl text-xs font-black glass border border-[color:var(--border2,var(--border))] hover:opacity-80 whitespace-nowrap opacity-60", children: [
