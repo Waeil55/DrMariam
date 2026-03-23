@@ -3793,8 +3793,8 @@ function FlashcardsView({ flashcards, setFlashcards, settings, addToast, docs, s
             <h1 className="text-2xl lg:text-3xl font-black flex items-center gap-3"><Layers size={26} className="opacity-40" /> Flashcards</h1>
           </div>
           {/* Inline generate bar */}
-          <div className="flex gap-2 items-center flex-wrap">
-            <div className="flex-1 flex items-center gap-2 glass rounded-2xl px-4 py-2.5 border border-[color:var(--border2,var(--border))]" style={{ minWidth: 200 }}>
+          <div className="flex flex-col gap-2">
+            <div className="flex items-center gap-2 glass rounded-2xl px-4 py-2.5 border border-[color:var(--border2,var(--border))]">
               <Search size={15} className="opacity-30 shrink-0" />
               <input
                 value={inlineInput} onChange={e => setInlineInput(e.target.value)}
@@ -3815,12 +3815,14 @@ function FlashcardsView({ flashcards, setFlashcards, settings, addToast, docs, s
                 <Zap size={11} /> Generate
               </button>
             </div>
-            <button onClick={() => { const topic = MEDICAL_RANDOM_TOPICS[Math.floor(Math.random() * MEDICAL_RANDOM_TOPICS.length)]; const taskId = 'task_' + Date.now(); runTopicGeneration({ taskId, topic, taskType: 'flashcards', count: inlineCount, difficultyLevel: inlineDiff, settings, onSave: (data, tid) => { const now = new Date().toISOString(); const cards = data.map(c => ({ id: Date.now() + Math.random(), q: c.q, a: c.a, evidence: c.evidence || '', sourcePage: 0, repetitions: 0, ef: 2.5, interval: 1, nextReview: Date.now(), lastReview: Date.now() })); setFlashcards(p => [...p, { id: taskId, docId: null, sourcePages: 'topic', title: `Cards — ${topic.split(':')[0].trim().slice(0,30)}`, cards, createdAt: now }]); addToast(`${cards.length} flashcards saved! ⚡`, 'success'); bgClear(tid); } }); addToast('🎲 Generating random topic cards…', 'info'); }}
-              className="flex items-center gap-1.5 px-3.5 py-2.5 rounded-2xl text-xs font-black transition-all hover:scale-105 active:scale-95 whitespace-nowrap shadow-sm"
-              style={{ background: 'linear-gradient(135deg,#818cf8,#6366f1)', color: '#fff', boxShadow: '0 4px 14px #6366f140' }}>
-              <Shuffle size={12} /> Random
-            </button>
-            <button onClick={() => setShowModal(true)} className="flex items-center gap-2 px-3 py-2.5 rounded-2xl text-xs font-black glass border border-[color:var(--border2,var(--border))] hover:opacity-80 whitespace-nowrap opacity-60"><FilePlus size={13} /> From File</button>
+            <div className="flex gap-2">
+              <button onClick={() => { const topic = MEDICAL_RANDOM_TOPICS[Math.floor(Math.random() * MEDICAL_RANDOM_TOPICS.length)]; const taskId = 'task_' + Date.now(); runTopicGeneration({ taskId, topic, taskType: 'flashcards', count: inlineCount, difficultyLevel: inlineDiff, settings, onSave: (data, tid) => { const now = new Date().toISOString(); const cards = data.map(c => ({ id: Date.now() + Math.random(), q: c.q, a: c.a, evidence: c.evidence || '', sourcePage: 0, repetitions: 0, ef: 2.5, interval: 1, nextReview: Date.now(), lastReview: Date.now() })); setFlashcards(p => [...p, { id: taskId, docId: null, sourcePages: 'topic', title: `Cards — ${topic.split(':')[0].trim().slice(0,30)}`, cards, createdAt: now }]); addToast(`${cards.length} flashcards saved! ⚡`, 'success'); bgClear(tid); } }); addToast('🎲 Generating random topic cards…', 'info'); }}
+                className="flex-1 flex items-center justify-center gap-1.5 py-2.5 rounded-2xl text-xs font-black transition-all hover:scale-105 active:scale-95 shadow-sm"
+                style={{ background: 'linear-gradient(135deg,#818cf8,#6366f1)', color: '#fff', boxShadow: '0 4px 14px #6366f140' }}>
+                <Shuffle size={12} /> Random
+              </button>
+              <button onClick={() => setShowModal(true)} className="flex-1 flex items-center justify-center gap-2 py-2.5 rounded-2xl text-xs font-black glass border border-[color:var(--border2,var(--border))] hover:opacity-80 opacity-60"><FilePlus size={13} /> From File</button>
+            </div>
           </div>
           {/* Count + Difficulty controls */}
           <div className="flex gap-3 items-center flex-wrap">
@@ -4183,8 +4185,8 @@ function ExamsView({ exams, setExams, settings, addToast, docs, setFlashcards, s
             <h1 className="text-2xl lg:text-3xl font-black flex items-center gap-3"><CheckSquare size={26} className="opacity-40" /> Exams</h1>
           </div>
           {/* Inline generate bar */}
-          <div className="flex gap-2 items-center flex-wrap">
-            <div className="flex-1 flex items-center gap-2 glass rounded-2xl px-4 py-2.5 border border-[color:var(--border2,var(--border))]" style={{ minWidth: 200 }}>
+          <div className="flex flex-col gap-2">
+            <div className="flex items-center gap-2 glass rounded-2xl px-4 py-2.5 border border-[color:var(--border2,var(--border))]">
               <Search size={15} className="opacity-30 shrink-0" />
               <input
                 value={inlineInput} onChange={e => setInlineInput(e.target.value)}
@@ -4205,12 +4207,14 @@ function ExamsView({ exams, setExams, settings, addToast, docs, setFlashcards, s
                 <Zap size={11} /> Generate
               </button>
             </div>
-            <button onClick={() => { const topic = MEDICAL_RANDOM_TOPICS[Math.floor(Math.random() * MEDICAL_RANDOM_TOPICS.length)]; const taskId = 'task_' + Date.now(); runTopicGeneration({ taskId, topic, taskType: 'exam', count: inlineCount, difficultyLevel: inlineDiff, settings, onSave: (data, tid) => { setExams(p => [...p, { id: taskId, docId: null, sourcePages: 'topic', title: `Exam — ${topic.split(':')[0].trim().slice(0,30)}`, questions: data, createdAt: new Date().toISOString() }]); addToast(`${data.length} exam questions saved! ⚡`, 'success'); bgClear(tid); } }); addToast('🎲 Generating random exam…', 'info'); }}
-              className="flex items-center gap-1.5 px-3.5 py-2.5 rounded-2xl text-xs font-black transition-all hover:scale-105 active:scale-95 whitespace-nowrap shadow-sm"
-              style={{ background: 'linear-gradient(135deg,#60a5fa,#3b82f6)', color: '#fff', boxShadow: '0 4px 14px #3b82f640' }}>
-              <Shuffle size={12} /> Random
-            </button>
-            <button onClick={() => setShowModal(true)} className="flex items-center gap-2 px-3 py-2.5 rounded-2xl text-xs font-black glass border border-[color:var(--border2,var(--border))] hover:opacity-80 whitespace-nowrap opacity-60"><FilePlus size={13} /> From File</button>
+            <div className="flex gap-2">
+              <button onClick={() => { const topic = MEDICAL_RANDOM_TOPICS[Math.floor(Math.random() * MEDICAL_RANDOM_TOPICS.length)]; const taskId = 'task_' + Date.now(); runTopicGeneration({ taskId, topic, taskType: 'exam', count: inlineCount, difficultyLevel: inlineDiff, settings, onSave: (data, tid) => { setExams(p => [...p, { id: taskId, docId: null, sourcePages: 'topic', title: `Exam — ${topic.split(':')[0].trim().slice(0,30)}`, questions: data, createdAt: new Date().toISOString() }]); addToast(`${data.length} exam questions saved! ⚡`, 'success'); bgClear(tid); } }); addToast('🎲 Generating random exam…', 'info'); }}
+                className="flex-1 flex items-center justify-center gap-1.5 py-2.5 rounded-2xl text-xs font-black transition-all hover:scale-105 active:scale-95 shadow-sm"
+                style={{ background: 'linear-gradient(135deg,#60a5fa,#3b82f6)', color: '#fff', boxShadow: '0 4px 14px #3b82f640' }}>
+                <Shuffle size={12} /> Random
+              </button>
+              <button onClick={() => setShowModal(true)} className="flex-1 flex items-center justify-center gap-2 py-2.5 rounded-2xl text-xs font-black glass border border-[color:var(--border2,var(--border))] hover:opacity-80 opacity-60"><FilePlus size={13} /> From File</button>
+            </div>
           </div>
           {/* Count + Difficulty controls */}
           <div className="flex gap-3 items-center flex-wrap">
@@ -4575,8 +4579,8 @@ function CasesView({ cases, setCases, settings, addToast, docs, setFlashcards, s
             <h1 className="text-2xl lg:text-3xl font-black flex items-center gap-3"><Activity size={26} className="opacity-40" /> Clinical Cases</h1>
           </div>
           {/* Inline generate bar */}
-          <div className="flex gap-2 items-center flex-wrap">
-            <div className="flex-1 flex items-center gap-2 glass rounded-2xl px-4 py-2.5 border border-[color:var(--border2,var(--border))]" style={{ minWidth: 200 }}>
+          <div className="flex flex-col gap-2">
+            <div className="flex items-center gap-2 glass rounded-2xl px-4 py-2.5 border border-[color:var(--border2,var(--border))]">
               <Search size={15} className="opacity-30 shrink-0" />
               <input
                 value={inlineInput} onChange={e => setInlineInput(e.target.value)}
@@ -4597,12 +4601,14 @@ function CasesView({ cases, setCases, settings, addToast, docs, setFlashcards, s
                 <Zap size={11} /> Generate
               </button>
             </div>
-            <button onClick={() => { const topic = MEDICAL_RANDOM_TOPICS[Math.floor(Math.random() * MEDICAL_RANDOM_TOPICS.length)]; const taskId = 'task_' + Date.now(); runTopicGeneration({ taskId, topic, taskType: 'cases', count: inlineCount, difficultyLevel: inlineDiff, settings, onSave: (data, tid) => { setCases(p => [...p, { id: taskId, docId: null, sourcePages: 'topic', title: `Cases — ${topic.split(':')[0].trim().slice(0,30)}`, questions: data, createdAt: new Date().toISOString() }]); addToast(`${data.length} cases saved! ⚡`, 'success'); bgClear(tid); } }); addToast('🎲 Generating random cases…', 'info'); }}
-              className="flex items-center gap-1.5 px-3.5 py-2.5 rounded-2xl text-xs font-black transition-all hover:scale-105 active:scale-95 whitespace-nowrap shadow-sm"
-              style={{ background: 'linear-gradient(135deg,#c084fc,#8b5cf6)', color: '#fff', boxShadow: '0 4px 14px #8b5cf640' }}>
-              <Shuffle size={12} /> Random
-            </button>
-            <button onClick={() => setShowModal(true)} className="flex items-center gap-2 px-3 py-2.5 rounded-2xl text-xs font-black glass border border-[color:var(--border2,var(--border))] hover:opacity-80 whitespace-nowrap opacity-60"><FilePlus size={13} /> From File</button>
+            <div className="flex gap-2">
+              <button onClick={() => { const topic = MEDICAL_RANDOM_TOPICS[Math.floor(Math.random() * MEDICAL_RANDOM_TOPICS.length)]; const taskId = 'task_' + Date.now(); runTopicGeneration({ taskId, topic, taskType: 'cases', count: inlineCount, difficultyLevel: inlineDiff, settings, onSave: (data, tid) => { setCases(p => [...p, { id: taskId, docId: null, sourcePages: 'topic', title: `Cases — ${topic.split(':')[0].trim().slice(0,30)}`, questions: data, createdAt: new Date().toISOString() }]); addToast(`${data.length} cases saved! ⚡`, 'success'); bgClear(tid); } }); addToast('🎲 Generating random cases…', 'info'); }}
+                className="flex-1 flex items-center justify-center gap-1.5 py-2.5 rounded-2xl text-xs font-black transition-all hover:scale-105 active:scale-95 shadow-sm"
+                style={{ background: 'linear-gradient(135deg,#c084fc,#8b5cf6)', color: '#fff', boxShadow: '0 4px 14px #8b5cf640' }}>
+                <Shuffle size={12} /> Random
+              </button>
+              <button onClick={() => setShowModal(true)} className="flex-1 flex items-center justify-center gap-2 py-2.5 rounded-2xl text-xs font-black glass border border-[color:var(--border2,var(--border))] hover:opacity-80 opacity-60"><FilePlus size={13} /> From File</button>
+            </div>
           </div>
           {/* Count + Difficulty controls */}
           <div className="flex gap-3 items-center flex-wrap">
@@ -9570,10 +9576,7 @@ function App() {
       {/* HEADER — mobile: centered logo / desktop: full top nav bar */}
       <header className={`design-header shrink-0 relative${view === 'chat' ? ' chat-header-hide' : ''}`}>
         {/* Mobile: centered logo */}
-        <div className="mobile-nav-only items-center justify-center gap-2 absolute left-0 right-0" style={{ pointerEvents: 'none' }}>
-          <img src={MARIAM_IMG} alt="" className="w-9 h-9 rounded-xl object-cover" style={{ pointerEvents: 'auto' }} />
-          <span className="font-bold text-[1.5rem]">MARIAM</span>
-        </div>
+        {/* logo hidden on mobile as requested */}
         {/* Mobile: search button (right) */}
         <button onClick={() => setShowGlobalSearch(true)}
           className="mobile-nav-only absolute right-4 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full items-center justify-center"
