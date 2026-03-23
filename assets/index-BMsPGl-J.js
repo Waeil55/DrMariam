@@ -22626,7 +22626,7 @@ function ChatView({ settings, sessions, setSessions }) {
   );
   const curSess = sessions.find((s) => s.id === selSess);
   const topicsFiltered = sessSearch ? topics.filter((t) => t.name.toLowerCase().includes(sessSearch.toLowerCase())) : topics;
-  return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex h-full min-h-0 overflow-hidden", style: { background: "var(--bg)" }, onClick: () => contextMenu && setContextMenu(null), children: [
+  return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "chat-view-root flex h-full min-h-0 overflow-hidden", onClick: () => contextMenu && setContextMenu(null), children: [
     contextMenu && /* @__PURE__ */ jsxRuntimeExports.jsxs(
       "div",
       {
@@ -23233,7 +23233,7 @@ function ChatView({ settings, sessions, setSessions }) {
         ] }),
         /* @__PURE__ */ jsxRuntimeExports.jsx("div", { ref: endRef })
       ] }) }),
-      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: `shrink-0 px-4 pb-4 pt-3 border-t border-[color:var(--border2,var(--border))] ${sidebarTab === "encyclo" ? "hidden" : ""}`, style: { backdropFilter: "blur(20px)", background: "var(--surface,var(--card))" }, children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "max-w-3xl mx-auto", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: `chat-input-wrapper shrink-0 px-4 pb-4 pt-3 border-t border-[color:var(--border2,var(--border))] ${sidebarTab === "encyclo" ? "hidden" : ""}`, style: { backdropFilter: "blur(20px)", background: "var(--surface,var(--card))" }, children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "max-w-3xl mx-auto", children: [
         selProject && (() => {
           const p = projects.find((x) => x.id === selProject);
           return p ? /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center gap-2 mb-2 px-1", children: [
