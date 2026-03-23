@@ -20289,7 +20289,7 @@ function GeneratePanel({ activeDoc, bgTask, onStart, onClear, setFlashcards, set
       ] })
     ] })
   ] });
-  return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex-1 min-h-0 overflow-y-auto custom-scrollbar p-4 space-y-4 h-full", children: [
+  return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex-1 min-h-0 overflow-y-auto custom-scrollbar p-4 pb-24 lg:pb-6 space-y-4 h-full", children: [
     /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "glass rounded-2xl p-4", children: [
       /* @__PURE__ */ jsxRuntimeExports.jsxs("h3", { className: "text-sm font-black uppercase tracking-widest opacity-60 mb-4 flex items-center gap-2", children: [
         /* @__PURE__ */ jsxRuntimeExports.jsx(BookOpen, { size: 16 }),
@@ -27741,17 +27741,18 @@ Provide a detailed analysis of this content.`;
     { icon: MessageSquare, label: "Chat", v: "chat" },
     { icon: Settings, label: "Settings", v: "settings" }
   ];
-  return /* @__PURE__ */ jsxRuntimeExports.jsxs(
-    "div",
-    {
-      className: `w-screen flex flex-col overflow-hidden text-[var(--text)] bg-mesh ${settings.theme || "pure-white"} accent-${settings.accentColor || "indigo"}`,
-      style: {
-        height: "100dvh",
-        maxHeight: "100dvh",
-        boxSizing: "border-box"
-      },
-      children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsx("style", { children: `
+  return /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
+    /* @__PURE__ */ jsxRuntimeExports.jsxs(
+      "div",
+      {
+        className: `w-screen flex flex-col overflow-hidden text-[var(--text)] bg-mesh ${settings.theme || "pure-white"} accent-${settings.accentColor || "indigo"}`,
+        style: {
+          height: "100dvh",
+          maxHeight: "100dvh",
+          boxSizing: "border-box"
+        },
+        children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("style", { children: `
         /* ── ROOT RESET ── */
         /* Handled natively and at EOF of this block to enforce position: absolute */
         /* ── LIGHT THEMES ── */
@@ -27863,261 +27864,262 @@ Provide a detailed analysis of this content.`;
         input[type=range]{accent-color:var(--accent);}
         html{scroll-behavior:smooth;}
       ` }),
-        /* @__PURE__ */ jsxRuntimeExports.jsx(ToastContainer, { toasts }),
-        showGlobalSearch && /* @__PURE__ */ jsxRuntimeExports.jsx(
-          GlobalSearch,
-          {
-            docs,
-            flashcards,
-            exams,
-            cases,
-            notes,
-            onNavigate: (v, id) => {
-              setView(v);
-              if (id) {
-                setActiveId(id);
-                setOpenDocs((p) => p.includes(id) ? p : [...p, id]);
-                setDocPages((p) => ({ ...p, [id]: 1 }));
-              }
-            },
-            onClose: () => setShowGlobalSearch(false)
-          }
-        ),
-        /* @__PURE__ */ jsxRuntimeExports.jsx(GlobalTaskIndicator, { onViewResult: (id, task) => {
-          if (task.type === "flashcards") setView("flashcards");
-          else if (task.type === "exam") setView("exams");
-          else if (task.type === "cases") setView("cases");
-        } }),
-        bootError && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "shrink-0 bg-amber-500/10 border-b border-amber-500/30 px-4 py-2 flex items-center gap-2 text-xs font-bold text-amber-700 dark:text-amber-300", children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsx(AlertCircle, { size: 16, className: "shrink-0" }),
-          /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { children: [
-            "Could not restore your previous session — starting fresh. (",
-            bootError,
-            ")"
-          ] }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx("button", { onClick: () => setBootError(null), className: "ml-auto opacity-60 hover:opacity-100", children: /* @__PURE__ */ jsxRuntimeExports.jsx(X, { size: 16 }) })
-        ] }),
-        /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "design-top-glass", "aria-hidden": "true" }),
-        /* @__PURE__ */ jsxRuntimeExports.jsxs("header", { className: `design-header shrink-0 relative${view === "chat" ? " chat-header-hide" : ""}`, children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsx(
-            "button",
+          /* @__PURE__ */ jsxRuntimeExports.jsx(ToastContainer, { toasts }),
+          showGlobalSearch && /* @__PURE__ */ jsxRuntimeExports.jsx(
+            GlobalSearch,
             {
-              onClick: () => setShowGlobalSearch(true),
-              className: "mobile-nav-only absolute right-4 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full items-center justify-center",
-              style: { background: "rgba(255,255,255,0.15)" },
-              children: /* @__PURE__ */ jsxRuntimeExports.jsx(Search, { size: 18 })
+              docs,
+              flashcards,
+              exams,
+              cases,
+              notes,
+              onNavigate: (v, id) => {
+                setView(v);
+                if (id) {
+                  setActiveId(id);
+                  setOpenDocs((p) => p.includes(id) ? p : [...p, id]);
+                  setDocPages((p) => ({ ...p, [id]: 1 }));
+                }
+              },
+              onClose: () => setShowGlobalSearch(false)
             }
           ),
-          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "desktop-only items-center gap-2 shrink-0", children: [
-            /* @__PURE__ */ jsxRuntimeExports.jsx("img", { src: MARIAM_IMG, alt: "", className: "w-8 h-8 rounded-xl object-cover" }),
-            /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "font-bold text-base whitespace-nowrap", children: "MARIAM" }),
-            /* @__PURE__ */ jsxRuntimeExports.jsx(
-              "span",
-              {
-                className: "text-[10px] font-black px-2 py-0.5 rounded-full text-white ml-0.5",
-                style: { background: "linear-gradient(135deg,#10b981,#059669)" },
-                children: "PRO"
-              }
-            )
+          /* @__PURE__ */ jsxRuntimeExports.jsx(GlobalTaskIndicator, { onViewResult: (id, task) => {
+            if (task.type === "flashcards") setView("flashcards");
+            else if (task.type === "exam") setView("exams");
+            else if (task.type === "cases") setView("cases");
+          } }),
+          bootError && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "shrink-0 bg-amber-500/10 border-b border-amber-500/30 px-4 py-2 flex items-center gap-2 text-xs font-bold text-amber-700 dark:text-amber-300", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx(AlertCircle, { size: 16, className: "shrink-0" }),
+            /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { children: [
+              "Could not restore your previous session — starting fresh. (",
+              bootError,
+              ")"
+            ] }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("button", { onClick: () => setBootError(null), className: "ml-auto opacity-60 hover:opacity-100", children: /* @__PURE__ */ jsxRuntimeExports.jsx(X, { size: 16 }) })
           ] }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx("nav", { className: "desktop-top-nav desktop-only", children: NAV_ITEMS2.map(({ icon: Icon, label, v, dis }) => /* @__PURE__ */ jsxRuntimeExports.jsxs(
-            "button",
-            {
-              disabled: dis,
-              onClick: () => {
-                if (dis) return;
-                if (v === "reader") {
-                  if (activeId) setView("reader");
-                  else if (docs && docs.length > 0) {
-                    const topDoc = docs[0];
-                    setActiveId(topDoc.id);
-                    setOpenDocs((p) => p.includes(topDoc.id) ? p : [...p, topDoc.id]);
-                    setView("reader");
-                  } else setView("library");
-                } else setView(v);
-              },
-              className: `desktop-top-nav-btn${view === v ? " nav-active" : ""}`,
-              title: label,
-              children: [
-                /* @__PURE__ */ jsxRuntimeExports.jsx(Icon, { size: 14, strokeWidth: view === v ? 2.5 : 2 }),
-                label
-              ]
-            },
-            v
-          )) }),
-          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "desktop-top-right desktop-only", children: [
-            /* @__PURE__ */ jsxRuntimeExports.jsx("button", { onClick: () => setShowGlobalSearch(true), className: "desktop-icon-btn", title: "Search (Ctrl+K)", children: /* @__PURE__ */ jsxRuntimeExports.jsx(Search, { size: 15 }) }),
-            /* @__PURE__ */ jsxRuntimeExports.jsxs("button", { onClick: () => setView("chat"), className: "desktop-ai-btn", children: [
-              /* @__PURE__ */ jsxRuntimeExports.jsx(Sparkles, { size: 13 }),
-              "AI Studio"
-            ] })
-          ] })
-        ] }),
-        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "design-body flex flex-1 min-h-0 overflow-hidden relative", children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsxs("main", { className: "design-main flex-1 flex flex-col min-h-0 overflow-hidden overflow-y-auto relative", style: { paddingBottom: isMobile ? isKeyboardOpen ? 8 : 120 : 24 }, children: [
-            uploading && /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "absolute top-0 left-0 right-0 h-1.5 bg-[var(--border)] z-50", children: /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "h-full bg-gradient-to-r from-[var(--accent)] to-[var(--accent2,var(--accent))] transition-all duration-300 animate-pulse", style: { width: `${uploadPct}%` } }) }),
-            /* @__PURE__ */ jsxRuntimeExports.jsx(ViewWrapper, { active: view === "library", children: /* @__PURE__ */ jsxRuntimeExports.jsx(
-              LibraryMergedView,
-              {
-                docs,
-                uploading,
-                onUpload: handleUpload,
-                onOpen: (id) => {
-                  setOpenDocs((p) => p.includes(id) ? p : [...p, id]);
-                  setActiveId(id);
-                  setView("reader");
-                },
-                onDelete: deleteDoc,
-                flashcards,
-                exams,
-                cases,
-                notes,
-                setView,
-                setActiveId: (id) => {
-                  setActiveId(id);
-                  setOpenDocs((p) => p.includes(id) ? p : [...p, id]);
-                },
-                addToast,
-                settings
-              }
-            ) }),
-            /* @__PURE__ */ jsxRuntimeExports.jsx(ViewWrapper, { active: view === "flashcards", children: /* @__PURE__ */ jsxRuntimeExports.jsx(FlashcardsView, { flashcards, setFlashcards, settings, addToast, docs, setExams, setCases }) }),
-            /* @__PURE__ */ jsxRuntimeExports.jsx(ViewWrapper, { active: view === "exams", children: /* @__PURE__ */ jsxRuntimeExports.jsx(ExamsView, { exams, setExams, settings, addToast, docs, setFlashcards, setCases }) }),
-            /* @__PURE__ */ jsxRuntimeExports.jsx(ViewWrapper, { active: view === "cases", children: /* @__PURE__ */ jsxRuntimeExports.jsx(CasesView, { cases, setCases, settings, addToast, docs, setFlashcards, setExams }) }),
-            /* @__PURE__ */ jsxRuntimeExports.jsx(ViewWrapper, { active: view === "chat", children: /* @__PURE__ */ jsxRuntimeExports.jsx(ChatView, { settings, sessions: chatSessions, setSessions: setChatSessions }) }),
-            /* @__PURE__ */ jsxRuntimeExports.jsx(ViewWrapper, { active: view === "encyclopedia", children: /* @__PURE__ */ jsxRuntimeExports.jsx(MedicalEncyclopediaView, { settings }) }),
-            /* @__PURE__ */ jsxRuntimeExports.jsx(ViewWrapper, { active: view === "settings", children: /* @__PURE__ */ jsxRuntimeExports.jsx(SettingsView, { settings, setSettings, installPrompt, onInstall }) }),
-            /* @__PURE__ */ jsxRuntimeExports.jsx(ViewWrapper, { active: showReader, children: activeDoc && /* @__PURE__ */ jsxRuntimeExports.jsx(
-              DocWorkspace,
-              {
-                activeDoc,
-                setDocs,
-                currentPage: docPages[activeId] || 1,
-                setCurrentPage: setPage,
-                openDocs,
-                closeTab: (id) => setOpenDocs((p) => p.filter((d) => d !== id)),
-                setActiveId,
-                docs,
-                onBack: () => setView("library"),
-                rpOpen,
-                setRpOpen
-              }
-            ) })
-          ] }),
-          showReader && rpOpen && /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "design-top-glass", "aria-hidden": "true" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("header", { className: `design-header shrink-0 relative${view === "chat" ? " chat-header-hide" : ""}`, children: [
             /* @__PURE__ */ jsxRuntimeExports.jsx(
-              "div",
+              "button",
               {
-                onMouseDown: startRpDrag,
-                onTouchStart: startRpDrag,
-                className: "hidden lg:flex w-3 cursor-col-resize items-center justify-center bg-[var(--border)]/30 hover:bg-[var(--accent)]/30 shrink-0 z-[120] touch-none transition-colors group",
-                style: { touchAction: "none" },
-                children: /* @__PURE__ */ jsxRuntimeExports.jsx(GripVertical, { size: 16, className: "text-[var(--text)] opacity-20 group-hover:opacity-60" })
+                onClick: () => setShowGlobalSearch(true),
+                className: "mobile-nav-only absolute right-4 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full items-center justify-center",
+                style: { background: "rgba(255,255,255,0.15)" },
+                children: /* @__PURE__ */ jsxRuntimeExports.jsx(Search, { size: 18 })
               }
             ),
-            /* @__PURE__ */ jsxRuntimeExports.jsxs(
-              "aside",
+            /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "desktop-only items-center gap-2 shrink-0", children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx("img", { src: MARIAM_IMG, alt: "", className: "w-8 h-8 rounded-xl object-cover" }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "font-bold text-base whitespace-nowrap", children: "MARIAM" }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx(
+                "span",
+                {
+                  className: "text-[10px] font-black px-2 py-0.5 rounded-full text-white ml-0.5",
+                  style: { background: "linear-gradient(135deg,#10b981,#059669)" },
+                  children: "PRO"
+                }
+              )
+            ] }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("nav", { className: "desktop-top-nav desktop-only", children: NAV_ITEMS2.map(({ icon: Icon, label, v, dis }) => /* @__PURE__ */ jsxRuntimeExports.jsxs(
+              "button",
               {
-                style: { width: window.innerWidth >= 1024 ? `${rpW}px` : "100%" },
-                className: "glass flex flex-col shrink-0 z-[100] lg:relative absolute inset-0 lg:inset-auto border-t-0 border-b-0 border-r-0 animate-slide-in h-full",
+                disabled: dis,
+                onClick: () => {
+                  if (dis) return;
+                  if (v === "reader") {
+                    if (activeId) setView("reader");
+                    else if (docs && docs.length > 0) {
+                      const topDoc = docs[0];
+                      setActiveId(topDoc.id);
+                      setOpenDocs((p) => p.includes(topDoc.id) ? p : [...p, topDoc.id]);
+                      setView("reader");
+                    } else setView("library");
+                  } else setView(v);
+                },
+                className: `desktop-top-nav-btn${view === v ? " nav-active" : ""}`,
+                title: label,
                 children: [
-                  /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "h-14 lg:h-16 bg-gradient-to-r from-[var(--accent)] to-[var(--accent2,var(--accent))] text-white flex items-center justify-between px-4 shrink-0", children: [
-                    /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { className: "font-black flex items-center gap-2 text-base", children: [
-                      /* @__PURE__ */ jsxRuntimeExports.jsx(Sparkles, { size: 18 }),
-                      " AI Studio"
-                    ] }),
-                    /* @__PURE__ */ jsxRuntimeExports.jsx("button", { onClick: () => setRpOpen(false), className: "w-8 h-8 hover:bg-white/20 rounded-xl flex items-center justify-center", children: /* @__PURE__ */ jsxRuntimeExports.jsx(X, { size: 18 }) })
-                  ] }),
-                  /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "flex shrink-0 border-b border-[color:var(--border2,var(--border))] bg-[var(--surface,var(--card))]", children: [["generate", "Generate", Zap], ["chat", "Chat", MessageSquare], ["vault", "Vault", Database]].map(([id, lbl, Icon]) => /* @__PURE__ */ jsxRuntimeExports.jsxs(
-                    "button",
-                    {
-                      onClick: () => setRpTab(id),
-                      className: `flex-1 flex items-center justify-center gap-1.5 py-3 text-xs font-black uppercase tracking-widest transition-colors border-b-2
-                      ${rpTab === id ? "border-[var(--accent)] text-[var(--accent)]" : "border-transparent text-[var(--text)] opacity-50 hover:opacity-80"}`,
-                      children: [
-                        /* @__PURE__ */ jsxRuntimeExports.jsx(Icon, { size: 16 }),
-                        lbl
-                      ]
-                    },
-                    id
-                  )) }),
-                  /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex-1 min-h-0 overflow-hidden", children: [
-                    activeDoc && rpTab === "generate" && /* @__PURE__ */ jsxRuntimeExports.jsx(
-                      GeneratePanel,
-                      {
-                        activeDoc,
-                        bgTask,
-                        onStart: startGen,
-                        onClear: () => setBgTask(null),
-                        setFlashcards,
-                        setExams,
-                        setCases,
-                        setNotes,
-                        onVault: () => setRpTab("vault"),
-                        currentPage: docPages[activeId] || 1,
-                        addToast,
-                        settings,
-                        mindMaps,
-                        setMindMaps,
-                        timelines,
-                        setTimelines
-                      }
-                    ),
-                    activeDoc && rpTab === "chat" && /* @__PURE__ */ jsxRuntimeExports.jsx(ChatPanel, { activeDoc, settings, currentPage: docPages[activeId] || 1 }),
-                    activeDoc && rpTab === "vault" && /* @__PURE__ */ jsxRuntimeExports.jsx(
-                      VaultPanel,
-                      {
-                        activeDocId: activeId,
-                        flashcards,
-                        setFlashcards,
-                        exams,
-                        setExams,
-                        cases,
-                        setCases,
-                        notes,
-                        setNotes,
-                        addToast,
-                        setCurrentPage: setPage,
-                        setView,
-                        settings,
-                        mindMaps,
-                        timelines
-                      }
-                    )
-                  ] })
+                  /* @__PURE__ */ jsxRuntimeExports.jsx(Icon, { size: 14, strokeWidth: view === v ? 2.5 : 2 }),
+                  label
                 ]
-              }
-            )
+              },
+              v
+            )) }),
+            /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "desktop-top-right desktop-only", children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx("button", { onClick: () => setShowGlobalSearch(true), className: "desktop-icon-btn", title: "Search (Ctrl+K)", children: /* @__PURE__ */ jsxRuntimeExports.jsx(Search, { size: 15 }) }),
+              /* @__PURE__ */ jsxRuntimeExports.jsxs("button", { onClick: () => setView("chat"), className: "desktop-ai-btn", children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsx(Sparkles, { size: 13 }),
+                "AI Studio"
+              ] })
+            ] })
+          ] }),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "design-body flex flex-1 min-h-0 overflow-hidden relative", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsxs("main", { className: "design-main flex-1 flex flex-col min-h-0 overflow-hidden overflow-y-auto relative", style: { paddingBottom: isMobile ? isKeyboardOpen ? 8 : 120 : 24 }, children: [
+              uploading && /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "absolute top-0 left-0 right-0 h-1.5 bg-[var(--border)] z-50", children: /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "h-full bg-gradient-to-r from-[var(--accent)] to-[var(--accent2,var(--accent))] transition-all duration-300 animate-pulse", style: { width: `${uploadPct}%` } }) }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx(ViewWrapper, { active: view === "library", children: /* @__PURE__ */ jsxRuntimeExports.jsx(
+                LibraryMergedView,
+                {
+                  docs,
+                  uploading,
+                  onUpload: handleUpload,
+                  onOpen: (id) => {
+                    setOpenDocs((p) => p.includes(id) ? p : [...p, id]);
+                    setActiveId(id);
+                    setView("reader");
+                  },
+                  onDelete: deleteDoc,
+                  flashcards,
+                  exams,
+                  cases,
+                  notes,
+                  setView,
+                  setActiveId: (id) => {
+                    setActiveId(id);
+                    setOpenDocs((p) => p.includes(id) ? p : [...p, id]);
+                  },
+                  addToast,
+                  settings
+                }
+              ) }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx(ViewWrapper, { active: view === "flashcards", children: /* @__PURE__ */ jsxRuntimeExports.jsx(FlashcardsView, { flashcards, setFlashcards, settings, addToast, docs, setExams, setCases }) }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx(ViewWrapper, { active: view === "exams", children: /* @__PURE__ */ jsxRuntimeExports.jsx(ExamsView, { exams, setExams, settings, addToast, docs, setFlashcards, setCases }) }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx(ViewWrapper, { active: view === "cases", children: /* @__PURE__ */ jsxRuntimeExports.jsx(CasesView, { cases, setCases, settings, addToast, docs, setFlashcards, setExams }) }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx(ViewWrapper, { active: view === "chat", children: /* @__PURE__ */ jsxRuntimeExports.jsx(ChatView, { settings, sessions: chatSessions, setSessions: setChatSessions }) }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx(ViewWrapper, { active: view === "encyclopedia", children: /* @__PURE__ */ jsxRuntimeExports.jsx(MedicalEncyclopediaView, { settings }) }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx(ViewWrapper, { active: view === "settings", children: /* @__PURE__ */ jsxRuntimeExports.jsx(SettingsView, { settings, setSettings, installPrompt, onInstall }) }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx(ViewWrapper, { active: showReader, children: activeDoc && /* @__PURE__ */ jsxRuntimeExports.jsx(
+                DocWorkspace,
+                {
+                  activeDoc,
+                  setDocs,
+                  currentPage: docPages[activeId] || 1,
+                  setCurrentPage: setPage,
+                  openDocs,
+                  closeTab: (id) => setOpenDocs((p) => p.filter((d) => d !== id)),
+                  setActiveId,
+                  docs,
+                  onBack: () => setView("library"),
+                  rpOpen,
+                  setRpOpen
+                }
+              ) })
+            ] }),
+            showReader && rpOpen && /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx(
+                "div",
+                {
+                  onMouseDown: startRpDrag,
+                  onTouchStart: startRpDrag,
+                  className: "hidden lg:flex w-3 cursor-col-resize items-center justify-center bg-[var(--border)]/30 hover:bg-[var(--accent)]/30 shrink-0 z-[120] touch-none transition-colors group",
+                  style: { touchAction: "none" },
+                  children: /* @__PURE__ */ jsxRuntimeExports.jsx(GripVertical, { size: 16, className: "text-[var(--text)] opacity-20 group-hover:opacity-60" })
+                }
+              ),
+              /* @__PURE__ */ jsxRuntimeExports.jsxs(
+                "aside",
+                {
+                  style: { width: window.innerWidth >= 1024 ? `${rpW}px` : "100%" },
+                  className: "glass flex flex-col shrink-0 z-[100] lg:relative absolute inset-0 lg:inset-auto border-t-0 border-b-0 border-r-0 animate-slide-in h-full",
+                  children: [
+                    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "h-14 lg:h-16 bg-gradient-to-r from-[var(--accent)] to-[var(--accent2,var(--accent))] text-white flex items-center justify-between px-4 shrink-0", children: [
+                      /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { className: "font-black flex items-center gap-2 text-base", children: [
+                        /* @__PURE__ */ jsxRuntimeExports.jsx(Sparkles, { size: 18 }),
+                        " AI Studio"
+                      ] }),
+                      /* @__PURE__ */ jsxRuntimeExports.jsx("button", { onClick: () => setRpOpen(false), className: "w-8 h-8 hover:bg-white/20 rounded-xl flex items-center justify-center", children: /* @__PURE__ */ jsxRuntimeExports.jsx(X, { size: 18 }) })
+                    ] }),
+                    /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "flex shrink-0 border-b border-[color:var(--border2,var(--border))] bg-[var(--surface,var(--card))]", children: [["generate", "Generate", Zap], ["chat", "Chat", MessageSquare], ["vault", "Vault", Database]].map(([id, lbl, Icon]) => /* @__PURE__ */ jsxRuntimeExports.jsxs(
+                      "button",
+                      {
+                        onClick: () => setRpTab(id),
+                        className: `flex-1 flex items-center justify-center gap-1.5 py-3 text-xs font-black uppercase tracking-widest transition-colors border-b-2
+                      ${rpTab === id ? "border-[var(--accent)] text-[var(--accent)]" : "border-transparent text-[var(--text)] opacity-50 hover:opacity-80"}`,
+                        children: [
+                          /* @__PURE__ */ jsxRuntimeExports.jsx(Icon, { size: 16 }),
+                          lbl
+                        ]
+                      },
+                      id
+                    )) }),
+                    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex-1 min-h-0 overflow-hidden", children: [
+                      activeDoc && rpTab === "generate" && /* @__PURE__ */ jsxRuntimeExports.jsx(
+                        GeneratePanel,
+                        {
+                          activeDoc,
+                          bgTask,
+                          onStart: startGen,
+                          onClear: () => setBgTask(null),
+                          setFlashcards,
+                          setExams,
+                          setCases,
+                          setNotes,
+                          onVault: () => setRpTab("vault"),
+                          currentPage: docPages[activeId] || 1,
+                          addToast,
+                          settings,
+                          mindMaps,
+                          setMindMaps,
+                          timelines,
+                          setTimelines
+                        }
+                      ),
+                      activeDoc && rpTab === "chat" && /* @__PURE__ */ jsxRuntimeExports.jsx(ChatPanel, { activeDoc, settings, currentPage: docPages[activeId] || 1 }),
+                      activeDoc && rpTab === "vault" && /* @__PURE__ */ jsxRuntimeExports.jsx(
+                        VaultPanel,
+                        {
+                          activeDocId: activeId,
+                          flashcards,
+                          setFlashcards,
+                          exams,
+                          setExams,
+                          cases,
+                          setCases,
+                          notes,
+                          setNotes,
+                          addToast,
+                          setCurrentPage: setPage,
+                          setView,
+                          settings,
+                          mindMaps,
+                          timelines
+                        }
+                      )
+                    ] })
+                  ]
+                }
+              )
+            ] })
           ] })
-        ] }),
-        /* @__PURE__ */ jsxRuntimeExports.jsx("nav", { className: `design-nav ${isMobile && isKeyboardOpen ? "keyboard-open-hidden" : ""}`, children: /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "design-nav-inner", children: NAV_ITEMS2.map(({ icon: Icon, label, v, dis }) => /* @__PURE__ */ jsxRuntimeExports.jsxs(
-          "button",
-          {
-            disabled: dis,
-            onClick: () => {
-              if (dis) return;
-              if (v === "reader") {
-                if (activeId) setView("reader");
-                else if (docs && docs.length > 0) {
-                  const topDoc = docs[0];
-                  setActiveId(topDoc.id);
-                  setOpenDocs((p) => p.includes(topDoc.id) ? p : [...p, topDoc.id]);
-                  setView("reader");
-                } else setView("library");
-              } else setView(v);
-            },
-            className: `design-nav-btn ${view === v ? "active" : ""}`,
-            title: label,
-            children: [
-              /* @__PURE__ */ jsxRuntimeExports.jsx(Icon, { size: 22, strokeWidth: view === v ? 2.5 : 2 }),
-              /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "design-nav-label", children: label })
-            ]
-          },
-          v
-        )) }) })
-      ]
-    }
-  );
+        ]
+      }
+    ),
+    /* @__PURE__ */ jsxRuntimeExports.jsx("nav", { className: `design-nav ${isMobile && isKeyboardOpen ? "keyboard-open-hidden" : ""}`, children: /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "design-nav-inner", children: NAV_ITEMS2.map(({ icon: Icon, label, v, dis }) => /* @__PURE__ */ jsxRuntimeExports.jsxs(
+      "button",
+      {
+        disabled: dis,
+        onClick: () => {
+          if (dis) return;
+          if (v === "reader") {
+            if (activeId) setView("reader");
+            else if (docs && docs.length > 0) {
+              const topDoc = docs[0];
+              setActiveId(topDoc.id);
+              setOpenDocs((p) => p.includes(topDoc.id) ? p : [...p, topDoc.id]);
+              setView("reader");
+            } else setView("library");
+          } else setView(v);
+        },
+        className: `design-nav-btn ${view === v ? "active" : ""}`,
+        title: label,
+        children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx(Icon, { size: 22, strokeWidth: view === v ? 2.5 : 2 }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "design-nav-label", children: label })
+        ]
+      },
+      v
+    )) }) })
+  ] });
 }
 const Play = ({ size = 16, ...p }) => /* @__PURE__ */ jsxRuntimeExports.jsx("svg", { xmlns: "http://www.w3.org/2000/svg", width: size, height: size, viewBox: "0 0 24 24", fill: "currentColor", stroke: "none", ...p, children: /* @__PURE__ */ jsxRuntimeExports.jsx("polygon", { points: "5 3 19 12 5 21 5 3" }) });
 class AppErrorBoundary extends React.Component {
