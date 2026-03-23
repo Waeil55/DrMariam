@@ -175,7 +175,7 @@ import {
   Brain, ListChecks, FilePlus, AlignLeft, Hash, Image, FileText, FileCode, Table,
   Map, Clock, Download, Share2, Star, Mic, MicOff, Network, BarChart2, Camera,
   Languages, Wand2, Tag, TrendingUp, LayoutDashboard, Award,
-  ChevronDown, ChevronUp, Eye, EyeOff, RefreshCw,
+  ChevronDown, ChevronUp, Eye, EyeOff, RefreshCw, RotateCcw,
   Filter, SortAsc, Grid, List, Smartphone, Monitor, Code,
   Printer, FileDown, FolderOpen, Pin, Copy, ExternalLink,
   Bell, Archive, BarChart, BookCopy, CalendarDays, FlameKindling,
@@ -201,7 +201,9 @@ import {
   let vp = document.querySelector('meta[name="viewport"]');
   if (!vp) { vp = document.createElement('meta'); vp.name = 'viewport'; document.head.appendChild(vp); }
   if (!vp.content.includes('viewport-fit=cover')) {
-    vp.content = 'width=device-width, initial-scale=1, viewport-fit=cover';
+    vp.content = 'width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content';
+  } else if (!vp.content.includes('interactive-widget')) {
+    vp.content = vp.content + ', interactive-widget=resizes-content';
   }
   // Make html+body fill screen colour so no white shows behind fixed nav
   document.documentElement.style.cssText += 'height:100%;background:transparent;';
@@ -1893,7 +1895,7 @@ const setupPWA = () => {
   let vp = document.querySelector('meta[name="viewport"]');
   if (!vp) { vp = document.createElement('meta'); vp.name = 'viewport'; document.head.appendChild(vp); }
   if (!vp.content.includes('viewport-fit')) {
-    vp.content = (vp.content || 'width=device-width, initial-scale=1') + ', viewport-fit=cover';
+    vp.content = (vp.content || 'width=device-width, initial-scale=1') + ', viewport-fit=cover, interactive-widget=resizes-content';
   }
 
   // Apple touch icon
@@ -4685,6 +4687,11 @@ function ChatView({ settings, sessions, setSessions }) {
   const [showNewTopic, setShowNewTopic] = useState(false);
   const [newTopicName, setNewTopicName] = useState('');
   const [sidebarTab, setSidebarTab] = useState('chats');
+  const [encCat, setEncCat] = useState(null);
+  const [encSub, setEncSub] = useState(null);
+  const [encContent, setEncContent] = useState('');
+  const [encLoading, setEncLoading] = useState(false);
+  const [encCached, setEncCached] = useState(false);
   const [inputRows, setInputRows] = useState(1);
   const [hasStarted, setHasStarted] = useState(false);
   const endRef = useRef(null);
@@ -4751,6 +4758,68 @@ function ChatView({ settings, sessions, setSessions }) {
     const t = { id: Date.now().toString(), name: newTopicName.trim(), createdAt: new Date().toISOString() };
     setTopics(prev => [...prev, t]);
     setNewTopicName(''); setShowNewTopic(false);
+  };
+
+  const openEncycloTopic = (cat, sub, forceRefresh = false) => {
+    setEncCat(cat); setEncSub(sub);
+    if (window.innerWidth < 1024) setSidebarOpen(false);
+    const cacheKey = 'enc:' + cat.id + ':' + sub.id;
+    // Check IndexedDB cache first (skip if forceRefresh)
+    if (!forceRefresh) {
+      getTopicCache(cacheKey).then(cached => {
+        if (cached && cached.data) {
+          setEncContent(cached.data);
+          setEncCached(true);
+          setEncLoading(false);
+          return;
+        }
+        // No cache — generate fresh
+        setEncCached(false);
+        generateEncycloContent(cat, sub, cacheKey);
+      }).catch(() => { setEncCached(false); generateEncycloContent(cat, sub, cacheKey); });
+    } else {
+      generateEncycloContent(cat, sub, cacheKey);
+    }
+  };
+
+  const generateEncycloContent = (cat, sub, cacheKey) => {
+    setEncCached(false); setEncContent(''); setEncLoading(true);
+    const prompt = [
+      'You are MARIAM, a world-class medical educator. Generate a COMPREHENSIVE, beautifully structured reference entry.',
+      '',
+      'Topic: ' + sub.label,
+      'Category: ' + cat.label,
+      'Description: ' + sub.desc,
+      '',
+      'STRICT FORMAT REQUIREMENTS — follow every rule below:',
+      '1. Start with a 2-3 sentence bold clinical overview',
+      '2. Use ## headings for every major section',
+      '3. Use Markdown TABLES (| Col | Col |) for: classifications, comparisons, dosing, monitoring — include at LEAST 2 tables',
+      '4. Use bullet points for mechanisms, steps, and lists of facts',
+      '5. For drug comparisons: always use a side-by-side comparison table',
+      '6. Add Clinical Pearl boxes using > blockquote syntax',
+      '7. Use **bold** for all drug names, medical terms, key values, doses',
+      '8. Add emojis (💊 🧬 ⚠️ ✅ 🏥 🔬 📋 💉) as visual section markers',
+      '9. End with a "High-Yield Board Points" section as a numbered list',
+      '',
+      'REQUIRED CONTENT SECTIONS (include all relevant ones):',
+      '- Overview & Classification (with table)',
+      '- Mechanism of Action / Pathophysiology',
+      '- Key Drug/Condition Examples (table: name | class | MOA | indication | dose)',
+      '- Clinical Presentation / Indications',
+      '- Dosing Guidelines (table)',
+      '- Monitoring Parameters & Side Effects (table)',
+      '- Contraindications & Drug Interactions',
+      '- Clinical Pearls (use > blockquotes)',
+      '- High-Yield Board Exam Points',
+      '',
+      'Be exhaustive, clinically accurate, and NAPLEX/USMLE/NCLEX board-exam ready. Generate the complete reference now:',
+    ].join('\n');
+    let fullContent = '';
+    callAIStreaming(prompt, chunk => { fullContent = chunk; setEncContent(chunk); }, settings, 10000)
+      .then(() => { if (fullContent) saveTopicCache(cacheKey, fullContent).catch(() => {}); })
+      .catch(e => setEncContent('\u26a0\ufe0f Error loading content: ' + e.message))
+      .finally(() => setEncLoading(false));
   };
 
   const openTopic = (topic) => {
@@ -4891,7 +4960,7 @@ function ChatView({ settings, sessions, setSessions }) {
       {sidebarOpen && <div className="lg:hidden fixed inset-0 z-40 bg-black/50" onClick={() => setSidebarOpen(false)} />}
 
       {/* ── SIDEBAR ────────────────────────────────────────────────── */}
-      <div className={'flex flex-col border-r border-[color:var(--border2,var(--border))] transition-all duration-300 shrink-0 lg:relative absolute inset-y-0 left-0 z-[41] ' + (sidebarOpen ? 'w-[280px]' : 'w-0 overflow-hidden')}
+      <div className={'flex flex-col border-r border-[color:var(--border2,var(--border))] transition-all duration-300 shrink-0 lg:relative absolute inset-y-0 left-0 z-[41] ' + (sidebarOpen ? 'w-[320px]' : 'w-0 overflow-hidden')}
         style={{ background: 'var(--bg)' }}>
 
         {/* Sidebar header */}
@@ -4912,13 +4981,22 @@ function ChatView({ settings, sessions, setSessions }) {
           </div>
         </div>
 
-        {/* Tabs */}
-        <div className="flex border-b border-[color:var(--border2,var(--border))] shrink-0 px-2 gap-0.5 pt-0.5">
-          {[['chats', 'Chats', MessageSquare], ['projects', 'Projects', FolderOpen], ['topics', 'Topics', BookA]].map(([id, lbl, Icon]) => (
+        {/* Tabs – 2×2 grid */}
+        <div className="grid grid-cols-2 shrink-0 border-b border-[color:var(--border2,var(--border))]">
+          {[
+            ['chats', 'Chats', MessageSquare],
+            ['projects', 'Projects', FolderOpen],
+            ['topics', 'Topics', BookA],
+            ['encyclo', 'Encyclo', Globe],
+          ].map(([id, lbl, Icon], i) => (
             <button key={id} onClick={() => setSidebarTab(id)}
-              className={'flex-1 flex items-center justify-center gap-1 px-1 py-2.5 text-[9px] font-black uppercase tracking-widest border-b-2 transition-colors -mb-px ' +
-                (sidebarTab === id ? 'border-[var(--accent)] text-[var(--accent)]' : 'border-transparent opacity-40 hover:opacity-70')}>
-              <Icon size={11} />{lbl}
+              className={'flex items-center justify-center gap-1 py-2 text-[9px] font-bold uppercase tracking-wide transition-all border-b-2 ' +
+                (i % 2 === 0 ? 'border-r border-r-[color:var(--border2,var(--border))] ' : '') +
+                (sidebarTab === id
+                  ? 'border-b-[var(--accent)] text-[var(--accent)] bg-[var(--accent)]/5'
+                  : 'border-b-transparent opacity-40 hover:opacity-70 hover:bg-black/3 dark:hover:bg-white/3')}>
+              <Icon size={10} />
+              <span>{lbl}</span>
             </button>
           ))}
         </div>
@@ -5032,6 +5110,70 @@ function ChatView({ settings, sessions, setSessions }) {
           </div>
         )}
 
+        {/* ── ENCYCLO TAB ── */}
+        {sidebarTab === 'encyclo' && (
+          <div className="flex-1 min-h-0 overflow-y-auto custom-scrollbar">
+            {!encCat ? (
+              <>
+                <p className="text-[9px] font-black uppercase tracking-widest opacity-30 px-4 py-2 pt-3">Browse Categories</p>
+                {ENCYCLOPEDIA_CATEGORIES.map(cat => (
+                  <button key={cat.id} onClick={() => setEncCat(cat)}
+                    className="w-full flex items-center gap-3 px-4 py-2.5 hover:bg-[var(--accent)]/6 transition-all text-left group">
+                    <div className="w-7 h-7 rounded-xl flex items-center justify-center shrink-0 transition-transform group-hover:scale-105"
+                      style={{ background: cat.color + '18' }}>
+                      <cat.icon size={13} style={{ color: cat.color }} />
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <p className="text-[11px] font-bold truncate">{cat.label}</p>
+                      <p className="text-[9px] opacity-40">{cat.subcategories.length} topics</p>
+                    </div>
+                    <ChevronRight size={11} className="opacity-25 shrink-0" />
+                  </button>
+                ))}
+              </>
+            ) : !encSub ? (
+              <>
+                <div className="flex items-center gap-2 px-3 py-2 border-b border-[color:var(--border2,var(--border))] mb-1 sticky top-0" style={{ background: 'var(--bg)' }}>
+                  <button onClick={() => setEncCat(null)} className="p-1 rounded-lg hover:bg-black/8 dark:hover:bg-white/8 opacity-60 hover:opacity-100 transition-colors">
+                    <ChevronLeft size={14} />
+                  </button>
+                  <encCat.icon size={12} style={{ color: encCat.color }} />
+                  <span className="text-xs font-black truncate flex-1" style={{ color: encCat.color }}>{encCat.label}</span>
+                </div>
+                {encCat.subcategories.map(sub => (
+                  <button key={sub.id} onClick={() => openEncycloTopic(encCat, sub)}
+                    className="w-full flex items-center gap-2.5 px-4 py-2.5 hover:bg-[var(--accent)]/6 transition-all text-left group">
+                    <div className="w-1.5 h-1.5 rounded-full shrink-0" style={{ backgroundColor: encCat.color + '99' }} />
+                    <div className="flex-1 min-w-0">
+                      <p className="text-xs font-semibold truncate">{sub.label}</p>
+                      <p className="text-[9px] opacity-35 truncate">{sub.desc}</p>
+                    </div>
+                  </button>
+                ))}
+              </>
+            ) : (
+              <>
+                <div className="flex items-center gap-2 px-3 py-2 border-b border-[color:var(--border2,var(--border))] mb-1 sticky top-0" style={{ background: 'var(--bg)' }}>
+                  <button onClick={() => setEncSub(null)} className="p-1 rounded-lg hover:bg-black/8 dark:hover:bg-white/8 opacity-60 hover:opacity-100 transition-colors">
+                    <ChevronLeft size={14} />
+                  </button>
+                  <span className="text-[10px] font-black truncate flex-1">{encCat.label}</span>
+                </div>
+                {encCat.subcategories.map(sub => (
+                  <button key={sub.id} onClick={() => openEncycloTopic(encCat, sub)}
+                    className={'w-full flex items-center gap-2 px-4 py-2.5 text-left transition-all ' +
+                      (encSub.id === sub.id
+                        ? 'bg-[var(--accent)]/10 text-[var(--accent)]'
+                        : 'hover:bg-[var(--accent)]/5 opacity-55 hover:opacity-90')}>
+                    {encSub.id === sub.id && <div className="w-1.5 h-1.5 rounded-full bg-[var(--accent)] shrink-0" />}
+                    <span className={'text-xs truncate ' + (encSub.id === sub.id ? 'font-black' : 'font-semibold')}>{sub.label}</span>
+                  </button>
+                ))}
+              </>
+            )}
+          </div>
+        )}
+
         {/* Sidebar footer */}
         <div className="shrink-0 px-4 py-2.5 border-t border-[color:var(--border2,var(--border))]">
           <p className="text-[10px] opacity-30 font-bold flex items-center gap-1.5"><Brain size={11} />{sessions.length} chats · {topics.length} topics</p>
@@ -5070,7 +5212,98 @@ function ChatView({ settings, sessions, setSessions }) {
 
         {/* Messages / Welcome */}
         <div className="flex-1 min-h-0 overflow-y-auto custom-scrollbar" ref={scrollRef}>
-          {!hasStarted ? (
+          {sidebarTab === 'encyclo' && (encSub || encLoading) ? (
+            /* ── ENCYCLOPEDIA CONTENT VIEW ── */
+            <div className="flex flex-col h-full">
+              {encCat && encSub && (
+                <div className="shrink-0 px-5 pt-5 pb-4 border-b border-[color:var(--border2,var(--border))]"
+                  style={{ background: 'linear-gradient(135deg, ' + encCat.color + '08 0%, transparent 100%)' }}>
+                  <div className="flex items-start gap-3">
+                    <div className="w-11 h-11 rounded-2xl flex items-center justify-center shrink-0 shadow-sm"
+                      style={{ background: encCat.color + '20' }}>
+                      <encCat.icon size={22} style={{ color: encCat.color }} />
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <p className="text-[9px] font-black uppercase tracking-widest opacity-40 mb-0.5">{encCat.label}</p>
+                      <h2 className="text-lg font-black leading-tight">{encSub.label}</h2>
+                      <p className="text-xs opacity-45 mt-0.5">{encSub.desc}</p>
+                    </div>
+                    <div className="flex items-center gap-1">
+                      {encCached && !encLoading && (
+                        <span className="text-[9px] font-black uppercase tracking-widest opacity-40 flex items-center gap-1">
+                          <Database size={9} />Cached
+                        </span>
+                      )}
+                      <button onClick={() => openEncycloTopic(encCat, encSub, true)}
+                        className="shrink-0 p-2 rounded-xl hover:bg-black/8 dark:hover:bg-white/8 opacity-50 hover:opacity-100 transition-colors"
+                        title={encCached ? 'Refresh (regenerate — uses AI)' : 'Regenerate'}>
+                        <RotateCcw size={14} />
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              )}
+              <div className="flex-1 min-h-0 overflow-y-auto custom-scrollbar px-5 py-4">
+                {encLoading && !encContent && (
+                  <div className="flex flex-col items-center gap-4 py-16 opacity-50">
+                    <div className="w-8 h-8 border-2 border-[var(--accent)] border-t-transparent rounded-full animate-spin" />
+                    <p className="text-sm font-bold">Generating comprehensive reference…</p>
+                    <p className="text-xs opacity-60">This may take a moment</p>
+                  </div>
+                )}
+                {encContent && (
+                  <div className="text-sm leading-relaxed prose-like">
+                    {renderMarkdown(encContent)}
+                    {encLoading && <span className="inline-block w-1.5 h-4 bg-[var(--accent)] opacity-70 animate-pulse ml-0.5 rounded-sm align-middle" />}
+                  </div>
+                )}
+              </div>
+              {encSub && (
+                <div className="shrink-0 px-4 pb-4 pt-2 border-t border-[color:var(--border2,var(--border))]">
+                  <div className="glass rounded-2xl border border-[color:var(--border2,var(--border))] focus-within:border-[var(--accent)]/50 transition-colors">
+                    <textarea
+                      placeholder={'Ask a follow-up about ' + encSub.label + '…'}
+                      rows={2}
+                      className="w-full bg-transparent px-4 pt-3 pb-1.5 text-sm outline-none resize-none text-[var(--text)]"
+                      onKeyDown={e => {
+                        if (e.key === 'Enter' && !e.shiftKey) {
+                          e.preventDefault();
+                          const q = e.target.value.trim();
+                          if (!q) return;
+                          e.target.value = '';
+                          setSidebarTab('chats');
+                          setTimeout(() => send('[ENCYCLO: ' + encSub.label + '] ' + q), 50);
+                        }
+                      }}
+                    />
+                    <p className="text-[10px] opacity-30 px-4 pb-2.5 font-medium">Enter to ask in Chat &nbsp;·&nbsp; Shift+Enter for new line</p>
+                  </div>
+                </div>
+              )}
+            </div>
+          ) : sidebarTab === 'encyclo' ? (
+            /* ── ENCYCLOPEDIA HOME ── */
+            <div className="p-5 space-y-6 max-w-2xl mx-auto">
+              <div className="text-center py-8">
+                <div className="text-5xl mb-4">🌍</div>
+                <h2 className="text-2xl font-black">Medical Encyclopedia</h2>
+                <p className="text-sm opacity-45 mt-2 max-w-sm mx-auto">Browse hundreds of topics across Pharmacy, Medicine, Nursing, and more — with AI-generated rich references</p>
+              </div>
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                {ENCYCLOPEDIA_CATEGORIES.map(cat => (
+                  <button key={cat.id} onClick={() => setEncCat(cat)}
+                    className="flex flex-col items-center gap-2.5 p-4 rounded-2xl border border-[color:var(--border2,var(--border))] hover:border-[var(--accent)]/30 hover:bg-[var(--accent)]/4 transition-all group text-center">
+                    <div className="w-11 h-11 rounded-2xl flex items-center justify-center transition-transform group-hover:scale-110"
+                      style={{ background: cat.color + '18' }}>
+                      <cat.icon size={22} style={{ color: cat.color }} />
+                    </div>
+                    <p className="text-[11px] font-black leading-snug">{cat.label}</p>
+                    <p className="text-[9px] opacity-40">{cat.subcategories.length} topics</p>
+                  </button>
+                ))}
+              </div>
+            </div>
+          ) : !hasStarted ? (
             <div className="flex flex-col items-center justify-center min-h-full p-6 gap-7 max-w-2xl mx-auto">
               <div className="text-center space-y-3">
                 <div className="relative inline-block">
@@ -5151,8 +5384,8 @@ function ChatView({ settings, sessions, setSessions }) {
           )}
         </div>
 
-        {/* Input */}
-        <div className="shrink-0 px-4 pb-4 pt-3 border-t border-[color:var(--border2,var(--border))]" style={{ backdropFilter: 'blur(20px)', background: 'var(--surface,var(--card))' }}>
+        {/* Input — hidden when encyclopedia content is shown */}
+        <div className={`shrink-0 px-4 pb-4 pt-3 border-t border-[color:var(--border2,var(--border))] ${sidebarTab === 'encyclo' ? 'hidden' : ''}`} style={{ backdropFilter: 'blur(20px)', background: 'var(--surface,var(--card))' }}>
           <div className="max-w-3xl mx-auto">
             {selProject && (() => { const p = projects.find(x => x.id === selProject); return p ? (
               <div className="flex items-center gap-2 mb-2 px-1">
@@ -8614,11 +8847,15 @@ function App() {
 
     // iOS keyboard animation takes ~300ms; wait long enough after focus
     const onFocusIn = () => {
-      setTimeout(updateKeyboardState, 100);
-      setTimeout(updateKeyboardState, 350);
-      setTimeout(updateKeyboardState, 600);
+      setTimeout(updateKeyboardState, 50);
+      setTimeout(updateKeyboardState, 200);
+      setTimeout(updateKeyboardState, 450);
+      setTimeout(updateKeyboardState, 700);
     };
-    const onFocusOut = () => setTimeout(updateKeyboardState, 200);
+    const onFocusOut = () => {
+      setTimeout(updateKeyboardState, 50);
+      setTimeout(updateKeyboardState, 200);
+    };
 
     vv?.addEventListener('resize', updateKeyboardState);
     window.addEventListener('resize', updateKeyboardState);
@@ -9181,10 +9418,9 @@ function App() {
   return (
     <div className={`w-screen flex flex-col overflow-hidden text-[var(--text)] bg-mesh ${settings.theme || 'pure-white'} accent-${settings.accentColor || 'indigo'}`}
       style={{
-        height: '100%',
-        maxHeight: '100%',
+        height: '100dvh',
+        maxHeight: '100dvh',
         boxSizing: 'border-box',
-        /* safe-area-inset-top is handled by the header below */
       }}>
       <style>{`
         /* ── ROOT RESET ── */
@@ -9213,13 +9449,12 @@ function App() {
         /* ── ROOT RESET ── */
         html, body, #root {
           margin: 0; padding: 0;
-          position: absolute; inset: 0;
-          width: 100%; height: 100%;
+          width: 100%; height: 100dvh;
           overflow: hidden;
           overscroll-behavior: none;
-          background-color: var(--bg) !important; /* Fixes the white flash at the bottom */
+          background-color: var(--bg) !important;
         }
-        #root { width: 100%; height: 100%; }
+        #root { width: 100%; height: 100dvh; display: flex; flex-direction: column; }
         input,textarea,select{font-size:16px!important;}
         .custom-scrollbar{-webkit-overflow-scrolling:touch;}
         .custom-scrollbar::-webkit-scrollbar{width:2px;height:2px;}
@@ -9371,7 +9606,7 @@ function App() {
       {/* BODY — no sidebar, bottom nav for all */}
       <div className="design-body flex flex-1 min-h-0 overflow-hidden">
         {/* MAIN CONTENT — gooddesign: padding-bottom for bottom nav */}
-        <main className="design-main flex-1 flex flex-col min-h-0 overflow-hidden overflow-y-auto relative" style={{ paddingBottom: isMobile ? 120 : 24 }}>
+        <main className="design-main flex-1 flex flex-col min-h-0 overflow-hidden overflow-y-auto relative" style={{ paddingBottom: isMobile ? (isKeyboardOpen ? 8 : 120) : 24 }}>
           {uploading && (
             <div className="absolute top-0 left-0 right-0 h-1.5 bg-[var(--border)] z-50">
               <div className="h-full bg-gradient-to-r from-[var(--accent)] to-[var(--accent2,var(--accent))] transition-all duration-300 animate-pulse" style={{ width: `${uploadPct}%` }} />
