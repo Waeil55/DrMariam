@@ -1,5 +1,5 @@
-import { r as reactExports, R as React, L as Loader2, A as AlertCircle, X, S as Search, F as FolderOpen, B as BookMarked, a as Layers, b as Activity, C as CheckSquare, G as Globe, M as MessageSquare, c as Settings, d as Sparkles, e as GripVertical, Z as Zap, D as Database, f as CheckCircle2, I as Info, g as FileText, P as PenLine, h as FileUp, i as Grid3x3, j as List, k as ChevronLeft, l as Printer, m as RefreshCw, n as Shuffle, o as FilePlus, T as Trash2, E as Eye, p as Target, q as Stethoscope, s as Thermometer, t as ChevronRight, u as Pin, v as Copy, w as Plus, x as BookA, y as Pill, H as Heart, z as GraduationCap, J as Award, K as Brain, N as Clipboard, O as Star, Q as Network, U as Leaf, V as Flame, W as Monitor, Y as FlaskConical, _ as BookOpen, $ as LayoutGrid, a0 as History, a1 as RotateCcw, a2 as Send, a3 as CircleUserRound, a4 as MicOff, a5 as Mic, a6 as BotMessageSquare, a7 as Smartphone, a8 as Download, a9 as KeyRound, aa as Palette, ab as Sun, ac as CloudSun, ad as Moon, ae as MoonStar, af as PanelsTopLeft, ag as FileCode, ah as Image, ai as Table, aj as ZoomOut, ak as Maximize, al as ZoomIn, am as Save, an as AlignLeft, ao as Lightbulb, ap as Baby, aq as Tag, ar as Clock, as as Languages, at as Wand2, au as Code, av as ListChecks, aw as Hash, ax as MoreVertical, ay as Layers3, az as ChevronUp, aA as ChevronDown } from './icons-CLLkknzF.js';
-import { r as reactDomExports } from './react-B703JwTH.js';
+import { r as reactExports, R as React, L as Loader2, A as AlertCircle, X, S as Search, F as FolderOpen, B as BookMarked, a as Layers, b as Activity, C as CheckSquare, G as Globe, M as MessageSquare, c as Settings, d as Sparkles, e as GripVertical, Z as Zap, D as Database, f as CheckCircle2, I as Info, g as FileText, P as PenLine, h as FileUp, i as Grid3x3, j as List, k as ChevronLeft, l as Printer, m as RefreshCw, n as Shuffle, o as FilePlus, T as Trash2, E as Eye, p as Target, q as Stethoscope, s as Thermometer, t as ChevronRight, u as Pin, v as Copy, w as Plus, x as BookA, y as Pill, H as Heart, z as GraduationCap, J as Award, K as Brain, N as Clipboard, O as Star, Q as Network, U as Leaf, V as Flame, W as Monitor, Y as FlaskConical, _ as BookOpen, $ as Menu, a0 as History, a1 as RotateCcw, a2 as Send, a3 as CircleUserRound, a4 as MicOff, a5 as Mic, a6 as BotMessageSquare, a7 as Smartphone, a8 as Download, a9 as KeyRound, aa as Palette, ab as Sun, ac as CloudSun, ad as Moon, ae as MoonStar, af as PanelsTopLeft, ag as FileCode, ah as Image, ai as Table, aj as ZoomOut, ak as Maximize, al as ZoomIn, am as Save, an as AlignLeft, ao as Lightbulb, ap as Baby, aq as Tag, ar as Clock, as as Languages, at as Wand2, au as Code, av as ListChecks, aw as Hash, ax as MoreVertical, ay as Layers3, az as ChevronUp, aA as ChevronDown } from './icons-BMZSsBZX.js';
+import { r as reactDomExports } from './react-CzIM8pRv.js';
 
 true&&(function polyfill() {
   const relList = document.createElement("link").relList;
@@ -23019,14 +23019,15 @@ function ChatView({ settings, sessions, setSessions, setView, docs, activeId, se
       }
     ),
     /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex-1 flex flex-col min-h-0 min-w-0", children: [
-      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center gap-3 px-4 py-2.5 border-b border-[color:var(--border2,var(--border))] shrink-0", style: { backdropFilter: "blur(20px)", background: "var(--surface,var(--card))", paddingTop: "max(10px, calc(env(safe-area-inset-top, 0px) + 10px))" }, children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "lg:hidden shrink-0", style: { height: "env(safe-area-inset-top, 0px)", background: "var(--surface,var(--card))" } }),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center gap-3 px-4 py-2.5 border-b border-[color:var(--border2,var(--border))] shrink-0", style: { backdropFilter: "blur(20px)", background: "var(--surface,var(--card))" }, children: [
         setView && /* @__PURE__ */ jsxRuntimeExports.jsx(
           "button",
           {
             onClick: () => setShowNavSheet(true),
-            className: "lg:hidden w-9 h-9 glass rounded-xl flex items-center justify-center opacity-60 hover:opacity-100 shrink-0 transition-all",
-            title: "Navigate",
-            children: /* @__PURE__ */ jsxRuntimeExports.jsx(LayoutGrid, { size: 17 })
+            className: "lg:hidden w-9 h-9 glass rounded-xl flex items-center justify-center opacity-70 hover:opacity-100 shrink-0 transition-all",
+            title: "Menu",
+            children: /* @__PURE__ */ jsxRuntimeExports.jsx(Menu, { size: 20 })
           }
         ),
         /* @__PURE__ */ jsxRuntimeExports.jsx("button", { onClick: () => setSidebarOpen((o) => !o), className: "w-9 h-9 glass rounded-xl flex items-center justify-center opacity-60 hover:opacity-100 shrink-0 transition-all", title: "Toggle sidebar", children: /* @__PURE__ */ jsxRuntimeExports.jsx(History, { size: 17 }) }),
