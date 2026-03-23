@@ -3681,7 +3681,7 @@ function FlashcardsView({ flashcards, setFlashcards, settings, addToast, docs, s
         {/* Two-panel row */}
         <div className="flex-1 min-h-0 flex overflow-hidden">
           {/* LEFT: card + controls */}
-          <div className="flex-1 min-w-0 overflow-y-auto custom-scrollbar p-6 flex flex-col gap-5" style={{ touchAction: 'pan-y', WebkitOverflowScrolling: 'touch' }}>
+          <div className="flex-1 min-w-0 overflow-y-auto custom-scrollbar p-6 pb-28 flex flex-col gap-5" style={{ touchAction: 'pan-y', WebkitOverflowScrolling: 'touch' }}>
             {/* Quizlet-style 3D flip card */}
             <div style={{ perspective: '1200px' }} onClick={() => setFlipped(f => !f)} className="cursor-pointer select-none">
               <div style={{
@@ -3750,22 +3750,13 @@ function FlashcardsView({ flashcards, setFlashcards, settings, addToast, docs, s
           </div>
         </div>
 
-        {/* MOBILE: floating AI Tutor FAB */}
-        {createPortal(
-          <>
-            <button onClick={() => setMobileTutorOpen(true)}
-              className="lg:hidden fixed w-14 h-14 rounded-[22px] btn-accent shadow-2xl flex items-center justify-center transition-transform active:scale-90"
-              style={{ bottom: 'calc(90px + env(safe-area-inset-bottom))', right: 16, zIndex: 9000 }} title="AI Tutor">
-              <MessageSquare size={24} />
-            </button>
-            {mobileTutorOpen && (
-              <div className="lg:hidden fixed inset-0 z-[99999] flex flex-col justify-end backdrop-blur-sm" style={{ background: 'rgba(0,0,0,0.55)' }} onClick={e => e.target === e.currentTarget && setMobileTutorOpen(false)}>
-                <div className="glass rounded-t-[32px] flex flex-col overflow-hidden animate-slide-up" style={{ height: '85%', boxShadow: '0 -10px 50px rgba(0,0,0,0.4)' }} onClick={e => e.stopPropagation()}>
-                  <AiTutorPanel settings={settings} context={tutorCtx} onClose={() => setMobileTutorOpen(false)} width={window.innerWidth} />
-                </div>
-              </div>
-            )}
-          </>, document.body
+        {/* MOBILE: AI Tutor modal triggered by inline Ask AI Tutor button */}
+        {mobileTutorOpen && createPortal(
+          <div className="lg:hidden fixed inset-0 z-[99999] flex flex-col justify-end backdrop-blur-sm" style={{ background: 'rgba(0,0,0,0.55)' }} onClick={e => e.target === e.currentTarget && setMobileTutorOpen(false)}>
+            <div className="glass rounded-t-[32px] flex flex-col overflow-hidden animate-slide-up" style={{ height: '85%', boxShadow: '0 -10px 50px rgba(0,0,0,0.4)' }} onClick={e => e.stopPropagation()}>
+              <AiTutorPanel settings={settings} context={tutorCtx} onClose={() => setMobileTutorOpen(false)} width={window.innerWidth} />
+            </div>
+          </div>, document.body
         )}
       </div>
     );
@@ -3793,8 +3784,8 @@ function FlashcardsView({ flashcards, setFlashcards, settings, addToast, docs, s
             <h1 className="text-2xl lg:text-3xl font-black flex items-center gap-3"><Layers size={26} className="opacity-40" /> Flashcards</h1>
           </div>
           {/* Inline generate bar */}
-          <div className="flex flex-col gap-2">
-            <div className="flex items-center gap-2 glass rounded-2xl px-4 py-2.5 border border-[color:var(--border2,var(--border))]">
+          <div className="flex flex-col gap-2 lg:flex-row lg:items-center">
+            <div className="flex items-center gap-2 glass rounded-2xl px-4 py-2.5 border border-[color:var(--border2,var(--border))] lg:flex-1">
               <Search size={15} className="opacity-30 shrink-0" />
               <input
                 value={inlineInput} onChange={e => setInlineInput(e.target.value)}
@@ -3815,13 +3806,13 @@ function FlashcardsView({ flashcards, setFlashcards, settings, addToast, docs, s
                 <Zap size={11} /> Generate
               </button>
             </div>
-            <div className="flex gap-2">
+            <div className="flex gap-2 lg:shrink-0">
               <button onClick={() => { const topic = MEDICAL_RANDOM_TOPICS[Math.floor(Math.random() * MEDICAL_RANDOM_TOPICS.length)]; const taskId = 'task_' + Date.now(); runTopicGeneration({ taskId, topic, taskType: 'flashcards', count: inlineCount, difficultyLevel: inlineDiff, settings, onSave: (data, tid) => { const now = new Date().toISOString(); const cards = data.map(c => ({ id: Date.now() + Math.random(), q: c.q, a: c.a, evidence: c.evidence || '', sourcePage: 0, repetitions: 0, ef: 2.5, interval: 1, nextReview: Date.now(), lastReview: Date.now() })); setFlashcards(p => [...p, { id: taskId, docId: null, sourcePages: 'topic', title: `Cards — ${topic.split(':')[0].trim().slice(0,30)}`, cards, createdAt: now }]); addToast(`${cards.length} flashcards saved! ⚡`, 'success'); bgClear(tid); } }); addToast('🎲 Generating random topic cards…', 'info'); }}
-                className="flex-1 flex items-center justify-center gap-1.5 py-2.5 rounded-2xl text-xs font-black transition-all hover:scale-105 active:scale-95 shadow-sm"
+                className="flex-1 lg:flex-none lg:px-5 flex items-center justify-center gap-1.5 py-2.5 rounded-2xl text-xs font-black transition-all hover:scale-105 active:scale-95 shadow-sm"
                 style={{ background: 'linear-gradient(135deg,#818cf8,#6366f1)', color: '#fff', boxShadow: '0 4px 14px #6366f140' }}>
                 <Shuffle size={12} /> Random
               </button>
-              <button onClick={() => setShowModal(true)} className="flex-1 flex items-center justify-center gap-2 py-2.5 rounded-2xl text-xs font-black glass border border-[color:var(--border2,var(--border))] hover:opacity-80 opacity-60"><FilePlus size={13} /> From File</button>
+              <button onClick={() => setShowModal(true)} className="flex-1 lg:flex-none lg:px-5 flex items-center justify-center gap-2 py-2.5 rounded-2xl text-xs font-black glass border border-[color:var(--border2,var(--border))] hover:opacity-80 opacity-60"><FilePlus size={13} /> From File</button>
             </div>
           </div>
           {/* Count + Difficulty controls */}
@@ -4038,7 +4029,7 @@ function ExamsView({ exams, setExams, settings, addToast, docs, setFlashcards, s
         {/* Two-panel row */}
         <div className="flex-1 min-h-0 flex overflow-hidden">
           {/* LEFT: question + options */}
-          <div className="flex-1 min-w-0 overflow-y-auto custom-scrollbar p-4 lg:p-8 space-y-4" style={{ touchAction: 'pan-y', WebkitOverflowScrolling: 'touch' }}>
+          <div className="flex-1 min-w-0 overflow-y-auto custom-scrollbar p-4 pb-28 lg:p-8 space-y-4" style={{ touchAction: 'pan-y', WebkitOverflowScrolling: 'touch' }}>
             <div className="glass rounded-2xl p-4 lg:p-6 border border-[color:var(--border2,var(--border))]">
               {q.sourcePage && <p className="text-xs font-mono opacity-30 mb-3">Source: p.{q.sourcePage}</p>}
               <p className="text-base font-semibold leading-relaxed">{q.q}</p>
@@ -4091,22 +4082,13 @@ function ExamsView({ exams, setExams, settings, addToast, docs, setFlashcards, s
             <GripVertical size={14} className="opacity-20 group-hover:opacity-70 text-[var(--text)]" />
           </div>
           {/* RIGHT: AI Tutor always open */}
-          {/* MOBILE: floating AI Tutor FAB */}
-          {createPortal(
-            <>
-              <button onClick={() => setExamMobileOpen(true)}
-                className="lg:hidden fixed w-14 h-14 rounded-[22px] btn-accent shadow-2xl flex items-center justify-center transition-transform active:scale-90"
-                style={{ bottom: 'calc(90px + env(safe-area-inset-bottom))', right: 16, zIndex: 9000 }} title="AI Tutor">
-                <MessageSquare size={24} />
-              </button>
-              {examMobileOpen && (
-                <div className="lg:hidden fixed inset-0 z-[99999] flex flex-col justify-end backdrop-blur-sm" style={{ background: 'rgba(0,0,0,0.55)' }} onClick={e => e.target === e.currentTarget && setExamMobileOpen(false)}>
-                  <div className="glass rounded-t-[32px] flex flex-col overflow-hidden animate-slide-up" style={{ height: '85%', boxShadow: '0 -10px 50px rgba(0,0,0,0.4)' }} onClick={e => e.stopPropagation()}>
-                    <AiTutorPanel settings={settings} context={`Exam: ${selEx?.title}\nQ${qi + 1}: ${selEx?.questions?.[qi]?.q}\nOptions: ${selEx?.questions?.[qi]?.options?.join(' | ')}\nCorrect: ${selEx?.questions?.[qi]?.options?.[selEx?.questions?.[qi]?.correct]}`} onClose={() => setExamMobileOpen(false)} width={window.innerWidth} />
-                  </div>
-                </div>
-              )}
-            </>, document.body
+          {/* MOBILE: AI Tutor modal triggered by inline Ask AI Tutor button */}
+          {examMobileOpen && createPortal(
+            <div className="lg:hidden fixed inset-0 z-[99999] flex flex-col justify-end backdrop-blur-sm" style={{ background: 'rgba(0,0,0,0.55)' }} onClick={e => e.target === e.currentTarget && setExamMobileOpen(false)}>
+              <div className="glass rounded-t-[32px] flex flex-col overflow-hidden animate-slide-up" style={{ height: '85%', boxShadow: '0 -10px 50px rgba(0,0,0,0.4)' }} onClick={e => e.stopPropagation()}>
+                <AiTutorPanel settings={settings} context={`Exam: ${selEx?.title}\nQ${qi + 1}: ${selEx?.questions?.[qi]?.q}\nOptions: ${selEx?.questions?.[qi]?.options?.join(' | ')}\nCorrect: ${selEx?.questions?.[qi]?.options?.[selEx?.questions?.[qi]?.correct]}`} onClose={() => setExamMobileOpen(false)} width={window.innerWidth} />
+              </div>
+            </div>, document.body
           )}
           <div className="hidden lg:flex flex-col border-l border-[color:var(--border2,var(--border))] shrink-0" style={{ width: examTutorW }}>
             <AiTutorPanel settings={settings} context={tutorCtx} onClose={null} width={examTutorW} onDragStart={startExamTutorDrag} alwaysOpen={true} />
@@ -4185,8 +4167,8 @@ function ExamsView({ exams, setExams, settings, addToast, docs, setFlashcards, s
             <h1 className="text-2xl lg:text-3xl font-black flex items-center gap-3"><CheckSquare size={26} className="opacity-40" /> Exams</h1>
           </div>
           {/* Inline generate bar */}
-          <div className="flex flex-col gap-2">
-            <div className="flex items-center gap-2 glass rounded-2xl px-4 py-2.5 border border-[color:var(--border2,var(--border))]">
+          <div className="flex flex-col gap-2 lg:flex-row lg:items-center">
+            <div className="flex items-center gap-2 glass rounded-2xl px-4 py-2.5 border border-[color:var(--border2,var(--border))] lg:flex-1">
               <Search size={15} className="opacity-30 shrink-0" />
               <input
                 value={inlineInput} onChange={e => setInlineInput(e.target.value)}
@@ -4207,13 +4189,13 @@ function ExamsView({ exams, setExams, settings, addToast, docs, setFlashcards, s
                 <Zap size={11} /> Generate
               </button>
             </div>
-            <div className="flex gap-2">
+            <div className="flex gap-2 lg:shrink-0">
               <button onClick={() => { const topic = MEDICAL_RANDOM_TOPICS[Math.floor(Math.random() * MEDICAL_RANDOM_TOPICS.length)]; const taskId = 'task_' + Date.now(); runTopicGeneration({ taskId, topic, taskType: 'exam', count: inlineCount, difficultyLevel: inlineDiff, settings, onSave: (data, tid) => { setExams(p => [...p, { id: taskId, docId: null, sourcePages: 'topic', title: `Exam — ${topic.split(':')[0].trim().slice(0,30)}`, questions: data, createdAt: new Date().toISOString() }]); addToast(`${data.length} exam questions saved! ⚡`, 'success'); bgClear(tid); } }); addToast('🎲 Generating random exam…', 'info'); }}
-                className="flex-1 flex items-center justify-center gap-1.5 py-2.5 rounded-2xl text-xs font-black transition-all hover:scale-105 active:scale-95 shadow-sm"
+                className="flex-1 lg:flex-none lg:px-5 flex items-center justify-center gap-1.5 py-2.5 rounded-2xl text-xs font-black transition-all hover:scale-105 active:scale-95 shadow-sm"
                 style={{ background: 'linear-gradient(135deg,#60a5fa,#3b82f6)', color: '#fff', boxShadow: '0 4px 14px #3b82f640' }}>
                 <Shuffle size={12} /> Random
               </button>
-              <button onClick={() => setShowModal(true)} className="flex-1 flex items-center justify-center gap-2 py-2.5 rounded-2xl text-xs font-black glass border border-[color:var(--border2,var(--border))] hover:opacity-80 opacity-60"><FilePlus size={13} /> From File</button>
+              <button onClick={() => setShowModal(true)} className="flex-1 lg:flex-none lg:px-5 flex items-center justify-center gap-2 py-2.5 rounded-2xl text-xs font-black glass border border-[color:var(--border2,var(--border))] hover:opacity-80 opacity-60"><FilePlus size={13} /> From File</button>
             </div>
           </div>
           {/* Count + Difficulty controls */}
@@ -4373,7 +4355,7 @@ function CasesView({ cases, setCases, settings, addToast, docs, setFlashcards, s
         <div className="flex-1 min-h-0 flex overflow-hidden">
 
           {/* ═══ LEFT: Vignette + Question + Answers (scrollable) ═══ */}
-          <div className="flex-1 min-w-0 overflow-y-auto custom-scrollbar p-5 space-y-4" style={{ touchAction: 'pan-y', WebkitOverflowScrolling: 'touch' }}>
+          <div className="flex-1 min-w-0 overflow-y-auto custom-scrollbar p-5 pb-28 space-y-4" style={{ touchAction: 'pan-y', WebkitOverflowScrolling: 'touch' }}>
 
             {/* Patient Vignette */}
             <div className="glass rounded-2xl p-5 border border-[color:var(--border2,var(--border))]">
@@ -4437,6 +4419,12 @@ function CasesView({ cases, setCases, settings, addToast, docs, setFlashcards, s
                   </button>
               }
             </div>
+            {/* Mobile: Ask AI Tutor button (visible because FAB was removed) */}
+            <div className="lg:hidden">
+              <button onClick={() => setCasesMobileTutorOpen(true)} className="w-full glass py-3.5 rounded-2xl flex items-center justify-center gap-2 font-bold text-[var(--accent)] border border-[var(--accent)]/30 hover:bg-[var(--accent)]/10 transition-colors">
+                <MessageSquare size={18} /> Ask AI Tutor
+              </button>
+            </div>
           </div>
 
           {/* ═══ DRAG HANDLE: left ↔ lab ═══ */}
@@ -4493,12 +4481,6 @@ function CasesView({ cases, setCases, settings, addToast, docs, setFlashcards, s
               )}
             </div>
 
-            {/* Inline AI Tutor Trigger */}
-            <div className="lg:hidden mt-4 flex-shrink-0">
-              <button onClick={() => setCasesMobileTutorOpen(true)} className="w-full glass py-3.5 rounded-2xl flex items-center justify-center gap-2 font-bold text-[var(--accent)] border border-[var(--accent)]/30 hover:bg-[var(--accent)]/10 transition-colors">
-                <MessageSquare size={18} /> Ask AI Tutor
-              </button>
-            </div>
           </div>
 
           {/* ═══ DRAG HANDLE: lab ↔ tutor ═══ */}
@@ -4546,22 +4528,13 @@ function CasesView({ cases, setCases, settings, addToast, docs, setFlashcards, s
           )}
         </div>
 
-        {/* MOBILE: floating AI Tutor FAB */}
-        {createPortal(
-          <>
-            <button onClick={() => setCasesMobileTutorOpen(true)}
-              className="lg:hidden fixed w-14 h-14 rounded-[22px] btn-accent shadow-2xl flex items-center justify-center transition-transform active:scale-90"
-              style={{ bottom: 'calc(90px + env(safe-area-inset-bottom))', right: 16, zIndex: 9000 }} title="AI Tutor">
-              <MessageSquare size={24} />
-            </button>
-            {casesMobileTutorOpen && (
-              <div className="lg:hidden fixed inset-0 z-[99999] flex flex-col justify-end backdrop-blur-sm" style={{ background: 'rgba(0,0,0,0.55)' }} onClick={e => e.target === e.currentTarget && setCasesMobileTutorOpen(false)}>
-                <div className="glass rounded-t-[32px] flex flex-col overflow-hidden animate-slide-up" style={{ height: '85%', boxShadow: '0 -10px 50px rgba(0,0,0,0.4)' }} onClick={e => e.stopPropagation()}>
-                  <AiTutorPanel settings={settings} context={tutorCtx} onClose={() => setCasesMobileTutorOpen(false)} width={window.innerWidth} />
-                </div>
-              </div>
-            )}
-          </>, document.body
+        {/* MOBILE: AI Tutor modal triggered by inline Ask AI Tutor button */}
+        {casesMobileTutorOpen && createPortal(
+          <div className="lg:hidden fixed inset-0 z-[99999] flex flex-col justify-end backdrop-blur-sm" style={{ background: 'rgba(0,0,0,0.55)' }} onClick={e => e.target === e.currentTarget && setCasesMobileTutorOpen(false)}>
+            <div className="glass rounded-t-[32px] flex flex-col overflow-hidden animate-slide-up" style={{ height: '85%', boxShadow: '0 -10px 50px rgba(0,0,0,0.4)' }} onClick={e => e.stopPropagation()}>
+              <AiTutorPanel settings={settings} context={tutorCtx} onClose={() => setCasesMobileTutorOpen(false)} width={window.innerWidth} />
+            </div>
+          </div>, document.body
         )}
 
       </div>
@@ -4579,8 +4552,8 @@ function CasesView({ cases, setCases, settings, addToast, docs, setFlashcards, s
             <h1 className="text-2xl lg:text-3xl font-black flex items-center gap-3"><Activity size={26} className="opacity-40" /> Clinical Cases</h1>
           </div>
           {/* Inline generate bar */}
-          <div className="flex flex-col gap-2">
-            <div className="flex items-center gap-2 glass rounded-2xl px-4 py-2.5 border border-[color:var(--border2,var(--border))]">
+          <div className="flex flex-col gap-2 lg:flex-row lg:items-center">
+            <div className="flex items-center gap-2 glass rounded-2xl px-4 py-2.5 border border-[color:var(--border2,var(--border))] lg:flex-1">
               <Search size={15} className="opacity-30 shrink-0" />
               <input
                 value={inlineInput} onChange={e => setInlineInput(e.target.value)}
@@ -4601,13 +4574,13 @@ function CasesView({ cases, setCases, settings, addToast, docs, setFlashcards, s
                 <Zap size={11} /> Generate
               </button>
             </div>
-            <div className="flex gap-2">
+            <div className="flex gap-2 lg:shrink-0">
               <button onClick={() => { const topic = MEDICAL_RANDOM_TOPICS[Math.floor(Math.random() * MEDICAL_RANDOM_TOPICS.length)]; const taskId = 'task_' + Date.now(); runTopicGeneration({ taskId, topic, taskType: 'cases', count: inlineCount, difficultyLevel: inlineDiff, settings, onSave: (data, tid) => { setCases(p => [...p, { id: taskId, docId: null, sourcePages: 'topic', title: `Cases — ${topic.split(':')[0].trim().slice(0,30)}`, questions: data, createdAt: new Date().toISOString() }]); addToast(`${data.length} cases saved! ⚡`, 'success'); bgClear(tid); } }); addToast('🎲 Generating random cases…', 'info'); }}
-                className="flex-1 flex items-center justify-center gap-1.5 py-2.5 rounded-2xl text-xs font-black transition-all hover:scale-105 active:scale-95 shadow-sm"
+                className="flex-1 lg:flex-none lg:px-5 flex items-center justify-center gap-1.5 py-2.5 rounded-2xl text-xs font-black transition-all hover:scale-105 active:scale-95 shadow-sm"
                 style={{ background: 'linear-gradient(135deg,#c084fc,#8b5cf6)', color: '#fff', boxShadow: '0 4px 14px #8b5cf640' }}>
                 <Shuffle size={12} /> Random
               </button>
-              <button onClick={() => setShowModal(true)} className="flex-1 flex items-center justify-center gap-2 py-2.5 rounded-2xl text-xs font-black glass border border-[color:var(--border2,var(--border))] hover:opacity-80 opacity-60"><FilePlus size={13} /> From File</button>
+              <button onClick={() => setShowModal(true)} className="flex-1 lg:flex-none lg:px-5 flex items-center justify-center gap-2 py-2.5 rounded-2xl text-xs font-black glass border border-[color:var(--border2,var(--border))] hover:opacity-80 opacity-60"><FilePlus size={13} /> From File</button>
             </div>
           </div>
           {/* Count + Difficulty controls */}
@@ -4704,6 +4677,7 @@ function ChatView({ settings, sessions, setSessions }) {
   const [showNewTopic, setShowNewTopic] = useState(false);
   const [newTopicName, setNewTopicName] = useState('');
   const [sidebarTab, setSidebarTab] = useState('chats');
+  const [encSearch, setEncSearch] = useState('');
   const [encCat, setEncCat] = useState(null);
   const [encSub, setEncSub] = useState(null);
   const [encContent, setEncContent] = useState('');
@@ -5129,8 +5103,54 @@ function ChatView({ settings, sessions, setSessions }) {
 
         {/* ── ENCYCLO TAB ── */}
         {sidebarTab === 'encyclo' && (
-          <div className="flex-1 min-h-0 overflow-y-auto custom-scrollbar">
-            {!encCat ? (
+          <div className="flex-1 min-h-0 flex flex-col overflow-hidden">
+            {/* Search bar */}
+            <div className="px-3 pt-2.5 pb-1.5 shrink-0">
+              <div className="relative">
+                <Search size={12} className="absolute left-3 top-1/2 -translate-y-1/2 opacity-40 pointer-events-none" />
+                <input
+                  value={encSearch}
+                  onChange={e => { setEncSearch(e.target.value); if (e.target.value) { setEncCat(null); setEncSub(null); } }}
+                  placeholder="Search drugs, diseases, topics…"
+                  className="w-full bg-black/5 dark:bg-white/5 rounded-xl pl-7 pr-7 py-1.5 text-xs outline-none border border-transparent focus:border-[var(--accent)]/40 text-[var(--text)]"
+                />
+                {encSearch && (
+                  <button onClick={() => setEncSearch('')} className="absolute right-2 top-1/2 -translate-y-1/2 opacity-40 hover:opacity-80">
+                    <X size={11} />
+                  </button>
+                )}
+              </div>
+            </div>
+            <div className="flex-1 min-h-0 overflow-y-auto custom-scrollbar">
+            {encSearch ? (
+              /* ── SEARCH RESULTS ── */
+              (() => {
+                const q = encSearch.toLowerCase();
+                const results = ENCYCLOPEDIA_CATEGORIES.flatMap(cat =>
+                  cat.subcategories
+                    .filter(sub => sub.label.toLowerCase().includes(q) || sub.desc.toLowerCase().includes(q) || cat.label.toLowerCase().includes(q))
+                    .map(sub => ({ cat, sub }))
+                );
+                return results.length > 0 ? results.map(({ cat, sub }) => (
+                  <button key={cat.id + ':' + sub.id}
+                    onClick={() => { openEncycloTopic(cat, sub); setEncSearch(''); }}
+                    className="w-full flex items-center gap-2.5 px-4 py-2.5 hover:bg-[var(--accent)]/6 transition-all text-left group">
+                    <div className="w-6 h-6 rounded-lg flex items-center justify-center shrink-0" style={{ background: cat.color + '20' }}>
+                      <cat.icon size={10} style={{ color: cat.color }} />
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <p className="text-xs font-bold truncate">{sub.label}</p>
+                      <p className="text-[9px] opacity-40 truncate">{cat.label} · {sub.desc}</p>
+                    </div>
+                  </button>
+                )) : (
+                  <div className="text-center py-8 px-4 opacity-30">
+                    <Search size={20} className="mx-auto mb-2" />
+                    <p className="text-xs font-bold">No results for "{encSearch}"</p>
+                  </div>
+                );
+              })()
+            ) : !encCat ? (
               <>
                 <p className="text-[9px] font-black uppercase tracking-widest opacity-30 px-4 py-2 pt-3">Browse Categories</p>
                 {ENCYCLOPEDIA_CATEGORIES.map(cat => (
@@ -5188,6 +5208,7 @@ function ChatView({ settings, sessions, setSessions }) {
                 ))}
               </>
             )}
+            </div>
           </div>
         )}
 
@@ -8852,26 +8873,33 @@ function App() {
     }
 
     const vv = window.visualViewport;
+    let baseH = window.innerHeight; // tracks full height when keyboard is closed (Android fix)
     const updateKeyboardState = () => {
       const viewportHeight = vv?.height || window.innerHeight;
-      const delta = window.innerHeight - viewportHeight;
+      const iosDelta = window.innerHeight - viewportHeight;   // iOS: vv shrinks, innerHeight stable
+      const androidDelta = baseH - window.innerHeight;        // Android: innerHeight itself shrinks
+      const delta = Math.max(iosDelta, androidDelta);
       const el = document.activeElement;
       const tag = (el?.tagName || '').toLowerCase();
       const isEditable = tag === 'input' || tag === 'textarea' || tag === 'select'
         || el?.isContentEditable || el?.getAttribute?.('contenteditable') === 'true';
-      setIsKeyboardOpen(delta > 100 && isEditable);
+      const open = delta > 100 && isEditable;
+      setIsKeyboardOpen(open);
+      if (!open && delta < 50) baseH = Math.max(baseH, window.innerHeight); // update base when keyboard closed
     };
 
-    // iOS keyboard animation takes ~300ms; wait long enough after focus
+    // Keyboard animation takes ~300ms; poll a few times after focus
     const onFocusIn = () => {
       setTimeout(updateKeyboardState, 50);
       setTimeout(updateKeyboardState, 200);
       setTimeout(updateKeyboardState, 450);
       setTimeout(updateKeyboardState, 700);
+      setTimeout(updateKeyboardState, 1200);
     };
     const onFocusOut = () => {
       setTimeout(updateKeyboardState, 50);
       setTimeout(updateKeyboardState, 200);
+      setTimeout(updateKeyboardState, 500);
     };
 
     vv?.addEventListener('resize', updateKeyboardState);
