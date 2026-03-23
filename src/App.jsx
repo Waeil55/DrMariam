@@ -5600,6 +5600,8 @@ function ChatView({ settings, sessions, setSessions, setView, docs, activeId, se
             <p className="text-[10px] text-center opacity-20 font-medium mt-2">MARIAM may make errors. Always verify medical information.</p>
           </div>
         </div>
+        {/* Safe-area bottom strip — fills iPhone home-indicator gap on mobile (chat hides the global footer padding) */}
+        <div className="lg:hidden shrink-0" style={{ height: 'env(safe-area-inset-bottom, 0px)', background: 'var(--surface,var(--card))' }} />
       </div>
     </div>
   );
