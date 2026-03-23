@@ -4716,7 +4716,7 @@ function CasesView({ cases, setCases, settings, addToast, docs, setFlashcards, s
 /* ═══════════════════════════════════════════════════════════════════
    CHAT VIEW — global AI chat with streaming + voice
 ═══════════════════════════════════════════════════════════════════ */
-function ChatView({ settings, sessions, setSessions }) {
+function ChatView({ settings, sessions, setSessions, setView, docs, activeId, setActiveId, setOpenDocs }) {
   const [selSess, setSelSess] = useState(null);
   const [msgs, setMsgs] = useState([]);
   const [input, setInput] = useState('');
@@ -4743,6 +4743,7 @@ function ChatView({ settings, sessions, setSessions }) {
   const [encCached, setEncCached] = useState(false);
   const [encFollowUp, setEncFollowUp] = useState('');
   const [inputRows, setInputRows] = useState(1);
+  const [showNavSheet, setShowNavSheet] = useState(false);
   const [hasStarted, setHasStarted] = useState(false);
   const endRef = useRef(null);
   const recogRef = useRef(null);
@@ -4985,6 +4986,37 @@ function ChatView({ settings, sessions, setSessions }) {
 
   return (
     <div className="flex h-full min-h-0 overflow-hidden" style={{ background: 'var(--bg)' }} onClick={() => contextMenu && setContextMenu(null)}>
+
+      {/* Mobile Nav Sheet */}
+      {showNavSheet && setView && (
+        <>
+          <div className="fixed inset-0 z-[9990] bg-black/50 lg:hidden" onClick={() => setShowNavSheet(false)} />
+          <div className="fixed bottom-0 left-0 right-0 z-[9999] lg:hidden rounded-t-3xl border-t border-[color:var(--border2,var(--border))] pb-[env(safe-area-inset-bottom,12px)]" style={{ background: 'var(--bg)', backdropFilter: 'blur(40px)' }}>
+            <div className="w-10 h-1 rounded-full bg-[var(--text)]/20 mx-auto mt-3 mb-4" />
+            <p className="text-[10px] font-black uppercase tracking-widest opacity-40 px-5 mb-3">Navigate to</p>
+            <div className="grid grid-cols-4 gap-2 px-4 pb-4">
+              {[
+                ['Library', FolderOpen, 'library'],
+                ['Reader', BookMarked, 'reader'],
+                ['Cards', Layers, 'flashcards'],
+                ['Cases', Activity, 'cases'],
+                ['Exams', CheckSquare, 'exams'],
+                ['Encyclo', Globe, 'encyclopedia'],
+                ['Chat', MessageSquare, 'chat'],
+                ['Settings', Settings, 'settings'],
+              ].map(([label, Icon, v]) => (
+                <button key={v} onClick={() => { setShowNavSheet(false); setView(v); }}
+                  className={`flex flex-col items-center gap-1.5 py-3 rounded-2xl transition-all ${
+                    v === 'chat' ? 'bg-[var(--accent)]/15 text-[var(--accent)]' : 'glass opacity-70 hover:opacity-100 text-[var(--text)]'
+                  }`}>
+                  <Icon size={22} strokeWidth={v === 'chat' ? 2.5 : 2} />
+                  <span className="text-[10px] font-bold">{label}</span>
+                </button>
+              ))}
+            </div>
+          </div>
+        </>
+      )}
 
       {/* Context Menu */}
       {contextMenu && (
@@ -5282,6 +5314,13 @@ function ChatView({ settings, sessions, setSessions }) {
 
         {/* Top bar */}
         <div className="flex items-center gap-3 px-4 py-2.5 border-b border-[color:var(--border2,var(--border))] shrink-0" style={{ backdropFilter: 'blur(20px)', background: 'var(--surface,var(--card))' }}>
+          {/* Mobile-only: Navigate to other pages */}
+          {setView && (
+            <button onClick={() => setShowNavSheet(true)}
+              className="lg:hidden w-9 h-9 glass rounded-xl flex items-center justify-center opacity-60 hover:opacity-100 shrink-0 transition-all" title="Navigate">
+              <LayoutGrid size={17} />
+            </button>
+          )}
           <button onClick={() => setSidebarOpen(o => !o)} className="w-9 h-9 glass rounded-xl flex items-center justify-center opacity-60 hover:opacity-100 shrink-0 transition-all" title="Toggle sidebar">
             <History size={17} />
           </button>
@@ -9749,7 +9788,8 @@ function App() {
             <CasesView cases={cases} setCases={setCases} settings={settings} addToast={addToast} docs={docs} setFlashcards={setFlashcards} setExams={setExams} />
           </ViewWrapper>
           <ViewWrapper active={view === 'chat'}>
-            <ChatView settings={settings} sessions={chatSessions} setSessions={setChatSessions} />
+            <ChatView settings={settings} sessions={chatSessions} setSessions={setChatSessions}
+              setView={setView} docs={docs} activeId={activeId} setActiveId={setActiveId} setOpenDocs={setOpenDocs} />
           </ViewWrapper>
           <ViewWrapper active={view === 'encyclopedia'}>
             <MedicalEncyclopediaView settings={settings} />
