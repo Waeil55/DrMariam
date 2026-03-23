@@ -181,7 +181,7 @@ import {
   Bell, Archive, BarChart, BookCopy, CalendarDays, FlameKindling,
   Trophy, Percent, PenLine, Scissors, Bookmark, History, Plus,
   MoreVertical, CheckCheck, CircleDot, Flame, Heart, Leaf,
-  Layout, LayoutGrid, BotMessageSquare, Shuffle,
+  Layout, LayoutGrid, BotMessageSquare, Shuffle, Menu,
 } from 'lucide-react';
 
 /* ═══════════════════════════════════════════════════════════════════
