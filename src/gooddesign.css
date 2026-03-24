@@ -366,6 +366,60 @@ html.dark .design-header::before,
 /* Hide the top header bar on mobile when Chat view is active */
 @media (max-width: 1023px) {
   .chat-header-hide { display: none !important; }
+
+  /* Mobile chat view background transparency fix */
+  .chat-view-root {
+    padding-bottom: 72px; /* Match navbar height */
+  }
+
+  .chat-input-wrapper {
+    position: fixed;
+    bottom: 72px;
+    left: 0;
+    right: 0;
+    padding: 8px 16px !important;
+    background: transparent !important;
+    border-top: none !important;
+    z-index: 50;
+  }
+
+  /* Make mobile input a single slim bar */
+  .chat-input-inner {
+    display: flex;
+    align-items: center;
+    border-radius: 999px !important; /* Pill shape */
+    padding: 4px 8px;
+    background: var(--surface, var(--card));
+    backdrop-filter: blur(20px);
+  }
+
+  .chat-input-inner textarea {
+    padding: 8px 12px !important;
+    min-height: 40px !important;
+    height: 40px !important;
+    line-height: 24px;
+    white-space: nowrap;
+    overflow: hidden;
+  }
+
+  .chat-input-actions {
+    padding: 0 !important;
+    margin: 0 !important;
+    align-items: center;
+  }
+
+  .chat-input-actions .flex.items-center.gap-1 {
+    display: none; /* Hide topic/mic on mobile if needed, or adjust */
+  }
+
+  /* Keep the send button visible */
+  .chat-input-actions button[title="Send message"] {
+    width: 32px !important;
+    height: 32px !important;
+    padding: 0 !important;
+    margin-left: 8px;
+    border-radius: 50% !important;
+  }
 }
 
 .design-btn {
