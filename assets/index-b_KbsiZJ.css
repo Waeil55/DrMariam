@@ -3071,48 +3071,6 @@ html.dark .design-header::before,
 /* Hide the top header bar on mobile when Chat view is active */
 @media (max-width: 1023px) {
   .chat-header-hide { display: none !important; }
-
-  /* Clip the chat view so it ends exactly above the navbar — nothing paints behind it */
-  .chat-view-root {
-    height: calc(100% - 72px - env(safe-area-inset-bottom)) !important;
-    padding-bottom: 0 !important;
-  }
-
-  /* Chat input bar: same height as the bottom navbar (~72px total) */
-  .chat-input-wrapper {
-    height: 72px !important;
-    overflow: hidden !important;
-    padding: 8px 12px !important;
-  }
-
-  /* Glass card becomes a single horizontal row */
-  .chat-input-inner {
-    display: flex !important;
-    flex-direction: row !important;
-    align-items: center !important;
-    height: 56px !important;
-    padding: 0 8px 0 4px !important;
-    gap: 6px;
-  }
-
-  /* Textarea: single-line, no extra padding */
-  .chat-input-inner textarea {
-    min-height: 36px !important;
-    max-height: 36px !important;
-    height: 36px !important;
-    padding: 8px 8px !important;
-    overflow: hidden !important;
-    flex: 1;
-  }
-
-  /* Actions row: hide the left icon group (mic/topics/projects), keep send inline */
-  .chat-input-actions {
-    padding: 0 !important;
-    flex-shrink: 0;
-  }
-  .chat-input-actions > div:first-child {
-    display: none !important;
-  }
 }
 
 .design-btn {

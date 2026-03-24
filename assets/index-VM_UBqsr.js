@@ -22626,7 +22626,7 @@ function ChatView({ settings, sessions, setSessions }) {
   );
   const curSess = sessions.find((s) => s.id === selSess);
   const topicsFiltered = sessSearch ? topics.filter((t) => t.name.toLowerCase().includes(sessSearch.toLowerCase())) : topics;
-  return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "chat-view-root flex h-full min-h-0 overflow-hidden", onClick: () => contextMenu && setContextMenu(null), children: [
+  return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex h-full min-h-0 overflow-hidden", style: { background: "var(--bg)" }, onClick: () => contextMenu && setContextMenu(null), children: [
     contextMenu && /* @__PURE__ */ jsxRuntimeExports.jsxs(
       "div",
       {
@@ -23233,7 +23233,7 @@ function ChatView({ settings, sessions, setSessions }) {
         ] }),
         /* @__PURE__ */ jsxRuntimeExports.jsx("div", { ref: endRef })
       ] }) }),
-      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: `chat-input-wrapper shrink-0 px-4 pb-4 pt-3 border-t border-[color:var(--border2,var(--border))] ${sidebarTab === "encyclo" ? "hidden" : ""}`, style: { backdropFilter: "blur(20px)", background: "var(--surface,var(--card))" }, children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "max-w-3xl mx-auto", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: `shrink-0 px-4 pb-4 pt-3 border-t border-[color:var(--border2,var(--border))] ${sidebarTab === "encyclo" ? "hidden" : ""}`, style: { backdropFilter: "blur(20px)", background: "var(--surface,var(--card))" }, children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "max-w-3xl mx-auto", children: [
         selProject && (() => {
           const p = projects.find((x) => x.id === selProject);
           return p ? /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center gap-2 mb-2 px-1", children: [
@@ -23242,7 +23242,7 @@ function ChatView({ settings, sessions, setSessions }) {
             /* @__PURE__ */ jsxRuntimeExports.jsx("button", { onClick: () => setSelProject(null), className: "opacity-40 hover:opacity-80", children: /* @__PURE__ */ jsxRuntimeExports.jsx(X, { size: 11 }) })
           ] }) : null;
         })(),
-        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "chat-input-inner glass rounded-2xl border border-[color:var(--border2,var(--border))] focus-within:border-[var(--accent)]/50 transition-colors shadow-lg", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "glass rounded-2xl border border-[color:var(--border2,var(--border))] focus-within:border-[var(--accent)]/50 transition-colors shadow-lg", children: [
           /* @__PURE__ */ jsxRuntimeExports.jsx(
             "textarea",
             {
@@ -23267,7 +23267,7 @@ function ChatView({ settings, sessions, setSessions }) {
               style: { minHeight: 52 }
             }
           ),
-          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "chat-input-actions flex items-center justify-between px-3 pb-3", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center justify-between px-3 pb-3", children: [
             /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center gap-1", children: [
               /* @__PURE__ */ jsxRuntimeExports.jsx(
                 "button",
@@ -23303,7 +23303,8 @@ function ChatView({ settings, sessions, setSessions }) {
               }
             )
           ] })
-        ] })
+        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-[10px] text-center opacity-20 font-medium mt-2", children: "MARIAM may make errors. Always verify medical information." })
       ] }) })
     ] })
   ] });
@@ -27108,17 +27109,6 @@ function App() {
       window.removeEventListener("focusout", onFocusOut);
     };
   }, [isMobile]);
-  const [vvH, setVvH] = reactExports.useState(() => window.visualViewport?.height || window.innerHeight);
-  reactExports.useEffect(() => {
-    const vv = window.visualViewport;
-    const update = () => setVvH(vv?.height || window.innerHeight);
-    vv?.addEventListener("resize", update);
-    window.addEventListener("resize", update);
-    return () => {
-      vv?.removeEventListener("resize", update);
-      window.removeEventListener("resize", update);
-    };
-  }, []);
   useKeyboardShortcuts([
     ["ctrl+k", () => setShowGlobalSearch(true)],
     ["ctrl+/", () => setShowGlobalSearch(true)],
@@ -27756,8 +27746,8 @@ Provide a detailed analysis of this content.`;
     {
       className: `w-screen flex flex-col overflow-hidden text-[var(--text)] bg-mesh ${settings.theme || "pure-white"} accent-${settings.accentColor || "indigo"}`,
       style: {
-        height: isMobile ? vvH : "100dvh",
-        maxHeight: isMobile ? vvH : "100dvh",
+        height: "100dvh",
+        maxHeight: "100dvh",
         boxSizing: "border-box"
       },
       children: [
